@@ -1,0 +1,86 @@
+DIGEST 63d95ae653d5a9ba9dc336646fd85260
+FPricing
+R136:141 Stdlib.ZArith.ZArith <> <> lib
+R143:145 Stdlib.micromega.Lia <> <> lib
+def 232:253 <> calculate_prix_affiche
+R268:268 Corelib.Numbers.BinNums <> Z ind
+binder 256:264 <> net_cents:1
+R288:288 Corelib.Numbers.BinNums <> Z ind
+binder 272:284 <> comm_rate_bps:2
+R293:293 Corelib.Numbers.BinNums <> Z ind
+R432:432 Stdlib.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R450:454 Stdlib.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R476:476 Stdlib.ZArith.BinInt <> ::Z_scope:x_'/'_x not
+R442:444 Stdlib.ZArith.BinInt <> ::Z_scope:x_'*'_x not
+R433:441 Pricing <> net_cents:1 var
+R460:462 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R463:475 Pricing <> comm_rate_bps:2 var
+def 491:506 <> commission_share
+R534:534 Corelib.Numbers.BinNums <> Z ind
+binder 509:520 <> prix_affiche:3
+binder 522:530 <> net_cents:4
+R539:539 Corelib.Numbers.BinNums <> Z ind
+R558:560 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R546:557 Pricing <> prix_affiche:3 var
+R561:569 Pricing <> net_cents:4 var
+prf 644:655 <> prix_geq_net
+binder 666:668 <> net:5
+binder 670:673 <> rate:6
+R685:688 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R681:683 Stdlib.ZArith.BinInt <> ::Z_scope:x_'>'_x not
+R678:680 Pricing <> net:5 var
+R698:701 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R690:693 Stdlib.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R694:697 Pricing <> rate:6 var
+R714:719 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R706:708 Stdlib.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R702:705 Pricing <> rate:6 var
+R751:754 Stdlib.ZArith.BinInt <> ::Z_scope:x_'>='_x not
+R720:741 Pricing <> calculate_prix_affiche def
+R743:745 Pricing <> net:5 var
+R747:750 Pricing <> rate:6 var
+R755:757 Pricing <> net:5 var
+R810:831 Pricing <> calculate_prix_affiche def
+R842:848 Stdlib.ZArith.BinInt Z le_ge thm
+R842:848 Stdlib.ZArith.BinInt Z le_ge thm
+R859:878 Stdlib.ZArith.BinInt Z div_le_lower_bound thm
+R859:878 Stdlib.ZArith.BinInt Z div_le_lower_bound thm
+prf 962:984 <> commission_non_negative
+binder 995:997 <> net:7
+binder 999:1002 <> rate:8
+R1014:1017 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R1010:1012 Stdlib.ZArith.BinInt <> ::Z_scope:x_'>'_x not
+R1007:1009 Pricing <> net:7 var
+R1027:1030 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R1019:1022 Stdlib.ZArith.BinInt <> ::Z_scope:x_'<='_x not
+R1023:1026 Pricing <> rate:8 var
+R1043:1048 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R1035:1037 Stdlib.ZArith.BinInt <> ::Z_scope:x_'<'_x not
+R1031:1034 Pricing <> rate:8 var
+R1103:1106 Stdlib.ZArith.BinInt <> ::Z_scope:x_'>='_x not
+R1049:1064 Pricing <> commission_share def
+R1067:1088 Pricing <> calculate_prix_affiche def
+R1090:1092 Pricing <> net:7 var
+R1094:1097 Pricing <> rate:8 var
+R1100:1102 Pricing <> net:7 var
+R1134:1149 Pricing <> commission_share def
+R1198:1201 Stdlib.ZArith.BinInt <> ::Z_scope:x_'>='_x not
+R1167:1188 Pricing <> calculate_prix_affiche def
+R1217:1228 Pricing <> prix_geq_net thm
+R1198:1201 Stdlib.ZArith.BinInt <> ::Z_scope:x_'>='_x not
+R1167:1188 Pricing <> calculate_prix_affiche def
+R1217:1228 Pricing <> prix_geq_net thm
+prf 1308:1322 <> zero_commission
+binder 1333:1335 <> net:9
+R1347:1352 Corelib.Init.Logic <> ::type_scope:x_'->'_x not
+R1343:1345 Stdlib.ZArith.BinInt <> ::Z_scope:x_'>'_x not
+R1340:1342 Pricing <> net:9 var
+R1381:1383 Corelib.Init.Logic <> ::type_scope:x_'='_x not
+R1353:1374 Pricing <> calculate_prix_affiche def
+R1376:1378 Pricing <> net:9 var
+R1384:1386 Pricing <> net:9 var
+R1422:1443 Pricing <> calculate_prix_affiche def
+R1524:1526 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R1524:1526 Stdlib.ZArith.BinInt <> ::Z_scope:x_'-'_x not
+R1557:1565 Stdlib.ZArith.BinInt Z div_mul thm
+R1557:1565 Stdlib.ZArith.BinInt Z div_mul thm
