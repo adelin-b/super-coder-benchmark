@@ -1,0 +1,54 @@
+[
+  {
+    "experiment_id": "exp_A_BL1_001",
+    "method": "A_plain_ts",
+    "task": "BL-1",
+    "track": "business_logic",
+    "timestamp": "2026-04-01T01:00:00Z",
+    "generation": {
+      "first_try_pass": true,
+      "retries_needed": 0,
+      "total_time_seconds": 45,
+      "total_tokens": 15000,
+      "verification_type": "jest_vitest",
+      "error_messages": []
+    },
+    "bug_detection": {
+      "bugs_seeded": 4,
+      "bugs_caught": 4,
+      "bugs_missed": [],
+      "actionable_errors": 3,
+      "details": [
+        {
+          "bug_id": "percentage_off_by_one",
+          "caught": true,
+          "error_actionable": true,
+          "error_message": "expected 105 to be 105.26"
+        },
+        {
+          "bug_id": "division_by_zero",
+          "caught": true,
+          "error_actionable": true,
+          "error_message": "expected error to be instance of PricingError"
+        },
+        {
+          "bug_id": "negative_price",
+          "caught": true,
+          "error_actionable": true,
+          "error_message": "expected error to be instance of PricingError"
+        },
+        {
+          "bug_id": "floating_point_accumulation",
+          "caught": true,
+          "error_actionable": false,
+          "error_message": "expected error to be instance of PricingError"
+        }
+      ]
+    },
+    "scores": {
+      "generation_score": 10,
+      "detection_score": 13,
+      "total": 23
+    }
+  }
+]
