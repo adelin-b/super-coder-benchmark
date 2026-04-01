@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./",
+    "baseUrl": ".",
+    "paths": {
+      "@infra/*": ["infra/*"],
+      "@tasks/*": ["tasks/*"],
+      "@methods/*": ["methods/*"],
+      "@results/*": ["results/*"],
+      "@references/*": ["references/*"]
+    }
+  },
+  "include": ["infra/**/*.ts", "tasks/**/*.ts", "methods/**/*.ts", "references/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
