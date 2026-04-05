@@ -11,15 +11,19 @@
     "lint": "eslint . --ext .ts,.tsx"
   },
   "devDependencies": {
-    "typescript": "^5.7.0",
-    "vitest": "^3.0.0",
+    "@anthropic-ai/claude-agent-sdk": "^0.2.92",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.0.0",
-    "eslint": "^9.0.0"
+    "eslint": "^9.0.0",
+    "js-yaml": "^4.1.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
   },
   "dependencies": {
-    "fast-check": "^4.0.0",
-    "effect": "^3.12.0",
     "@effect/schema": "^0.75.0",
+    "effect": "^3.12.0",
+    "fast-check": "^4.0.0",
     "xstate": "^5.19.0",
     "zod": "^3.24.0"
   }

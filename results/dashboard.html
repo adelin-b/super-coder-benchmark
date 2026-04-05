@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Coder Benchmark — Dashboard</title>
+<style>
+  /* ── Reset & Base ───────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 15px; scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: #0d1117;
+    color: #e6edf3;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  a { color: #58a6ff; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ── Layout ─────────────────────────────────────────── */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── Header ─────────────────────────────────────────── */
+  header {
+    border-bottom: 1px solid #21262d;
+    padding: 32px 0 20px;
+    text-align: center;
+  }
+  header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #f0f6fc;
+    letter-spacing: -0.5px;
+  }
+  header .subtitle {
+    color: #8b949e;
+    font-size: 0.9rem;
+    margin-top: 6px;
+  }
+
+  /* ── Tabs ───────────────────────────────────────────── */
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid #21262d;
+    margin-top: 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    color: #8b949e;
+    font-size: 0.9rem;
+    padding: 12px 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+    font-family: inherit;
+  }
+  .tab-btn:hover { color: #e6edf3; }
+  .tab-btn.active {
+    color: #f0f6fc;
+    border-bottom-color: #58a6ff;
+    font-weight: 600;
+  }
+  .tab-panel { display: none; padding: 28px 0 40px; }
+  .tab-panel.active { display: block; }
+
+  /* ── Section titles ─────────────────────────────────── */
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f0f6fc;
+    margin-bottom: 16px;
+  }
+  h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #e6edf3;
+    margin: 24px 0 12px;
+  }
+
+  /* ── Collapsible ────────────────────────────────────── */
+  .collapsible {
+    background: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .collapsible-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .collapsible-header:hover { background: #1c2128; }
+  .collapsible-header h3 { margin: 0; font-size: 1rem; }
+  .collapsible-chevron {
+    font-size: 0.75rem;
+    color: #8b949e;
+    transition: transform 0.2s;
+  }
+  .collapsible.open .collapsible-chevron { transform: rotate(90deg); }
+  .collapsible-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .collapsible.open .collapsible-body { max-height: 4000px; }
+  .collapsible-body-inner { padding: 0 18px 18px; }
+
+  /* ── Tables ─────────────────────────────────────────── */
+  .table-wrap { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  thead th {
+    background: #161b22;
+    color: #8b949e;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid #21262d;
+    position: sticky;
+    top: 0;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+  }
+  thead th:hover { color: #e6edf3; }
+  thead th .sort-arrow { margin-left: 4px; font-size: 0.7rem; color: #484f58; }
+  thead th.sorted-asc .sort-arrow,
+  thead th.sorted-desc .sort-arrow { color: #58a6ff; }
+  tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #21262d;
+  }
+  tbody tr:nth-child(even) { background: #161b2208; }
+  tbody tr:nth-child(even) td { background: rgba(22,27,34,0.4); }
+  tbody tr:hover td { background: #1c2128; }
+
+  /* ── Badges ─────────────────────────────────────────── */
+  .badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .badge-green  { background: rgba(35,134,54,0.25); color: #3fb950; border: 1px solid rgba(35,134,54,0.4); }
+  .badge-yellow { background: rgba(210,153,34,0.2); color: #d29922; border: 1px solid rgba(210,153,34,0.35); }
+  .badge-red    { background: rgba(218,54,51,0.2); color: #f85149; border: 1px solid rgba(218,54,51,0.35); }
+  .badge-gray   { background: rgba(139,148,158,0.15); color: #8b949e; border: 1px solid rgba(139,148,158,0.3); }
+  .badge-blue   { background: rgba(88,166,255,0.15); color: #58a6ff; border: 1px solid rgba(88,166,255,0.3); }
+
+  /* ── Stats cards ────────────────────────────────────── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .stat-card {
+    background: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 6px;
+    padding: 16px 18px;
+    text-align: center;
+  }
+  .stat-card .stat-num {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .stat-card .stat-label {
+    font-size: 0.8rem;
+    color: #8b949e;
+    margin-top: 4px;
+  }
+  .stat-green  .stat-num { color: #3fb950; }
+  .stat-yellow .stat-num { color: #d29922; }
+  .stat-red    .stat-num { color: #f85149; }
+  .stat-blue   .stat-num { color: #58a6ff; }
+
+  /* ── Callout ────────────────────────────────────────── */
+  .callout {
+    background: rgba(88,166,255,0.08);
+    border-left: 4px solid #58a6ff;
+    border-radius: 0 6px 6px 0;
+    padding: 14px 18px;
+    margin: 20px 0;
+    font-size: 0.9rem;
+    color: #c9d1d9;
+  }
+  .callout strong { color: #58a6ff; }
+  .callout-warn {
+    background: rgba(210,153,34,0.08);
+    border-left-color: #d29922;
+  }
+  .callout-warn strong { color: #d29922; }
+
+  /* ── Bar chart ──────────────────────────────────────── */
+  .bar-chart { margin: 20px 0; }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .bar-label {
+    width: 80px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #c9d1d9;
+    flex-shrink: 0;
+  }
+  .bar-track {
+    flex: 1;
+    height: 26px;
+    background: #21262d;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s ease;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #f0f6fc;
+    min-width: fit-content;
+  }
+  .bar-fill.green  { background: linear-gradient(90deg, #238636, #2ea043); }
+  .bar-fill.yellow { background: linear-gradient(90deg, #9e6a03, #d29922); }
+  .bar-fill.red    { background: linear-gradient(90deg, #b62324, #da3633); }
+  .bar-value {
+    margin-left: 12px;
+    font-size: 0.82rem;
+    color: #8b949e;
+    flex-shrink: 0;
+    width: 90px;
+  }
+
+  /* ── Architecture diagram ───────────────────────────── */
+  .diagram-box {
+    background: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 8px;
+    padding: 24px;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    overflow-x: auto;
+    white-space: pre;
+    color: #8b949e;
+  }
+  .diagram-box .hl-blue { color: #58a6ff; }
+  .diagram-box .hl-green { color: #3fb950; }
+  .diagram-box .hl-yellow { color: #d29922; }
+  .diagram-box .hl-red { color: #f85149; }
+  .diagram-box .hl-white { color: #f0f6fc; }
+
+  /* ── Timeline / Roadmap ─────────────────────────────── */
+  .timeline {
+    margin: 20px 0;
+    position: relative;
+    padding-left: 28px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #21262d;
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 20px;
+    padding-left: 24px;
+  }
+  .tl-dot {
+    position: absolute;
+    left: -24px;
+    top: 4px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid #21262d;
+    background: #0d1117;
+  }
+  .tl-dot.done  { background: #238636; border-color: #238636; }
+  .tl-dot.now   { background: #58a6ff; border-color: #58a6ff; box-shadow: 0 0 8px rgba(88,166,255,0.4); }
+  .tl-dot.next  { background: #d29922; border-color: #d29922; }
+  .tl-dot.todo  { background: #21262d; border-color: #30363d; }
+  .tl-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #f0f6fc;
+  }
+  .tl-desc {
+    font-size: 0.85rem;
+    color: #8b949e;
+    margin-top: 2px;
+  }
+  .tl-bar {
+    margin-top: 6px;
+    height: 8px;
+    background: #21262d;
+    border-radius: 4px;
+    overflow: hidden;
+    max-width: 400px;
+  }
+  .tl-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+  }
+  .tl-bar-fill.done  { background: #238636; }
+  .tl-bar-fill.now   { background: #58a6ff; }
+  .tl-bar-fill.next  { background: #d29922; }
+
+  /* ── Methods list ───────────────────────────────────── */
+  .method-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .method-card {
+    background: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 6px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .method-card .method-idx {
+    font-size: 0.75rem;
+    color: #484f58;
+    font-weight: 700;
+    width: 20px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .method-card .method-name {
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: #e6edf3;
+  }
+  .method-card .method-status {
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  /* ── Placeholder ────────────────────────────────────── */
+  .placeholder-box {
+    background: #161b22;
+    border: 1px dashed #30363d;
+    border-radius: 8px;
+    padding: 40px 24px;
+    text-align: center;
+    color: #484f58;
+    font-size: 0.95rem;
+  }
+  .placeholder-box .emoji { font-size: 2rem; margin-bottom: 12px; display: block; }
+
+  /* ── Highlight row ──────────────────────────────────── */
+  tbody tr.row-highlight td {
+    background: rgba(88,166,255,0.06);
+  }
+
+  /* ── Footer ─────────────────────────────────────────── */
+  footer {
+    border-top: 1px solid #21262d;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #484f58;
+    margin-top: 40px;
+  }
+
+  /* ── Responsive ─────────────────────────────────────── */
+  @media (max-width: 768px) {
+    header h1 { font-size: 1.5rem; }
+    .tab-btn { padding: 10px 14px; font-size: 0.82rem; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .bar-label { width: 60px; font-size: 0.78rem; }
+    .method-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── Equation box ───────────────────────────────────── */
+  .eq-box {
+    background: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 6px;
+    padding: 16px 20px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.9rem;
+    color: #58a6ff;
+    margin: 16px 0;
+    display: inline-block;
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- HEADER                                                        -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<header>
+  <div class="container">
+    <h1>Super Coder Benchmark &mdash; Dashboard</h1>
+    <div class="subtitle">Phase 6.5+ Progress Report &middot; Generated 2026-04-06</div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- TAB BAR                                                        -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div class="container">
+  <div class="tab-bar" role="tablist">
+    <button class="tab-btn active" data-tab="audit" role="tab">Difficulty Audit</button>
+    <button class="tab-btn" data-tab="benchmarks" role="tab">Benchmarks Catalog</button>
+    <button class="tab-btn" data-tab="framework" role="tab">Agent Framework</button>
+    <button class="tab-btn" data-tab="evolution" role="tab">Evolution Tracker</button>
+    <button class="tab-btn" data-tab="roadmap" role="tab">Roadmap</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- TAB 1: DIFFICULTY AUDIT                                        -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div class="container">
+<div class="tab-panel active" id="panel-audit">
+  <h2>Phase 6.5 &mdash; Difficulty Audit</h2>
+  <p style="color:#8b949e; margin-bottom:20px;">Haiku one-shot pass rates across 11 tasks. Each task was generated cold with zero retries. Cost: $0.20 total.</p>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card stat-green">
+      <div class="stat-num">1</div>
+      <div class="stat-label">L1 Saturated</div>
+    </div>
+    <div class="stat-card stat-blue">
+      <div class="stat-num">3</div>
+      <div class="stat-label">L1 Near-saturated</div>
+    </div>
+    <div class="stat-card stat-yellow">
+      <div class="stat-num">2</div>
+      <div class="stat-label">L2 Borderline</div>
+    </div>
+    <div class="stat-card stat-red">
+      <div class="stat-num">5</div>
+      <div class="stat-label">L2 Hard</div>
+    </div>
+  </div>
+
+  <!-- Bar chart -->
+  <div class="collapsible open">
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <h3>Pass Rate Chart</h3>
+      <span class="collapsible-chevron">&#9654;</span>
+    </div>
+    <div class="collapsible-body">
+      <div class="collapsible-body-inner">
+        <div class="bar-chart" id="audit-chart"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Callout -->
+  <div class="callout">
+    <strong>Key Finding:</strong> The 5 worst tasks fail on API shape mismatch (wrong export name, missing factory function), not algorithmic difficulty. Haiku generates plausible code but names functions differently than the test expects.
+  </div>
+
+  <!-- Table -->
+  <div class="collapsible open">
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <h3>Detailed Results</h3>
+      <span class="collapsible-chevron">&#9654;</span>
+    </div>
+    <div class="collapsible-body">
+      <div class="collapsible-body-inner">
+        <div class="table-wrap">
+          <table id="audit-table">
+            <thead>
+              <tr>
+                <th data-sort="string">Task <span class="sort-arrow">&#9650;&#9660;</span></th>
+                <th data-sort="number">Pass Rate <span class="sort-arrow">&#9650;&#9660;</span></th>
+                <th data-sort="string">Passed <span class="sort-arrow">&#9650;&#9660;</span></th>
+                <th data-sort="string">Verdict <span class="sort-arrow">&#9650;&#9660;</span></th>
+                <th data-sort="string">Top Failure <span class="sort-arrow">&#9650;&#9660;</span></th>
+              </tr>
+            </thead>
+            <tbody id="audit-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cost callout -->
+  <div class="collapsible">
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <h3>Audit Cost Breakdown</h3>
+      <span class="collapsible-chevron">&#9654;</span>
+    </div>
+    <div class="collapsible-body">
+      <div class="collapsible-body-inner">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Metric</th><th>Value</th></tr></thead>
+            <tbody>
+              <tr><td>Total wall time</td><td>186s (~3 min)</td></tr>
+              <tr><td>Total cost</td><td>$0.203</td></tr>
+              <tr><td>Tokens out</td><td>26,594</td></tr>
+              <tr><td>Model</td><td>Claude Haiku (one-shot, zero retries)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- TAB 2: BENCHMARKS CATALOG                                      -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-benchmarks">
+  <h2>Benchmarks Catalog</h2>
+  <p style="color:#8b949e; margin-bottom:20px;">Top 8 external benchmarks evaluated in Phase 6.5 Part B. Sorted by suitability score. Click column headers to re-sort.</p>
+
+  <div class="callout">
+    <strong>Selection criteria:</strong> TypeScript support, task count, contamination risk, recency, and alignment with our L2-hard task profile.
+  </div>
+
+  <div class="table-wrap">
+    <table id="bench-table">
+      <thead>
+        <tr>
+          <th data-sort="number"># <span class="sort-arrow">&#9650;&#9660;</span></th>
+          <th data-sort="string">Benchmark <span class="sort-arrow">&#9650;&#9660;</span></th>
+          <th data-sort="string">Org <span class="sort-arrow">&#9650;&#9660;</span></th>
+          <th data-sort="string">Tasks <span class="sort-arrow">&#9650;&#9660;</span></th>
+          <th data-sort="string">Lang <span class="sort-arrow">&#9650;&#9660;</span></th>
+          <th data-sort="number">Suit <span class="sort-arrow">&#9650;&#9660;</span></th>
+          <th data-sort="string">Contam <span class="sort-arrow">&#9650;&#9660;</span></th>
+        </tr>
+      </thead>
+      <tbody id="bench-tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="collapsible" style="margin-top:20px;">
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <h3>Contamination Legend</h3>
+      <span class="collapsible-chevron">&#9654;</span>
+    </div>
+    <div class="collapsible-body">
+      <div class="collapsible-body-inner">
+        <p style="color:#8b949e; font-size:0.88rem;">
+          <span class="badge badge-green">Safe</span> &mdash; Data post-dates training cutoffs or uses live streams<br>
+          <span class="badge badge-yellow" style="margin-top:6px;">Borderline</span> &mdash; Some tasks may overlap with training data; mitigated by volume<br>
+          <span class="badge badge-gray" style="margin-top:6px;">Floor</span> &mdash; Known to be in training data; useful only as a lower-bound calibrator
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- TAB 3: AGENT FRAMEWORK                                         -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-framework">
+  <h2>Agent Framework</h2>
+  <p style="color:#8b949e; margin-bottom:20px;">The 4-axis agent model separates the <em>method</em> from the <em>model</em>, enabling controlled experiments.</p>
+
+  <!-- Equation -->
+  <div class="eq-box">
+    Agent = (<span class="hl-green" style="color:#3fb950;">method</span>, <span style="color:#d29922;">version</span>, <span style="color:#f85149;">tools</span>, <span style="color:#bc8cff;">context_bundle</span>)&nbsp;&nbsp;&nbsp;Model = runtime param (haiku | sonnet | opus)
+  </div>
+
+  <!-- Architecture diagram -->
+  <div class="collapsible open">
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <h3>Runner Architecture</h3>
+      <span class="collapsible-chevron">&#9654;</span>
+    </div>
+    <div class="collapsible-body">
+      <div class="collapsible-body-inner">
+        <div class="diagram-box"><span class="hl-white">  task + spec</span>
+      |
+      v
+  <span class="hl-blue">+----------------------------+</span>
+  <span class="hl-blue">|</span>  <span class="hl-white">Agent Runner</span>               <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>  <span class="hl-yellow">+-----------------+</span>       <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>  <span class="hl-yellow">|</span> <span class="hl-green">manifest.yml</span>     <span class="hl-yellow">|</span>       <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>  <span class="hl-yellow">|</span> model: sonnet    <span class="hl-yellow">|</span>       <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>  <span class="hl-yellow">|</span> tools: [tc,test] <span class="hl-yellow">|</span>       <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>  <span class="hl-yellow">|</span> bundle: [effect] <span class="hl-yellow">|</span>       <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>  <span class="hl-yellow">+-----------------+</span>       <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>         |                     <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>         v                     <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>  <span class="hl-green">+----------+</span>              <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>  <span class="hl-green">|</span> <span class="hl-white">Claude</span>   <span class="hl-green">|</span><span class="hl-red">&lt;--loop--+</span>  <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>  <span class="hl-green">|</span> (SDK)    <span class="hl-green">|</span>          <span class="hl-red">|</span>  <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>  <span class="hl-green">+----+-----+</span>          <span class="hl-red">|</span>  <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>       | code           <span class="hl-red">|</span>  <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>       v                <span class="hl-red">|</span>  <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>  <span class="hl-yellow">+----------+</span>   <span class="hl-red">fail</span>   <span class="hl-red">|</span>  <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>  <span class="hl-yellow">|</span> <span class="hl-white">Verifier</span> <span class="hl-yellow">|</span><span class="hl-red">----------+</span>  <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>  <span class="hl-yellow">|</span> (tsc,    <span class="hl-yellow">|</span>              <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>  <span class="hl-yellow">|</span>  vitest) <span class="hl-yellow">|</span>              <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>  <span class="hl-yellow">+----+-----+</span>              <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>       | <span class="hl-green">pass</span>               <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>       v                    <span class="hl-blue">|</span>
+  <span class="hl-blue">|</span>   <span class="hl-green">verdict.json</span>             <span class="hl-blue">|</span>
+  <span class="hl-blue">+----------------------------+</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 Methods -->
+  <div class="collapsible open">
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <h3>10 Methods &mdash; v1 Status</h3>
+      <span class="collapsible-chevron">&#9654;</span>
+    </div>
+    <div class="collapsible-body">
+      <div class="collapsible-body-inner">
+        <div class="method-grid" id="methods-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Axis explanation -->
+  <div class="collapsible">
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <h3>4-Axis Model Explained</h3>
+      <span class="collapsible-chevron">&#9654;</span>
+    </div>
+    <div class="collapsible-body">
+      <div class="collapsible-body-inner">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Axis</th><th>Description</th><th>Examples</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Method</strong></td><td>The verification approach / coding style</td><td>plain-ts, effect-xstate, tdd, pbt, dafny, lean4, coq, consensus, pbt-effect, dafny-pbt</td></tr>
+              <tr><td><strong>Version</strong></td><td>Iteration of the agent (prompt + bundle)</td><td>v1 (manual baseline), v2 (with docs bundle)</td></tr>
+              <tr><td><strong>Tools</strong></td><td>Verifier tools available to the agent</td><td>tsc (typecheck), vitest (test runner), dafny (verifier)</td></tr>
+              <tr><td><strong>Context Bundle</strong></td><td>Documentation / examples provided to the agent</td><td>effect-ts API docs, Dafny tutorial, Lean4 mathlib</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- TAB 4: EVOLUTION TRACKER                                       -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-evolution">
+  <h2>Evolution Tracker</h2>
+
+  <div class="callout callout-warn">
+    <strong>Phase 7c in progress</strong> &mdash; effect-ts v2 results incoming. This tab will auto-populate once data is available.
+  </div>
+
+  <div class="collapsible open">
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <h3>Hypothesis Under Test</h3>
+      <span class="collapsible-chevron">&#9654;</span>
+    </div>
+    <div class="collapsible-body">
+      <div class="collapsible-body-inner">
+        <div class="eq-box" style="display:block;">
+          H1: effect-ts/v2 (+ Effect docs bundle) will outperform v1 on L2-hard tasks
+        </div>
+        <p style="color:#8b949e; font-size:0.88rem; margin-top:12px;">
+          Rationale: The L2-hard failures are dominated by API shape mismatch. Providing Effect-TS documentation as a context bundle should reduce naming errors and improve type-level correctness.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="collapsible open">
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <h3>v1 vs v2 Comparison (Awaiting Data)</h3>
+      <span class="collapsible-chevron">&#9654;</span>
+    </div>
+    <div class="collapsible-body">
+      <div class="collapsible-body-inner">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Agent</th>
+                <th>Task</th>
+                <th>Model</th>
+                <th>Tests Passed</th>
+                <th>Rate</th>
+                <th>Delta vs v1</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>effect-ts/v1</td><td>BL-5</td><td>haiku</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td></tr>
+              <tr><td>effect-ts/v2</td><td>BL-5</td><td>haiku</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td></tr>
+              <tr><td>effect-ts/v1</td><td>SAAS-2</td><td>haiku</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td></tr>
+              <tr><td>effect-ts/v2</td><td>SAAS-2</td><td>haiku</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td></tr>
+              <tr><td>effect-ts/v1</td><td>SAAS-3</td><td>haiku</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td></tr>
+              <tr><td>effect-ts/v2</td><td>SAAS-3</td><td>haiku</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td></tr>
+              <tr><td>effect-ts/v1</td><td>ALG-3</td><td>haiku</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td></tr>
+              <tr><td>effect-ts/v2</td><td>ALG-3</td><td>haiku</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td></tr>
+              <tr><td>effect-ts/v1</td><td>BL-4</td><td>haiku</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td></tr>
+              <tr><td>effect-ts/v2</td><td>BL-4</td><td>haiku</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td><td style="color:#484f58;">&mdash;</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- TAB 5: ROADMAP                                                 -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-roadmap">
+  <h2>Roadmap</h2>
+  <p style="color:#8b949e; margin-bottom:24px;">Project phases from difficulty audit through championship tournament.</p>
+
+  <div class="timeline" id="roadmap-timeline"></div>
+</div>
+
+</div><!-- .container -->
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- FOOTER                                                         -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    Built with Claude Code &middot; Report generated from results/*.json
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- JAVASCRIPT                                                     -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  'use strict';
+
+  // ── Data ───────────────────────────────────────────────────────
+  var auditData = [
+    { task:'ALG-1', rate:1.00,   passed:'16/16', verdict:'L1 saturated',  level:'green',  topFail:'(none)' },
+    { task:'SAAS-1',rate:0.923,  passed:'12/13', verdict:'L1 mostly',     level:'green',  topFail:'public resource accessible to all' },
+    { task:'BL-3',  rate:0.875,  passed:'7/8',   verdict:'L1 mostly',     level:'green',  topFail:'throws on negative amount' },
+    { task:'BL-1',  rate:0.857,  passed:'18/21', verdict:'L1 mostly',     level:'green',  topFail:'rejects NaN/Infinity' },
+    { task:'ALG-2', rate:0.714,  passed:'5/7',   verdict:'L2 borderline', level:'yellow', topFail:'TypeError: c.size is not a function' },
+    { task:'BL-2',  rate:0.60,   passed:'6/10',  verdict:'L2 borderline', level:'yellow', topFail:'percentage discount' },
+    { task:'BL-4',  rate:0.333,  passed:'2/6',   verdict:'L2 hard',       level:'red',    topFail:'TypeError: calculateProration is not a function' },
+    { task:'ALG-3', rate:0.286,  passed:'2/7',   verdict:'L2 hard',       level:'red',    topFail:'TypeError: topoSort is not a function' },
+    { task:'SAAS-2',rate:0.143,  passed:'1/7',   verdict:'L2 hard',       level:'red',    topFail:'TypeError: createRateLimiter is not a function' },
+    { task:'BL-5',  rate:0.00,   passed:'0/7',   verdict:'L2 hard',       level:'red',    topFail:'TypeError: createInventory is not a function' },
+    { task:'SAAS-3',rate:0.00,   passed:'0/8',   verdict:'L2 hard',       level:'red',    topFail:'TypeError: createAccount is not a function' }
+  ];
+
+  var benchData = [
+    { n:1, name:'SWE-PolyBench',        org:'Amazon',    tasks:'2110 (729 TS)', lang:'TS/JS/Py/Java', suit:10, contam:'Borderline' },
+    { n:2, name:'SWE-Lancer Diamond',   org:'OpenAI',    tasks:'1400+',         lang:'TS-heavy',      suit:10, contam:'Borderline' },
+    { n:3, name:'Multi-SWE-bench',      org:'ByteDance', tasks:'1632',          lang:'7 langs incl TS',suit:9, contam:'Borderline' },
+    { n:4, name:'SWE-bench Multilingual',org:'Princeton', tasks:'300',           lang:'9 langs incl TS',suit:9, contam:'Borderline' },
+    { n:5, name:'Web-Bench',            org:'ByteDance', tasks:'1000',          lang:'Web/TS',        suit:9,  contam:'Safe' },
+    { n:6, name:'BugsJS',               org:'SZTE',      tasks:'453',           lang:'JS',            suit:8,  contam:'Floor' },
+    { n:7, name:'CWEval-bench',         org:'\u2014',    tasks:'119',           lang:'JS/Py/C/Go',    suit:8,  contam:'Borderline' },
+    { n:8, name:'SWE-bench Live',       org:'Microsoft', tasks:'Continuous',    lang:'Multi',         suit:8,  contam:'Safe' }
+  ];
+
+  var methods = [
+    { id:'A', name:'plain-ts',       desc:'Vanilla TypeScript' },
+    { id:'B', name:'effect-xstate',  desc:'Effect + XState' },
+    { id:'C', name:'tdd',            desc:'Test-Driven Development' },
+    { id:'D', name:'pbt',            desc:'Property-Based Testing' },
+    { id:'E', name:'dafny',          desc:'Dafny Verification' },
+    { id:'F', name:'lean4',          desc:'Lean 4 Proofs' },
+    { id:'G', name:'coq',            desc:'Coq Verification' },
+    { id:'H', name:'consensus',      desc:'Multi-agent Consensus' },
+    { id:'I', name:'pbt-effect',     desc:'PBT + Effect' },
+    { id:'J', name:'dafny-pbt',      desc:'Dafny + PBT' }
+  ];
+
+  var phases = [
+    { id:'6.5', title:'Phase 6.5', desc:'Audit + Benchmarks', status:'done', pct:100 },
+    { id:'7a',  title:'Phase 7a',  desc:'Agent Runner',       status:'now',  pct:80 },
+    { id:'7b',  title:'Phase 7b',  desc:'V1 Migration',       status:'now',  pct:60 },
+    { id:'7c',  title:'Phase 7c',  desc:'Effect v2 + H1 Validation', status:'next', pct:0 },
+    { id:'8',   title:'Phase 8',   desc:'Loops (typecheck, vitest)',  status:'todo', pct:0 },
+    { id:'9',   title:'Phase 9',   desc:'Hardened Tier (16 real tasks)', status:'todo', pct:0 },
+    { id:'10',  title:'Phase 10',  desc:'Combinations (7 stacks)',   status:'todo', pct:0 },
+    { id:'11',  title:'Phase 11',  desc:'Tournament R1 (Haiku)',     status:'todo', pct:0 },
+    { id:'12',  title:'Phase 12',  desc:'Tournament R2 (Sonnet)',    status:'todo', pct:0 },
+    { id:'13',  title:'Phase 13',  desc:'Championship (Opus) + Final', status:'todo', pct:0 }
+  ];
+
+  // ── Tab switching ──────────────────────────────────────────────
+  var tabBtns = document.querySelectorAll('.tab-btn');
+  var panels  = document.querySelectorAll('.tab-panel');
+
+  tabBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      tabBtns.forEach(function(b) { b.classList.remove('active'); });
+      panels.forEach(function(p)  { p.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // ── Collapsible toggle ─────────────────────────────────────────
+  window.toggleCollapsible = function(header) {
+    header.parentElement.classList.toggle('open');
+  };
+
+  // ── Render bar chart ───────────────────────────────────────────
+  var chartEl = document.getElementById('audit-chart');
+  auditData.forEach(function(d) {
+    var pct = Math.round(d.rate * 100);
+    var barW = Math.max(pct, 3); // minimum visible width
+    var row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML =
+      '<div class="bar-label">' + d.task + '</div>' +
+      '<div class="bar-track"><div class="bar-fill ' + d.level + '" style="width:' + barW + '%">' +
+        (pct >= 15 ? pct + '%' : '') +
+      '</div></div>' +
+      '<div class="bar-value">' + d.passed + ' (' + pct + '%)</div>';
+    chartEl.appendChild(row);
+  });
+
+  // ── Render audit table ─────────────────────────────────────────
+  var auditTbody = document.getElementById('audit-tbody');
+  function renderAuditTable(data) {
+    auditTbody.innerHTML = '';
+    data.forEach(function(d) {
+      var badgeClass = d.level === 'green' ? 'badge-green' : d.level === 'yellow' ? 'badge-yellow' : 'badge-red';
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td><strong>' + d.task + '</strong></td>' +
+        '<td>' + Math.round(d.rate * 100) + '%</td>' +
+        '<td>' + d.passed + '</td>' +
+        '<td><span class="badge ' + badgeClass + '">' + d.verdict + '</span></td>' +
+        '<td style="color:#8b949e; font-size:0.82rem; max-width:280px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">' + d.topFail + '</td>';
+      auditTbody.appendChild(tr);
+    });
+  }
+  renderAuditTable(auditData);
+
+  // ── Render benchmarks table ────────────────────────────────────
+  var benchTbody = document.getElementById('bench-tbody');
+  function renderBenchTable(data) {
+    benchTbody.innerHTML = '';
+    data.forEach(function(d) {
+      var contamClass = d.contam === 'Safe' ? 'badge-green' : d.contam === 'Floor' ? 'badge-gray' : 'badge-yellow';
+      var tr = document.createElement('tr');
+      if (d.suit >= 9) tr.className = 'row-highlight';
+      tr.innerHTML =
+        '<td>' + d.n + '</td>' +
+        '<td><strong>' + d.name + '</strong></td>' +
+        '<td>' + d.org + '</td>' +
+        '<td>' + d.tasks + '</td>' +
+        '<td>' + d.lang + '</td>' +
+        '<td><strong>' + d.suit + '/10</strong></td>' +
+        '<td><span class="badge ' + contamClass + '">' + d.contam + '</span></td>';
+      benchTbody.appendChild(tr);
+    });
+  }
+  renderBenchTable(benchData);
+
+  // ── Render methods grid ────────────────────────────────────────
+  var methodsGrid = document.getElementById('methods-grid');
+  methods.forEach(function(m) {
+    var card = document.createElement('div');
+    card.className = 'method-card';
+    card.innerHTML =
+      '<span class="method-idx">' + m.id + '</span>' +
+      '<div><span class="method-name">' + m.name + '</span><br><span style="font-size:0.78rem;color:#8b949e;">' + m.desc + '</span></div>' +
+      '<span class="method-status"><span class="badge badge-green">v1</span></span>';
+    methodsGrid.appendChild(card);
+  });
+
+  // ── Render roadmap timeline ────────────────────────────────────
+  var timelineEl = document.getElementById('roadmap-timeline');
+  phases.forEach(function(p) {
+    var statusLabel = p.status === 'done' ? 'DONE' : p.status === 'now' ? 'NOW' : p.status === 'next' ? 'NEXT' : 'TODO';
+    var badgeClass = p.status === 'done' ? 'badge-green' : p.status === 'now' ? 'badge-blue' : p.status === 'next' ? 'badge-yellow' : 'badge-gray';
+    var item = document.createElement('div');
+    item.className = 'tl-item';
+    item.innerHTML =
+      '<div class="tl-dot ' + p.status + '"></div>' +
+      '<div class="tl-title">' + p.title + ' <span class="badge ' + badgeClass + '" style="margin-left:8px;">' + statusLabel + '</span></div>' +
+      '<div class="tl-desc">' + p.desc + '</div>' +
+      (p.pct > 0 ? '<div class="tl-bar"><div class="tl-bar-fill ' + p.status + '" style="width:' + p.pct + '%"></div></div>' : '');
+    timelineEl.appendChild(item);
+  });
+
+  // ── Sortable tables ────────────────────────────────────────────
+  function makeSortable(tableId, dataArr, renderFn) {
+    var table = document.getElementById(tableId);
+    if (!table) return;
+    var headers = table.querySelectorAll('thead th');
+    var sortState = { col: -1, asc: true };
+
+    headers.forEach(function(th, idx) {
+      th.addEventListener('click', function() {
+        // Toggle direction
+        if (sortState.col === idx) {
+          sortState.asc = !sortState.asc;
+        } else {
+          sortState.col = idx;
+          sortState.asc = true;
+        }
+        // Remove sorted classes
+        headers.forEach(function(h) { h.classList.remove('sorted-asc','sorted-desc'); });
+        th.classList.add(sortState.asc ? 'sorted-asc' : 'sorted-desc');
+
+        var sortType = th.dataset.sort;
+        var keys = Object.keys(dataArr[0]);
+        var key = keys[idx];
+
+        dataArr.sort(function(a, b) {
+          var va = a[key], vb = b[key];
+          if (sortType === 'number') {
+            va = typeof va === 'number' ? va : parseFloat(va) || 0;
+            vb = typeof vb === 'number' ? vb : parseFloat(vb) || 0;
+            return sortState.asc ? va - vb : vb - va;
+          } else {
+            va = String(va).toLowerCase();
+            vb = String(vb).toLowerCase();
+            if (va < vb) return sortState.asc ? -1 : 1;
+            if (va > vb) return sortState.asc ? 1 : -1;
+            return 0;
+          }
+        });
+        renderFn(dataArr);
+      });
+    });
+  }
+
+  makeSortable('audit-table', auditData, renderAuditTable);
+  makeSortable('bench-table', benchData, renderBenchTable);
+
+})();
+</script>
+
+</body>
+</html>
