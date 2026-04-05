@@ -1,0 +1,9 @@
+name: plain-ts
+version: 4
+parent: 2
+model_default: sonnet
+max_turns: 1
+tools: []
+context_bundle: []
+system_prompt_file: system-prompt.md
+changelog: "v2 → v4: autoresearch-improved prompt (5 Karpathy iterations). Baseline 68.8% → 78.3%. Key additions: explicit export rules, validation-vs-capping distinction, factory function guidance, structured pre-coding checklist. BL-5 went from 0% to 50%."
