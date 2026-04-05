@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "8b006ce9-8717-4328-a6c6-134651b3bd30",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "4adead01-3111-43de-808f-d25c5a6f34b3",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_013LxMZCkkss5n7mFYd6vXQg",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user wants me to implement an event-sourced bank account module in TypeScript using Effect TS and XState v5 patterns. Let me create the `account.ts` file with all the necessary exports.\n\nKey requirements:\n- Event sourcing aggregate\n- Operations: deposit, withdraw, transfer\n- Reconstruct state from events\n- Use Effect TS patterns (Effect.fail, Data.TaggedError, Effect.gen)\n- Export everything the spec says\n\nSince there's no explicit list of exports, I'll design a complete event-sourced bank account with:\n- Events (Deposited, Withdrawn, TransferSent, TransferReceived, AccountOpened)\n\n\n- Commands (deposit, withdraw, transfer)\n- State/Aggregate type\n- Reconstruct function\n- Error types\n\nNow I'm implementing the command handlers and state reconstruction logic using Effect TS patterns.",
+          "signature": "EpMHClsIDBgCKkB7KiCZhgO7XtWPP46c77vGrSneNWuaO5kbVkA5auRb/vzK11PEWetYv3OciuuviB8JW8febEtrgx9sNsnih6gyMhFjbGF1ZGUtc29ubmV0LTQtNjgAEgxjIHwMoUFw5EI0SbUaDF3g1mTtTVJ2TEssriIw20aErnapC/Nok3CbM4PFsH7EfpUwPjMMLV/ugW/ZKsZ+sLK/rwKGkUX/8jy29iq9KuUFNbimv7RRQXCq42ruMB0SaaLuRb0LC4YpL13tqewbFM2JqC5f1WtwZxS5y2NABhHUtDXP34tP2e6EfVFhmY2mOfIYx13nyjUTanevRNMuqK7l/OaFns3V9ddIE0ibGcCrFic5oCGmn5y+vWQUgV3fMxVbLGipKPQ/EXGJFD5rUpYRNAxk5KV1bPUqU7nJDu4dubRaKOkCzAuleNKFS09IPvE+8InjsEo6A/PUWPDVTuGPlmJ8sK6ioo3xF6AmNLQE/uTZAcrhbIlg71GcwZPmWBufAYwgUWa8D/FeQRbJV8ps331FtsHBGCQzx1IolHdyBMP51wxIxmmw3J7JTaZDHRJk1aNMRsI402ZjqwktolLJGiz9m+ESTZzJbUdmF6Kx4NO7l56rAdtiA7FHydMi+f7VZGXGPIiXNMpDL9moDayJQDTHChMxhewGej8l8vUIVptdYd3j1LHgtk48shJXyetu8dji4gexlUHHxXi0eMRcybu98TD9sRHJOjsl0CTXW/8BbuOukk9ZpPyXSN1KtcafIeZaG5XqORwhEs3YlXJ56g2TymfFK8zhlGgxweZYKpUCoN9xv1A5+PI/Qm91hnBuFif2ycAqnGQkBA2bepvHsvleSY4W6GbyKTNSCUT12xySnoW2QWKg8RYqhGDlSN43xBIPkid2Gd4gObC8ncqpGzND3Pz69lypb4bnl33ur7YtAZy08N22pTWUHllHNEmGmbFsYTM6Tj1i0y1gDfxdakWpuRTJrjZUda71zNsFCuMixNeNrUACJ4nWwJPivkIyGUNYuR4ddbhG3Zgx/Ypd3HJ7+AEWUDrBnmTGb77IsuMomFQIPDWmQTsWzckriUfH3gceAJtUABtKKZcedoWMwRvCwXzaQf47hgDLxDUhZGbvsQV8d7XH/EEEqeCvRpT3HNnO8yev2nqWoI61+c0yI84zGk8WUFDIbWBTkQXTPtRIgPtlfeLeL6zjgOfmaVex5TLbGAE="
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1557,
+        "cache_read_input_tokens": 11564,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1557
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "8b006ce9-8717-4328-a6c6-134651b3bd30",
+    "uuid": "391b24e1-25a5-40bb-8771-d8ae5011f30c"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_013LxMZCkkss5n7mFYd6vXQg",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nimport { Data, Effect } from \"effect\"\n\n// ─── Events ────────────────────────────────────────────────────────────────\n\nexport type AccountEvent =\n  | AccountOpenedEvent\n  | DepositedEvent\n  | WithdrawnEvent\n  | TransferSentEvent\n  | TransferReceivedEvent\n\nexport class AccountOpenedEvent extends Data.TaggedClass(\"AccountOpened\")<{\n  accountId: string\n  initialBalance: number\n  occurredAt: Date\n}> {}\n\nexport class DepositedEvent extends Data.TaggedClass(\"Deposited\")<{\n  accountId: string\n  amount: number\n  occurredAt: Date\n}> {}\n\nexport class WithdrawnEvent extends Data.TaggedClass(\"Withdrawn\")<{\n  accountId: string\n  amount: number\n  occurredAt: Date\n}> {}\n\nexport class TransferSentEvent extends Data.TaggedClass(\"TransferSent\")<{\n  accountId: string\n  toAccountId: string\n  amount: number\n  occurredAt: Date\n}> {}\n\nexport class TransferReceivedEvent extends Data.TaggedClass(\"TransferReceived\")<{\n  accountId: string\n  fromAccountId: string\n  amount: number\n  occurredAt: Date\n}> {}\n\n// ─── Errors ─────────────────────────────────────────────────────────────────\n\nexport class AccountNotFound extends Data.TaggedError(\"AccountNotFound\")<{\n  accountId: string\n}> {}\n\nexport class InsufficientFunds extends Data.TaggedError(\"InsufficientFunds\")<{\n  accountId: string\n  requested: number\n  available: number\n}> {}\n\nexport class InvalidAmount extends Data.TaggedError(\"InvalidAmount\")<{\n  amount: number\n  reason: string\n}> {}\n\nexport class AccountAlreadyExists extends Data.TaggedError(\"AccountAlreadyExists\")<{\n  accountId: string\n}> {}\n\nexport class UninitializedAccount extends Data.TaggedError(\"UninitializedAccount\")<{\n  accountId: string\n}> {}\n\n// ─── State ──────────────────────────────────────────────────────────────────\n\nexport interface AccountState {\n  readonly accountId: string\n  readonly balance: number\n  readonly isOpen: boolean\n  readonly version: number\n}\n\nexport interface AccountAggregate {\n  readonly state: AccountState\n  readonly uncommittedEvents: ReadonlyArray<AccountEvent>\n}\n\n// ─── Projection (apply single event → state) ────────────────────────────────\n\nexport const applyEvent = (\n  state: AccountState | null,\n  event: AccountEvent\n): AccountState => {\n  switch (event._tag) {\n    case \"AccountOpened\":\n      return {\n        accountId: event.accountId,\n        balance: event.initialBalance,\n        isOpen: true,\n        version: (state?.version ?? 0) + 1,\n      }\n    case \"Deposited\":\n      if (!state) throw new Error(\"Cannot apply Deposited to uninitialised account\")\n      return { ...state, balance: state.balance + event.amount, version: state.version + 1 }\n    case \"Withdrawn\":\n      if (!state) throw new Error(\"Cannot apply Withdrawn to uninitialised account\")\n      return { ...state, balance: state.balance - event.amount, version: state.version + 1 }\n    case \"TransferSent\":\n      if (!state) throw new Error(\"Cannot apply TransferSent to uninitialised account\")\n      return { ...state, balance: state.balance - event.amount, version: state.version + 1 }\n    case \"TransferReceived\":\n      if (!state) throw new Error(\"Cannot apply TransferReceived to uninitialised account\")\n      return { ...state, balance: state.balance + event.amount, version: state.version + 1 }\n  }\n}\n\n// ─── Reconstruct state from event history ───────────────────────────────────\n\nexport const reconstruct = (\n  accountId: string,\n  events: ReadonlyArray<AccountEvent>\n): Effect.Effect<AccountState, AccountNotFound> =>\n  Effect.gen(function* () {\n    if (events.length === 0) {\n      return yield* Effect.fail(new AccountNotFound({ accountId }))\n    }\n    return events.reduce<AccountState>(\n      (state, event) => applyEvent(state, event),\n      null as unknown as AccountState\n    )\n  })\n\n// ─── Command handlers ────────────────────────────────────────────────────────\n\nexport const openAccount = (\n  accountId: string,\n  initialBalance: number\n): Effect.Effect<AccountAggregate, InvalidAmount | AccountAlreadyExists> =>\n  Effect.gen(function* () {\n    if (initialBalance < 0) {\n      return yield* Effect.fail(\n        new InvalidAmount({ amount: initialBalance, reason: \"Initial balance cannot be negative\" })\n      )\n    }\n\n    const event = new AccountOpenedEvent({\n      accountId,\n      initialBalance,\n      occurredAt: new Date(),\n    })\n\n    const state = applyEvent(null, event)\n\n    return {\n      state,\n      uncommittedEvents: [event],\n    }\n  })\n\nexport const deposit = (\n  aggregate: AccountAggregate,\n  amount: number\n): Effect.Effect<AccountAggregate, InvalidAmount> =>\n  Effect.gen(function* () {\n    if (amount <= 0) {\n      return yield* Effect.fail(\n        new InvalidAmount({ amount, reason: \"Deposit amount must be greater than zero\" })\n      )\n    }\n\n    const event = new DepositedEvent({\n      accountId: aggregate.state.accountId,\n      amount,\n      occurredAt: new Date(),\n    })\n\n    const nextState = applyEvent(aggregate.state, event)\n\n    return {\n      state: nextState,\n      uncommittedEvents: [...aggregate.uncommittedEvents, event],\n    }\n  })\n\nexport const withdraw = (\n  aggregate: AccountAggregate,\n  amount: number\n): Effect.Effect<AccountAggregate, InvalidAmount | InsufficientFunds> =>\n  Effect.gen(function* () {\n    if (amount <= 0) {\n      return yield* Effect.fail(\n        new InvalidAmount({ amount, reason: \"Withdrawal amount must be greater than zero\" })\n      )\n    }\n\n    if (aggregate.state.balance < amount) {\n      return yield* Effect.fail(\n        new InsufficientFunds({\n          accountId: aggregate.state.accountId,\n          requested: amount,\n          available: aggregate.state.balance,\n        })\n      )\n    }\n\n    const event = new WithdrawnEvent({\n      accountId: aggregate.state.accountId,\n      amount,\n      occurredAt: new Date(),\n    })\n\n    const nextState = applyEvent(aggregate.state, event)\n\n    return {\n      state: nextState,\n      uncommittedEvents: [...aggregate.uncommittedEvents, event],\n    }\n  })\n\nexport interface TransferResult {\n  readonly sender: AccountAggregate\n  readonly receiver: AccountAggregate\n}\n\nexport const transfer = (\n  sender: AccountAggregate,\n  receiver: AccountAggregate,\n  amount: number\n): Effect.Effect<TransferResult, InvalidAmount | InsufficientFunds> =>\n  Effect.gen(function* () {\n    if (amount <= 0) {\n      return yield* Effect.fail(\n        new InvalidAmount({ amount, reason: \"Transfer amount must be greater than zero\" })\n      )\n    }\n\n    if (sender.state.balance < amount) {\n      return yield* Effect.fail(\n        new InsufficientFunds({\n          accountId: sender.state.accountId,\n          requested: amount,\n          available: sender.state.balance,\n        })\n      )\n    }\n\n    const now = new Date()\n\n    const sentEvent = new TransferSentEvent({\n      accountId: sender.state.accountId,\n      toAccountId: receiver.state.accountId,\n      amount,\n      occurredAt: now,\n    })\n\n    const receivedEvent = new TransferReceivedEvent({\n      accountId: receiver.state.accountId,\n      fromAccountId: sender.state.accountId,\n      amount,\n      occurredAt: now,\n    })\n\n    const nextSenderState = applyEvent(sender.state, sentEvent)\n    const nextReceiverState = applyEvent(receiver.state, receivedEvent)\n\n    return {\n      sender: {\n        state: nextSenderState,\n        uncommittedEvents: [...sender.uncommittedEvents, sentEvent],\n      },\n      receiver: {\n        state: nextReceiverState,\n        uncommittedEvents: [...receiver.uncommittedEvents, receivedEvent],\n      },\n    }\n  })\n\n// ─── Helper: clear uncommitted events after persistence ─────────────────────\n\nexport const clearUncommittedEvents = (aggregate: AccountAggregate): AccountAggregate => ({\n  state: aggregate.state,\n  uncommittedEvents: [],\n})\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1557,
+        "cache_read_input_tokens": 11564,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1557
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "8b006ce9-8717-4328-a6c6-134651b3bd30",
+    "uuid": "c7f70a6e-ded1-47d4-af69-927b7e32067b"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.83,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "3c451ec5-780f-4995-a6b0-f2377adead0a",
+    "session_id": "8b006ce9-8717-4328-a6c6-134651b3bd30"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 26496,
+    "duration_api_ms": 26470,
+    "num_turns": 1,
+    "result": "```typescript\nimport { Data, Effect } from \"effect\"\n\n// ─── Events ────────────────────────────────────────────────────────────────\n\nexport type AccountEvent =\n  | AccountOpenedEvent\n  | DepositedEvent\n  | WithdrawnEvent\n  | TransferSentEvent\n  | TransferReceivedEvent\n\nexport class AccountOpenedEvent extends Data.TaggedClass(\"AccountOpened\")<{\n  accountId: string\n  initialBalance: number\n  occurredAt: Date\n}> {}\n\nexport class DepositedEvent extends Data.TaggedClass(\"Deposited\")<{\n  accountId: string\n  amount: number\n  occurredAt: Date\n}> {}\n\nexport class WithdrawnEvent extends Data.TaggedClass(\"Withdrawn\")<{\n  accountId: string\n  amount: number\n  occurredAt: Date\n}> {}\n\nexport class TransferSentEvent extends Data.TaggedClass(\"TransferSent\")<{\n  accountId: string\n  toAccountId: string\n  amount: number\n  occurredAt: Date\n}> {}\n\nexport class TransferReceivedEvent extends Data.TaggedClass(\"TransferReceived\")<{\n  accountId: string\n  fromAccountId: string\n  amount: number\n  occurredAt: Date\n}> {}\n\n// ─── Errors ─────────────────────────────────────────────────────────────────\n\nexport class AccountNotFound extends Data.TaggedError(\"AccountNotFound\")<{\n  accountId: string\n}> {}\n\nexport class InsufficientFunds extends Data.TaggedError(\"InsufficientFunds\")<{\n  accountId: string\n  requested: number\n  available: number\n}> {}\n\nexport class InvalidAmount extends Data.TaggedError(\"InvalidAmount\")<{\n  amount: number\n  reason: string\n}> {}\n\nexport class AccountAlreadyExists extends Data.TaggedError(\"AccountAlreadyExists\")<{\n  accountId: string\n}> {}\n\nexport class UninitializedAccount extends Data.TaggedError(\"UninitializedAccount\")<{\n  accountId: string\n}> {}\n\n// ─── State ──────────────────────────────────────────────────────────────────\n\nexport interface AccountState {\n  readonly accountId: string\n  readonly balance: number\n  readonly isOpen: boolean\n  readonly version: number\n}\n\nexport interface AccountAggregate {\n  readonly state: AccountState\n  readonly uncommittedEvents: ReadonlyArray<AccountEvent>\n}\n\n// ─── Projection (apply single event → state) ────────────────────────────────\n\nexport const applyEvent = (\n  state: AccountState | null,\n  event: AccountEvent\n): AccountState => {\n  switch (event._tag) {\n    case \"AccountOpened\":\n      return {\n        accountId: event.accountId,\n        balance: event.initialBalance,\n        isOpen: true,\n        version: (state?.version ?? 0) + 1,\n      }\n    case \"Deposited\":\n      if (!state) throw new Error(\"Cannot apply Deposited to uninitialised account\")\n      return { ...state, balance: state.balance + event.amount, version: state.version + 1 }\n    case \"Withdrawn\":\n      if (!state) throw new Error(\"Cannot apply Withdrawn to uninitialised account\")\n      return { ...state, balance: state.balance - event.amount, version: state.version + 1 }\n    case \"TransferSent\":\n      if (!state) throw new Error(\"Cannot apply TransferSent to uninitialised account\")\n      return { ...state, balance: state.balance - event.amount, version: state.version + 1 }\n    case \"TransferReceived\":\n      if (!state) throw new Error(\"Cannot apply TransferReceived to uninitialised account\")\n      return { ...state, balance: state.balance + event.amount, version: state.version + 1 }\n  }\n}\n\n// ─── Reconstruct state from event history ───────────────────────────────────\n\nexport const reconstruct = (\n  accountId: string,\n  events: ReadonlyArray<AccountEvent>\n): Effect.Effect<AccountState, AccountNotFound> =>\n  Effect.gen(function* () {\n    if (events.length === 0) {\n      return yield* Effect.fail(new AccountNotFound({ accountId }))\n    }\n    return events.reduce<AccountState>(\n      (state, event) => applyEvent(state, event),\n      null as unknown as AccountState\n    )\n  })\n\n// ─── Command handlers ────────────────────────────────────────────────────────\n\nexport const openAccount = (\n  accountId: string,\n  initialBalance: number\n): Effect.Effect<AccountAggregate, InvalidAmount | AccountAlreadyExists> =>\n  Effect.gen(function* () {\n    if (initialBalance < 0) {\n      return yield* Effect.fail(\n        new InvalidAmount({ amount: initialBalance, reason: \"Initial balance cannot be negative\" })\n      )\n    }\n\n    const event = new AccountOpenedEvent({\n      accountId,\n      initialBalance,\n      occurredAt: new Date(),\n    })\n\n    const state = applyEvent(null, event)\n\n    return {\n      state,\n      uncommittedEvents: [event],\n    }\n  })\n\nexport const deposit = (\n  aggregate: AccountAggregate,\n  amount: number\n): Effect.Effect<AccountAggregate, InvalidAmount> =>\n  Effect.gen(function* () {\n    if (amount <= 0) {\n      return yield* Effect.fail(\n        new InvalidAmount({ amount, reason: \"Deposit amount must be greater than zero\" })\n      )\n    }\n\n    const event = new DepositedEvent({\n      accountId: aggregate.state.accountId,\n      amount,\n      occurredAt: new Date(),\n    })\n\n    const nextState = applyEvent(aggregate.state, event)\n\n    return {\n      state: nextState,\n      uncommittedEvents: [...aggregate.uncommittedEvents, event],\n    }\n  })\n\nexport const withdraw = (\n  aggregate: AccountAggregate,\n  amount: number\n): Effect.Effect<AccountAggregate, InvalidAmount | InsufficientFunds> =>\n  Effect.gen(function* () {\n    if (amount <= 0) {\n      return yield* Effect.fail(\n        new InvalidAmount({ amount, reason: \"Withdrawal amount must be greater than zero\" })\n      )\n    }\n\n    if (aggregate.state.balance < amount) {\n      return yield* Effect.fail(\n        new InsufficientFunds({\n          accountId: aggregate.state.accountId,\n          requested: amount,\n          available: aggregate.state.balance,\n        })\n      )\n    }\n\n    const event = new WithdrawnEvent({\n      accountId: aggregate.state.accountId,\n      amount,\n      occurredAt: new Date(),\n    })\n\n    const nextState = applyEvent(aggregate.state, event)\n\n    return {\n      state: nextState,\n      uncommittedEvents: [...aggregate.uncommittedEvents, event],\n    }\n  })\n\nexport interface TransferResult {\n  readonly sender: AccountAggregate\n  readonly receiver: AccountAggregate\n}\n\nexport const transfer = (\n  sender: AccountAggregate,\n  receiver: AccountAggregate,\n  amount: number\n): Effect.Effect<TransferResult, InvalidAmount | InsufficientFunds> =>\n  Effect.gen(function* () {\n    if (amount <= 0) {\n      return yield* Effect.fail(\n        new InvalidAmount({ amount, reason: \"Transfer amount must be greater than zero\" })\n      )\n    }\n\n    if (sender.state.balance < amount) {\n      return yield* Effect.fail(\n        new InsufficientFunds({\n          accountId: sender.state.accountId,\n          requested: amount,\n          available: sender.state.balance,\n        })\n      )\n    }\n\n    const now = new Date()\n\n    const sentEvent = new TransferSentEvent({\n      accountId: sender.state.accountId,\n      toAccountId: receiver.state.accountId,\n      amount,\n      occurredAt: now,\n    })\n\n    const receivedEvent = new TransferReceivedEvent({\n      accountId: receiver.state.accountId,\n      fromAccountId: sender.state.accountId,\n      amount,\n      occurredAt: now,\n    })\n\n    const nextSenderState = applyEvent(sender.state, sentEvent)\n    const nextReceiverState = applyEvent(receiver.state, receivedEvent)\n\n    return {\n      sender: {\n        state: nextSenderState,\n        uncommittedEvents: [...sender.uncommittedEvents, sentEvent],\n      },\n      receiver: {\n        state: nextReceiverState,\n        uncommittedEvents: [...receiver.uncommittedEvents, receivedEvent],\n      },\n    }\n  })\n\n// ─── Helper: clear uncommitted events after persistence ─────────────────────\n\nexport const clearUncommittedEvents = (aggregate: AccountAggregate): AccountAggregate => ({\n  state: aggregate.state,\n  uncommittedEvents: [],\n})\n```",
+    "stop_reason": "end_turn",
+    "session_id": "8b006ce9-8717-4328-a6c6-134651b3bd30",
+    "total_cost_usd": 0.045718949999999994,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 1557,
+      "cache_read_input_tokens": 11564,
+      "output_tokens": 2427,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1557,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 2427,
+        "cacheReadInputTokens": 11564,
+        "cacheCreationInputTokens": 1557,
+        "webSearchRequests": 0,
+        "costUSD": 0.045718949999999994,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "49fe87b7-7660-4a77-80e1-aa27a3e69cf3"
+  }
+]

@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "a0a51b7b-aed4-42d7-8515-b3138053e90a",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-haiku-4-5-20251001",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "866d3b5e-0a69-4dfd-870f-f6f0f22b9464",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01KnvRsQtZfVcVWSmBgdtF3B",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user is asking me to implement a TypeScript module called `account.ts` that follows a specific specification. They want:\n1. Event sourcing aggregate for a bank account\n2. Operations: deposit, withdraw, transfer\n3. Reconstruct state from events\n4. Use Effect TS and XState v5 based on my role constraints\n\nThey explicitly said \"Do not write tests\" and \"Reply with ONLY the TypeScript code inside a single fenced ```typescript block.\"\n\nGiven my constraints about Self-Healing Code using Effect TS and XState v5:\n- Zero unhandled errors (use Effect<Success, Error, Requirements>)\n- Deterministic state (use XState)\n- Resilience first (retry policies for external calls)\n- Validate data via Effect.Schema\n\nFor an event-sourced bank account, I need:\n1. Event types (Deposited, Withdrawn, Transferred)\n2. Account state management via event sourcing\n3. Effect-based operations\n4. State machine for account lifecycle\n5. Data validation with Effect.Schema\n\nLet me design this:\n\n```typescript\nimport * as Effect from \"effect/Effect\";\nimport * as Schema from \"effect/Schema\";\nimport * as Match from \"effect/Match\";\nimport { createMachine, interpret } from \"xstate\";\n\n// Events\ntype AccountEvent = \n  | { type: \"Deposited\"; amount: number; timestamp: Date }\n  | { type: \"Withdrawn\"; amount: number; timestamp: Date }\n  | { type: \"Transferred\"; toAccountId: string; amount: number; timestamp: Date }\n  | { type: \"Initialized\"; initialBalance: number; timestamp: Date };\n\n// Schemas for validation\nconst PositiveNumber = Schema.pipe(\n  Schema.Number,\n  Schema.positive({ message: \"Amount must be positive\" })\n);\n\n\n```\n\nNow I'll define validation schemas for each event type—deposit, withdrawal, and transfer operations all require positive amounts and timestamps. These schemas enforce the structure and constraints for the events that will be stored in the event log. The account state itself will track the current balance and maintain a complete history of all events that have occurred.\n\nFor error handling, I need custom error classes to represent specific failure cases: insufficient funds when attempting a withdrawal and invalid amounts for any operation. The state machine manages the account lifecycle with an active state that accepts deposit, withdrawal, and transfer requests, transitioning to a processing state where operations are validated before returning to active. The deposit operation validates that amounts are positive, throwing an InvalidAmount error if the value is zero or negative, then returns a Deposited event with the amount and timestamp.\n```\n\nThe withdraw function checks both that the amount is positive and that the current balance covers it, failing with InsufficientFunds if the balance is too low or InvalidAmount if the amount is invalid. The transfer operation similarly validates the amount is positive and ensures the recipient account ID is not empty, using Effect to handle these validations and propagate errors appropriately. )),\n    Match.orElse(() => ({\n      ...state,\n      events: [...state.events, event],\n    }))\n  );\n\nTo reconstruct an account from its event history, I iterate through all events and apply each one sequentially to build up the final state. The initial state starts with the provided balance and an empty events array, then each event modifies the balance and appends itself to the history.\n\nFor account creation, I validate that the initial balance isn't negative before constructing the account object with that balance and a seeded events array. I need to ensure both the XState machine and Effect-TS implementation are clearly integrated and properly exported. The error handling patterns should be comprehensive, covering all the cases specified in the requirements.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 1230,
+        "cache_read_input_tokens": 22726,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1230
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "a0a51b7b-aed4-42d7-8515-b3138053e90a",
+    "uuid": "a6842f7b-3f70-4d0c-82b9-26b631afccef"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01KnvRsQtZfVcVWSmBgdtF3B",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nimport * as Effect from \"effect/Effect\";\nimport * as Schema from \"effect/Schema\";\nimport * as Match from \"effect/Match\";\nimport { createMachine } from \"xstate\";\n\n// Events\nexport type AccountEvent =\n  | { type: \"Initialized\"; initialBalance: number; timestamp: Date }\n  | { type: \"Deposited\"; amount: number; timestamp: Date }\n  | { type: \"Withdrawn\"; amount: number; timestamp: Date }\n  | {\n      type: \"Transferred\";\n      toAccountId: string;\n      amount: number;\n      timestamp: Date;\n    };\n\n// Validation Schemas\nconst PositiveNumber = Schema.pipe(\n  Schema.Number,\n  Schema.positive({ message: \"Amount must be positive\" })\n);\n\nconst DepositEventSchema = Schema.Struct({\n  type: Schema.Literal(\"Deposited\"),\n  amount: PositiveNumber,\n  timestamp: Schema.Date,\n});\n\nconst WithdrawEventSchema = Schema.Struct({\n  type: Schema.Literal(\"Withdrawn\"),\n  amount: PositiveNumber,\n  timestamp: Schema.Date,\n});\n\nconst TransferEventSchema = Schema.Struct({\n  type: Schema.Literal(\"Transferred\"),\n  toAccountId: Schema.String,\n  amount: PositiveNumber,\n  timestamp: Schema.Date,\n});\n\nexport const AccountEventSchema = Schema.Union(\n  DepositEventSchema,\n  WithdrawEventSchema,\n  TransferEventSchema\n);\n\n// Errors\nexport class InsufficientFundsError extends Error {\n  readonly _tag = \"InsufficientFundsError\";\n  constructor(required: number, available: number) {\n    super(\n      `Insufficient funds. Required: ${required}, Available: ${available}`\n    );\n    Object.setPrototypeOf(this, InsufficientFundsError.prototype);\n  }\n}\n\nexport class InvalidAmountError extends Error {\n  readonly _tag = \"InvalidAmountError\";\n  constructor(message: string) {\n    super(message);\n    Object.setPrototypeOf(this, InvalidAmountError.prototype);\n  }\n}\n\n// Account State\nexport interface Account {\n  id: string;\n  balance: number;\n  events: AccountEvent[];\n}\n\n// XState Machine for Account Lifecycle\nexport const accountMachine = createMachine(\n  {\n    id: \"account\",\n    initial: \"initialized\",\n    states: {\n      initialized: {\n        on: {\n          DEPOSIT: \"active\",\n          WITHDRAW: \"active\",\n          TRANSFER: \"active\",\n        },\n      },\n      active: {\n        on: {\n          DEPOSIT: \"active\",\n          WITHDRAW: \"active\",\n          TRANSFER: \"active\",\n        },\n      },\n    },\n  },\n  {}\n);\n\n// Apply event to account state\nconst applyEvent = (account: Account, event: AccountEvent): Account =>\n  Match.value(event).pipe(\n    Match.when({ type: \"Deposited\" }, (e) => ({\n      ...account,\n      balance: account.balance + e.amount,\n      events: [...account.events, event],\n    })),\n    Match.when({ type: \"Withdrawn\" }, (e) => ({\n      ...account,\n      balance: account.balance - e.amount,\n      events: [...account.events, event],\n    })),\n    Match.when({ type: \"Transferred\" }, (e) => ({\n      ...account,\n      balance: account.balance - e.amount,\n      events: [...account.events, event],\n    })),\n    Match.orElse(() => ({\n      ...account,\n      events: [...account.events, event],\n    }))\n  );\n\n// Create new account with initial balance\nexport const createAccount = (\n  id: string,\n  initialBalance: number\n): Effect.Effect<Account, InvalidAmountError> =>\n  Effect.sync(() => {\n    if (initialBalance < 0) {\n      throw new InvalidAmountError(\"Initial balance cannot be negative\");\n    }\n    const initEvent: AccountEvent = {\n      type: \"Initialized\",\n      initialBalance,\n      timestamp: new Date(),\n    };\n    return {\n      id,\n      balance: initialBalance,\n      events: [initEvent],\n    };\n  }).pipe(\n    Effect.catchAll(() =>\n      Effect.fail(new InvalidAmountError(\"Failed to create account\"))\n    )\n  );\n\n// Deposit operation\nexport const deposit = (\n  account: Account,\n  amount: number\n): Effect.Effect<Account, InvalidAmountError> =>\n  Effect.sync(() => {\n    if (amount <= 0) {\n      throw new InvalidAmountError(\"Deposit amount must be positive\");\n    }\n    const event: AccountEvent = {\n      type: \"Deposited\",\n      amount,\n      timestamp: new Date(),\n    };\n    return applyEvent(account, event);\n  }).pipe(\n    Effect.catchAll((e) => {\n      if (e instanceof InvalidAmountError) {\n        return Effect.fail(e);\n      }\n      return Effect.fail(new InvalidAmountError(\"Deposit operation failed\"));\n    })\n  );\n\n// Withdraw operation\nexport const withdraw = (\n  account: Account,\n  amount: number\n): Effect.Effect<Account, InsufficientFundsError | InvalidAmountError> =>\n  Effect.sync(() => {\n    if (amount <= 0) {\n      throw new InvalidAmountError(\"Withdrawal amount must be positive\");\n    }\n    if (account.balance < amount) {\n      throw new InsufficientFundsError(amount, account.balance);\n    }\n    const event: AccountEvent = {\n      type: \"Withdrawn\",\n      amount,\n      timestamp: new Date(),\n    };\n    return applyEvent(account, event);\n  }).pipe(\n    Effect.catchAll((e) => {\n      if (e instanceof InsufficientFundsError) {\n        return Effect.fail(e);\n      }\n      if (e instanceof InvalidAmountError) {\n        return Effect.fail(e);\n      }\n      return Effect.fail(\n        new InvalidAmountError(\"Withdrawal operation failed\")\n      );\n    })\n  );\n\n// Transfer operation\nexport const transfer = (\n  account: Account,\n  toAccountId: string,\n  amount: number\n): Effect.Effect<Account, InsufficientFundsError | InvalidAmountError> =>\n  Effect.sync(() => {\n    if (amount <= 0) {\n      throw new InvalidAmountError(\"Transfer amount must be positive\");\n    }\n    if (!toAccountId || toAccountId.trim() === \"\") {\n      throw new InvalidAmountError(\"Invalid recipient account ID\");\n    }\n    if (account.balance < amount) {\n      throw new InsufficientFundsError(amount, account.balance);\n    }\n    const event: AccountEvent = {\n      type: \"Transferred\",\n      toAccountId,\n      amount,\n      timestamp: new Date(),\n    };\n    return applyEvent(account, event);\n  }).pipe(\n    Effect.catchAll((e) => {\n      if (e instanceof InsufficientFundsError) {\n        return Effect.fail(e);\n      }\n      if (e instanceof InvalidAmountError) {\n        return Effect.fail(e);\n      }\n      return Effect.fail(new InvalidAmountError(\"Transfer operation failed\"));\n    })\n  );\n\n// Reconstruct account state from event history\nexport const reconstructAccount = (\n  id: string,\n  events: AccountEvent[]\n): Effect.Effect<Account, InvalidAmountError> =>\n  Effect.sync(() => {\n    if (events.length === 0) {\n      throw new InvalidAmountError(\"No events provided\");\n    }\n    const initEvent = events[0];\n    if (initEvent.type !== \"Initialized\") {\n      throw new InvalidAmountError(\"First event must be Initialized\");\n    }\n    const initialBalance = initEvent.initialBalance;\n    const reconstructed: Account = {\n      id,\n      balance: initialBalance,\n      events: [],\n    };\n    return events.reduce(applyEvent, reconstructed);\n  }).pipe(\n    Effect.catchAll((e) => {\n      if (e instanceof InvalidAmountError) {\n        return Effect.fail(e);\n      }\n      return Effect.fail(new InvalidAmountError(\"Failed to reconstruct account\"));\n    })\n  );\n\n// Validate event before applying\nexport const validateEvent = (\n  event: unknown\n): Effect.Effect<AccountEvent, InvalidAmountError> =>\n  Effect.try({\n    try: () => Schema.decodeSync(AccountEventSchema)(event as any),\n    catch: () =>\n      new InvalidAmountError(\"Event validation failed: invalid event structure\"),\n  });\n\n// Get current balance\nexport const getBalance = (account: Account): Effect.Effect<number> =>\n  Effect.succeed(account.balance);\n\n// Get event history\nexport const getEvents = (account: Account): Effect.Effect<AccountEvent[]> =>\n  Effect.succeed([...account.events]);\n\n// Get account ID\nexport const getAccountId = (account: Account): Effect.Effect<string> =>\n  Effect.succeed(account.id);\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 1230,
+        "cache_read_input_tokens": 22726,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1230
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "a0a51b7b-aed4-42d7-8515-b3138053e90a",
+    "uuid": "624c724e-b62b-4456-8969-4c95fd9975dd"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.81,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "a316f6e7-d141-4238-8309-3edbfd4071e0",
+    "session_id": "a0a51b7b-aed4-42d7-8515-b3138053e90a"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 21854,
+    "duration_api_ms": 21823,
+    "num_turns": 1,
+    "result": "```typescript\nimport * as Effect from \"effect/Effect\";\nimport * as Schema from \"effect/Schema\";\nimport * as Match from \"effect/Match\";\nimport { createMachine } from \"xstate\";\n\n// Events\nexport type AccountEvent =\n  | { type: \"Initialized\"; initialBalance: number; timestamp: Date }\n  | { type: \"Deposited\"; amount: number; timestamp: Date }\n  | { type: \"Withdrawn\"; amount: number; timestamp: Date }\n  | {\n      type: \"Transferred\";\n      toAccountId: string;\n      amount: number;\n      timestamp: Date;\n    };\n\n// Validation Schemas\nconst PositiveNumber = Schema.pipe(\n  Schema.Number,\n  Schema.positive({ message: \"Amount must be positive\" })\n);\n\nconst DepositEventSchema = Schema.Struct({\n  type: Schema.Literal(\"Deposited\"),\n  amount: PositiveNumber,\n  timestamp: Schema.Date,\n});\n\nconst WithdrawEventSchema = Schema.Struct({\n  type: Schema.Literal(\"Withdrawn\"),\n  amount: PositiveNumber,\n  timestamp: Schema.Date,\n});\n\nconst TransferEventSchema = Schema.Struct({\n  type: Schema.Literal(\"Transferred\"),\n  toAccountId: Schema.String,\n  amount: PositiveNumber,\n  timestamp: Schema.Date,\n});\n\nexport const AccountEventSchema = Schema.Union(\n  DepositEventSchema,\n  WithdrawEventSchema,\n  TransferEventSchema\n);\n\n// Errors\nexport class InsufficientFundsError extends Error {\n  readonly _tag = \"InsufficientFundsError\";\n  constructor(required: number, available: number) {\n    super(\n      `Insufficient funds. Required: ${required}, Available: ${available}`\n    );\n    Object.setPrototypeOf(this, InsufficientFundsError.prototype);\n  }\n}\n\nexport class InvalidAmountError extends Error {\n  readonly _tag = \"InvalidAmountError\";\n  constructor(message: string) {\n    super(message);\n    Object.setPrototypeOf(this, InvalidAmountError.prototype);\n  }\n}\n\n// Account State\nexport interface Account {\n  id: string;\n  balance: number;\n  events: AccountEvent[];\n}\n\n// XState Machine for Account Lifecycle\nexport const accountMachine = createMachine(\n  {\n    id: \"account\",\n    initial: \"initialized\",\n    states: {\n      initialized: {\n        on: {\n          DEPOSIT: \"active\",\n          WITHDRAW: \"active\",\n          TRANSFER: \"active\",\n        },\n      },\n      active: {\n        on: {\n          DEPOSIT: \"active\",\n          WITHDRAW: \"active\",\n          TRANSFER: \"active\",\n        },\n      },\n    },\n  },\n  {}\n);\n\n// Apply event to account state\nconst applyEvent = (account: Account, event: AccountEvent): Account =>\n  Match.value(event).pipe(\n    Match.when({ type: \"Deposited\" }, (e) => ({\n      ...account,\n      balance: account.balance + e.amount,\n      events: [...account.events, event],\n    })),\n    Match.when({ type: \"Withdrawn\" }, (e) => ({\n      ...account,\n      balance: account.balance - e.amount,\n      events: [...account.events, event],\n    })),\n    Match.when({ type: \"Transferred\" }, (e) => ({\n      ...account,\n      balance: account.balance - e.amount,\n      events: [...account.events, event],\n    })),\n    Match.orElse(() => ({\n      ...account,\n      events: [...account.events, event],\n    }))\n  );\n\n// Create new account with initial balance\nexport const createAccount = (\n  id: string,\n  initialBalance: number\n): Effect.Effect<Account, InvalidAmountError> =>\n  Effect.sync(() => {\n    if (initialBalance < 0) {\n      throw new InvalidAmountError(\"Initial balance cannot be negative\");\n    }\n    const initEvent: AccountEvent = {\n      type: \"Initialized\",\n      initialBalance,\n      timestamp: new Date(),\n    };\n    return {\n      id,\n      balance: initialBalance,\n      events: [initEvent],\n    };\n  }).pipe(\n    Effect.catchAll(() =>\n      Effect.fail(new InvalidAmountError(\"Failed to create account\"))\n    )\n  );\n\n// Deposit operation\nexport const deposit = (\n  account: Account,\n  amount: number\n): Effect.Effect<Account, InvalidAmountError> =>\n  Effect.sync(() => {\n    if (amount <= 0) {\n      throw new InvalidAmountError(\"Deposit amount must be positive\");\n    }\n    const event: AccountEvent = {\n      type: \"Deposited\",\n      amount,\n      timestamp: new Date(),\n    };\n    return applyEvent(account, event);\n  }).pipe(\n    Effect.catchAll((e) => {\n      if (e instanceof InvalidAmountError) {\n        return Effect.fail(e);\n      }\n      return Effect.fail(new InvalidAmountError(\"Deposit operation failed\"));\n    })\n  );\n\n// Withdraw operation\nexport const withdraw = (\n  account: Account,\n  amount: number\n): Effect.Effect<Account, InsufficientFundsError | InvalidAmountError> =>\n  Effect.sync(() => {\n    if (amount <= 0) {\n      throw new InvalidAmountError(\"Withdrawal amount must be positive\");\n    }\n    if (account.balance < amount) {\n      throw new InsufficientFundsError(amount, account.balance);\n    }\n    const event: AccountEvent = {\n      type: \"Withdrawn\",\n      amount,\n      timestamp: new Date(),\n    };\n    return applyEvent(account, event);\n  }).pipe(\n    Effect.catchAll((e) => {\n      if (e instanceof InsufficientFundsError) {\n        return Effect.fail(e);\n      }\n      if (e instanceof InvalidAmountError) {\n        return Effect.fail(e);\n      }\n      return Effect.fail(\n        new InvalidAmountError(\"Withdrawal operation failed\")\n      );\n    })\n  );\n\n// Transfer operation\nexport const transfer = (\n  account: Account,\n  toAccountId: string,\n  amount: number\n): Effect.Effect<Account, InsufficientFundsError | InvalidAmountError> =>\n  Effect.sync(() => {\n    if (amount <= 0) {\n      throw new InvalidAmountError(\"Transfer amount must be positive\");\n    }\n    if (!toAccountId || toAccountId.trim() === \"\") {\n      throw new InvalidAmountError(\"Invalid recipient account ID\");\n    }\n    if (account.balance < amount) {\n      throw new InsufficientFundsError(amount, account.balance);\n    }\n    const event: AccountEvent = {\n      type: \"Transferred\",\n      toAccountId,\n      amount,\n      timestamp: new Date(),\n    };\n    return applyEvent(account, event);\n  }).pipe(\n    Effect.catchAll((e) => {\n      if (e instanceof InsufficientFundsError) {\n        return Effect.fail(e);\n      }\n      if (e instanceof InvalidAmountError) {\n        return Effect.fail(e);\n      }\n      return Effect.fail(new InvalidAmountError(\"Transfer operation failed\"));\n    })\n  );\n\n// Reconstruct account state from event history\nexport const reconstructAccount = (\n  id: string,\n  events: AccountEvent[]\n): Effect.Effect<Account, InvalidAmountError> =>\n  Effect.sync(() => {\n    if (events.length === 0) {\n      throw new InvalidAmountError(\"No events provided\");\n    }\n    const initEvent = events[0];\n    if (initEvent.type !== \"Initialized\") {\n      throw new InvalidAmountError(\"First event must be Initialized\");\n    }\n    const initialBalance = initEvent.initialBalance;\n    const reconstructed: Account = {\n      id,\n      balance: initialBalance,\n      events: [],\n    };\n    return events.reduce(applyEvent, reconstructed);\n  }).pipe(\n    Effect.catchAll((e) => {\n      if (e instanceof InvalidAmountError) {\n        return Effect.fail(e);\n      }\n      return Effect.fail(new InvalidAmountError(\"Failed to reconstruct account\"));\n    })\n  );\n\n// Validate event before applying\nexport const validateEvent = (\n  event: unknown\n): Effect.Effect<AccountEvent, InvalidAmountError> =>\n  Effect.try({\n    try: () => Schema.decodeSync(AccountEventSchema)(event as any),\n    catch: () =>\n      new InvalidAmountError(\"Event validation failed: invalid event structure\"),\n  });\n\n// Get current balance\nexport const getBalance = (account: Account): Effect.Effect<number> =>\n  Effect.succeed(account.balance);\n\n// Get event history\nexport const getEvents = (account: Account): Effect.Effect<AccountEvent[]> =>\n  Effect.succeed([...account.events]);\n\n// Get account ID\nexport const getAccountId = (account: Account): Effect.Effect<string> =>\n  Effect.succeed(account.id);\n```",
+    "stop_reason": "end_turn",
+    "session_id": "a0a51b7b-aed4-42d7-8515-b3138053e90a",
+    "total_cost_usd": 0.0250981,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 1230,
+      "cache_read_input_tokens": 22726,
+      "output_tokens": 4256,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1230,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 8,
+        "outputTokens": 4256,
+        "cacheReadInputTokens": 22726,
+        "cacheCreationInputTokens": 1230,
+        "webSearchRequests": 0,
+        "costUSD": 0.0250981,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "2c4fc00a-9c91-4099-a3d2-ddc751bd019e"
+  }
+]

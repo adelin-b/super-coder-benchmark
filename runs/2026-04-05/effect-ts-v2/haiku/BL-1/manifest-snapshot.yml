@@ -1,0 +1,13 @@
+name: effect-ts
+version: 2
+parent: 1
+model_default: sonnet
+max_turns: 1
+tools: []
+context_bundle:
+  - context-bundles/effect-quickstart/errors.md
+  - context-bundles/effect-quickstart/generators.md
+  - context-bundles/effect-quickstart/common-pitfalls.md
+  - context-bundles/xstate-v5/primer.md
+system_prompt_file: system-prompt.md
+changelog: "v1 → v2: added Effect quickstart bundle (errors, generators, pitfalls) + XState v5 primer to fix FiberFailure wrapping bugs that caused v1 retries"
