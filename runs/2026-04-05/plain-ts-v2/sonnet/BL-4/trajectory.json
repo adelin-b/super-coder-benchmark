@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "21977a83-03db-4b62-b7b6-1c661d48da0b",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "a6f94b06-56e0-4ca6-9b24-af2dcccaf08e",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_012f5x4KmSNGe44icz6LUBbo",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user wants me to implement a proration calculator in TypeScript. Let me think about what this module should contain based on the spec description.\n\nThe spec says:\n- Split a charge across time periods proportionally\n- Monthly billing with mid-month changes\n- Export everything the spec says to export\n\nSince the spec doesn't give explicit function signatures, I need to infer reasonable ones. Let me think about what a proration calculator would need:\n\n1. Calculate the prorated amount for a partial period\n2. Handle mid-month changes (like plan upgrades/downgrades)\n3. Split charges across time periods\n\nKey types and functions to export:\n\n\n- `ProrateOptions` or similar type\n- `ProratedCharge` result type\n- `prorate()` function - main calculation\n- `prorateByDays()` - calculate prorated amount by days\n- `splitCharge()` - split a charge across multiple periods\n\nI need to consider edge cases like zero amounts, same start and end dates, reversed dates, mid-month changes, leap years, and month boundaries. I'm designing a clean API with types for periods and proration inputs, along with the core calculation functions.\n\nDefining the TypeScript interfaces and types...\n\nNow I'm thinking through the core logic: given a total charge for a full period and a change happening mid-period, I need to calculate how much applies before and after that change date, accounting for the exact number of days in each portion.\n\nImplementing the proration logic... Writing the prorate function...",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1556,
+        "cache_read_input_tokens": 8798,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1556
+        },
+        "output_tokens": 1,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "21977a83-03db-4b62-b7b6-1c661d48da0b",
+    "uuid": "c54cef04-405c-4bb4-91fc-2d4c4484aa4b"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_012f5x4KmSNGe44icz6LUBbo",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nexport class ProrateError extends Error {\n  constructor(message: string) {\n    super(message);\n    this.name = \"ProrateError\";\n  }\n}\n\nexport interface Period {\n  start: Date;\n  end: Date;\n}\n\nexport interface ProratedSegment {\n  start: Date;\n  end: Date;\n  days: number;\n  amount: number;\n}\n\nexport interface ProrateResult {\n  segments: ProratedSegment[];\n  totalDays: number;\n  totalAmount: number;\n}\n\n/**\n * Returns the number of whole days between two dates (start-inclusive, end-exclusive).\n */\nexport function daysBetween(start: Date, end: Date): number {\n  if (!(start instanceof Date) || isNaN(start.getTime())) {\n    throw new ProrateError(\"Invalid start date\");\n  }\n  if (!(end instanceof Date) || isNaN(end.getTime())) {\n    throw new ProrateError(\"Invalid end date\");\n  }\n\n  const startMs = Date.UTC(\n    start.getFullYear(),\n    start.getMonth(),\n    start.getDate()\n  );\n  const endMs = Date.UTC(\n    end.getFullYear(),\n    end.getMonth(),\n    end.getDate()\n  );\n\n  const diffMs = endMs - startMs;\n  if (diffMs < 0) {\n    throw new ProrateError(\n      `start date (${start.toISOString()}) must not be after end date (${end.toISOString()})`\n    );\n  }\n\n  return Math.round(diffMs / 86_400_000);\n}\n\n/**\n * Prorate a total amount proportionally to days used out of total days.\n * Rounds to the nearest cent (2 decimal places).\n */\nexport function prorateAmount(\n  totalAmount: number,\n  totalDays: number,\n  partialDays: number\n): number {\n  if (!isFinite(totalAmount)) {\n    throw new ProrateError(\"totalAmount must be a finite number\");\n  }\n  if (!Number.isInteger(totalDays) || totalDays < 0) {\n    throw new ProrateError(\"totalDays must be a non-negative integer\");\n  }\n  if (!Number.isInteger(partialDays) || partialDays < 0) {\n    throw new ProrateError(\"partialDays must be a non-negative integer\");\n  }\n  if (partialDays > totalDays) {\n    throw new ProrateError(\"partialDays cannot exceed totalDays\");\n  }\n  if (totalDays === 0) {\n    return 0;\n  }\n\n  const raw = (totalAmount * partialDays) / totalDays;\n  return Math.round(raw * 100) / 100;\n}\n\n/**\n * Split a charge across time segments defined by optional change dates within a billing period.\n *\n * @param totalAmount   - The full charge for the entire billing period.\n * @param billingPeriod - The full billing period (start-inclusive, end-exclusive).\n * @param changeDates   - Zero or more dates inside the billing period that mark plan/rate changes.\n *                        Dates outside the period or equal to the period boundaries are ignored.\n *                        Duplicates are de-duplicated.\n * @returns A ProrateResult with per-segment breakdowns. The last segment's amount is\n *          adjusted by any rounding residual so that segment amounts sum exactly to totalAmount.\n */\nexport function prorate(\n  totalAmount: number,\n  billingPeriod: Period,\n  changeDates: Date[] = []\n): ProrateResult {\n  if (!isFinite(totalAmount)) {\n    throw new ProrateError(\"totalAmount must be a finite number\");\n  }\n  if (\n    !(billingPeriod.start instanceof Date) ||\n    isNaN(billingPeriod.start.getTime())\n  ) {\n    throw new ProrateError(\"billingPeriod.start is not a valid Date\");\n  }\n  if (\n    !(billingPeriod.end instanceof Date) ||\n    isNaN(billingPeriod.end.getTime())\n  ) {\n    throw new ProrateError(\"billingPeriod.end is not a valid Date\");\n  }\n\n  const totalDays = daysBetween(billingPeriod.start, billingPeriod.end);\n\n  if (totalDays === 0) {\n    return {\n      segments: [],\n      totalDays: 0,\n      totalAmount,\n    };\n  }\n\n  // Normalise change dates to midnight UTC day boundaries\n  const toUtcDay = (d: Date): number =>\n    Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());\n\n  const periodStartMs = toUtcDay(billingPeriod.start);\n  const periodEndMs = toUtcDay(billingPeriod.end);\n\n  const splitPointsSet = new Set<number>();\n  for (const cd of changeDates) {\n    if (!(cd instanceof Date) || isNaN(cd.getTime())) {\n      throw new ProrateError(\n        `Invalid change date: ${cd}`\n      );\n    }\n    const ms = toUtcDay(cd);\n    if (ms > periodStartMs && ms < periodEndMs) {\n      splitPointsSet.add(ms);\n    }\n  }\n\n  // Build sorted boundary list: [start, ...changeDates, end]\n  const boundaries: number[] = [\n    periodStartMs,\n    ...Array.from(splitPointsSet).sort((a, b) => a - b),\n    periodEndMs,\n  ];\n\n  const segments: ProratedSegment[] = [];\n  let allocatedAmount = 0;\n\n  for (let i = 0; i < boundaries.length - 1; i++) {\n    const segStartMs = boundaries[i];\n    const segEndMs = boundaries[i + 1];\n    const segDays = Math.round((segEndMs - segStartMs) / 86_400_000);\n\n    const isLast = i === boundaries.length - 2;\n    let amount: number;\n\n    if (isLast) {\n      // Absorb any rounding residual in the last segment\n      amount = Math.round((totalAmount - allocatedAmount) * 100) / 100;\n    } else {\n      amount = prorateAmount(totalAmount, totalDays, segDays);\n      allocatedAmount = Math.round((allocatedAmount + amount) * 100) / 100;\n    }\n\n    const segStart = new Date(segStartMs);\n    const segEnd = new Date(segEndMs);\n\n    segments.push({ start: segStart, end: segEnd, days: segDays, amount });\n  }\n\n  return {\n    segments,\n    totalDays,\n    totalAmount,\n  };\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1556,
+        "cache_read_input_tokens": 8798,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1556
+        },
+        "output_tokens": 1,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "21977a83-03db-4b62-b7b6-1c661d48da0b",
+    "uuid": "fffac35a-8d1e-44db-9894-99269f93b366"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.84,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "89e68cfd-7739-437b-9191-430a91b5fb7e",
+    "session_id": "21977a83-03db-4b62-b7b6-1c661d48da0b"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 34601,
+    "duration_api_ms": 34560,
+    "num_turns": 1,
+    "result": "```typescript\nexport class ProrateError extends Error {\n  constructor(message: string) {\n    super(message);\n    this.name = \"ProrateError\";\n  }\n}\n\nexport interface Period {\n  start: Date;\n  end: Date;\n}\n\nexport interface ProratedSegment {\n  start: Date;\n  end: Date;\n  days: number;\n  amount: number;\n}\n\nexport interface ProrateResult {\n  segments: ProratedSegment[];\n  totalDays: number;\n  totalAmount: number;\n}\n\n/**\n * Returns the number of whole days between two dates (start-inclusive, end-exclusive).\n */\nexport function daysBetween(start: Date, end: Date): number {\n  if (!(start instanceof Date) || isNaN(start.getTime())) {\n    throw new ProrateError(\"Invalid start date\");\n  }\n  if (!(end instanceof Date) || isNaN(end.getTime())) {\n    throw new ProrateError(\"Invalid end date\");\n  }\n\n  const startMs = Date.UTC(\n    start.getFullYear(),\n    start.getMonth(),\n    start.getDate()\n  );\n  const endMs = Date.UTC(\n    end.getFullYear(),\n    end.getMonth(),\n    end.getDate()\n  );\n\n  const diffMs = endMs - startMs;\n  if (diffMs < 0) {\n    throw new ProrateError(\n      `start date (${start.toISOString()}) must not be after end date (${end.toISOString()})`\n    );\n  }\n\n  return Math.round(diffMs / 86_400_000);\n}\n\n/**\n * Prorate a total amount proportionally to days used out of total days.\n * Rounds to the nearest cent (2 decimal places).\n */\nexport function prorateAmount(\n  totalAmount: number,\n  totalDays: number,\n  partialDays: number\n): number {\n  if (!isFinite(totalAmount)) {\n    throw new ProrateError(\"totalAmount must be a finite number\");\n  }\n  if (!Number.isInteger(totalDays) || totalDays < 0) {\n    throw new ProrateError(\"totalDays must be a non-negative integer\");\n  }\n  if (!Number.isInteger(partialDays) || partialDays < 0) {\n    throw new ProrateError(\"partialDays must be a non-negative integer\");\n  }\n  if (partialDays > totalDays) {\n    throw new ProrateError(\"partialDays cannot exceed totalDays\");\n  }\n  if (totalDays === 0) {\n    return 0;\n  }\n\n  const raw = (totalAmount * partialDays) / totalDays;\n  return Math.round(raw * 100) / 100;\n}\n\n/**\n * Split a charge across time segments defined by optional change dates within a billing period.\n *\n * @param totalAmount   - The full charge for the entire billing period.\n * @param billingPeriod - The full billing period (start-inclusive, end-exclusive).\n * @param changeDates   - Zero or more dates inside the billing period that mark plan/rate changes.\n *                        Dates outside the period or equal to the period boundaries are ignored.\n *                        Duplicates are de-duplicated.\n * @returns A ProrateResult with per-segment breakdowns. The last segment's amount is\n *          adjusted by any rounding residual so that segment amounts sum exactly to totalAmount.\n */\nexport function prorate(\n  totalAmount: number,\n  billingPeriod: Period,\n  changeDates: Date[] = []\n): ProrateResult {\n  if (!isFinite(totalAmount)) {\n    throw new ProrateError(\"totalAmount must be a finite number\");\n  }\n  if (\n    !(billingPeriod.start instanceof Date) ||\n    isNaN(billingPeriod.start.getTime())\n  ) {\n    throw new ProrateError(\"billingPeriod.start is not a valid Date\");\n  }\n  if (\n    !(billingPeriod.end instanceof Date) ||\n    isNaN(billingPeriod.end.getTime())\n  ) {\n    throw new ProrateError(\"billingPeriod.end is not a valid Date\");\n  }\n\n  const totalDays = daysBetween(billingPeriod.start, billingPeriod.end);\n\n  if (totalDays === 0) {\n    return {\n      segments: [],\n      totalDays: 0,\n      totalAmount,\n    };\n  }\n\n  // Normalise change dates to midnight UTC day boundaries\n  const toUtcDay = (d: Date): number =>\n    Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());\n\n  const periodStartMs = toUtcDay(billingPeriod.start);\n  const periodEndMs = toUtcDay(billingPeriod.end);\n\n  const splitPointsSet = new Set<number>();\n  for (const cd of changeDates) {\n    if (!(cd instanceof Date) || isNaN(cd.getTime())) {\n      throw new ProrateError(\n        `Invalid change date: ${cd}`\n      );\n    }\n    const ms = toUtcDay(cd);\n    if (ms > periodStartMs && ms < periodEndMs) {\n      splitPointsSet.add(ms);\n    }\n  }\n\n  // Build sorted boundary list: [start, ...changeDates, end]\n  const boundaries: number[] = [\n    periodStartMs,\n    ...Array.from(splitPointsSet).sort((a, b) => a - b),\n    periodEndMs,\n  ];\n\n  const segments: ProratedSegment[] = [];\n  let allocatedAmount = 0;\n\n  for (let i = 0; i < boundaries.length - 1; i++) {\n    const segStartMs = boundaries[i];\n    const segEndMs = boundaries[i + 1];\n    const segDays = Math.round((segEndMs - segStartMs) / 86_400_000);\n\n    const isLast = i === boundaries.length - 2;\n    let amount: number;\n\n    if (isLast) {\n      // Absorb any rounding residual in the last segment\n      amount = Math.round((totalAmount - allocatedAmount) * 100) / 100;\n    } else {\n      amount = prorateAmount(totalAmount, totalDays, segDays);\n      allocatedAmount = Math.round((allocatedAmount + amount) * 100) / 100;\n    }\n\n    const segStart = new Date(segStartMs);\n    const segEnd = new Date(segEndMs);\n\n    segments.push({ start: segStart, end: segEnd, days: segDays, amount });\n  }\n\n  return {\n    segments,\n    totalDays,\n    totalAmount,\n  };\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "21977a83-03db-4b62-b7b6-1c661d48da0b",
+    "total_cost_usd": 0.050600400000000004,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 1556,
+      "cache_read_input_tokens": 8798,
+      "output_tokens": 2808,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1556,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 2808,
+        "cacheReadInputTokens": 8798,
+        "cacheCreationInputTokens": 1556,
+        "webSearchRequests": 0,
+        "costUSD": 0.050600400000000004,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "41d90b66-82c6-4a1e-8637-f30681a78b5e"
+  }
+]

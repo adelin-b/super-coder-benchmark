@@ -1,0 +1,119 @@
+[
+  {
+    "task": "BL-1",
+    "agent": "effect-ts",
+    "version": "v3",
+    "model": "haiku",
+    "generated": true,
+    "tests_passed": 18,
+    "tests_total": 19,
+    "pass_rate": 0.9474,
+    "tokens_in": 8,
+    "tokens_out": 2404,
+    "duration_ms": 17357,
+    "verdict": "fail",
+    "comparison": {
+      "v1_pass_rate": 0.9474,
+      "v2_pass_rate": 0.9474,
+      "v3_pass_rate": 0.9474,
+      "delta_vs_v1": 0,
+      "delta_vs_v2": 0,
+      "note": "No change — same 18/19 as v1 and v2"
+    }
+  },
+  {
+    "task": "BL-5",
+    "agent": "effect-ts",
+    "version": "v3",
+    "model": "haiku",
+    "generated": true,
+    "tests_passed": 0,
+    "tests_total": 1,
+    "pass_rate": 0,
+    "tokens_in": 8,
+    "tokens_out": 529,
+    "duration_ms": 10289,
+    "verdict": "fail",
+    "comparison": {
+      "v1_pass_rate": 0,
+      "v2_pass_rate": 0,
+      "v3_pass_rate": 0,
+      "delta_vs_v1": 0,
+      "delta_vs_v2": 0,
+      "note": "Still 0% — boundary wrapping did NOT fix BL-5"
+    }
+  },
+  {
+    "task": "SAAS-3",
+    "agent": "effect-ts",
+    "version": "v3",
+    "model": "haiku",
+    "generated": true,
+    "tests_passed": 1,
+    "tests_total": 2,
+    "pass_rate": 0.5,
+    "tokens_in": 8,
+    "tokens_out": 1935,
+    "duration_ms": 14756,
+    "verdict": "fail",
+    "comparison": {
+      "v1_pass_rate": 0,
+      "v2_pass_rate": 0,
+      "v3_pass_rate": 0.5,
+      "delta_vs_v1": 0.5,
+      "delta_vs_v2": 0.5,
+      "note": "IMPROVED — from 0% to 50%. Boundary wrapping partially works for SAAS-3."
+    }
+  },
+  {
+    "task": "BL-2",
+    "agent": "effect-ts",
+    "version": "v3",
+    "model": "haiku",
+    "generated": true,
+    "tests_passed": 7,
+    "tests_total": 8,
+    "pass_rate": 0.875,
+    "tokens_in": 8,
+    "tokens_out": 1850,
+    "duration_ms": 13194,
+    "verdict": "fail",
+    "comparison": {
+      "note": "New task — no v1/v2 baseline available"
+    }
+  },
+  {
+    "task": "ALG-2",
+    "agent": "effect-ts",
+    "version": "v3",
+    "model": "haiku",
+    "generated": true,
+    "tests_passed": 5,
+    "tests_total": 6,
+    "pass_rate": 0.8333,
+    "tokens_in": 8,
+    "tokens_out": 1673,
+    "duration_ms": 13506,
+    "verdict": "fail",
+    "comparison": {
+      "note": "New task — no v1/v2 baseline available"
+    }
+  },
+  {
+    "hypothesis_H1_prime": {
+      "statement": "If v3 scores >0% on BL-5 or SAAS-3, boundary wrapping works and Effect becomes viable",
+      "result": "PARTIALLY CONFIRMED",
+      "evidence": "SAAS-3 improved from 0% (v1/v2) to 50% (v3). BL-5 remains at 0%.",
+      "interpretation": "Boundary wrapping helps on tasks where v1/v2 failed due to interface mismatch (SAAS-3), but does not help on BL-5 where the failure is likely a different root cause (test suite compilation or logic gap, not Effect type leakage)."
+    },
+    "summary": {
+      "tasks_run": 5,
+      "all_verdicts_fail": true,
+      "best_score": "BL-1 at 94.74% (18/19)",
+      "worst_score": "BL-5 at 0% (0/1)",
+      "v3_improvements_over_v1v2": "SAAS-3: 0% → 50%",
+      "v3_no_change": "BL-1: 94.74% (unchanged), BL-5: 0% (unchanged)",
+      "new_tasks": "BL-2: 87.5% (7/8), ALG-2: 83.33% (5/6)"
+    }
+  }
+]
