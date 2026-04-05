@@ -1,0 +1,134 @@
+```typescript
+interface Role {
+  name: string;
+  permissions: string[];
+  inherits?: string[];
+}
+
+interface User {
+  id: string;
+  roles: string[];
+}
+
+interface Resource {
+  name: string;
+  requiredPermissions: string[];
+}
+
+interface RBACSystem {
+  addRole(role: Role): void;
+  addUser(user: User): void;
+  addResource(resource: Resource): void;
+  checkAccess(userId: string, resourceName: string): boolean;
+  getUserPermissions(userId: string): string[];
+}
+
+function createRBAC(): RBACSystem {
+  const roles = new Map<string, Role>();
+  const users = new Map<string, User>();
+  const resources = new Map<string, Resource>();
+
+  function getEffectivePermissions(
+    roleName: string,
+    visited: Set<string> = new Set()
+  ): Set<string> {
+    // Detect circular inheritance by tracking visited roles
+    if (visited.has(roleName)) {
+      return new Set();
+    }
+
+    const role = roles.get(roleName);
+    if (!role) {
+      return new Set();
+    }
+
+    visited.add(roleName);
+
+    // Start with direct permissions
+    const permissions = new Set<string>(role.permissions);
+
+    // Add inherited permissions transitively
+    if (role.inherits) {
+      for (const inheritedRoleName of role.inherits) {
+        const inheritedPermissions = getEffectivePermissions(
+          inheritedRoleName,
+          new Set(visited)
+        );
+        for (const perm of inheritedPermissions) {
+          permissions.add(perm);
+        }
+      }
+    }
+
+    return permissions;
+  }
+
+  return {
+    addRole(role: Role): void {
+      roles.set(role.name, role);
+    },
+
+    addUser(user: User): void {
+      users.set(user.id, user);
+    },
+
+    addResource(resource: Resource): void {
+      resources.set(resource.name, resource);
+    },
+
+    checkAccess(userId: string, resourceName: string): boolean {
+      const user = users.get(userId);
+      if (!user) {
+        return false;
+      }
+
+      const resource = resources.get(resourceName);
+      if (!resource) {
+        return false;
+      }
+
+      // User with no roles has no permissions
+      if (user.roles.length === 0) {
+        return false;
+      }
+
+      // Collect all permissions from user's roles
+      const userPermissions = new Set<string>();
+      for (const roleName of user.roles) {
+        const rolePermissions = getEffectivePermissions(roleName);
+        for (const perm of rolePermissions) {
+          userPermissions.add(perm);
+        }
+      }
+
+      // Check if all required permissions are satisfied (AND logic)
+      for (const requiredPerm of resource.requiredPermissions) {
+        if (!userPermissions.has(requiredPerm)) {
+          return false;
+        }
+      }
+
+      return true;
+    },
+
+    getUserPermissions(userId: string): string[] {
+      const user = users.get(userId);
+      if (!user) {
+        return [];
+      }
+
+      const permissions = new Set<string>();
+      for (const roleName of user.roles) {
+        const rolePermissions = getEffectivePermissions(roleName);
+        for (const perm of rolePermissions) {
+          permissions.add(perm);
+        }
+      }
+
+      return Array.from(permissions);
+    },
+  };
+}
+
+export { Role, User, Resource, RBACSystem, createRBAC };
+```

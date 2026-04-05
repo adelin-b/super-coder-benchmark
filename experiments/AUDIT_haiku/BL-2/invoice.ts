@@ -1,0 +1,83 @@
+interface LineItem {
+  description: string;
+  quantity: number;
+  unitPrice: number;
+  taxRate: number;
+  discount?: { type: 'percentage' | 'fixed'; value: number };
+}
+
+interface InvoiceResult {
+  lines: Array<{
+    subtotal: number;
+    discountAmount: number;
+    taxableAmount: number;
+    taxAmount: number;
+    total: number;
+  }>;
+  subtotal: number;
+  totalDiscount: number;
+  totalTax: number;
+  grandTotal: number;
+}
+
+function calculateInvoice(items: LineItem[]): InvoiceResult {
+  const lines = items.map((item) => {
+    // Calculate subtotal: quantity * unitPrice, rounded to cents
+    const subtotal = Math.round(item.quantity * item.unitPrice * 100) / 100;
+
+    // Calculate discount amount
+    let discountAmount = 0;
+    if (item.discount) {
+      if (item.discount.type === 'percentage') {
+        discountAmount =
+          Math.round(subtotal * item.discount.value * 100) / 100;
+      } else {
+        discountAmount = Math.round(item.discount.value * 100) / 100;
+      }
+    }
+
+    // Calculate taxable amount: subtotal - discountAmount, clamped to >= 0
+    const taxableAmount = Math.max(
+      0,
+      Math.round((subtotal - discountAmount) * 100) / 100
+    );
+
+    // Calculate tax on taxableAmount (not on subtotal)
+    const taxAmount = Math.round(taxableAmount * item.taxRate * 100) / 100;
+
+    // Calculate total: taxableAmount + taxAmount
+    const total = Math.round((taxableAmount + taxAmount) * 100) / 100;
+
+    return {
+      subtotal,
+      discountAmount,
+      taxableAmount,
+      taxAmount,
+      total,
+    };
+  });
+
+  // Calculate aggregated totals
+  const subtotal = Math.round(
+    lines.reduce((sum, line) => sum + line.subtotal, 0) * 100
+  ) / 100;
+  const totalDiscount = Math.round(
+    lines.reduce((sum, line) => sum + line.discountAmount, 0) * 100
+  ) / 100;
+  const totalTax = Math.round(
+    lines.reduce((sum, line) => sum + line.taxAmount, 0) * 100
+  ) / 100;
+  const grandTotal = Math.round(
+    lines.reduce((sum, line) => sum + line.total, 0) * 100
+  ) / 100;
+
+  return {
+    lines,
+    subtotal,
+    totalDiscount,
+    totalTax,
+    grandTotal,
+  };
+}
+
+export { LineItem, InvoiceResult, calculateInvoice };

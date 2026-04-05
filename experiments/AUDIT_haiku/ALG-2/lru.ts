@@ -1,0 +1,78 @@
+class LRUCache<K, V> {
+  private capacity: number;
+  private cache: Map<K, { value: V; node: Node<K, V> }>;
+  private head: Node<K, V>;
+  private tail: Node<K, V>;
+
+  constructor(capacity: number) {
+    this.capacity = capacity;
+    this.cache = new Map();
+    
+    // Sentinel nodes
+    this.head = new Node<K, V>(null as any, null as any);
+    this.tail = new Node<K, V>(null as any, null as any);
+    this.head.next = this.tail;
+    this.tail.prev = this.head;
+  }
+
+  get(key: K): V | undefined {
+    const entry = this.cache.get(key);
+    if (!entry) return undefined;
+    
+    this.moveToTail(entry.node);
+    return entry.value;
+  }
+
+  put(key: K, value: V): void {
+    const entry = this.cache.get(key);
+    
+    if (entry) {
+      entry.value = value;
+      this.moveToTail(entry.node);
+    } else {
+      const node = new Node(key, value);
+      this.cache.set(key, { value, node });
+      this.addToTail(node);
+      
+      if (this.cache.size > this.capacity) {
+        const lruNode = this.head.next!;
+        this.removeNode(lruNode);
+        this.cache.delete(lruNode.key);
+      }
+    }
+  }
+
+  private moveToTail(node: Node<K, V>): void {
+    this.removeNode(node);
+    this.addToTail(node);
+  }
+
+  private removeNode(node: Node<K, V>): void {
+    const prev = node.prev!;
+    const next = node.next!;
+    prev.next = next;
+    next.prev = prev;
+  }
+
+  private addToTail(node: Node<K, V>): void {
+    const prev = this.tail.prev!;
+    node.prev = prev;
+    node.next = this.tail;
+    prev.next = node;
+    this.tail.prev = node;
+  }
+}
+
+class Node<K, V> {
+  key: K;
+  value: V;
+  next: Node<K, V> | null = null;
+  prev: Node<K, V> | null = null;
+
+  constructor(key: K, value: V) {
+    this.key = key;
+    this.value = value;
+  }
+}
+
+export { LRUCache };

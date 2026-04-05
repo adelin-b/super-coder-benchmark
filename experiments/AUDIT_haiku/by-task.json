@@ -1,0 +1,242 @@
+{
+  "ALG-1": {
+    "total": 16,
+    "passed": 16,
+    "failed": 0,
+    "failures": []
+  },
+  "ALG-2": {
+    "total": 7,
+    "passed": 5,
+    "failed": 2,
+    "failures": [
+      {
+        "title": "update existing key",
+        "msg": "TypeError: c.size is not a function"
+      },
+      {
+        "title": "throws on capacity < 1",
+        "msg": "AssertionError: expected [Function] to throw an error"
+      }
+    ]
+  },
+  "BL-1": {
+    "total": 21,
+    "passed": 18,
+    "failed": 3,
+    "failures": [
+      {
+        "title": "rejects NaN/Infinity",
+        "msg": "AssertionError: expected [Function] to throw an error"
+      },
+      {
+        "title": "rejects negative tolerance",
+        "msg": "AssertionError: expected [Function] to throw an error"
+      },
+      {
+        "title": "rejects empty array",
+        "msg": "AssertionError: expected [Function] to throw an error"
+      }
+    ]
+  },
+  "ALG-3": {
+    "total": 7,
+    "passed": 2,
+    "failed": 5,
+    "failures": [
+      {
+        "title": "linear chain",
+        "msg": "TypeError: (0 , topoSort) is not a function"
+      },
+      {
+        "title": "diamond DAG",
+        "msg": "TypeError: (0 , topoSort) is not a function"
+      },
+      {
+        "title": "no edges = any order",
+        "msg": "TypeError: (0 , topoSort) is not a function"
+      },
+      {
+        "title": "single node",
+        "msg": "TypeError: (0 , topoSort) is not a function"
+      },
+      {
+        "title": "respects all edges",
+        "msg": "TypeError: (0 , topoSort) is not a function"
+      }
+    ]
+  },
+  "BL-2": {
+    "total": 10,
+    "passed": 6,
+    "failed": 4,
+    "failures": [
+      {
+        "title": "percentage discount",
+        "msg": "AssertionError: expected 1000 to be 10 // Object.is equality"
+      },
+      {
+        "title": "throws on percentage discount > 100%",
+        "msg": "AssertionError: expected [Function] to throw an error"
+      },
+      {
+        "title": "throws on empty items",
+        "msg": "AssertionError: expected [Function] to throw an error"
+      },
+      {
+        "title": "throws on negative quantity",
+        "msg": "AssertionError: expected [Function] to throw an error"
+      }
+    ]
+  },
+  "BL-3": {
+    "total": 8,
+    "passed": 7,
+    "failed": 1,
+    "failures": [
+      {
+        "title": "throws on negative amount",
+        "msg": "AssertionError: expected [Function] to throw an error"
+      }
+    ]
+  },
+  "BL-4": {
+    "total": 6,
+    "passed": 2,
+    "failed": 4,
+    "failures": [
+      {
+        "title": "full month = full amount",
+        "msg": "TypeError: (0 , calculateProration) is not a function"
+      },
+      {
+        "title": "half month",
+        "msg": "TypeError: (0 , calculateProration) is not a function"
+      },
+      {
+        "title": "start before billing period clamped",
+        "msg": "TypeError: (0 , calculateProration) is not a function"
+      },
+      {
+        "title": "zero days = zero amount",
+        "msg": "TypeError: (0 , calculateProration) is not a function"
+      }
+    ]
+  },
+  "BL-5": {
+    "total": 7,
+    "passed": 0,
+    "failed": 7,
+    "failures": [
+      {
+        "title": "basic reserve and check",
+        "msg": "TypeError: (0 , createInventory) is not a function"
+      },
+      {
+        "title": "reserve fails when insufficient",
+        "msg": "TypeError: (0 , createInventory) is not a function"
+      },
+      {
+        "title": "release restores availability",
+        "msg": "TypeError: (0 , createInventory) is not a function"
+      },
+      {
+        "title": "confirm reduces stock",
+        "msg": "TypeError: (0 , createInventory) is not a function"
+      },
+      {
+        "title": "expired reservation frees stock",
+        "msg": "TypeError: (0 , createInventory) is not a function"
+      },
+      {
+        "title": "unknown sku = 0 available",
+        "msg": "TypeError: (0 , createInventory) is not a function"
+      },
+      {
+        "title": "throws on negative qty",
+        "msg": "TypeError: (0 , createInventory) is not a function"
+      }
+    ]
+  },
+  "SAAS-1": {
+    "total": 13,
+    "passed": 12,
+    "failed": 1,
+    "failures": [
+      {
+        "title": "public resource accessible to all",
+        "msg": "AssertionError: expected false to be true // Object.is equality"
+      }
+    ]
+  },
+  "SAAS-2": {
+    "total": 7,
+    "passed": 1,
+    "failed": 6,
+    "failures": [
+      {
+        "title": "allows requests within limit",
+        "msg": "TypeError: (0 , createRateLimiter) is not a function"
+      },
+      {
+        "title": "blocks when exhausted",
+        "msg": "TypeError: (0 , createRateLimiter) is not a function"
+      },
+      {
+        "title": "per-user isolation",
+        "msg": "TypeError: (0 , createRateLimiter) is not a function"
+      },
+      {
+        "title": "refills over time",
+        "msg": "TypeError: (0 , createRateLimiter) is not a function"
+      },
+      {
+        "title": "burst then throttle",
+        "msg": "TypeError: (0 , createRateLimiter) is not a function"
+      },
+      {
+        "title": "reset restores full capacity",
+        "msg": "TypeError: (0 , createRateLimiter) is not a function"
+      }
+    ]
+  },
+  "SAAS-3": {
+    "total": 8,
+    "passed": 0,
+    "failed": 8,
+    "failures": [
+      {
+        "title": "deposit increases balance",
+        "msg": "TypeError: (0 , createAccount) is not a function"
+      },
+      {
+        "title": "withdraw decreases balance",
+        "msg": "TypeError: (0 , createAccount) is not a function"
+      },
+      {
+        "title": "withdraw fails on insufficient funds",
+        "msg": "TypeError: (0 , createAccount) is not a function"
+      },
+      {
+        "title": "transfer deducts",
+        "msg": "TypeError: (0 , createAccount) is not a function"
+      },
+      {
+        "title": "reconstruct from events",
+        "msg": "TypeError: (0 , reconstruct) is not a function"
+      },
+      {
+        "title": "empty events = zero balance",
+        "msg": "TypeError: (0 , reconstruct) is not a function"
+      },
+      {
+        "title": "throws on negative deposit",
+        "msg": "TypeError: (0 , createAccount) is not a function"
+      },
+      {
+        "title": "balance rounded to 2 decimals",
+        "msg": "TypeError: (0 , createAccount) is not a function"
+      }
+    ]
+  }
+}

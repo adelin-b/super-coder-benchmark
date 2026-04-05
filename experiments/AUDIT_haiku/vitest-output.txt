@@ -1,0 +1,664 @@
+
+ RUN  v3.2.4 /home/adelin/super-coder-benchmark
+
+ ❯ experiments/AUDIT_haiku/BL-2/invoice.test.ts (10 tests | 4 failed) 13ms
+   ✓ BL-2: Invoice Calculator Reference > basic line item 1ms
+   × BL-2: Invoice Calculator Reference > percentage discount 6ms
+     → expected 1000 to be 10 // Object.is equality
+   ✓ BL-2: Invoice Calculator Reference > fixed discount 0ms
+   ✓ BL-2: Invoice Calculator Reference > fixed discount capped at subtotal 0ms
+   ✓ BL-2: Invoice Calculator Reference > multiple items 0ms
+   ✓ BL-2: Invoice Calculator Reference > INV1: grandTotal === sum of line totals 0ms
+   ✓ BL-2: Invoice Calculator Reference > INV3: taxableAmount >= 0 0ms
+   × BL-2: Invoice Calculator Reference > throws on percentage discount > 100% 2ms
+     → expected [Function] to throw an error
+   × BL-2: Invoice Calculator Reference > throws on empty items 1ms
+     → expected [Function] to throw an error
+   × BL-2: Invoice Calculator Reference > throws on negative quantity 1ms
+     → expected [Function] to throw an error
+ ❯ experiments/AUDIT_haiku/BL-1/pricing.test.ts (21 tests | 3 failed) 15ms
+   ✓ BL-1: Mandate Pricing Engine > calculatePricing > calculates basic pricing correctly 1ms
+   ✓ BL-1: Mandate Pricing Engine > calculatePricing > handles zero commission 0ms
+   ✓ BL-1: Mandate Pricing Engine > calculatePricing > handles high commission (50%) 0ms
+   ✓ BL-1: Mandate Pricing Engine > calculatePricing > handles very small commission 0ms
+   ✓ BL-1: Mandate Pricing Engine > calculatePricing > vendor + commission === prixAffiche 0ms
+   ✓ BL-1: Mandate Pricing Engine > calculatePricing > prixAffiche >= prixNetVendeur 0ms
+   ✓ BL-1: Mandate Pricing Engine > calculatePricing > all outputs are positive for valid inputs 0ms
+   ✓ BL-1: Mandate Pricing Engine > calculatePricing > higher commission → higher price 0ms
+   ✓ BL-1: Mandate Pricing Engine > calculatePricing > rejects zero price 1ms
+   ✓ BL-1: Mandate Pricing Engine > calculatePricing > rejects negative price 0ms
+   ✓ BL-1: Mandate Pricing Engine > calculatePricing > rejects commission >= 1 0ms
+   ✓ BL-1: Mandate Pricing Engine > calculatePricing > rejects negative commission 0ms
+   × BL-1: Mandate Pricing Engine > calculatePricing > rejects NaN/Infinity 6ms
+     → expected [Function] to throw an error
+   ✓ BL-1: Mandate Pricing Engine > validatePrixTarget > accepts target within tolerance 0ms
+   ✓ BL-1: Mandate Pricing Engine > validatePrixTarget > rejects target outside tolerance 0ms
+   ✓ BL-1: Mandate Pricing Engine > validatePrixTarget > accepts exact match 0ms
+   × BL-1: Mandate Pricing Engine > validatePrixTarget > rejects negative tolerance 1ms
+     → expected [Function] to throw an error
+   ✓ BL-1: Mandate Pricing Engine > calculateBatchPricing > calculates batch correctly 1ms
+   ✓ BL-1: Mandate Pricing Engine > calculateBatchPricing > totals sum correctly (no floating point drift) 0ms
+   × BL-1: Mandate Pricing Engine > calculateBatchPricing > rejects empty array 1ms
+     → expected [Function] to throw an error
+   ✓ BL-1: Mandate Pricing Engine > calculateBatchPricing > propagates individual validation errors 0ms
+ ❯ experiments/AUDIT_haiku/BL-4/prorate.test.ts (6 tests | 4 failed) 9ms
+   × BL-4: Proration > full month = full amount 5ms
+     → (0 , calculateProration) is not a function
+   × BL-4: Proration > half month 1ms
+     → (0 , calculateProration) is not a function
+   × BL-4: Proration > start before billing period clamped 1ms
+     → (0 , calculateProration) is not a function
+   × BL-4: Proration > zero days = zero amount 1ms
+     → (0 , calculateProration) is not a function
+   ✓ BL-4: Proration > throws on negative amount 1ms
+   ✓ BL-4: Proration > throws on invalid billing range 0ms
+ ❯ experiments/AUDIT_haiku/ALG-3/toposort.test.ts (7 tests | 5 failed) 11ms
+   × ALG-3: Topological Sort > linear chain 5ms
+     → (0 , topoSort) is not a function
+   × ALG-3: Topological Sort > diamond DAG 1ms
+     → (0 , topoSort) is not a function
+   × ALG-3: Topological Sort > no edges = any order 0ms
+     → (0 , topoSort) is not a function
+   × ALG-3: Topological Sort > single node 1ms
+     → (0 , topoSort) is not a function
+   ✓ ALG-3: Topological Sort > detects cycle 1ms
+   ✓ ALG-3: Topological Sort > detects self-loop 0ms
+   × ALG-3: Topological Sort > respects all edges 0ms
+     → (0 , topoSort) is not a function
+ ❯ experiments/AUDIT_haiku/ALG-2/lru.test.ts (7 tests | 2 failed) 11ms
+   ✓ ALG-2: LRU Cache > get/put basic 2ms
+   ✓ ALG-2: LRU Cache > evicts LRU on overflow 0ms
+   ✓ ALG-2: LRU Cache > get refreshes access order 0ms
+   × ALG-2: LRU Cache > update existing key 4ms
+     → c.size is not a function
+   ✓ ALG-2: LRU Cache > capacity 1 0ms
+   ✓ ALG-2: LRU Cache > miss returns undefined 0ms
+   × ALG-2: LRU Cache > throws on capacity < 1 3ms
+     → expected [Function] to throw an error
+ ❯ experiments/AUDIT_haiku/SAAS-1/rbac.test.ts (13 tests | 1 failed) 13ms
+   ✓ SAAS-1: RBAC Permission Check Reference > admin can access everything 2ms
+   ✓ SAAS-1: RBAC Permission Check Reference > editor can read and write but not delete 1ms
+   ✓ SAAS-1: RBAC Permission Check Reference > viewer can only read 0ms
+   ✓ SAAS-1: RBAC Permission Check Reference > user with no roles has no access 0ms
+   ✓ SAAS-1: RBAC Permission Check Reference > user with empty-permission role has no access 0ms
+   × SAAS-1: RBAC Permission Check Reference > public resource accessible to all 6ms
+     → expected false to be true // Object.is equality
+   ✓ SAAS-1: RBAC Permission Check Reference > unknown user has no access 0ms
+   ✓ SAAS-1: RBAC Permission Check Reference > unknown resource has no access 0ms
+   ✓ SAAS-1: RBAC Permission Check Reference > getUserPermissions returns inherited permissions 1ms
+   ✓ SAAS-1: RBAC Permission Check Reference > handles circular inheritance without infinite loop 0ms
+   ✓ SAAS-1: RBAC Permission Check Reference > INV1: no permission = no access 0ms
+   ✓ SAAS-1: RBAC Permission Check Reference > INV3: adding a permission never removes access 0ms
+   ✓ SAAS-1: RBAC Permission Check Reference > INV4: effective permissions include transitive inheritance 0ms
+ ❯ experiments/AUDIT_haiku/BL-3/converter.test.ts (8 tests | 1 failed) 13ms
+   ✓ BL-3: Currency Converter > direct conversion 1ms
+   ✓ BL-3: Currency Converter > inverse conversion 0ms
+   ✓ BL-3: Currency Converter > same currency 0ms
+   ✓ BL-3: Currency Converter > transitive: USD→EUR→GBP 1ms
+   ✓ BL-3: Currency Converter > round-trip ≈ original 0ms
+   ✓ BL-3: Currency Converter > throws on no path 1ms
+   × BL-3: Currency Converter > throws on negative amount 7ms
+     → expected [Function] to throw an error
+   ✓ BL-3: Currency Converter > stale rate rejected 0ms
+ ❯ experiments/AUDIT_haiku/SAAS-2/ratelimit.test.ts (7 tests | 6 failed) 11ms
+   × SAAS-2: Rate Limiter > allows requests within limit 5ms
+     → (0 , createRateLimiter) is not a function
+   × SAAS-2: Rate Limiter > blocks when exhausted 1ms
+     → (0 , createRateLimiter) is not a function
+   × SAAS-2: Rate Limiter > per-user isolation 0ms
+     → (0 , createRateLimiter) is not a function
+   × SAAS-2: Rate Limiter > refills over time 1ms
+     → (0 , createRateLimiter) is not a function
+   × SAAS-2: Rate Limiter > burst then throttle 0ms
+     → (0 , createRateLimiter) is not a function
+   × SAAS-2: Rate Limiter > reset restores full capacity 0ms
+     → (0 , createRateLimiter) is not a function
+   ✓ SAAS-2: Rate Limiter > throws on invalid config 1ms
+ ✓ experiments/AUDIT_haiku/ALG-1/search.test.ts (16 tests) 6ms
+ ❯ experiments/AUDIT_haiku/BL-5/inventory.test.ts (7 tests | 7 failed) 8ms
+   × BL-5: Inventory Reservation > basic reserve and check 4ms
+     → (0 , createInventory) is not a function
+   × BL-5: Inventory Reservation > reserve fails when insufficient 1ms
+     → (0 , createInventory) is not a function
+   × BL-5: Inventory Reservation > release restores availability 1ms
+     → (0 , createInventory) is not a function
+   × BL-5: Inventory Reservation > confirm reduces stock 1ms
+     → (0 , createInventory) is not a function
+   × BL-5: Inventory Reservation > expired reservation frees stock 0ms
+     → (0 , createInventory) is not a function
+   × BL-5: Inventory Reservation > unknown sku = 0 available 0ms
+     → (0 , createInventory) is not a function
+   × BL-5: Inventory Reservation > throws on negative qty 1ms
+     → (0 , createInventory) is not a function
+ ❯ experiments/AUDIT_haiku/SAAS-3/account.test.ts (8 tests | 8 failed) 9ms
+   × SAAS-3: Event-Sourced Account > deposit increases balance 5ms
+     → (0 , createAccount) is not a function
+   × SAAS-3: Event-Sourced Account > withdraw decreases balance 0ms
+     → (0 , createAccount) is not a function
+   × SAAS-3: Event-Sourced Account > withdraw fails on insufficient funds 0ms
+     → (0 , createAccount) is not a function
+   × SAAS-3: Event-Sourced Account > transfer deducts 0ms
+     → (0 , createAccount) is not a function
+   × SAAS-3: Event-Sourced Account > reconstruct from events 0ms
+     → (0 , reconstruct) is not a function
+   × SAAS-3: Event-Sourced Account > empty events = zero balance 0ms
+     → (0 , reconstruct) is not a function
+   × SAAS-3: Event-Sourced Account > throws on negative deposit 0ms
+     → (0 , createAccount) is not a function
+   × SAAS-3: Event-Sourced Account > balance rounded to 2 decimals 0ms
+     → (0 , createAccount) is not a function
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 41 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  experiments/AUDIT_haiku/ALG-2/lru.test.ts > ALG-2: LRU Cache > update existing key
+TypeError: c.size is not a function
+ ❯ experiments/AUDIT_haiku/ALG-2/lru.test.ts:30:14
+     28|     c.put('a', 1); c.put('a', 2);
+     29|     expect(c.get('a')).toBe(2);
+     30|     expect(c.size()).toBe(1);
+       |              ^
+     31|   });
+     32|   it('capacity 1', () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/ALG-2/lru.test.ts > ALG-2: LRU Cache > throws on capacity < 1
+AssertionError: expected [Function] to throw an error
+ ❯ experiments/AUDIT_haiku/ALG-2/lru.test.ts:43:35
+     41|   });
+     42|   it('throws on capacity < 1', () => {
+     43|     expect(() => new LRUCache(0)).toThrow();
+       |                                   ^
+     44|   });
+     45| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/ALG-3/toposort.test.ts > ALG-3: Topological Sort > linear chain
+TypeError: (0 , topoSort) is not a function
+ ❯ experiments/AUDIT_haiku/ALG-3/toposort.test.ts:6:12
+      4| describe('ALG-3: Topological Sort', () => {
+      5|   it('linear chain', () => {
+      6|     expect(topoSort(['a','b','c'], [['a','b'],['b','c']])).toEqual(['a…
+       |            ^
+      7|   });
+      8|   it('diamond DAG', () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/ALG-3/toposort.test.ts > ALG-3: Topological Sort > diamond DAG
+TypeError: (0 , topoSort) is not a function
+ ❯ experiments/AUDIT_haiku/ALG-3/toposort.test.ts:9:15
+      7|   });
+      8|   it('diamond DAG', () => {
+      9|     const r = topoSort(['a','b','c','d'], [['a','b'],['a','c'],['b','d…
+       |               ^
+     10|     expect(r.indexOf('a')).toBeLessThan(r.indexOf('b'));
+     11|     expect(r.indexOf('a')).toBeLessThan(r.indexOf('c'));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/ALG-3/toposort.test.ts > ALG-3: Topological Sort > no edges = any order
+TypeError: (0 , topoSort) is not a function
+ ❯ experiments/AUDIT_haiku/ALG-3/toposort.test.ts:16:15
+     14|   });
+     15|   it('no edges = any order', () => {
+     16|     const r = topoSort(['a','b','c'], []);
+       |               ^
+     17|     expect(r).toHaveLength(3);
+     18|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/ALG-3/toposort.test.ts > ALG-3: Topological Sort > single node
+TypeError: (0 , topoSort) is not a function
+ ❯ experiments/AUDIT_haiku/ALG-3/toposort.test.ts:20:12
+     18|   });
+     19|   it('single node', () => {
+     20|     expect(topoSort(['x'], [])).toEqual(['x']);
+       |            ^
+     21|   });
+     22|   it('detects cycle', () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/ALG-3/toposort.test.ts > ALG-3: Topological Sort > respects all edges
+TypeError: (0 , topoSort) is not a function
+ ❯ experiments/AUDIT_haiku/ALG-3/toposort.test.ts:29:15
+     27|   });
+     28|   it('respects all edges', () => {
+     29|     const r = topoSort(['a','b','c','d'], [['d','a'],['d','b'],['a','c…
+       |               ^
+     30|     expect(r.indexOf('d')).toBeLessThan(r.indexOf('a'));
+     31|     expect(r.indexOf('d')).toBeLessThan(r.indexOf('b'));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/BL-2/invoice.test.ts > BL-2: Invoice Calculator Reference > percentage discount
+AssertionError: expected 1000 to be 10 // Object.is equality
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 10[39m
+[31m+ 1000[39m
+
+ ❯ experiments/AUDIT_haiku/BL-2/invoice.test.ts:16:39
+     14|     const r = calculateInvoice([{ description: 'A', quantity: 1, unitP…
+     15|     expect(r.lines[0].subtotal).toBe(100);
+     16|     expect(r.lines[0].discountAmount).toBe(10);
+       |                                       ^
+     17|     expect(r.lines[0].taxableAmount).toBe(90);
+     18|     expect(r.lines[0].taxAmount).toBe(18); // 20% of 90
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/BL-2/invoice.test.ts > BL-2: Invoice Calculator Reference > throws on percentage discount > 100%
+AssertionError: expected [Function] to throw an error
+ ❯ experiments/AUDIT_haiku/BL-2/invoice.test.ts:60:150
+     58| 
+     59|   it('throws on percentage discount > 100%', () => {
+     60|     expect(() => calculateInvoice([{ description: 'A', quantity: 1, un…
+       |                                                                                                                                                      ^
+     61|   });
+     62| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/BL-2/invoice.test.ts > BL-2: Invoice Calculator Reference > throws on empty items
+AssertionError: expected [Function] to throw an error
+ ❯ experiments/AUDIT_haiku/BL-2/invoice.test.ts:64:40
+     62| 
+     63|   it('throws on empty items', () => {
+     64|     expect(() => calculateInvoice([])).toThrow(InvoiceError);
+       |                                        ^
+     65|   });
+     66| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/BL-2/invoice.test.ts > BL-2: Invoice Calculator Reference > throws on negative quantity
+AssertionError: expected [Function] to throw an error
+ ❯ experiments/AUDIT_haiku/BL-2/invoice.test.ts:68:105
+     66| 
+     67|   it('throws on negative quantity', () => {
+     68|     expect(() => calculateInvoice([{ description: 'A', quantity: -1, u…
+       |                                                                                                         ^
+     69|   });
+     70| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/BL-1/pricing.test.ts > BL-1: Mandate Pricing Engine > calculatePricing > rejects NaN/Infinity
+AssertionError: expected [Function] to throw an error
+ ❯ experiments/AUDIT_haiku/BL-1/pricing.test.ts:89:49
+     87| 
+     88|     it('rejects NaN/Infinity', () => {
+     89|       expect(() => calculatePricing(NaN, 0.05)).toThrow(PricingError);
+       |                                                 ^
+     90|       expect(() => calculatePricing(10000, NaN)).toThrow(PricingError);
+     91|       expect(() => calculatePricing(Infinity, 0.05)).toThrow(PricingEr…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/BL-1/pricing.test.ts > BL-1: Mandate Pricing Engine > validatePrixTarget > rejects negative tolerance
+AssertionError: expected [Function] to throw an error
+ ❯ experiments/AUDIT_haiku/BL-1/pricing.test.ts:109:54
+    107| 
+    108|     it('rejects negative tolerance', () => {
+    109|       expect(() => validatePrixTarget(100, 100, -1)).toThrow(PricingEr…
+       |                                                      ^
+    110|     });
+    111|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/BL-1/pricing.test.ts > BL-1: Mandate Pricing Engine > calculateBatchPricing > rejects empty array
+AssertionError: expected [Function] to throw an error
+ ❯ experiments/AUDIT_haiku/BL-1/pricing.test.ts:146:47
+    144| 
+    145|     it('rejects empty array', () => {
+    146|       expect(() => calculateBatchPricing([])).toThrow(PricingError);
+       |                                               ^
+    147|     });
+    148| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/BL-3/converter.test.ts > BL-3: Currency Converter > throws on negative amount
+AssertionError: expected [Function] to throw an error
+ ❯ experiments/AUDIT_haiku/BL-3/converter.test.ts:43:48
+     41|   it('throws on negative amount', () => {
+     42|     const c = createConverter(rates);
+     43|     expect(() => c.convert(-10, 'USD', 'EUR')).toThrow(ConverterError);
+       |                                                ^
+     44|   });
+     45|   it('stale rate rejected', () => {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/BL-4/prorate.test.ts > BL-4: Proration > full month = full amount
+TypeError: (0 , calculateProration) is not a function
+ ❯ experiments/AUDIT_haiku/BL-4/prorate.test.ts:6:15
+      4| describe('BL-4: Proration', () => {
+      5|   it('full month = full amount', () => {
+      6|     const r = calculateProration({ totalAmount: 100, startDate: '2026-…
+       |               ^
+      7|     expect(r.proratedAmount).toBe(100);
+      8|     expect(r.ratio).toBe(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/BL-4/prorate.test.ts > BL-4: Proration > half month
+TypeError: (0 , calculateProration) is not a function
+ ❯ experiments/AUDIT_haiku/BL-4/prorate.test.ts:11:15
+      9|   });
+     10|   it('half month', () => {
+     11|     const r = calculateProration({ totalAmount: 100, startDate: '2026-…
+       |               ^
+     12|     expect(r.daysUsed).toBe(15);
+     13|     expect(r.proratedAmount).toBe(50);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/BL-4/prorate.test.ts > BL-4: Proration > start before billing period clamped
+TypeError: (0 , calculateProration) is not a function
+ ❯ experiments/AUDIT_haiku/BL-4/prorate.test.ts:16:15
+     14|   });
+     15|   it('start before billing period clamped', () => {
+     16|     const r = calculateProration({ totalAmount: 300, startDate: '2025-…
+       |               ^
+     17|     expect(r.daysUsed).toBe(30);
+     18|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/BL-4/prorate.test.ts > BL-4: Proration > zero days = zero amount
+TypeError: (0 , calculateProration) is not a function
+ ❯ experiments/AUDIT_haiku/BL-4/prorate.test.ts:20:15
+     18|   });
+     19|   it('zero days = zero amount', () => {
+     20|     const r = calculateProration({ totalAmount: 100, startDate: '2026-…
+       |               ^
+     21|     expect(r.proratedAmount).toBe(0);
+     22|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/BL-5/inventory.test.ts > BL-5: Inventory Reservation > basic reserve and check
+TypeError: (0 , createInventory) is not a function
+ ❯ experiments/AUDIT_haiku/BL-5/inventory.test.ts:6:17
+      4| describe('BL-5: Inventory Reservation', () => {
+      5|   it('basic reserve and check', () => {
+      6|     const inv = createInventory();
+       |                 ^
+      7|     inv.setStock('A', 10);
+      8|     expect(inv.getAvailable('A')).toBe(10);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/BL-5/inventory.test.ts > BL-5: Inventory Reservation > reserve fails when insufficient
+TypeError: (0 , createInventory) is not a function
+ ❯ experiments/AUDIT_haiku/BL-5/inventory.test.ts:13:17
+     11|   });
+     12|   it('reserve fails when insufficient', () => {
+     13|     const inv = createInventory();
+       |                 ^
+     14|     inv.setStock('A', 5);
+     15|     expect(() => inv.reserve('A', 10)).toThrow(InventoryError);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/BL-5/inventory.test.ts > BL-5: Inventory Reservation > release restores availability
+TypeError: (0 , createInventory) is not a function
+ ❯ experiments/AUDIT_haiku/BL-5/inventory.test.ts:18:17
+     16|   });
+     17|   it('release restores availability', () => {
+     18|     const inv = createInventory();
+       |                 ^
+     19|     inv.setStock('A', 10);
+     20|     const id = inv.reserve('A', 5);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/BL-5/inventory.test.ts > BL-5: Inventory Reservation > confirm reduces stock
+TypeError: (0 , createInventory) is not a function
+ ❯ experiments/AUDIT_haiku/BL-5/inventory.test.ts:26:17
+     24|   });
+     25|   it('confirm reduces stock', () => {
+     26|     const inv = createInventory();
+       |                 ^
+     27|     inv.setStock('A', 10);
+     28|     const id = inv.reserve('A', 3);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/BL-5/inventory.test.ts > BL-5: Inventory Reservation > expired reservation frees stock
+TypeError: (0 , createInventory) is not a function
+ ❯ experiments/AUDIT_haiku/BL-5/inventory.test.ts:33:17
+     31|   });
+     32|   it('expired reservation frees stock', () => {
+     33|     const inv = createInventory();
+       |                 ^
+     34|     inv.setStock('A', 10);
+     35|     inv.reserve('A', 5, 1); // 1ms TTL
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[24/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/BL-5/inventory.test.ts > BL-5: Inventory Reservation > unknown sku = 0 available
+TypeError: (0 , createInventory) is not a function
+ ❯ experiments/AUDIT_haiku/BL-5/inventory.test.ts:42:17
+     40|   });
+     41|   it('unknown sku = 0 available', () => {
+     42|     const inv = createInventory();
+       |                 ^
+     43|     expect(inv.getAvailable('X')).toBe(0);
+     44|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[25/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/BL-5/inventory.test.ts > BL-5: Inventory Reservation > throws on negative qty
+TypeError: (0 , createInventory) is not a function
+ ❯ experiments/AUDIT_haiku/BL-5/inventory.test.ts:46:17
+     44|   });
+     45|   it('throws on negative qty', () => {
+     46|     const inv = createInventory();
+       |                 ^
+     47|     inv.setStock('A', 10);
+     48|     expect(() => inv.reserve('A', -1)).toThrow(InventoryError);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[26/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/SAAS-1/rbac.test.ts > SAAS-1: RBAC Permission Check Reference > public resource accessible to all
+AssertionError: expected false to be true // Object.is equality
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- true[39m
+[31m+ false[39m
+
+ ❯ experiments/AUDIT_haiku/SAAS-1/rbac.test.ts:57:48
+     55|   it('public resource accessible to all', () => {
+     56|     const rbac = setupBasicRBAC();
+     57|     expect(rbac.checkAccess('dave', 'public')).toBe(true);
+       |                                                ^
+     58|     expect(rbac.checkAccess('carol', 'public')).toBe(true);
+     59|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[27/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/SAAS-2/ratelimit.test.ts > SAAS-2: Rate Limiter > allows requests within limit
+TypeError: (0 , createRateLimiter) is not a function
+ ❯ experiments/AUDIT_haiku/SAAS-2/ratelimit.test.ts:6:16
+      4| describe('SAAS-2: Rate Limiter', () => {
+      5|   it('allows requests within limit', () => {
+      6|     const rl = createRateLimiter({ maxTokens: 5, refillRate: 1, refill…
+       |                ^
+      7|     expect(rl.tryConsume('u1')).toBe(true);
+      8|     expect(rl.getRemaining('u1')).toBe(4);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[28/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/SAAS-2/ratelimit.test.ts > SAAS-2: Rate Limiter > blocks when exhausted
+TypeError: (0 , createRateLimiter) is not a function
+ ❯ experiments/AUDIT_haiku/SAAS-2/ratelimit.test.ts:11:16
+      9|   });
+     10|   it('blocks when exhausted', () => {
+     11|     const rl = createRateLimiter({ maxTokens: 2, refillRate: 1, refill…
+       |                ^
+     12|     expect(rl.tryConsume('u1')).toBe(true);
+     13|     expect(rl.tryConsume('u1')).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[29/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/SAAS-2/ratelimit.test.ts > SAAS-2: Rate Limiter > per-user isolation
+TypeError: (0 , createRateLimiter) is not a function
+ ❯ experiments/AUDIT_haiku/SAAS-2/ratelimit.test.ts:17:16
+     15|   });
+     16|   it('per-user isolation', () => {
+     17|     const rl = createRateLimiter({ maxTokens: 1, refillRate: 1, refill…
+       |                ^
+     18|     expect(rl.tryConsume('u1')).toBe(true);
+     19|     expect(rl.tryConsume('u1')).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[30/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/SAAS-2/ratelimit.test.ts > SAAS-2: Rate Limiter > refills over time
+TypeError: (0 , createRateLimiter) is not a function
+ ❯ experiments/AUDIT_haiku/SAAS-2/ratelimit.test.ts:23:16
+     21|   });
+     22|   it('refills over time', async () => {
+     23|     const rl = createRateLimiter({ maxTokens: 5, refillRate: 5, refill…
+       |                ^
+     24|     rl.tryConsume('u1'); rl.tryConsume('u1'); rl.tryConsume('u1');
+     25|     await new Promise(r => setTimeout(r, 200));
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[31/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/SAAS-2/ratelimit.test.ts > SAAS-2: Rate Limiter > burst then throttle
+TypeError: (0 , createRateLimiter) is not a function
+ ❯ experiments/AUDIT_haiku/SAAS-2/ratelimit.test.ts:29:16
+     27|   });
+     28|   it('burst then throttle', () => {
+     29|     const rl = createRateLimiter({ maxTokens: 3, refillRate: 1, refill…
+       |                ^
+     30|     expect(rl.tryConsume('u1', 3)).toBe(true);
+     31|     expect(rl.tryConsume('u1')).toBe(false);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[32/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/SAAS-2/ratelimit.test.ts > SAAS-2: Rate Limiter > reset restores full capacity
+TypeError: (0 , createRateLimiter) is not a function
+ ❯ experiments/AUDIT_haiku/SAAS-2/ratelimit.test.ts:34:16
+     32|   });
+     33|   it('reset restores full capacity', () => {
+     34|     const rl = createRateLimiter({ maxTokens: 5, refillRate: 1, refill…
+       |                ^
+     35|     rl.tryConsume('u1', 5);
+     36|     expect(rl.getRemaining('u1')).toBe(0);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[33/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/SAAS-3/account.test.ts > SAAS-3: Event-Sourced Account > deposit increases balance
+TypeError: (0 , createAccount) is not a function
+ ❯ experiments/AUDIT_haiku/SAAS-3/account.test.ts:8:13
+      6| describe('SAAS-3: Event-Sourced Account', () => {
+      7|   it('deposit increases balance', () => {
+      8|     let s = createAccount('a1');
+       |             ^
+      9|     s = applyEvent(s, { type: 'deposited', amount: 100, timestamp: now…
+     10|     expect(getBalance(s)).toBe(100);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[34/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/SAAS-3/account.test.ts > SAAS-3: Event-Sourced Account > withdraw decreases balance
+TypeError: (0 , createAccount) is not a function
+ ❯ experiments/AUDIT_haiku/SAAS-3/account.test.ts:13:13
+     11|   });
+     12|   it('withdraw decreases balance', () => {
+     13|     let s = createAccount('a1');
+       |             ^
+     14|     s = applyEvent(s, { type: 'deposited', amount: 100, timestamp: now…
+     15|     s = applyEvent(s, { type: 'withdrawn', amount: 30, timestamp: now …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[35/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/SAAS-3/account.test.ts > SAAS-3: Event-Sourced Account > withdraw fails on insufficient funds
+TypeError: (0 , createAccount) is not a function
+ ❯ experiments/AUDIT_haiku/SAAS-3/account.test.ts:19:13
+     17|   });
+     18|   it('withdraw fails on insufficient funds', () => {
+     19|     let s = createAccount('a1');
+       |             ^
+     20|     s = applyEvent(s, { type: 'deposited', amount: 50, timestamp: now …
+     21|     expect(() => applyEvent(s, { type: 'withdrawn', amount: 100, times…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[36/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/SAAS-3/account.test.ts > SAAS-3: Event-Sourced Account > transfer deducts
+TypeError: (0 , createAccount) is not a function
+ ❯ experiments/AUDIT_haiku/SAAS-3/account.test.ts:24:13
+     22|   });
+     23|   it('transfer deducts', () => {
+     24|     let s = createAccount('a1');
+       |             ^
+     25|     s = applyEvent(s, { type: 'deposited', amount: 200, timestamp: now…
+     26|     s = applyEvent(s, { type: 'transferred', amount: 75, toAccount: 'a…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[37/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/SAAS-3/account.test.ts > SAAS-3: Event-Sourced Account > reconstruct from events
+TypeError: (0 , reconstruct) is not a function
+ ❯ experiments/AUDIT_haiku/SAAS-3/account.test.ts:35:15
+     33|       { type: 'deposited' as const, amount: 50, timestamp: now },
+     34|     ];
+     35|     const s = reconstruct('a1', events);
+       |               ^
+     36|     expect(getBalance(s)).toBe(850);
+     37|     expect(s.events).toHaveLength(3);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[38/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/SAAS-3/account.test.ts > SAAS-3: Event-Sourced Account > empty events = zero balance
+TypeError: (0 , reconstruct) is not a function
+ ❯ experiments/AUDIT_haiku/SAAS-3/account.test.ts:40:15
+     38|   });
+     39|   it('empty events = zero balance', () => {
+     40|     const s = reconstruct('a1', []);
+       |               ^
+     41|     expect(getBalance(s)).toBe(0);
+     42|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[39/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/SAAS-3/account.test.ts > SAAS-3: Event-Sourced Account > throws on negative deposit
+TypeError: (0 , createAccount) is not a function
+ ❯ experiments/AUDIT_haiku/SAAS-3/account.test.ts:44:15
+     42|   });
+     43|   it('throws on negative deposit', () => {
+     44|     const s = createAccount('a1');
+       |               ^
+     45|     expect(() => applyEvent(s, { type: 'deposited', amount: -10, times…
+     46|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[40/41]⎯
+
+ FAIL  experiments/AUDIT_haiku/SAAS-3/account.test.ts > SAAS-3: Event-Sourced Account > balance rounded to 2 decimals
+TypeError: (0 , createAccount) is not a function
+ ❯ experiments/AUDIT_haiku/SAAS-3/account.test.ts:48:13
+     46|   });
+     47|   it('balance rounded to 2 decimals', () => {
+     48|     let s = createAccount('a1');
+       |             ^
+     49|     s = applyEvent(s, { type: 'deposited', amount: 33.333, timestamp: …
+     50|     expect(getBalance(s)).toBe(33.33);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[41/41]⎯
+
+
+ Test Files  10 failed | 1 passed (11)
+      Tests  41 failed | 69 passed (110)
+   Start at  00:43:02
+   Duration  480ms (transform 551ms, setup 0ms, collect 1.05s, tests 120ms, environment 3ms, prepare 1.24s)
+

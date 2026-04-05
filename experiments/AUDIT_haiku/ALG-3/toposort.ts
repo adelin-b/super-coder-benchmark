@@ -1,0 +1,82 @@
+type Graph<T> = Map<T, Set<T>>;
+
+interface ToposortResult<T> {
+  sorted: T[];
+  hasCycle: boolean;
+}
+
+enum NodeState {
+  UNVISITED = -1,
+  VISITING = 0,
+  VISITED = 1,
+}
+
+function dfs<T>(
+  node: T,
+  graph: Graph<T>,
+  state: Map<T, NodeState>,
+  sorted: T[]
+): boolean {
+  state.set(node, NodeState.VISITING);
+  const neighbors = graph.get(node) || new Set<T>();
+
+  for (const neighbor of neighbors) {
+    const neighborState = state.get(neighbor) ?? NodeState.UNVISITED;
+
+    if (neighborState === NodeState.VISITING) {
+      return true; // Cycle detected
+    }
+
+    if (neighborState === NodeState.UNVISITED) {
+      if (dfs(neighbor, graph, state, sorted)) {
+        return true; // Cycle detected in recursive call
+      }
+    }
+  }
+
+  state.set(node, NodeState.VISITED);
+  sorted.unshift(node);
+  return false;
+}
+
+export function toposort<T>(graph: Graph<T>): T[] {
+  const result = toposortWithCycleDetection(graph);
+  if (result.hasCycle) {
+    throw new Error("Graph contains a cycle");
+  }
+  return result.sorted;
+}
+
+export function toposortWithCycleDetection<T>(
+  graph: Graph<T>
+): ToposortResult<T> {
+  const state = new Map<T, NodeState>();
+  const sorted: T[] = [];
+  let hasCycle = false;
+
+  // Initialize all nodes
+  for (const node of graph.keys()) {
+    state.set(node, NodeState.UNVISITED);
+  }
+
+  // Run DFS from each unvisited node
+  for (const node of graph.keys()) {
+    if (state.get(node) === NodeState.UNVISITED) {
+      if (dfs(node, graph, state, sorted)) {
+        hasCycle = true;
+        break;
+      }
+    }
+  }
+
+  return {
+    sorted: hasCycle ? [] : sorted,
+    hasCycle,
+  };
+}
+
+export function hasCycle<T>(graph: Graph<T>): boolean {
+  return toposortWithCycleDetection(graph).hasCycle;
+}
+
+export type { Graph, ToposortResult };

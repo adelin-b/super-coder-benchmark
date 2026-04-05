@@ -1,0 +1,74 @@
+```typescript
+export interface ProrateOptions {
+  totalAmount: number;
+  periodStart: Date;
+  periodEnd: Date;
+  chargeStart: Date;
+  chargeEnd: Date;
+}
+
+export interface ProrateResult {
+  amount: number;
+  days: number;
+  rate: number;
+}
+
+export function prorateCost(options: ProrateOptions): ProrateResult {
+  const { totalAmount, periodStart, periodEnd, chargeStart, chargeEnd } = options;
+
+  // Calculate total days in the billing period
+  const periodDays = Math.ceil(
+    (periodEnd.getTime() - periodStart.getTime()) / (1000 * 60 * 60 * 24)
+  );
+
+  // Calculate overlap between charge period and billing period
+  const overlapStart = new Date(Math.max(chargeStart.getTime(), periodStart.getTime()));
+  const overlapEnd = new Date(Math.min(chargeEnd.getTime(), periodEnd.getTime()));
+
+  // If no overlap, return 0
+  if (overlapStart >= overlapEnd) {
+    return { amount: 0, days: 0, rate: 0 };
+  }
+
+  const chargedDays = Math.ceil(
+    (overlapEnd.getTime() - overlapStart.getTime()) / (1000 * 60 * 60 * 24)
+  );
+
+  const dailyRate = totalAmount / periodDays;
+  const proratedAmount = dailyRate * chargedDays;
+
+  return {
+    amount: proratedAmount,
+    days: chargedDays,
+    rate: dailyRate,
+  };
+}
+
+export function splitChargesByPeriods(
+  totalAmount: number,
+  chargeStart: Date,
+  chargeEnd: Date,
+  periods: Array<{ start: Date; end: Date }>
+): number[] {
+  return periods.map((period) =>
+    prorateCost({
+      totalAmount,
+      periodStart: period.start,
+      periodEnd: period.end,
+      chargeStart,
+      chargeEnd,
+    }).amount
+  );
+}
+
+export function calculateDailyRate(
+  totalAmount: number,
+  periodStart: Date,
+  periodEnd: Date
+): number {
+  const periodDays = Math.ceil(
+    (periodEnd.getTime() - periodStart.getTime()) / (1000 * 60 * 60 * 24)
+  );
+  return totalAmount / periodDays;
+}
+```
