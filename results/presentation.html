@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Coder Benchmark — From Saturation to Signal</title>
+<style>
+/* ── Reset & Variables ────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0d1117;
+  --bg-card: #161b22;
+  --bg-card-hover: #1c2333;
+  --border: #21262d;
+  --border-light: #30363d;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --text-bright: #f0f6fc;
+  --accent: #58a6ff;
+  --accent-dim: #1f6feb33;
+  --green: #238636;
+  --green-bright: #3fb950;
+  --gold: #d29922;
+  --gold-bright: #e3b341;
+  --red: #da3633;
+  --red-bright: #f85149;
+  --purple: #a371f7;
+  --cyan: #39d2c0;
+  --max-width: 800px;
+  --glass-bg: rgba(22, 27, 34, 0.75);
+  --glass-border: rgba(48, 54, 61, 0.6);
+}
+
+:root[data-theme="light"] {
+  --bg: #ffffff;
+  --bg-card: #f6f8fa;
+  --bg-card-hover: #eef1f5;
+  --border: #d0d7de;
+  --border-light: #d8dee4;
+  --text: #24292f;
+  --text-muted: #57606a;
+  --text-bright: #1f2328;
+  --accent: #0969da;
+  --accent-dim: #0969da1a;
+  --green: #1a7f37;
+  --green-bright: #1a7f37;
+  --gold: #9a6700;
+  --gold-bright: #9a6700;
+  --red: #cf222e;
+  --red-bright: #cf222e;
+  --purple: #8250df;
+  --cyan: #0d9488;
+  --glass-bg: rgba(246, 248, 250, 0.85);
+  --glass-border: rgba(208, 215, 222, 0.6);
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  min-height: 100vh;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* ── Typography ───────────────────────────────────────── */
+.content { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+
+h1 { font-size: 2.5rem; font-weight: 800; color: var(--text-bright); letter-spacing: -1px; line-height: 1.2; }
+h2 { font-size: 2rem; font-weight: 700; color: var(--text-bright); letter-spacing: -0.5px; margin-bottom: 12px; }
+h3 { font-size: 1.35rem; font-weight: 600; color: var(--text-bright); margin-bottom: 8px; }
+h4 { font-size: 1.1rem; font-weight: 600; color: var(--text-bright); margin-bottom: 6px; }
+
+p { margin-bottom: 1.2em; color: var(--text); }
+p.lead { font-size: 1.15rem; color: var(--text-muted); line-height: 1.8; }
+strong { color: var(--text-bright); }
+
+/* ── Links ────────────────────────────────────────────── */
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Theme Toggle ─────────────────────────────────────── */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background 0.2s, transform 0.2s;
+  color: var(--text);
+}
+.theme-toggle:hover { background: var(--bg-card-hover); transform: scale(1.1); }
+
+/* ── Section Navigation (dots) ────────────────────────── */
+.section-nav {
+  position: fixed;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.section-nav a {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border-light);
+  transition: background 0.3s, transform 0.3s;
+  position: relative;
+}
+.section-nav a.active {
+  background: var(--accent);
+  transform: scale(1.4);
+}
+.section-nav a .nav-label {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  background: var(--bg-card);
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+.section-nav a:hover .nav-label { opacity: 1; }
+
+@media (max-width: 1000px) {
+  .section-nav { display: none; }
+}
+
+/* ── Hero ─────────────────────────────────────────────── */
+.hero {
+  padding: 100px 24px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 50% 80%, var(--accent-dim) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero h1 { font-size: 3rem; margin-bottom: 16px; position: relative; }
+.hero .subtitle { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 32px; position: relative; }
+.hero .date { font-size: 0.85rem; color: var(--text-muted); position: relative; }
+
+/* ── Sections ─────────────────────────────────────────── */
+.section {
+  padding: 80px 0;
+  border-top: 1px solid var(--border);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.section-number {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+/* ── Cards ────────────────────────────────────────────── */
+.card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color 0.2s;
+}
+.card:hover { border-color: var(--accent); }
+.card-accent {
+  border-left: 3px solid var(--accent);
+}
+.card-green { border-left: 3px solid var(--green-bright); }
+.card-gold { border-left: 3px solid var(--gold); }
+.card-red { border-left: 3px solid var(--red); }
+.card-purple { border-left: 3px solid var(--purple); }
+
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 24px 0;
+}
+@media (max-width: 600px) { .card-grid { grid-template-columns: 1fr; } }
+
+/* ── Blockquote ───────────────────────────────────────── */
+blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 16px 20px;
+  margin: 24px 0;
+  background: var(--accent-dim);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: var(--text-muted);
+}
+blockquote strong { color: var(--text-bright); font-style: normal; }
+
+/* ── Tables ───────────────────────────────────────────── */
+.table-wrap { overflow-x: auto; margin: 24px 0; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+th {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 2px solid var(--border);
+  color: var(--text-bright);
+  font-weight: 600;
+  white-space: nowrap;
+}
+td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+tr:hover td { background: var(--bg-card); }
+
+/* ── CSS Bar Charts ───────────────────────────────────── */
+.bar-chart { margin: 24px 0; }
+.bar-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 10px;
+}
+.bar-label {
+  width: 80px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: right;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+.bar-track {
+  flex: 1;
+  height: 28px;
+  background: var(--bg-card);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 1s ease-out;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  min-width: 40px;
+}
+.bar-fill.green { background: linear-gradient(90deg, var(--green), var(--green-bright)); }
+.bar-fill.gold { background: linear-gradient(90deg, var(--gold), var(--gold-bright)); }
+.bar-fill.red { background: linear-gradient(90deg, var(--red), var(--red-bright)); }
+.bar-fill.blue { background: linear-gradient(90deg, #1f6feb, var(--accent)); }
+.bar-fill.purple { background: linear-gradient(90deg, #6e40c9, var(--purple)); }
+
+/* ── Stat Cards ───────────────────────────────────────── */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+.stat-card .value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+.stat-card .label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.stat-card.green .value { color: var(--green-bright); }
+.stat-card.gold .value { color: var(--gold); }
+.stat-card.red .value { color: var(--red-bright); }
+
+/* ── Code Blocks ──────────────────────────────────────── */
+pre {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  margin: 20px 0;
+  color: var(--text);
+}
+.kw { color: var(--purple); }
+.str { color: var(--green-bright); }
+.fn { color: var(--accent); }
+.cm { color: var(--text-muted); font-style: italic; }
+.num { color: var(--gold); }
+.type { color: var(--cyan); }
+.err { color: var(--red-bright); }
+
+code {
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+  font-size: 0.85em;
+  background: var(--bg-card);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+/* ── Equation Card ────────────────────────────────────── */
+.equation-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  margin: 32px 0;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.equation {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-bright);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0;
+}
+.eq-part {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+.eq-method { background: rgba(88, 166, 255, 0.15); color: var(--accent); border: 1px solid rgba(88, 166, 255, 0.3); }
+.eq-version { background: rgba(163, 113, 247, 0.15); color: var(--purple); border: 1px solid rgba(163, 113, 247, 0.3); }
+.eq-tools { background: rgba(57, 210, 192, 0.15); color: var(--cyan); border: 1px solid rgba(57, 210, 192, 0.3); }
+.eq-context { background: rgba(210, 153, 34, 0.15); color: var(--gold-bright); border: 1px solid rgba(210, 153, 34, 0.3); }
+.eq-times { color: var(--text-muted); font-size: 1.2rem; }
+
+/* ── Variant Cards ────────────────────────────────────── */
+.variant-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 12px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.variant-card:hover { border-color: var(--border-light); background: var(--bg-card-hover); }
+.variant-card.winner {
+  border-color: var(--green);
+  background: rgba(35, 134, 54, 0.08);
+}
+.variant-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.variant-id {
+  background: var(--accent-dim);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+.variant-card.winner .variant-id {
+  background: rgba(35, 134, 54, 0.2);
+  color: var(--green-bright);
+}
+.variant-name { font-weight: 600; color: var(--text-bright); }
+.variant-score {
+  margin-left: auto;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* ── Timeline ─────────────────────────────────────────── */
+.timeline { position: relative; margin: 32px 0; padding-left: 24px; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 24px;
+  padding-left: 24px;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -20px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2px solid var(--accent);
+}
+.timeline-item.done::before { background: var(--green); border-color: var(--green); }
+.timeline-item.active::before { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-dim); }
+.timeline-item .phase-label {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--accent);
+  margin-bottom: 2px;
+}
+.timeline-item.done .phase-label { color: var(--green-bright); }
+.timeline-item .phase-title {
+  font-weight: 600;
+  color: var(--text-bright);
+  font-size: 1rem;
+}
+.timeline-item .phase-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* ── Badges ───────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.badge-green { background: rgba(35, 134, 54, 0.2); color: var(--green-bright); }
+.badge-gold { background: rgba(210, 153, 34, 0.2); color: var(--gold-bright); }
+.badge-red { background: rgba(218, 54, 51, 0.2); color: var(--red-bright); }
+.badge-blue { background: rgba(88, 166, 255, 0.15); color: var(--accent); }
+.badge-purple { background: rgba(163, 113, 247, 0.15); color: var(--purple); }
+
+/* ── Comparison Visual (Before/After) ─────────────────── */
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin: 32px 0;
+}
+@media (max-width: 600px) { .comparison { grid-template-columns: 1fr; } }
+.comparison-side {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+}
+.comparison-side h4 {
+  text-align: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.comparison-side.before h4 { color: var(--red-bright); }
+.comparison-side.after h4 { color: var(--green-bright); }
+
+/* ── Separator ────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 40px 0;
+}
+
+/* ── Footer ───────────────────────────────────────────── */
+.footer {
+  padding: 40px 0;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+/* ── Scroll Animations ────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.stagger-1 { transition-delay: 0.1s; }
+.stagger-2 { transition-delay: 0.2s; }
+.stagger-3 { transition-delay: 0.3s; }
+
+/* ── Print ────────────────────────────────────────────── */
+@media print {
+  .theme-toggle, .section-nav { display: none !important; }
+  .section { opacity: 1 !important; transform: none !important; }
+  body { background: #fff; color: #000; }
+}
+</style>
+</head>
+<body>
+
+<!-- Theme Toggle -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <span id="themeIcon">&#9790;</span>
+</button>
+
+<!-- Section Navigation Dots -->
+<nav class="section-nav" id="sectionNav">
+  <a href="#problem" data-section="0"><span class="nav-label">The Problem</span></a>
+  <a href="#hypothesis" data-section="1"><span class="nav-label">The Hypothesis</span></a>
+  <a href="#built" data-section="2"><span class="nav-label">What We Built</span></a>
+  <a href="#audit" data-section="3"><span class="nav-label">Difficulty Audit</span></a>
+  <a href="#benchmarks" data-section="4"><span class="nav-label">Real Benchmarks</span></a>
+  <a href="#fpf" data-section="5"><span class="nav-label">The FPF Decision</span></a>
+  <a href="#evolution" data-section="6"><span class="nav-label">Evolution Tracker</span></a>
+  <a href="#roadmap" data-section="7"><span class="nav-label">Roadmap</span></a>
+</nav>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- HERO                                                 -->
+<!-- ════════════════════════════════════════════════════ -->
+<div class="hero">
+  <h1>From Saturation to Signal</h1>
+  <p class="subtitle">How we discovered our benchmark was broken, what we built to fix it, and where it goes next.</p>
+  <p class="date">Super Coder Benchmark  &middot;  April 2026</p>
+</div>
+
+<div class="content">
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- SECTION 1: THE PROBLEM                               -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="section" id="problem">
+  <span class="section-number">Section 01</span>
+  <h2>The Problem</h2>
+  <p class="lead">We built a benchmark to compare 10 verification methods across 11 tasks with 44 seeded bugs. Then we ran it. The result was a flatline.</p>
+
+  <div class="stat-row">
+    <div class="stat-card red">
+      <div class="value">82%</div>
+      <div class="label">Top score</div>
+    </div>
+    <div class="stat-card red">
+      <div class="value">79.5%</div>
+      <div class="label">Bottom score</div>
+    </div>
+    <div class="stat-card red">
+      <div class="value">2.3pt</div>
+      <div class="label">Total spread</div>
+    </div>
+    <div class="stat-card red">
+      <div class="value">1/44</div>
+      <div class="label">Differentiating bugs</div>
+    </div>
+  </div>
+
+  <p>Out of 44 seeded bugs, exactly <strong>one</strong> (ALG-1 bug3) differentiated any method from any other. Eight methods scored an identical 36/44. The remaining two scored 35/44. The entire benchmark reduced to a coin flip on a single duplicate-index edge case.</p>
+
+  <blockquote>
+    <strong>The user's actual goal is not "which method wins on these synthetic tasks?"</strong> but "how do I build an agent that writes code without bugs, can map all relevant information, and iterate?"
+    <br><br>&mdash; DRR-2026-04-06, Problem Statement
+  </blockquote>
+
+  <h3>Six Root Causes of Saturation</h3>
+
+  <div class="card-grid">
+    <div class="card card-red">
+      <h4>1. Static Comparison</h4>
+      <p style="margin:0; font-size:0.9rem; color:var(--text-muted)">Methods are pinned prompts, not configurable agents. No room to iterate or improve.</p>
+    </div>
+    <div class="card card-red">
+      <h4>2. Shared Test Suites</h4>
+      <p style="margin:0; font-size:0.9rem; color:var(--text-muted)">8/11 tasks use identical tests across all methods &mdash; no per-method differentiation possible.</p>
+    </div>
+    <div class="card card-red">
+      <h4>3. One-Shot Runs</h4>
+      <p style="margin:0; font-size:0.9rem; color:var(--text-muted)">No iteration loop. Agents cannot recover from their own errors.</p>
+    </div>
+    <div class="card card-red">
+      <h4>4. Minimal Doc Bootstrapping</h4>
+      <p style="margin:0; font-size:0.9rem; color:var(--text-muted)">Methods relying on Effect, XState, Dafny, Lean, Coq, fast-check fail on toolchain quirks their training set does not teach.</p>
+    </div>
+    <div class="card card-red">
+      <h4>5. Synthetic Textbook Tasks</h4>
+      <p style="margin:0; font-size:0.9rem; color:var(--text-muted)">All 11 tasks are canonical problems in LLM training sets &mdash; binary search, LRU cache, RBAC.</p>
+    </div>
+    <div class="card card-red">
+      <h4>6. Hand-Seeded Bugs</h4>
+      <p style="margin:0; font-size:0.9rem; color:var(--text-muted)">44 total, 18% universally undetectable. The ceiling is artificial.</p>
+    </div>
+  </div>
+
+  <h3>Before vs. After: Score Distribution</h3>
+  <div class="comparison">
+    <div class="comparison-side before">
+      <h4>Before (Saturated)</h4>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px">10 methods, full benchmark, Opus-level model</p>
+      <div class="bar-chart">
+        <div class="bar-row"><span class="bar-label">A Plain TS</span><div class="bar-track"><div class="bar-fill red" style="width:82%">81.8%</div></div></div>
+        <div class="bar-row"><span class="bar-label">C TDD</span><div class="bar-track"><div class="bar-fill red" style="width:82%">81.8%</div></div></div>
+        <div class="bar-row"><span class="bar-label">E Dafny</span><div class="bar-track"><div class="bar-fill red" style="width:82%">81.8%</div></div></div>
+        <div class="bar-row"><span class="bar-label">F Lean 4</span><div class="bar-track"><div class="bar-fill red" style="width:82%">81.8%</div></div></div>
+        <div class="bar-row"><span class="bar-label">H Consensus</span><div class="bar-track"><div class="bar-fill red" style="width:82%">81.8%</div></div></div>
+        <div class="bar-row"><span class="bar-label">D PBT</span><div class="bar-track"><div class="bar-fill red" style="width:80%">79.5%</div></div></div>
+        <div class="bar-row"><span class="bar-label">J Dafny+PBT</span><div class="bar-track"><div class="bar-fill red" style="width:80%">79.5%</div></div></div>
+      </div>
+      <p style="font-size:0.8rem; text-align:center; color:var(--text-muted); margin:0">Spread: <strong>2.3 points</strong>. Indistinguishable.</p>
+    </div>
+    <div class="comparison-side after">
+      <h4>After (Haiku Audit)</h4>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px">Same 11 tasks, Haiku one-shot, no tools</p>
+      <div class="bar-chart">
+        <div class="bar-row"><span class="bar-label">ALG-1</span><div class="bar-track"><div class="bar-fill green" style="width:100%">100%</div></div></div>
+        <div class="bar-row"><span class="bar-label">SAAS-1</span><div class="bar-track"><div class="bar-fill green" style="width:92%">92%</div></div></div>
+        <div class="bar-row"><span class="bar-label">BL-3</span><div class="bar-track"><div class="bar-fill green" style="width:88%">88%</div></div></div>
+        <div class="bar-row"><span class="bar-label">BL-1</span><div class="bar-track"><div class="bar-fill blue" style="width:86%">86%</div></div></div>
+        <div class="bar-row"><span class="bar-label">ALG-2</span><div class="bar-track"><div class="bar-fill gold" style="width:71%">71%</div></div></div>
+        <div class="bar-row"><span class="bar-label">BL-2</span><div class="bar-track"><div class="bar-fill gold" style="width:60%">60%</div></div></div>
+        <div class="bar-row"><span class="bar-label">BL-4</span><div class="bar-track"><div class="bar-fill red" style="width:33%">33%</div></div></div>
+        <div class="bar-row"><span class="bar-label">ALG-3</span><div class="bar-track"><div class="bar-fill red" style="width:29%">29%</div></div></div>
+        <div class="bar-row"><span class="bar-label">SAAS-2</span><div class="bar-track"><div class="bar-fill red" style="width:14%">14%</div></div></div>
+        <div class="bar-row"><span class="bar-label">BL-5</span><div class="bar-track"><div class="bar-fill red" style="width:3%">0%</div></div></div>
+        <div class="bar-row"><span class="bar-label">SAAS-3</span><div class="bar-track"><div class="bar-fill red" style="width:3%">0%</div></div></div>
+      </div>
+      <p style="font-size:0.8rem; text-align:center; color:var(--text-muted); margin:0">Spread: <strong>100 points</strong>. Fully differentiated.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- SECTION 2: THE HYPOTHESIS                            -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="section" id="hypothesis">
+  <span class="section-number">Section 02</span>
+  <h2>The Hypothesis</h2>
+  <p class="lead">Methods are not the right unit of comparison. <strong>Agents</strong> are.</p>
+
+  <p>A "method" (Effect TS, TDD, Dafny, etc.) is a static label. It says nothing about the docs given to the model, the tools it can call, or whether it can iterate on failures. When we say "Effect TS failed," we really mean "the first version of an Effect TS agent, with no relevant docs and no feedback loop, failed."</p>
+
+  <h3>The Four-Axis Agent Identity</h3>
+
+  <div class="equation-card">
+    <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px; font-style:italic">An agent is fully described by four axes. Model is orthogonal (runtime parameter).</p>
+    <div class="equation">
+      <span class="eq-part eq-method">Method</span>
+      <span class="eq-times">&times;</span>
+      <span class="eq-part eq-version">Version</span>
+      <span class="eq-times">&times;</span>
+      <span class="eq-part eq-tools">Tools</span>
+      <span class="eq-times">&times;</span>
+      <span class="eq-part eq-context">Context Bundle</span>
+    </div>
+    <p style="font-size:0.85rem; color:var(--text-muted); margin:12px 0 0">
+      <code>effect-ts/v2</code> = Effect TS + v2 + [typecheck, vitest] + effect-quickstart-bundle
+    </p>
+  </div>
+
+  <h3>H1: "Effect TS Is Not Bad &mdash; It Just Needs Better Docs"</h3>
+
+  <p>During calibration, Effect TS (method B) and PBT+Effect (method I) needed retries to pass. Plain TS (method A) passed first-try. The failure mode was always the same:</p>
+
+  <pre><span class="err">FiberFailure</span>: <span class="str">"The fiber was terminated with an unhandled error"</span>
+  <span class="cm">// Effect wraps all exceptions in FiberFailure.</span>
+  <span class="cm">// Without docs, the model doesn't know to unwrap or .pipe(Effect.catchAll(...))</span>
+  <span class="cm">// The generated code compiles but tests throw opaque wrappers.</span></pre>
+
+  <div class="card card-accent">
+    <h4>Hypothesis H1</h4>
+    <p style="margin:0; font-size:0.9rem; color:var(--text-muted)"><code>effect-ts/v2</code> (v1 + Effect quickstart + FiberFailure pitfalls bundle) will score &ge; <code>plain-ts/v1</code> on BL-1 and BL-5 on Haiku one-shot, whereas <code>effect-ts/v1</code> scored below <code>plain-ts/v1</code> due to FiberFailure wrapping bugs.</p>
+  </div>
+
+  <div class="card card-purple" style="margin-top:16px">
+    <h4>Hypothesis H2</h4>
+    <p style="margin:0; font-size:0.9rem; color:var(--text-muted)">Adding a typecheck loop (<code>effect-ts/v3 = v2 + typecheck</code>) will recover at least 50% of the remaining delta vs <code>plain-ts/v1</code> baseline.</p>
+  </div>
+
+  <div class="card card-gold" style="margin-top:16px">
+    <h4>Hypothesis H3</h4>
+    <p style="margin:0; font-size:0.9rem; color:var(--text-muted)">On the hardened tier (Phase 9 tasks), methods with iteration loops will beat their non-iterating counterparts by &ge; 10 prevention points absolute. If false, loop infrastructure is not justified for real-repo tasks.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- SECTION 3: WHAT WE BUILT                             -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="section" id="built">
+  <span class="section-number">Section 03</span>
+  <h2>What We Built</h2>
+  <p class="lead">A versioned agent framework: manifests, a generalized runner, context bundles, and iteration loops &mdash; all slotting into a tournament structure.</p>
+
+  <h3>Architecture</h3>
+
+  <div class="card" style="font-family: 'SF Mono', Consolas, monospace; font-size:0.78rem; line-height:1.8; background:var(--bg-card)">
+<pre style="border:none; padding:0; margin:0; background:transparent; font-size:0.78rem">
+super-coder-benchmark/
+  agents/
+    plain-ts/v1/manifest.yml       <span class="cm"># 10 methods migrated</span>
+    effect-ts/v1/manifest.yml
+    effect-ts/v2/manifest.yml      <span class="cm"># + context bundle</span>
+    tdd/v1/manifest.yml
+    pbt/v1/manifest.yml
+    dafny/v1/manifest.yml
+    lean4/v1/manifest.yml
+    coq/v1/manifest.yml
+    consensus/v1/manifest.yml
+    pbt-effect/v1/manifest.yml
+    dafny-pbt/v1/manifest.yml
+
+  context-bundles/
+    effect-quickstart/             <span class="cm"># distilled &le;2k tokens</span>
+      bundle.md                    <span class="cm"># FiberFailure pitfalls, pipe patterns</span>
+      meta.yml                     <span class="cm"># upstream hash, token count</span>
+
+  infra/
+    agent-runner.mts               <span class="cm"># generalized from audit harness</span>
+    loops/
+      typecheck.mts                <span class="cm"># tsc &rarr; {passed, feedback}</span>
+      vitest.mts                   <span class="cm"># vitest &rarr; {passed, feedback}</span>
+      dafny.mts, lean.mts, coq.mts
+
+  references/&lt;TASK&gt;/
+    spec.md, impl.ts, impl.test.ts
+    bugs/bug1-*.ts ... bug4-*.ts
+
+  results/
+    dashboard.html                 <span class="cm"># data dashboard (existing)</span>
+    presentation.html              <span class="cm"># this document</span>
+</pre>
+  </div>
+
+  <h3>The Agent Runner</h3>
+
+  <p>The runner (<code>infra/agent-runner.mts</code>) is a generalization of the Phase 6.5 audit harness. It:</p>
+
+  <ol style="margin: 16px 0 24px 20px; color: var(--text); font-size: 0.9rem; line-height: 2">
+    <li>Loads a manifest YAML &mdash; method, version, tools, context bundle path</li>
+    <li>Injects the context bundle into <code>systemPrompt</code></li>
+    <li>Passes tool declarations to the Claude Agent SDK</li>
+    <li>Runs the agent against a task's <code>spec.md</code></li>
+    <li>If loops are configured: feeds typecheck/vitest output back as user messages for multi-turn runs</li>
+    <li>Records full trajectory JSON: tokens, turns, wall time, code, test results</li>
+  </ol>
+
+  <h3>Context Bundles</h3>
+
+  <p>Each bundle is a distilled reference (&le;2,000 tokens) extracted from official documentation. Versioned with upstream hashes so we know when the source changes.</p>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="value">10</div>
+      <div class="label">Methods migrated</div>
+    </div>
+    <div class="stat-card green">
+      <div class="value">v2</div>
+      <div class="label">First improved agent</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">&le;2k</div>
+      <div class="label">Tokens per bundle</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">7</div>
+      <div class="label">Combo manifests planned</div>
+    </div>
+  </div>
+
+  <h3>Combination Manifests</h3>
+  <p>Combinations are first-class manifests, not a separate concept:</p>
+
+  <div class="card-grid">
+    <div class="card"><h4><code>stack-types+tc+pbt</code></h4><p style="margin:0;font-size:0.85rem;color:var(--text-muted)">Types + typecheck loop + property-based testing</p></div>
+    <div class="card"><h4><code>effect-full-stack</code></h4><p style="margin:0;font-size:0.85rem;color:var(--text-muted)">Effect TS + docs + typecheck + vitest loop</p></div>
+    <div class="card"><h4><code>dafny-then-extract</code></h4><p style="margin:0;font-size:0.85rem;color:var(--text-muted)">Prove in Dafny, extract to TypeScript</p></div>
+    <div class="card"><h4><code>tier-consensus</code></h4><p style="margin:0;font-size:0.85rem;color:var(--text-muted)">3 variants, majority vote, verify</p></div>
+    <div class="card"><h4><code>spec-then-impl</code></h4><p style="margin:0;font-size:0.85rem;color:var(--text-muted)">Write spec first, implement against it</p></div>
+    <div class="card"><h4><code>self-critic-loop</code></h4><p style="margin:0;font-size:0.85rem;color:var(--text-muted)">Generate, critique, regenerate</p></div>
+    <div class="card"><h4><code>mutation-guarded-pbt</code></h4><p style="margin:0;font-size:0.85rem;color:var(--text-muted)">PBT + mutation kill rate gate</p></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- SECTION 4: THE DIFFICULTY AUDIT                      -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="section" id="audit">
+  <span class="section-number">Section 04</span>
+  <h2>The Difficulty Audit</h2>
+  <p class="lead">Phase 6.5: We gave Claude Haiku one shot at all 11 tasks &mdash; no tools, no feedback, no iteration. The results surprised us.</p>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="value">69/110</div>
+      <div class="label">Tests passing</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">62.7%</div>
+      <div class="label">Overall pass rate</div>
+    </div>
+    <div class="stat-card gold">
+      <div class="value">1/11</div>
+      <div class="label">Fully saturated</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">$0.20</div>
+      <div class="label">Total cost</div>
+    </div>
+  </div>
+
+  <h3>Pass Rates by Task</h3>
+  <div class="bar-chart">
+    <div class="bar-row"><span class="bar-label">ALG-1</span><div class="bar-track"><div class="bar-fill green" style="width:100%">100% (16/16)</div></div></div>
+    <div class="bar-row"><span class="bar-label">SAAS-1</span><div class="bar-track"><div class="bar-fill green" style="width:92%">92% (12/13)</div></div></div>
+    <div class="bar-row"><span class="bar-label">BL-3</span><div class="bar-track"><div class="bar-fill green" style="width:88%">88% (7/8)</div></div></div>
+    <div class="bar-row"><span class="bar-label">BL-1</span><div class="bar-track"><div class="bar-fill blue" style="width:86%">86% (18/21)</div></div></div>
+    <div class="bar-row"><span class="bar-label">ALG-2</span><div class="bar-track"><div class="bar-fill gold" style="width:71%">71% (5/7)</div></div></div>
+    <div class="bar-row"><span class="bar-label">BL-2</span><div class="bar-track"><div class="bar-fill gold" style="width:60%">60% (6/10)</div></div></div>
+    <div class="bar-row"><span class="bar-label">BL-4</span><div class="bar-track"><div class="bar-fill red" style="width:33%">33% (2/6)</div></div></div>
+    <div class="bar-row"><span class="bar-label">ALG-3</span><div class="bar-track"><div class="bar-fill red" style="width:29%">29% (2/7)</div></div></div>
+    <div class="bar-row"><span class="bar-label">SAAS-2</span><div class="bar-track"><div class="bar-fill red" style="width:14%">14% (1/7)</div></div></div>
+    <div class="bar-row"><span class="bar-label">BL-5</span><div class="bar-track"><div class="bar-fill red" style="width:3%">0% (0/7)</div></div></div>
+    <div class="bar-row"><span class="bar-label">SAAS-3</span><div class="bar-track"><div class="bar-fill red" style="width:3%">0% (0/8)</div></div></div>
+  </div>
+
+  <h3>Verdict Distribution</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Verdict</th><th>Count</th><th>Tasks</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="badge badge-green">L1 Saturated</span></td><td>1</td><td>ALG-1</td></tr>
+        <tr><td><span class="badge badge-blue">L1 Mostly</span></td><td>3</td><td>BL-1, BL-3, SAAS-1</td></tr>
+        <tr><td><span class="badge badge-gold">L2 Borderline</span></td><td>2</td><td>BL-2, ALG-2</td></tr>
+        <tr><td><span class="badge badge-red">L2 Hard</span></td><td>5</td><td>BL-4, BL-5, ALG-3, SAAS-2, SAAS-3</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>The Surprise</h3>
+
+  <div class="card card-accent">
+    <h4>Failures are API shape mismatch, not algorithmic difficulty</h4>
+    <p style="margin:8px 0 0; font-size:0.9rem; color:var(--text-muted)">Five of the seven hard tasks collapsed because Haiku read an ambiguous spec and picked a different export style than the tests expect &mdash; class vs. factory, <code>toposort</code> vs. <code>topoSort</code>, <code>prorateCost</code> vs. <code>calculateProration</code>. The core algorithms were often correct; the wiring was wrong.</p>
+  </div>
+
+  <p>This is a <strong>legitimate signal of difficulty</strong>. Matching a spec precisely without iterating is a real capability. Methods with test-feedback loops (TDD), formal specs (Dafny/Lean/Coq), or iterative reasoning (Consensus) are designed to recover from exactly this kind of miss.</p>
+
+  <div class="card card-green" style="margin-top:24px">
+    <h4>Implication</h4>
+    <p style="margin:0; font-size:0.9rem; color:var(--text-muted)">Agents with iteration loops will recover these points. The gap between a bare Haiku one-shot (62.7%) and a looped agent represents the <strong>measurable value of agent infrastructure</strong> &mdash; docs, tools, and feedback.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- SECTION 5: REAL BENCHMARKS FOUND                     -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="section" id="benchmarks">
+  <span class="section-number">Section 05</span>
+  <h2>Real Benchmarks Found</h2>
+  <p class="lead">35 benchmarks catalogued. 8 recommended for immediate integration. The hardened tier will break the 82% saturation.</p>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="value">35</div>
+      <div class="label">Benchmarks surveyed</div>
+    </div>
+    <div class="stat-card green">
+      <div class="value">8</div>
+      <div class="label">Recommended</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">729</div>
+      <div class="label">TS tasks (SWE-PolyBench)</div>
+    </div>
+    <div class="stat-card gold">
+      <div class="value">25.1%</div>
+      <div class="label">Web-Bench SOTA</div>
+    </div>
+  </div>
+
+  <h3>Top 8 Recommendations</h3>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>#</th><th>Benchmark</th><th>Tasks</th><th>Lang</th><th>Suit</th><th>Highlight</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong>SWE-PolyBench</strong></td>
+          <td>2,110 (729 TS)</td>
+          <td>TS/JS</td>
+          <td><span class="badge badge-green">10/10</span></td>
+          <td>Amazon Science, ICLR 2025. Largest TS real-issue dataset.</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>SWE-Lancer Diamond</strong></td>
+          <td>1,400+</td>
+          <td>TS</td>
+          <td><span class="badge badge-green">10/10</span></td>
+          <td>OpenAI, Expensify monorepo. Real freelance bug-fix tasks.</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>Multi-SWE-bench</strong></td>
+          <td>1,632</td>
+          <td>7 langs</td>
+          <td><span class="badge badge-blue">9/10</span></td>
+          <td>ByteDance Seed, NeurIPS 2025. Mini subset: 400.</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>SWE-bench Multilingual</strong></td>
+          <td>300</td>
+          <td>9 langs</td>
+          <td><span class="badge badge-blue">9/10</span></td>
+          <td>Princeton. 42 repos, includes TS/JS.</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><strong>Web-Bench</strong></td>
+          <td>1,000</td>
+          <td>Web/TS</td>
+          <td><span class="badge badge-blue">9/10</span></td>
+          <td>ByteDance, post-cutoff. SOTA is 25.1% pass@1.</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><strong>BugsJS</strong></td>
+          <td>453</td>
+          <td>JS</td>
+          <td><span class="badge badge-gold">8/10</span></td>
+          <td>Real JS bugs, Mocha tests. Classic but high-quality.</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><strong>CWEval-bench</strong></td>
+          <td>119</td>
+          <td>JS/Py/C</td>
+          <td><span class="badge badge-gold">8/10</span></td>
+          <td>Security + functional dual tests. 31 CWE classes.</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><strong>SWE-bench Live</strong></td>
+          <td>Continuous</td>
+          <td>Multi</td>
+          <td><span class="badge badge-gold">8/10</span></td>
+          <td>Microsoft, monthly rolling. Contamination-free by design.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Contamination Analysis</h3>
+  <p>Claude Opus 4.6 training cutoff is approximately <strong>May 2025</strong>. Any benchmark with tasks predating this is potentially contaminated.</p>
+
+  <div class="card-grid">
+    <div class="card card-green">
+      <h4>Gold Standard (post-cutoff)</h4>
+      <p style="margin:0;font-size:0.85rem;color:var(--text-muted)"><strong>Web-Bench</strong> (May 2025), <strong>SWE-bench Live</strong> (rolling), <strong>SEC-Bench</strong> (Jun 2025). Use these as primary differentiators.</p>
+    </div>
+    <div class="card card-gold">
+      <h4>Borderline (near cutoff)</h4>
+      <p style="margin:0;font-size:0.85rem;color:var(--text-muted)"><strong>Multi-SWE-bench</strong>, <strong>SWE-Lancer</strong>, <strong>SWE-PolyBench</strong>. Issues pre-date cutoff but test harnesses are fresh. Treat with caution.</p>
+    </div>
+    <div class="card card-red">
+      <h4>Contaminated (use as floor only)</h4>
+      <p style="margin:0;font-size:0.85rem;color:var(--text-muted)">BugsJS, Defects4J, EvalPlus, HumanEval, APPS, CodeContests. Useful for porting mechanics and sanity checking, not for ranking methods.</p>
+    </div>
+  </div>
+
+  <blockquote>
+    Strategy: build the "hardened" slice from Web-Bench, SWE-bench Live latest, LiveCodeBench &ge; Jun 2025 filter, SEC-Bench, and SWE-Lancer Diamond. Keep the older benches as a "sanity floor."
+  </blockquote>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- SECTION 6: THE FPF DECISION                          -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="section" id="fpf">
+  <span class="section-number">Section 06</span>
+  <h2>The FPF Decision</h2>
+  <p class="lead">Seven solution directions were brainstormed, scored on 9 weighted dimensions, and analyzed for weak links. One emerged dominant.</p>
+
+  <h3>The 9 Evaluation Dimensions</h3>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>#</th><th>Dimension</th><th>Weight</th><th>What It Measures</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Discrimination power</td><td><span class="badge badge-red">High</span></td><td>Bits of score variance across methods</td></tr>
+        <tr><td>2</td><td>Prevention measurability</td><td><span class="badge badge-red">High</span></td><td>Bugs escaped / mutations survived</td></tr>
+        <tr><td>3</td><td>Iteration capture</td><td><span class="badge badge-red">High</span></td><td>Turns / feedback loops supported</td></tr>
+        <tr><td>4</td><td>Context-mapping capture</td><td><span class="badge badge-red">High</span></td><td>Retrieval recall/precision measurability</td></tr>
+        <tr><td>5</td><td>Realism</td><td><span class="badge badge-gold">Medium</span></td><td>Fraction of tasks from real repos</td></tr>
+        <tr><td>6</td><td>Contamination resistance</td><td><span class="badge badge-gold">Medium</span></td><td>Fraction post-training-cutoff</td></tr>
+        <tr><td>7</td><td>Economic ranking</td><td><span class="badge badge-gold">Medium</span></td><td>$/bug prevented or tokens/pass</td></tr>
+        <tr><td>8</td><td>Reproducibility</td><td><span class="badge badge-gold">Medium</span></td><td>Same config &rarr; same result</td></tr>
+        <tr><td>9</td><td>Implementation cost</td><td><span class="badge badge-blue">Low</span></td><td>Weeks of refactor</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Seven Solution Variants</h3>
+
+  <div class="variant-card">
+    <div class="variant-header">
+      <span class="variant-id">S1</span>
+      <span class="variant-name">Keep current benchmark, add harder tasks</span>
+      <span class="variant-score" style="color:var(--text-muted)">21/45</span>
+    </div>
+    <p style="margin:0;font-size:0.85rem;color:var(--text-muted)">Minimal refactor. Still does not capture iteration or docs uplift; does not improve discrimination fundamentally.</p>
+  </div>
+
+  <div class="variant-card">
+    <div class="variant-header">
+      <span class="variant-id">S2</span>
+      <span class="variant-name">Compose methods into a single stack</span>
+      <span class="variant-score" style="color:var(--text-muted)">21/45</span>
+    </div>
+    <p style="margin:0;font-size:0.85rem;color:var(--text-muted)">Replace "A vs B vs C" with "A + B + C pipeline." Directly targets "bug-free" via defense-in-depth. Loses per-method attribution.</p>
+  </div>
+
+  <div class="variant-card">
+    <div class="variant-header">
+      <span class="variant-id">S3</span>
+      <span class="variant-name">Agent loop wrapper around existing methods</span>
+      <span class="variant-score" style="color:var(--text-muted)">27/45</span>
+    </div>
+    <p style="margin:0;font-size:0.85rem;color:var(--text-muted)">Add typecheck+test feedback loop. Cheap. Captures iteration. Does not address docs bootstrapping or versioning.</p>
+  </div>
+
+  <div class="variant-card winner">
+    <div class="variant-header">
+      <span class="variant-id">S4</span>
+      <span class="variant-name">Four-axis versioned agent framework</span>
+      <span class="variant-score" style="color:var(--green-bright)">37/45</span>
+    </div>
+    <p style="margin:0;font-size:0.85rem;color:var(--text-muted)">Methods become (method &times; version &times; tools &times; context_bundle) configurations. Model is runtime axis. Tournament over all configs. Captures all three user goals. Every improvement is a versioned artifact with measurable delta.</p>
+  </div>
+
+  <div class="variant-card">
+    <div class="variant-header">
+      <span class="variant-id">S5</span>
+      <span class="variant-name">Pure mutation testing benchmark</span>
+      <span class="variant-score" style="color:var(--text-muted)">26/45</span>
+    </div>
+    <p style="margin:0;font-size:0.85rem;color:var(--text-muted)">Replace hand-seeded bugs with Stryker auto-mutations. Eliminates human bias. Does not capture generation ability.</p>
+  </div>
+
+  <div class="variant-card">
+    <div class="variant-header">
+      <span class="variant-id">S6</span>
+      <span class="variant-name">SWE-bench-only rebuild</span>
+      <span class="variant-score" style="color:var(--text-muted)">33/45</span>
+    </div>
+    <p style="margin:0;font-size:0.85rem;color:var(--text-muted)">Drop synthetic tasks, rebuild on SWE-PolyBench + SWE-bench Live. Maximal realism. Loses calibration reference; formal methods cannot operate on real-repo tasks.</p>
+  </div>
+
+  <div class="variant-card">
+    <div class="variant-header">
+      <span class="variant-id">S7</span>
+      <span class="variant-name">Self-improving agent loop (Karpathy autoresearch)</span>
+      <span class="variant-score" style="color:var(--text-muted)">33/45</span>
+    </div>
+    <p style="margin:0;font-size:0.85rem;color:var(--text-muted)">Time-boxed loop: agent modifies its own prompt/tools, measures scalar metric, iterates. Requires S4 as prerequisite.</p>
+  </div>
+
+  <h3>Pareto Comparison</h3>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Variant</th><th>Discrim</th><th>Preven</th><th>Iter</th><th>Ctx</th><th>Real</th><th>Contam</th><th>Econ</th><th>Repro</th><th>Cost</th><th>Score</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>S1</td><td>2</td><td>2</td><td>0</td><td>0</td><td>4</td><td>3</td><td>1</td><td>4</td><td>5</td><td>21</td></tr>
+        <tr><td>S2</td><td>3</td><td>4</td><td>1</td><td>1</td><td>2</td><td>2</td><td>2</td><td>3</td><td>3</td><td>21</td></tr>
+        <tr><td>S3</td><td>4</td><td>3</td><td>5</td><td>1</td><td>2</td><td>2</td><td>3</td><td>3</td><td>4</td><td>27</td></tr>
+        <tr style="background:rgba(35,134,54,0.08);font-weight:600"><td>S4</td><td>5</td><td>5</td><td>5</td><td>4</td><td>3</td><td>3</td><td>5</td><td>5</td><td>2</td><td style="color:var(--green-bright)">37</td></tr>
+        <tr><td>S5</td><td>3</td><td>5</td><td>1</td><td>1</td><td>2</td><td>5</td><td>2</td><td>4</td><td>3</td><td>26</td></tr>
+        <tr><td>S6</td><td>5</td><td>4</td><td>3</td><td>5</td><td>5</td><td>4</td><td>4</td><td>2</td><td>1</td><td>33</td></tr>
+        <tr><td>S7</td><td>5</td><td>5</td><td>5</td><td>5</td><td>3</td><td>3</td><td>5</td><td>2</td><td>0</td><td>33</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Weak-Link Analysis</h3>
+
+  <div class="card card-green">
+    <h4>Why S4 Wins</h4>
+    <p style="margin:8px 0 0; font-size:0.9rem; color:var(--text-muted)">S4's weakest link is <strong>implementation cost</strong> (2/5). All other variants have weak links in the <strong>high-weight</strong> dimensions (discrimination, prevention, iteration, context) &mdash; which are the user's explicit goals. By FPF weakest-link assurance, S4 wins because its weak link is in a <strong>low-weight dimension</strong>.</p>
+  </div>
+
+  <h3>Congruence</h3>
+  <p>S4 is <strong>additive</strong> to all other options:</p>
+  <ul style="margin:12px 0 24px 20px; color:var(--text); font-size:0.9rem; line-height:2">
+    <li><strong>S1</strong> (harder tasks) &rarr; slot into the framework as task sources</li>
+    <li><strong>S3</strong> (loops) &rarr; become one axis of the agent identity</li>
+    <li><strong>S5</strong> (mutation testing) &rarr; become a verification oracle</li>
+    <li><strong>S6</strong> (SWE-bench tasks) &rarr; become the "hardened tier" task set</li>
+    <li><strong>S2</strong> (stacking) &rarr; expressible as a multi-layer combo manifest</li>
+    <li><strong>S7</strong> (self-improving) &rarr; expressible as a future self-modifying agent</li>
+  </ul>
+
+  <blockquote>
+    <strong>The implementation cost is front-loaded in Phase 7a</strong> (one runner file, ~150 LoC extension of an already-working harness) but amortized across all subsequent phases.
+    <br><br>&mdash; DRR-2026-04-06, Rationale
+  </blockquote>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- SECTION 7: EVOLUTION TRACKER                         -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="section" id="evolution">
+  <span class="section-number">Section 07</span>
+  <h2>Evolution Tracker</h2>
+  <p class="lead">Tracking how agents improve over versions. This section updates as new data arrives.</p>
+
+  <h3>H1 Validation: effect-ts v1 vs v2</h3>
+
+  <div class="card card-accent">
+    <p style="margin:0; font-size:0.9rem; color:var(--text-muted)"><strong>Status:</strong> <span class="badge badge-gold">Pending</span> &mdash; Phase 7c will run <code>effect-ts/v2</code> against BL-1 and BL-5 on Haiku one-shot and compare to <code>plain-ts/v1</code> baseline.</p>
+  </div>
+
+  <h3>Score Progression (placeholder)</h3>
+
+  <div class="card" style="text-align:center; padding:48px 24px">
+    <p style="margin:0; font-size:1rem; color:var(--text-muted)">Score progression charts will populate here as versioned agents are evaluated.</p>
+    <p style="margin:16px 0 0; font-size:0.85rem; color:var(--text-muted)">Expected data: <code>plain-ts/v1</code>, <code>effect-ts/v1</code>, <code>effect-ts/v2</code>, <code>effect-ts/v3</code> scores across all tasks, separated by model tier.</p>
+  </div>
+
+  <h3>The Karpathy Loop</h3>
+
+  <div class="equation-card">
+    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px">The autoresearch pattern: an editable asset, a scalar metric, and a time-boxed cycle.</p>
+    <div class="equation">
+      <span class="eq-part eq-context">Editable Asset</span>
+      <span class="eq-times">&rarr;</span>
+      <span class="eq-part eq-tools">Scalar Metric</span>
+      <span class="eq-times">&rarr;</span>
+      <span class="eq-part eq-version">Time-Boxed Cycle</span>
+      <span class="eq-times">&rarr;</span>
+      <span class="eq-part eq-method">Iterate</span>
+    </div>
+    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:16px">
+      Asset = manifest YAML + context bundle. Metric = prevention rate on task suite. Cycle = 10-minute agent run.
+    </p>
+  </div>
+
+  <p>Each cycle produces a new version. The version with the highest prevention rate on the validation set advances. Regressions are discarded. The loop is the agent improving itself.</p>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- SECTION 8: ROADMAP & NEXT STEPS                      -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="section" id="roadmap">
+  <span class="section-number">Section 08</span>
+  <h2>Roadmap &amp; Next Steps</h2>
+  <p class="lead">From generalized runner to Opus championship &mdash; the phases that take us from saturation to a real leaderboard.</p>
+
+  <h3>Execution Plan</h3>
+
+  <div class="timeline">
+    <div class="timeline-item done">
+      <span class="phase-label">Phase 6.5</span>
+      <div class="phase-title">Difficulty Audit + Benchmark Survey</div>
+      <div class="phase-desc">Haiku one-shot on 11 tasks. 35 real benchmarks catalogued. Decision record drafted.</div>
+    </div>
+    <div class="timeline-item active">
+      <span class="phase-label">Phase 7a</span>
+      <div class="phase-title">Generalize agent-runner.mts</div>
+      <div class="phase-desc">Extend from audit harness to manifest-driven runner. ~150 LoC delta.</div>
+    </div>
+    <div class="timeline-item">
+      <span class="phase-label">Phase 7b</span>
+      <div class="phase-title">Migrate 10 methods to v1 manifests</div>
+      <div class="phase-desc">Each method gets <code>agents/&lt;id&gt;/v1/manifest.yml</code> with parent, rationale, changelog.</div>
+    </div>
+    <div class="timeline-item">
+      <span class="phase-label">Phase 7c</span>
+      <div class="phase-title">Context bundles + H1 validation</div>
+      <div class="phase-desc"><code>context-bundles/effect-quickstart/</code> + <code>effect-ts/v2</code> manifest + validation run.</div>
+    </div>
+    <div class="timeline-item">
+      <span class="phase-label">Phase 8</span>
+      <div class="phase-title">Iteration loops: typecheck, vitest</div>
+      <div class="phase-desc">Each loop exposes <code>run(code) &rarr; {passed, feedback}</code>. Multi-turn agent runs enabled.</div>
+    </div>
+    <div class="timeline-item">
+      <span class="phase-label">Phase 9</span>
+      <div class="phase-title">Hardened tier ingestion</div>
+      <div class="phase-desc">16 tasks from SWE-PolyBench TS, Web-Bench, BugsJS, SWE-Lancer Diamond, CWEval-bench, SWE-bench Live.</div>
+    </div>
+    <div class="timeline-item">
+      <span class="phase-label">Phase 10</span>
+      <div class="phase-title">Combination manifests</div>
+      <div class="phase-desc">7 combo agents: stack-types+tc+pbt, effect-full-stack, dafny-then-extract, tier-consensus, spec-then-impl, self-critic-loop, mutation-guarded-pbt.</div>
+    </div>
+    <div class="timeline-item">
+      <span class="phase-label">Phase 11</span>
+      <div class="phase-title">Tournament R1: Haiku screening</div>
+      <div class="phase-desc">All agent configs &times; all tasks on Haiku. Pareto frontier for economic ranking. Eliminate non-viable configs.</div>
+    </div>
+    <div class="timeline-item">
+      <span class="phase-label">Phase 12</span>
+      <div class="phase-title">Tournament R2: Sonnet elimination</div>
+      <div class="phase-desc">Top configs from R1 run on Sonnet. Narrower field, deeper evaluation.</div>
+    </div>
+    <div class="timeline-item">
+      <span class="phase-label">Phase 13</span>
+      <div class="phase-title">Tournament R3: Opus championship + final leaderboards</div>
+      <div class="phase-desc">Finalists on Opus. Full trajectory analysis. HTML dashboard with Pareto frontiers per model tier.</div>
+    </div>
+  </div>
+
+  <h3>Tournament Structure</h3>
+
+  <div class="card-grid">
+    <div class="card" style="text-align:center">
+      <div style="font-size:2rem; margin-bottom:8px; color:var(--text-muted)">R1</div>
+      <h4 style="color:var(--accent)">Haiku Screening</h4>
+      <p style="margin:0; font-size:0.85rem; color:var(--text-muted)">All configs. Cheapest model. Eliminate non-starters. Economic floor.</p>
+    </div>
+    <div class="card" style="text-align:center">
+      <div style="font-size:2rem; margin-bottom:8px; color:var(--text-muted)">R2</div>
+      <h4 style="color:var(--purple)">Sonnet Elimination</h4>
+      <p style="margin:0; font-size:0.85rem; color:var(--text-muted)">Top configs from R1. Middle-tier model. Deeper evaluation. Narrow the field.</p>
+    </div>
+  </div>
+  <div class="card" style="text-align:center; margin-top:0">
+    <div style="font-size:2rem; margin-bottom:8px; color:var(--text-muted)">R3</div>
+    <h4 style="color:var(--gold-bright)">Opus Championship</h4>
+    <p style="margin:0; font-size:0.85rem; color:var(--text-muted)">Finalists only. Top-tier model. Full trajectories. Final leaderboard. Pareto frontiers: prevention rate vs. cost vs. speed.</p>
+  </div>
+
+  <h3>What the Final Leaderboard Will Show</h3>
+
+  <div class="card card-accent">
+    <p style="margin:0; font-size:0.9rem; color:var(--text-muted)">Each entry is a <strong>(method, version, tools, context_bundle)</strong> tuple, scored on a <strong>(prevention_rate, tokens, turns, wall_time)</strong> quadruple. Prevention via mutation testing on generated code, not hand-seeded bugs alone. Pareto frontier per model tier for economic ranking.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <h3>Scoring v2 Quadruple</h3>
+
+  <div class="stat-row">
+    <div class="stat-card green">
+      <div class="value" style="font-size:1.2rem">Prevention<br>Rate</div>
+      <div class="label">Mutations killed</div>
+    </div>
+    <div class="stat-card">
+      <div class="value" style="font-size:1.2rem">Tokens</div>
+      <div class="label">Cost proxy</div>
+    </div>
+    <div class="stat-card">
+      <div class="value" style="font-size:1.2rem">Turns</div>
+      <div class="label">Iteration depth</div>
+    </div>
+    <div class="stat-card">
+      <div class="value" style="font-size:1.2rem">Wall<br>Time</div>
+      <div class="label">Latency budget</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h3>Review Triggers</h3>
+  <p>This direction should be re-evaluated if:</p>
+  <ul style="margin:12px 0 24px 20px; color:var(--text); font-size:0.9rem; line-height:2">
+    <li><strong>H1 fails</strong> &mdash; effect-ts v2 scores no higher than v1; docs-uplift hypothesis is wrong</li>
+    <li><strong>R1 tournament shows &lt;5pt spread</strong> &mdash; framework does not discriminate better than original</li>
+    <li><strong>New upstream benchmark</strong> emerges with fundamentally different structure</li>
+    <li><strong>User explicit signal</strong> &mdash; new constraint, budget change, goal shift</li>
+  </ul>
+
+  <div class="card card-green" style="text-align:center; padding:32px">
+    <h3 style="margin-bottom:8px">Phase 7c is running now.</h3>
+    <p style="margin:0; font-size:0.9rem; color:var(--text-muted)">The first versioned agent (<code>effect-ts/v2</code>) is being evaluated. Results will flow into the Evolution Tracker above.</p>
+  </div>
+</section>
+
+</div><!-- .content -->
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- FOOTER                                               -->
+<!-- ════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="content">
+    <p>Super Coder Benchmark &mdash; From Saturation to Signal</p>
+    <p style="margin:4px 0 0">Built April 2026. Data from Phases 1&ndash;6.5. Decision: DRR-2026-04-06.</p>
+    <p style="margin:8px 0 0"><a href="dashboard.html">Open Data Dashboard</a></p>
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- SCRIPTS                                              -->
+<!-- ════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  'use strict';
+
+  // ── Theme Toggle ──────────────────────────────────
+  const root = document.documentElement;
+  const toggle = document.getElementById('themeToggle');
+  const icon = document.getElementById('themeIcon');
+
+  function setTheme(theme) {
+    root.setAttribute('data-theme', theme);
+    icon.textContent = theme === 'dark' ? '\u263E' : '\u2600';
+    localStorage.setItem('pres-theme', theme);
+  }
+
+  toggle.addEventListener('click', function() {
+    const current = root.getAttribute('data-theme') || 'dark';
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  });
+
+  // Load saved theme
+  var saved = localStorage.getItem('pres-theme');
+  setTheme(saved || 'dark');
+
+  // ── Scroll Reveal (IntersectionObserver) ──────────
+  var sections = document.querySelectorAll('.section');
+  var navLinks = document.querySelectorAll('.section-nav a');
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {
+    threshold: 0.08,
+    rootMargin: '0px 0px -50px 0px'
+  });
+
+  sections.forEach(function(s) { observer.observe(s); });
+
+  // ── Active Section Tracking (for nav dots) ────────
+  var sectionObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var id = entry.target.id;
+        navLinks.forEach(function(link) {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, {
+    threshold: 0.3,
+    rootMargin: '-10% 0px -60% 0px'
+  });
+
+  sections.forEach(function(s) { sectionObserver.observe(s); });
+
+  // ── Animated Bar Fills ────────────────────────────
+  var barObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var fills = entry.target.querySelectorAll('.bar-fill');
+        fills.forEach(function(fill) {
+          var w = fill.style.width;
+          fill.style.width = '0%';
+          requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+              fill.style.width = w;
+            });
+          });
+        });
+        barObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.bar-chart').forEach(function(c) {
+    barObserver.observe(c);
+  });
+})();
+</script>
+
+</body>
+</html>
