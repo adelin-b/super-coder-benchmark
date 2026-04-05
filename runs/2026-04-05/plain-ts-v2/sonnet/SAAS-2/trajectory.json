@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "5da71621-61b9-4ee2-ac9e-7b708b4cbce8",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "b2dff646-d1fa-4340-8ea3-ca05706e3a22",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01NVWtcn4agmZurCxzpxkit2",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user wants me to implement a rate limiter module in TypeScript. Let me analyze the spec and implement it.\n\nThe spec mentions:\n- Token bucket rate limiter\n- Per-user limits\n- Burst capacity\n- Sliding window\n\nLet me design a comprehensive implementation based on these requirements.\n\nKey components:\n1. `RateLimiterConfig` - configuration for the rate limiter\n2. `RateLimitResult` - result of checking rate limit\n3. `RateLimiter` class - main class\n\nToken bucket algorithm:\n- Each user has a bucket with a maximum capacity (burst capacity)\n\n\n- Tokens are added at a steady rate (refill rate)\n- Each request consumes tokens\n- If not enough tokens, request is rejected\n\nPer-user limits: store state per user ID\n\nSliding window: track requests in a time window\n\nI'm thinking about how to combine these approaches. The spec mentions token bucket with burst capacity and sliding window, so I'll implement a hybrid approach where the token bucket handles burst capacity and the sliding window enforces per-user time-based limits.\n\nDefining the TypeScript interfaces and main class... I'm thinking through how to combine token bucket and sliding window approaches—the token bucket handles burst capacity while the sliding window enforces sustained rate limits, and a request gets denied if either mechanism rejects it. Now I'm setting up the data structures to track tokens, refill timestamps, and request history for each user.\n\nWriting the rate limiter logic...",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1555,
+        "cache_read_input_tokens": 8798,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1555
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "5da71621-61b9-4ee2-ac9e-7b708b4cbce8",
+    "uuid": "54be6b20-140e-492c-af85-57d9ff709617"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01NVWtcn4agmZurCxzpxkit2",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\n// ratelimit.ts\n\nexport interface RateLimiterConfig {\n  /** Duration of the sliding window in milliseconds */\n  windowMs: number;\n  /** Maximum number of requests allowed per window */\n  maxRequests: number;\n  /** Maximum burst capacity (token bucket size) */\n  burstCapacity: number;\n  /** Token refill rate in tokens per millisecond */\n  refillRate: number;\n}\n\nexport interface RateLimitResult {\n  /** Whether the request is allowed */\n  allowed: boolean;\n  /** Remaining tokens in the bucket */\n  remainingTokens: number;\n  /** Remaining requests allowed in the current sliding window */\n  remainingRequests: number;\n  /** Timestamp (ms since epoch) when the oldest window entry expires */\n  resetAt: number;\n  /** Milliseconds to wait before retrying (only set when allowed is false) */\n  retryAfter?: number;\n}\n\nexport interface UserState {\n  /** Current token count in the bucket */\n  tokens: number;\n  /** Timestamp of the last token refill */\n  lastRefill: number;\n  /** Timestamps of requests within the current sliding window */\n  windowTimestamps: number[];\n}\n\nexport class RateLimiterError extends Error {\n  constructor(message: string) {\n    super(message);\n    this.name = \"RateLimiterError\";\n  }\n}\n\nfunction validateConfig(config: RateLimiterConfig): void {\n  if (!config || typeof config !== \"object\") {\n    throw new RateLimiterError(\"Config must be a non-null object.\");\n  }\n  if (!Number.isFinite(config.windowMs) || config.windowMs <= 0) {\n    throw new RateLimiterError(\"windowMs must be a positive finite number.\");\n  }\n  if (!Number.isInteger(config.maxRequests) || config.maxRequests < 0) {\n    throw new RateLimiterError(\"maxRequests must be a non-negative integer.\");\n  }\n  if (!Number.isFinite(config.burstCapacity) || config.burstCapacity < 0) {\n    throw new RateLimiterError(\"burstCapacity must be a non-negative finite number.\");\n  }\n  if (!Number.isFinite(config.refillRate) || config.refillRate < 0) {\n    throw new RateLimiterError(\"refillRate must be a non-negative finite number.\");\n  }\n}\n\nexport class RateLimiter {\n  private readonly config: Readonly<RateLimiterConfig>;\n  private readonly users: Map<string, UserState>;\n\n  constructor(config: RateLimiterConfig) {\n    validateConfig(config);\n    this.config = Object.freeze({ ...config });\n    this.users = new Map();\n  }\n\n  /**\n   * Check and consume tokens for a given user.\n   * @param userId  A non-empty string identifying the user/key.\n   * @param cost    Number of tokens this request costs (default: 1).\n   */\n  check(userId: string, cost: number = 1): RateLimitResult {\n    if (typeof userId !== \"string\" || userId.trim().length === 0) {\n      throw new RateLimiterError(\"userId must be a non-empty string.\");\n    }\n    if (!Number.isFinite(cost) || cost < 0) {\n      throw new RateLimiterError(\"cost must be a non-negative finite number.\");\n    }\n\n    const now = Date.now();\n    const state = this._getOrCreateState(userId, now);\n\n    // ── Token bucket: refill ──────────────────────────────────────────────\n    const elapsed = now - state.lastRefill;\n    const refilled = elapsed * this.config.refillRate;\n    state.tokens = Math.min(state.tokens + refilled, this.config.burstCapacity);\n    state.lastRefill = now;\n\n    // ── Sliding window: evict stale timestamps ────────────────────────────\n    const windowStart = now - this.config.windowMs;\n    state.windowTimestamps = state.windowTimestamps.filter((t) => t > windowStart);\n\n    const windowCount = state.windowTimestamps.length;\n\n    // ── Evaluate limits ───────────────────────────────────────────────────\n    const bucketDenied = state.tokens < cost;\n    const windowDenied = windowCount >= this.config.maxRequests;\n\n    const resetAt =\n      state.windowTimestamps.length > 0\n        ? state.windowTimestamps[0] + this.config.windowMs\n        : now + this.config.windowMs;\n\n    if (bucketDenied || windowDenied) {\n      let retryAfter: number;\n\n      if (bucketDenied && !windowDenied) {\n        // Time for enough tokens to accumulate\n        const deficit = cost - state.tokens;\n        retryAfter = this.config.refillRate > 0\n          ? Math.ceil(deficit / this.config.refillRate)\n          : Infinity;\n      } else if (windowDenied && !bucketDenied) {\n        // Time until the oldest timestamp leaves the window\n        retryAfter = Math.max(0, resetAt - now);\n      } else {\n        // Both denied — take the longer wait\n        const deficit = cost - state.tokens;\n        const tokenWait = this.config.refillRate > 0\n          ? Math.ceil(deficit / this.config.refillRate)\n          : Infinity;\n        const windowWait = Math.max(0, resetAt - now);\n        retryAfter = Math.max(tokenWait, windowWait);\n      }\n\n      return {\n        allowed: false,\n        remainingTokens: Math.floor(state.tokens),\n        remainingRequests: Math.max(0, this.config.maxRequests - windowCount),\n        resetAt,\n        retryAfter,\n      };\n    }\n\n    // ── Allow: consume ────────────────────────────────────────────────────\n    state.tokens -= cost;\n    state.windowTimestamps.push(now);\n\n    const newWindowCount = state.windowTimestamps.length;\n\n    return {\n      allowed: true,\n      remainingTokens: Math.floor(state.tokens),\n      remainingRequests: Math.max(0, this.config.maxRequests - newWindowCount),\n      resetAt:\n        state.windowTimestamps.length > 0\n          ? state.windowTimestamps[0] + this.config.windowMs\n          : now + this.config.windowMs,\n    };\n  }\n\n  /**\n   * Reset the state for a specific user, as if they have never made a request.\n   */\n  reset(userId: string): void {\n    if (typeof userId !== \"string\" || userId.trim().length === 0) {\n      throw new RateLimiterError(\"userId must be a non-empty string.\");\n    }\n    this.users.delete(userId);\n  }\n\n  /**\n   * Reset the state for ALL users.\n   */\n  resetAll(): void {\n    this.users.clear();\n  }\n\n  /**\n   * Retrieve the current state snapshot for a user without modifying it.\n   * Returns undefined if the user has no recorded state.\n   */\n  getState(userId: string): Readonly<UserState> | undefined {\n    if (typeof userId !== \"string\" || userId.trim().length === 0) {\n      throw new RateLimiterError(\"userId must be a non-empty string.\");\n    }\n    const state = this.users.get(userId);\n    if (!state) return undefined;\n    return {\n      tokens: state.tokens,\n      lastRefill: state.lastRefill,\n      windowTimestamps: [...state.windowTimestamps],\n    };\n  }\n\n  /**\n   * Number of users currently tracked.\n   */\n  get size(): number {\n    return this.users.size;\n  }\n\n  // ── Private helpers ───────────────────────────────────────────────────────\n\n  private _getOrCreateState(userId: string, now: number): UserState {\n    let state = this.users.get(userId);\n    if (!state) {\n      state = {\n        tokens: this.config.burstCapacity,\n        lastRefill: now,\n        windowTimestamps: [],\n      };\n      this.users.set(userId, state);\n    }\n    return state;\n  }\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1555,
+        "cache_read_input_tokens": 8798,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1555
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "5da71621-61b9-4ee2-ac9e-7b708b4cbce8",
+    "uuid": "ad6c5b42-bfe5-4ac7-bea5-ceb8d55e6385"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.84,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "d9cef472-84d4-424f-b87a-b8cdf2e6e6cf",
+    "session_id": "5da71621-61b9-4ee2-ac9e-7b708b4cbce8"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 34933,
+    "duration_api_ms": 34900,
+    "num_turns": 1,
+    "result": "```typescript\n// ratelimit.ts\n\nexport interface RateLimiterConfig {\n  /** Duration of the sliding window in milliseconds */\n  windowMs: number;\n  /** Maximum number of requests allowed per window */\n  maxRequests: number;\n  /** Maximum burst capacity (token bucket size) */\n  burstCapacity: number;\n  /** Token refill rate in tokens per millisecond */\n  refillRate: number;\n}\n\nexport interface RateLimitResult {\n  /** Whether the request is allowed */\n  allowed: boolean;\n  /** Remaining tokens in the bucket */\n  remainingTokens: number;\n  /** Remaining requests allowed in the current sliding window */\n  remainingRequests: number;\n  /** Timestamp (ms since epoch) when the oldest window entry expires */\n  resetAt: number;\n  /** Milliseconds to wait before retrying (only set when allowed is false) */\n  retryAfter?: number;\n}\n\nexport interface UserState {\n  /** Current token count in the bucket */\n  tokens: number;\n  /** Timestamp of the last token refill */\n  lastRefill: number;\n  /** Timestamps of requests within the current sliding window */\n  windowTimestamps: number[];\n}\n\nexport class RateLimiterError extends Error {\n  constructor(message: string) {\n    super(message);\n    this.name = \"RateLimiterError\";\n  }\n}\n\nfunction validateConfig(config: RateLimiterConfig): void {\n  if (!config || typeof config !== \"object\") {\n    throw new RateLimiterError(\"Config must be a non-null object.\");\n  }\n  if (!Number.isFinite(config.windowMs) || config.windowMs <= 0) {\n    throw new RateLimiterError(\"windowMs must be a positive finite number.\");\n  }\n  if (!Number.isInteger(config.maxRequests) || config.maxRequests < 0) {\n    throw new RateLimiterError(\"maxRequests must be a non-negative integer.\");\n  }\n  if (!Number.isFinite(config.burstCapacity) || config.burstCapacity < 0) {\n    throw new RateLimiterError(\"burstCapacity must be a non-negative finite number.\");\n  }\n  if (!Number.isFinite(config.refillRate) || config.refillRate < 0) {\n    throw new RateLimiterError(\"refillRate must be a non-negative finite number.\");\n  }\n}\n\nexport class RateLimiter {\n  private readonly config: Readonly<RateLimiterConfig>;\n  private readonly users: Map<string, UserState>;\n\n  constructor(config: RateLimiterConfig) {\n    validateConfig(config);\n    this.config = Object.freeze({ ...config });\n    this.users = new Map();\n  }\n\n  /**\n   * Check and consume tokens for a given user.\n   * @param userId  A non-empty string identifying the user/key.\n   * @param cost    Number of tokens this request costs (default: 1).\n   */\n  check(userId: string, cost: number = 1): RateLimitResult {\n    if (typeof userId !== \"string\" || userId.trim().length === 0) {\n      throw new RateLimiterError(\"userId must be a non-empty string.\");\n    }\n    if (!Number.isFinite(cost) || cost < 0) {\n      throw new RateLimiterError(\"cost must be a non-negative finite number.\");\n    }\n\n    const now = Date.now();\n    const state = this._getOrCreateState(userId, now);\n\n    // ── Token bucket: refill ──────────────────────────────────────────────\n    const elapsed = now - state.lastRefill;\n    const refilled = elapsed * this.config.refillRate;\n    state.tokens = Math.min(state.tokens + refilled, this.config.burstCapacity);\n    state.lastRefill = now;\n\n    // ── Sliding window: evict stale timestamps ────────────────────────────\n    const windowStart = now - this.config.windowMs;\n    state.windowTimestamps = state.windowTimestamps.filter((t) => t > windowStart);\n\n    const windowCount = state.windowTimestamps.length;\n\n    // ── Evaluate limits ───────────────────────────────────────────────────\n    const bucketDenied = state.tokens < cost;\n    const windowDenied = windowCount >= this.config.maxRequests;\n\n    const resetAt =\n      state.windowTimestamps.length > 0\n        ? state.windowTimestamps[0] + this.config.windowMs\n        : now + this.config.windowMs;\n\n    if (bucketDenied || windowDenied) {\n      let retryAfter: number;\n\n      if (bucketDenied && !windowDenied) {\n        // Time for enough tokens to accumulate\n        const deficit = cost - state.tokens;\n        retryAfter = this.config.refillRate > 0\n          ? Math.ceil(deficit / this.config.refillRate)\n          : Infinity;\n      } else if (windowDenied && !bucketDenied) {\n        // Time until the oldest timestamp leaves the window\n        retryAfter = Math.max(0, resetAt - now);\n      } else {\n        // Both denied — take the longer wait\n        const deficit = cost - state.tokens;\n        const tokenWait = this.config.refillRate > 0\n          ? Math.ceil(deficit / this.config.refillRate)\n          : Infinity;\n        const windowWait = Math.max(0, resetAt - now);\n        retryAfter = Math.max(tokenWait, windowWait);\n      }\n\n      return {\n        allowed: false,\n        remainingTokens: Math.floor(state.tokens),\n        remainingRequests: Math.max(0, this.config.maxRequests - windowCount),\n        resetAt,\n        retryAfter,\n      };\n    }\n\n    // ── Allow: consume ────────────────────────────────────────────────────\n    state.tokens -= cost;\n    state.windowTimestamps.push(now);\n\n    const newWindowCount = state.windowTimestamps.length;\n\n    return {\n      allowed: true,\n      remainingTokens: Math.floor(state.tokens),\n      remainingRequests: Math.max(0, this.config.maxRequests - newWindowCount),\n      resetAt:\n        state.windowTimestamps.length > 0\n          ? state.windowTimestamps[0] + this.config.windowMs\n          : now + this.config.windowMs,\n    };\n  }\n\n  /**\n   * Reset the state for a specific user, as if they have never made a request.\n   */\n  reset(userId: string): void {\n    if (typeof userId !== \"string\" || userId.trim().length === 0) {\n      throw new RateLimiterError(\"userId must be a non-empty string.\");\n    }\n    this.users.delete(userId);\n  }\n\n  /**\n   * Reset the state for ALL users.\n   */\n  resetAll(): void {\n    this.users.clear();\n  }\n\n  /**\n   * Retrieve the current state snapshot for a user without modifying it.\n   * Returns undefined if the user has no recorded state.\n   */\n  getState(userId: string): Readonly<UserState> | undefined {\n    if (typeof userId !== \"string\" || userId.trim().length === 0) {\n      throw new RateLimiterError(\"userId must be a non-empty string.\");\n    }\n    const state = this.users.get(userId);\n    if (!state) return undefined;\n    return {\n      tokens: state.tokens,\n      lastRefill: state.lastRefill,\n      windowTimestamps: [...state.windowTimestamps],\n    };\n  }\n\n  /**\n   * Number of users currently tracked.\n   */\n  get size(): number {\n    return this.users.size;\n  }\n\n  // ── Private helpers ───────────────────────────────────────────────────────\n\n  private _getOrCreateState(userId: string, now: number): UserState {\n    let state = this.users.get(userId);\n    if (!state) {\n      state = {\n        tokens: this.config.burstCapacity,\n        lastRefill: now,\n        windowTimestamps: [],\n      };\n      this.users.set(userId, state);\n    }\n    return state;\n  }\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "5da71621-61b9-4ee2-ac9e-7b708b4cbce8",
+    "total_cost_usd": 0.05332665,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 1555,
+      "cache_read_input_tokens": 8798,
+      "output_tokens": 2990,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1555,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 2990,
+        "cacheReadInputTokens": 8798,
+        "cacheCreationInputTokens": 1555,
+        "webSearchRequests": 0,
+        "costUSD": 0.05332665,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "ba8fddc3-dbe3-4739-9228-e01e4d97e372"
+  }
+]

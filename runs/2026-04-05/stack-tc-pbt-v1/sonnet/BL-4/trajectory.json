@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "d735a749-3321-4f2d-b97c-7aeaf43f40af",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "1245b08c-33b2-4d4a-8cb4-ad03d56d2b25",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01BNWPCNH1ASCp1ay2JLGoN5",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user wants me to implement a proration calculator in TypeScript. Let me think about what a proration calculator needs based on the spec description.\n\nProration calculator splits a charge across time periods proportionally - like monthly billing with mid-month changes.\n\nLet me think about what this module should export:\n\n1. A function to calculate proration\n2. Types for the inputs/outputs\n\nThe spec is minimal, so I'll implement a reasonable, well-typed proration calculator that handles:\n- Splitting a charge across time periods proportionally\n- Monthly billing with mid-month changes\n- Edge cases: empty periods, zero amounts, boundary conditions\n\n\nNow I'm designing the API structure. I need to define the input and output types - the core being a way to specify a total amount, a billing period, and when changes occur mid-period, then return the prorated amounts for each portion. Building the proration calculator...",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1556,
+        "cache_read_input_tokens": 9623,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1556
+        },
+        "output_tokens": 1,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "d735a749-3321-4f2d-b97c-7aeaf43f40af",
+    "uuid": "c3569923-dd8b-4446-a3ac-cfe21560517b"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01BNWPCNH1ASCp1ay2JLGoN5",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\n/**\n * BL-4: Proration Calculator\n * Splits a charge across time periods proportionally.\n */\n\n// ---------------------------------------------------------------------------\n// Types\n// ---------------------------------------------------------------------------\n\nexport interface Period {\n  /** Inclusive start of the billing period. */\n  start: Date;\n  /** Exclusive end of the billing period (first moment that is NOT included). */\n  end: Date;\n}\n\nexport interface ProratedSegment {\n  start: Date;\n  end: Date;\n  /** Number of calendar days in this segment. */\n  days: number;\n  /** Fraction of the total period this segment represents (0 ≤ fraction ≤ 1). */\n  fraction: number;\n  /** Prorated amount allocated to this segment, rounded to 2 decimal places. */\n  amount: number;\n}\n\nexport interface ProrationResult {\n  /** Original total charge that was split. */\n  totalAmount: number;\n  /** Total calendar days in the billing period. */\n  totalDays: number;\n  /** Ordered list of prorated segments (always sums to totalAmount within ±0.01). */\n  segments: ProratedSegment[];\n}\n\n// ---------------------------------------------------------------------------\n// Errors\n// ---------------------------------------------------------------------------\n\nexport class ProrationError extends Error {\n  constructor(message: string) {\n    super(message);\n    this.name = \"ProrationError\";\n  }\n}\n\n// ---------------------------------------------------------------------------\n// Helpers\n// ---------------------------------------------------------------------------\n\n/**\n * Returns the number of whole calendar days between two dates.\n * Uses UTC day arithmetic to avoid DST issues.\n */\nexport function daysInPeriod(period: Period): number {\n  const msPerDay = 86_400_000;\n  const diff = period.end.getTime() - period.start.getTime();\n  return Math.round(diff / msPerDay);\n}\n\n/**\n * Returns the per-day charge for an amount over a period.\n * Throws ProrationError if the period has zero or negative length.\n */\nexport function dailyRate(amount: number, period: Period): number {\n  const days = daysInPeriod(period);\n  if (days <= 0) {\n    throw new ProrationError(\n      `Period must be at least 1 day long (got ${days} days).`\n    );\n  }\n  return amount / days;\n}\n\n// ---------------------------------------------------------------------------\n// Core functions\n// ---------------------------------------------------------------------------\n\n/**\n * Split `amount` across `billingPeriod` using the provided `splitDates`.\n *\n * Rules:\n * - `billingPeriod.start` < `billingPeriod.end` (at least 1 day).\n * - `amount` may be negative (credits).\n * - `splitDates` that fall outside `billingPeriod` are ignored.\n * - Duplicate / boundary split dates are deduplicated.\n * - Rounding remainder is added to the last segment so total is exact.\n *\n * @param amount      Total charge to prorate.\n * @param billingPeriod  The full billing period [start, end).\n * @param splitDates  Dates at which the period should be split.\n * @returns ProrationResult with one segment per sub-period.\n */\nexport function prorate(\n  amount: number,\n  billingPeriod: Period,\n  splitDates: Date[] = []\n): ProrationResult {\n  if (!Number.isFinite(amount)) {\n    throw new ProrationError(`amount must be a finite number (got ${amount}).`);\n  }\n\n  const totalDays = daysInPeriod(billingPeriod); // throws if period invalid\n\n  if (totalDays <= 0) {\n    throw new ProrationError(\n      `billingPeriod must span at least 1 day (got ${totalDays} days).`\n    );\n  }\n\n  // Collect boundary timestamps, filtering to inside (start, end) exclusive\n  const startTs = billingPeriod.start.getTime();\n  const endTs = billingPeriod.end.getTime();\n\n  const boundaries = Array.from(\n    new Set(\n      splitDates\n        .map((d) => d.getTime())\n        .filter((ts) => ts > startTs && ts < endTs)\n    )\n  ).sort((a, b) => a - b);\n\n  // Build ordered list of [segmentStart, segmentEnd) timestamps\n  const points = [startTs, ...boundaries, endTs];\n\n  const segments: ProratedSegment[] = [];\n  let allocatedCents = 0;\n  const totalCents = Math.round(amount * 100);\n\n  for (let i = 0; i < points.length - 1; i++) {\n    const segStart = new Date(points[i]);\n    const segEnd = new Date(points[i + 1]);\n    const days = Math.round((points[i + 1] - points[i]) / 86_400_000);\n    const fraction = days / totalDays;\n\n    const isLast = i === points.length - 2;\n    let segmentCents: number;\n\n    if (isLast) {\n      // Absorb rounding remainder in the final segment\n      segmentCents = totalCents - allocatedCents;\n    } else {\n      segmentCents = Math.round(fraction * totalCents);\n      allocatedCents += segmentCents;\n    }\n\n    segments.push({\n      start: segStart,\n      end: segEnd,\n      days,\n      fraction: Number(fraction.toFixed(10)),\n      amount: segmentCents / 100,\n    });\n  }\n\n  return {\n    totalAmount: amount,\n    totalDays,\n    segments,\n  };\n}\n\n/**\n * Convenience wrapper for the common case of a single mid-period change.\n *\n * @param amount         Total charge for the full billing period.\n * @param billingPeriod  The full billing period.\n * @param changeDate     Date at which something changed mid-period.\n * @returns Tuple [beforeChange, afterChange] of ProratedSegment.\n */\nexport function prorateAtChange(\n  amount: number,\n  billingPeriod: Period,\n  changeDate: Date\n): [ProratedSegment, ProratedSegment] {\n  const result = prorate(amount, billingPeriod, [changeDate]);\n\n  if (result.segments.length !== 2) {\n    throw new ProrationError(\n      `changeDate must fall strictly inside the billing period.`\n    );\n  }\n\n  return [result.segments[0], result.segments[1]];\n}\n\n/**\n * Calculates the prorated amount for a partial period without a full split.\n *\n * Useful when a subscription starts or ends mid-period.\n *\n * @param fullPeriodAmount  Amount that would be charged for the full period.\n * @param fullPeriod        The full billing period.\n * @param activePeriod      The sub-period the customer was actually active.\n * @returns Prorated amount for the active sub-period.\n */\nexport function proratePartialPeriod(\n  fullPeriodAmount: number,\n  fullPeriod: Period,\n  activePeriod: Period\n): number {\n  if (!Number.isFinite(fullPeriodAmount)) {\n    throw new ProrationError(\n      `fullPeriodAmount must be a finite number (got ${fullPeriodAmount}).`\n    );\n  }\n\n  const totalDays = daysInPeriod(fullPeriod);\n  if (totalDays <= 0) {\n    throw new ProrationError(\n      `fullPeriod must span at least 1 day (got ${totalDays} days).`\n    );\n  }\n\n  const activeDays = daysInPeriod(activePeriod);\n  if (activeDays < 0) {\n    throw new ProrationError(\n      `activePeriod end must be >= start (got ${activeDays} days).`\n    );\n  }\n  if (activeDays === 0) {\n    return 0;\n  }\n\n  if (\n    activePeriod.start.getTime() < fullPeriod.start.getTime() ||\n    activePeriod.end.getTime() > fullPeriod.end.getTime()\n  ) {\n    throw new ProrationError(\n      \"activePeriod must be contained within fullPeriod.\"\n    );\n  }\n\n  const fraction = activeDays / totalDays;\n  return Math.round(fullPeriodAmount * fraction * 100) / 100;\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1556,
+        "cache_read_input_tokens": 9623,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1556
+        },
+        "output_tokens": 1,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "d735a749-3321-4f2d-b97c-7aeaf43f40af",
+    "uuid": "68d825aa-195e-4e57-b1c8-ea8dbededa58"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.84,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "519794e4-172c-4ecf-a7f7-f38956218372",
+    "session_id": "d735a749-3321-4f2d-b97c-7aeaf43f40af"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 35221,
+    "duration_api_ms": 35195,
+    "num_turns": 1,
+    "result": "```typescript\n/**\n * BL-4: Proration Calculator\n * Splits a charge across time periods proportionally.\n */\n\n// ---------------------------------------------------------------------------\n// Types\n// ---------------------------------------------------------------------------\n\nexport interface Period {\n  /** Inclusive start of the billing period. */\n  start: Date;\n  /** Exclusive end of the billing period (first moment that is NOT included). */\n  end: Date;\n}\n\nexport interface ProratedSegment {\n  start: Date;\n  end: Date;\n  /** Number of calendar days in this segment. */\n  days: number;\n  /** Fraction of the total period this segment represents (0 ≤ fraction ≤ 1). */\n  fraction: number;\n  /** Prorated amount allocated to this segment, rounded to 2 decimal places. */\n  amount: number;\n}\n\nexport interface ProrationResult {\n  /** Original total charge that was split. */\n  totalAmount: number;\n  /** Total calendar days in the billing period. */\n  totalDays: number;\n  /** Ordered list of prorated segments (always sums to totalAmount within ±0.01). */\n  segments: ProratedSegment[];\n}\n\n// ---------------------------------------------------------------------------\n// Errors\n// ---------------------------------------------------------------------------\n\nexport class ProrationError extends Error {\n  constructor(message: string) {\n    super(message);\n    this.name = \"ProrationError\";\n  }\n}\n\n// ---------------------------------------------------------------------------\n// Helpers\n// ---------------------------------------------------------------------------\n\n/**\n * Returns the number of whole calendar days between two dates.\n * Uses UTC day arithmetic to avoid DST issues.\n */\nexport function daysInPeriod(period: Period): number {\n  const msPerDay = 86_400_000;\n  const diff = period.end.getTime() - period.start.getTime();\n  return Math.round(diff / msPerDay);\n}\n\n/**\n * Returns the per-day charge for an amount over a period.\n * Throws ProrationError if the period has zero or negative length.\n */\nexport function dailyRate(amount: number, period: Period): number {\n  const days = daysInPeriod(period);\n  if (days <= 0) {\n    throw new ProrationError(\n      `Period must be at least 1 day long (got ${days} days).`\n    );\n  }\n  return amount / days;\n}\n\n// ---------------------------------------------------------------------------\n// Core functions\n// ---------------------------------------------------------------------------\n\n/**\n * Split `amount` across `billingPeriod` using the provided `splitDates`.\n *\n * Rules:\n * - `billingPeriod.start` < `billingPeriod.end` (at least 1 day).\n * - `amount` may be negative (credits).\n * - `splitDates` that fall outside `billingPeriod` are ignored.\n * - Duplicate / boundary split dates are deduplicated.\n * - Rounding remainder is added to the last segment so total is exact.\n *\n * @param amount      Total charge to prorate.\n * @param billingPeriod  The full billing period [start, end).\n * @param splitDates  Dates at which the period should be split.\n * @returns ProrationResult with one segment per sub-period.\n */\nexport function prorate(\n  amount: number,\n  billingPeriod: Period,\n  splitDates: Date[] = []\n): ProrationResult {\n  if (!Number.isFinite(amount)) {\n    throw new ProrationError(`amount must be a finite number (got ${amount}).`);\n  }\n\n  const totalDays = daysInPeriod(billingPeriod); // throws if period invalid\n\n  if (totalDays <= 0) {\n    throw new ProrationError(\n      `billingPeriod must span at least 1 day (got ${totalDays} days).`\n    );\n  }\n\n  // Collect boundary timestamps, filtering to inside (start, end) exclusive\n  const startTs = billingPeriod.start.getTime();\n  const endTs = billingPeriod.end.getTime();\n\n  const boundaries = Array.from(\n    new Set(\n      splitDates\n        .map((d) => d.getTime())\n        .filter((ts) => ts > startTs && ts < endTs)\n    )\n  ).sort((a, b) => a - b);\n\n  // Build ordered list of [segmentStart, segmentEnd) timestamps\n  const points = [startTs, ...boundaries, endTs];\n\n  const segments: ProratedSegment[] = [];\n  let allocatedCents = 0;\n  const totalCents = Math.round(amount * 100);\n\n  for (let i = 0; i < points.length - 1; i++) {\n    const segStart = new Date(points[i]);\n    const segEnd = new Date(points[i + 1]);\n    const days = Math.round((points[i + 1] - points[i]) / 86_400_000);\n    const fraction = days / totalDays;\n\n    const isLast = i === points.length - 2;\n    let segmentCents: number;\n\n    if (isLast) {\n      // Absorb rounding remainder in the final segment\n      segmentCents = totalCents - allocatedCents;\n    } else {\n      segmentCents = Math.round(fraction * totalCents);\n      allocatedCents += segmentCents;\n    }\n\n    segments.push({\n      start: segStart,\n      end: segEnd,\n      days,\n      fraction: Number(fraction.toFixed(10)),\n      amount: segmentCents / 100,\n    });\n  }\n\n  return {\n    totalAmount: amount,\n    totalDays,\n    segments,\n  };\n}\n\n/**\n * Convenience wrapper for the common case of a single mid-period change.\n *\n * @param amount         Total charge for the full billing period.\n * @param billingPeriod  The full billing period.\n * @param changeDate     Date at which something changed mid-period.\n * @returns Tuple [beforeChange, afterChange] of ProratedSegment.\n */\nexport function prorateAtChange(\n  amount: number,\n  billingPeriod: Period,\n  changeDate: Date\n): [ProratedSegment, ProratedSegment] {\n  const result = prorate(amount, billingPeriod, [changeDate]);\n\n  if (result.segments.length !== 2) {\n    throw new ProrationError(\n      `changeDate must fall strictly inside the billing period.`\n    );\n  }\n\n  return [result.segments[0], result.segments[1]];\n}\n\n/**\n * Calculates the prorated amount for a partial period without a full split.\n *\n * Useful when a subscription starts or ends mid-period.\n *\n * @param fullPeriodAmount  Amount that would be charged for the full period.\n * @param fullPeriod        The full billing period.\n * @param activePeriod      The sub-period the customer was actually active.\n * @returns Prorated amount for the active sub-period.\n */\nexport function proratePartialPeriod(\n  fullPeriodAmount: number,\n  fullPeriod: Period,\n  activePeriod: Period\n): number {\n  if (!Number.isFinite(fullPeriodAmount)) {\n    throw new ProrationError(\n      `fullPeriodAmount must be a finite number (got ${fullPeriodAmount}).`\n    );\n  }\n\n  const totalDays = daysInPeriod(fullPeriod);\n  if (totalDays <= 0) {\n    throw new ProrationError(\n      `fullPeriod must span at least 1 day (got ${totalDays} days).`\n    );\n  }\n\n  const activeDays = daysInPeriod(activePeriod);\n  if (activeDays < 0) {\n    throw new ProrationError(\n      `activePeriod end must be >= start (got ${activeDays} days).`\n    );\n  }\n  if (activeDays === 0) {\n    return 0;\n  }\n\n  if (\n    activePeriod.start.getTime() < fullPeriod.start.getTime() ||\n    activePeriod.end.getTime() > fullPeriod.end.getTime()\n  ) {\n    throw new ProrationError(\n      \"activePeriod must be contained within fullPeriod.\"\n    );\n  }\n\n  const fraction = activeDays / totalDays;\n  return Math.round(fullPeriodAmount * fraction * 100) / 100;\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "d735a749-3321-4f2d-b97c-7aeaf43f40af",
+    "total_cost_usd": 0.05092289999999999,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 1556,
+      "cache_read_input_tokens": 9623,
+      "output_tokens": 2813,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1556,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 2813,
+        "cacheReadInputTokens": 9623,
+        "cacheCreationInputTokens": 1556,
+        "webSearchRequests": 0,
+        "costUSD": 0.05092289999999999,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "8041cf2d-eb16-4687-94ff-64c7bc84727e"
+  }
+]

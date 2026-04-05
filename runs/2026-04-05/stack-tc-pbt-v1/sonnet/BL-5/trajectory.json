@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "d960c32c-1422-4f3f-938d-1d39ae29c0bf",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "bd37815c-46da-4756-a220-2ca701fe0724",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01L8zLKgMRwmqXzSWLfC2XiS",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user wants me to implement a TypeScript module called `inventory.ts` based on the spec \"BL-5: Inventory Reservation System\". Let me think about what this system needs:\n\n1. Reserve stock\n2. Release stock\n3. Check availability\n4. Handle concurrent-style operations\n\nLet me design a comprehensive inventory reservation system with these features:\n\n- `InventoryItem` - represents a stock item with total quantity and reserved quantity\n- `Reservation` - represents a reservation with id, item, quantity, and status\n- `InventoryStore` - manages items and reservations\n\n\n- Core methods like reserve, release, checkAvailability, and addStock with proper error handling and type safety.",
+          "signature": "EvkGClsIDBgCKkChlXaFBx8zYn2EQmHqYFhPf8A3lIo6lqHwattsYEuKGH2O/YuoCWwX3JgINzpV5Bo+sTSE1dHEJ9bE5BP2CGjvMhFjbGF1ZGUtc29ubmV0LTQtNjgAEgyLefS2EZQTKxl3r4gaDEYDo6g9GE/OwzdgLSIwpLvDLz1flsyHS+KAFR/cs1o7qbDK73KxA+fXEmxDjHJ9UsZqvJZT/wR8WoOPx3vBKssFAYBi8PqcLuhkNI/+qWuemax5FK6o7y182ecZZasZQNhNJlpxWKadSoH/xpSFKv+dLWSgtx9lmIlAu+5mU9KZXeIiPjFmeI6p+vzDn1A9gGgaDNwj51Pgtzr8OZbLDAQ+sbUK68pOpvViTzF4u9FP19DGLFZZyanYXuA7FMaIAaVKX8H4/XtaYpfuwclr/IbZfaFRchqCZwvXQ5rcyjrlMWo3MukPOnTJ2zv/YFp32GNmwcRcyUncnKIteCb1R0psm0KOkPf0ItWk1yu5+C/YD6Bw6OkcZguHwGDBcimMkXj7b4cEupQw+trl9IpSG0UdBHitsDNmuvnJsyP1f6B1/s2scr6h9npH7PQvdYP8YxceOLZQo8YZd0BAvK9AHTDOZ3XmQhwAC+l8nY61gZUr6RQ+UPicbEQ9Iz8MJqPnakwGPIUZHnB0X6x+fYQ670Co6qWccTDgkulCzXJ2h9nXDONe1gq46Nj02So98/N7FshFbJb3hRGB/n5rGYprfjrr/xu4kVGD8xCw/4VfolaCpNluDNfdBX6am3DUu2k4FDGWSZ4AtsKZ3LzthsaGU9f6vS+TVKxVW6Jyx04y/l43HqSqtJvU7LFz6+A11hTIpuSY59yU7iF6O63wapUVVMDh7OIBudnTrRqbsEXbieYqE0DLsG7dR/scR6CDgd8V4Vjj0J1OkAr0eS5JY5N+pNsL4bZpIvfUa4zcDJMfV1XZdtTD5D9+DjWWueXZX4e14lfasb5ode/aM9HLXj2k/js02+byMbSvIa9pltO530h4Xgw4+wvirsWeVwnzf9EqbiC9ZUYjaZCPJbNE78tC6szlSbZpS9SBk+3P5R+hruubVh/9uWhodzbCegkH3bfgsEN5f8Fvu9r1c+trCjsAlSNoz+BS4ifg39UxT+krpIU7XzVpnOGpgaOayII/BhzvuhDe0IkR2Da6VHkS3hgB"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1549,
+        "cache_read_input_tokens": 9623,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1549
+        },
+        "output_tokens": 6,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "d960c32c-1422-4f3f-938d-1d39ae29c0bf",
+    "uuid": "3a77e964-39cc-462a-b265-cf9fda460f0c"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01L8zLKgMRwmqXzSWLfC2XiS",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nimport { randomUUID } from \"crypto\"\n\n// ─── Types & Errors ──────────────────────────────────────────────────────────\n\nexport type ReservationStatus = \"active\" | \"released\" | \"expired\"\n\nexport interface InventoryItem {\n  sku: string\n  totalQuantity: number\n  reservedQuantity: number\n  availableQuantity: number\n}\n\nexport interface Reservation {\n  id: string\n  sku: string\n  quantity: number\n  status: ReservationStatus\n  createdAt: Date\n  expiresAt: Date | null\n  releasedAt: Date | null\n}\n\nexport interface ReserveOptions {\n  ttlMs?: number // time-to-live in milliseconds; null = no expiry\n}\n\nexport interface ReleaseResult {\n  released: boolean\n  reservation: Reservation\n}\n\nexport interface AvailabilityResult {\n  sku: string\n  totalQuantity: number\n  reservedQuantity: number\n  availableQuantity: number\n  canFulfill: (qty: number) => boolean\n}\n\nexport class InventoryError extends Error {\n  constructor(\n    message: string,\n    public readonly code: string\n  ) {\n    super(message)\n    this.name = \"InventoryError\"\n  }\n}\n\nexport class InsufficientStockError extends InventoryError {\n  constructor(\n    public readonly sku: string,\n    public readonly requested: number,\n    public readonly available: number\n  ) {\n    super(\n      `Insufficient stock for SKU \"${sku}\": requested ${requested}, available ${available}`,\n      \"INSUFFICIENT_STOCK\"\n    )\n    this.name = \"InsufficientStockError\"\n  }\n}\n\nexport class SkuNotFoundError extends InventoryError {\n  constructor(public readonly sku: string) {\n    super(`SKU \"${sku}\" not found in inventory`, \"SKU_NOT_FOUND\")\n    this.name = \"SkuNotFoundError\"\n  }\n}\n\nexport class ReservationNotFoundError extends InventoryError {\n  constructor(public readonly reservationId: string) {\n    super(`Reservation \"${reservationId}\" not found`, \"RESERVATION_NOT_FOUND\")\n    this.name = \"ReservationNotFoundError\"\n  }\n}\n\nexport class InvalidQuantityError extends InventoryError {\n  constructor(quantity: number) {\n    super(`Quantity must be a positive integer, got ${quantity}`, \"INVALID_QUANTITY\")\n    this.name = \"InvalidQuantityError\"\n  }\n}\n\n// ─── Internal State ───────────────────────────────────────────────────────────\n\ninterface InternalItem {\n  sku: string\n  totalQuantity: number\n  reservedQuantity: number\n}\n\ninterface InternalReservation {\n  id: string\n  sku: string\n  quantity: number\n  status: ReservationStatus\n  createdAt: Date\n  expiresAt: Date | null\n  releasedAt: Date | null\n}\n\n// ─── Inventory Store ──────────────────────────────────────────────────────────\n\nexport class InventoryStore {\n  private items = new Map<string, InternalItem>()\n  private reservations = new Map<string, InternalReservation>()\n  private expiryTimers = new Map<string, ReturnType<typeof setTimeout>>()\n\n  // ── Stock management ────────────────────────────────────────────────────────\n\n  /**\n   * Add a new SKU or increase the total quantity of an existing one.\n   * Quantity must be a positive integer.\n   */\n  addStock(sku: string, quantity: number): InventoryItem {\n    validateSku(sku)\n    validateQuantity(quantity)\n\n    const existing = this.items.get(sku)\n    if (existing) {\n      existing.totalQuantity += quantity\n    } else {\n      this.items.set(sku, { sku, totalQuantity: quantity, reservedQuantity: 0 })\n    }\n\n    return this.buildItem(this.items.get(sku)!)\n  }\n\n  /**\n   * Remove stock from total. Cannot remove more than is currently available\n   * (i.e. total minus reserved).\n   */\n  removeStock(sku: string, quantity: number): InventoryItem {\n    validateSku(sku)\n    validateQuantity(quantity)\n\n    const item = this.requireItem(sku)\n    const available = item.totalQuantity - item.reservedQuantity\n\n    if (quantity > available) {\n      throw new InsufficientStockError(sku, quantity, available)\n    }\n\n    item.totalQuantity -= quantity\n    return this.buildItem(item)\n  }\n\n  /**\n   * Completely remove a SKU. Fails if there are active reservations.\n   */\n  removeSku(sku: string): void {\n    validateSku(sku)\n    const item = this.requireItem(sku)\n\n    if (item.reservedQuantity > 0) {\n      throw new InventoryError(\n        `Cannot remove SKU \"${sku}\" while ${item.reservedQuantity} units are reserved`,\n        \"SKU_HAS_ACTIVE_RESERVATIONS\"\n      )\n    }\n\n    this.items.delete(sku)\n  }\n\n  // ── Availability ────────────────────────────────────────────────────────────\n\n  /**\n   * Check availability for a given SKU.\n   * Expired reservations are purged before calculating.\n   */\n  checkAvailability(sku: string): AvailabilityResult {\n    validateSku(sku)\n    this.purgeExpired(sku)\n    const item = this.requireItem(sku)\n    return this.buildAvailability(item)\n  }\n\n  /**\n   * Check availability for all SKUs.\n   */\n  checkAllAvailability(): AvailabilityResult[] {\n    for (const sku of this.items.keys()) {\n      this.purgeExpired(sku)\n    }\n    return Array.from(this.items.values()).map((item) => this.buildAvailability(item))\n  }\n\n  /**\n   * Returns true when the requested quantity can be reserved right now.\n   */\n  canReserve(sku: string, quantity: number): boolean {\n    validateSku(sku)\n    validateQuantity(quantity)\n\n    try {\n      this.purgeExpired(sku)\n      const item = this.requireItem(sku)\n      return item.totalQuantity - item.reservedQuantity >= quantity\n    } catch {\n      return false\n    }\n  }\n\n  // ── Reservation ─────────────────────────────────────────────────────────────\n\n  /**\n   * Reserve stock for a given SKU.\n   * Throws InsufficientStockError when not enough units are available.\n   * Optionally accepts a TTL (in ms) after which the reservation auto-expires.\n   */\n  reserve(sku: string, quantity: number, options: ReserveOptions = {}): Reservation {\n    validateSku(sku)\n    validateQuantity(quantity)\n\n    this.purgeExpired(sku)\n    const item = this.requireItem(sku)\n    const available = item.totalQuantity - item.reservedQuantity\n\n    if (quantity > available) {\n      throw new InsufficientStockError(sku, quantity, available)\n    }\n\n    const now = new Date()\n    const expiresAt =\n      options.ttlMs != null && options.ttlMs > 0\n        ? new Date(now.getTime() + options.ttlMs)\n        : null\n\n    const reservation: InternalReservation = {\n      id: randomUUID(),\n      sku,\n      quantity,\n      status: \"active\",\n      createdAt: now,\n      expiresAt,\n      releasedAt: null,\n    }\n\n    item.reservedQuantity += quantity\n    this.reservations.set(reservation.id, reservation)\n\n    if (expiresAt) {\n      this.scheduleExpiry(reservation.id, options.ttlMs!)\n    }\n\n    return this.buildReservation(reservation)\n  }\n\n  /**\n   * Release a reservation by ID, freeing the reserved stock.\n   * Idempotent: releasing an already-released reservation returns gracefully.\n   */\n  release(reservationId: string): ReleaseResult {\n    const reservation = this.reservations.get(reservationId)\n    if (!reservation) {\n      throw new ReservationNotFoundError(reservationId)\n    }\n\n    if (reservation.status !== \"active\") {\n      // already released or expired — idempotent\n      return { released: false, reservation: this.buildReservation(reservation) }\n    }\n\n    reservation.status = \"released\"\n    reservation.releasedAt = new Date()\n\n    const item = this.items.get(reservation.sku)\n    if (item) {\n      item.reservedQuantity = Math.max(0, item.reservedQuantity - reservation.quantity)\n    }\n\n    this.cancelExpiry(reservationId)\n\n    return { released: true, reservation: this.buildReservation(reservation) }\n  }\n\n  /**\n   * Extend the TTL of an active reservation.\n   */\n  extendReservation(reservationId: string, additionalMs: number): Reservation {\n    if (!Number.isInteger(additionalMs) || additionalMs <= 0) {\n      throw new InventoryError(\n        `additionalMs must be a positive integer, got ${additionalMs}`,\n        \"INVALID_TTL\"\n      )\n    }\n\n    const reservation = this.reservations.get(reservationId)\n    if (!reservation) {\n      throw new ReservationNotFoundError(reservationId)\n    }\n\n    if (reservation.status !== \"active\") {\n      throw new InventoryError(\n        `Cannot extend a reservation with status \"${reservation.status}\"`,\n        \"RESERVATION_NOT_ACTIVE\"\n      )\n    }\n\n    const base = reservation.expiresAt ?? new Date()\n    reservation.expiresAt = new Date(base.getTime() + additionalMs)\n\n    this.cancelExpiry(reservationId)\n    const remaining = reservation.expiresAt.getTime() - Date.now()\n    if (remaining > 0) {\n      this.scheduleExpiry(reservationId, remaining)\n    } else {\n      this.expireReservation(reservationId)\n    }\n\n    return this.buildReservation(reservation)\n  }\n\n  /**\n   * Get a single reservation by ID.\n   */\n  getReservation(reservationId: string): Reservation {\n    const reservation = this.reservations.get(reservationId)\n    if (!reservation) {\n      throw new ReservationNotFoundError(reservationId)\n    }\n    return this.buildReservation(reservation)\n  }\n\n  /**\n   * List all reservations, optionally filtered by SKU and/or status.\n   */\n  listReservations(filters?: {\n    sku?: string\n    status?: ReservationStatus\n  }): Reservation[] {\n    let results = Array.from(this.reservations.values())\n\n    if (filters?.sku) {\n      results = results.filter((r) => r.sku === filters.sku)\n    }\n    if (filters?.status) {\n      results = results.filter((r) => r.status === filters.status)\n    }\n\n    return results.map((r) => this.buildReservation(r))\n  }\n\n  /**\n   * Get a snapshot of a specific item (without purging expiry).\n   */\n  getItem(sku: string): InventoryItem {\n    validateSku(sku)\n    return this.buildItem(this.requireItem(sku))\n  }\n\n  /**\n   * List all items.\n   */\n  listItems(): InventoryItem[] {\n    return Array.from(this.items.values()).map((item) => this.buildItem(item))\n  }\n\n  /**\n   * Atomically reserve across multiple SKUs.\n   * All-or-nothing: if any SKU cannot be reserved, no stock is touched.\n   */\n  reserveMultiple(\n    requests: Array<{ sku: string; quantity: number }>,\n    options: ReserveOptions = {}\n  ): Reservation[] {\n    if (!Array.isArray(requests) || requests.length === 0) {\n      throw new InventoryError(\"requests must be a non-empty array\", \"INVALID_REQUESTS\")\n    }\n\n    // Validate and check availability for all first (no side effects yet)\n    for (const req of requests) {\n      validateSku(req.sku)\n      validateQuantity(req.quantity)\n      this.purgeExpired(req.sku)\n      const item = this.requireItem(req.sku)\n      const available = item.totalQuantity - item.reservedQuantity\n      if (req.quantity > available) {\n        throw new InsufficientStockError(req.sku, req.quantity, available)\n      }\n    }\n\n    // Commit all reservations\n    return requests.map((req) => this.reserve(req.sku, req.quantity, options))\n  }\n\n  /**\n   * Release multiple reservations atomically (best-effort: all succeed or throws\n   * on first unknown ID).\n   */\n  releaseMultiple(reservationIds: string[]): ReleaseResult[] {\n    if (!Array.isArray(reservationIds) || reservationIds.length === 0) {\n      throw new InventoryError(\n        \"reservationIds must be a non-empty array\",\n        \"INVALID_RESERVATION_IDS\"\n      )\n    }\n\n    // Validate all exist first\n    for (const id of reservationIds) {\n      if (!this.reservations.has(id)) {\n        throw new ReservationNotFoundError(id)\n      }\n    }\n\n    return reservationIds.map((id) => this.release(id))\n  }\n\n  /**\n   * Purge all expired reservations across every SKU.\n   */\n  purgeAllExpired(): number {\n    let count = 0\n    const now = new Date()\n    for (const [id, res] of this.reservations) {\n      if (res.status === \"active\" && res.expiresAt && res.expiresAt <= now) {\n        this.expireReservation(id)\n        count++\n      }\n    }\n    return count\n  }\n\n  /**\n   * Destroy all state (useful for testing).\n   */\n  clear(): void {\n    for (const timer of this.expiryTimers.values()) {\n      clearTimeout(timer)\n    }\n    this.expiryTimers.clear()\n    this.reservations.clear()\n    this.items.clear()\n  }\n\n  // ── Private helpers ─────────────────────────────────────────────────────────\n\n  private requireItem(sku: string): InternalItem {\n    const item = this.items.get(sku)\n    if (!item) throw new SkuNotFoundError(sku)\n    return item\n  }\n\n  private buildItem(item: InternalItem): InventoryItem {\n    return {\n      sku: item.sku,\n      totalQuantity: item.totalQuantity,\n      reservedQuantity: item.reservedQuantity,\n      availableQuantity: item.totalQuantity - item.reservedQuantity,\n    }\n  }\n\n  private buildAvailability(item: InternalItem): AvailabilityResult {\n    const available = item.totalQuantity - item.reservedQuantity\n    return {\n      sku: item.sku,\n      totalQuantity: item.totalQuantity,\n      reservedQuantity: item.reservedQuantity,\n      availableQuantity: available,\n      canFulfill: (qty: number) => qty > 0 && Number.isInteger(qty) && qty <= available,\n    }\n  }\n\n  private buildReservation(r: InternalReservation): Reservation {\n    return {\n      id: r.id,\n      sku: r.sku,\n      quantity: r.quantity,\n      status: r.status,\n      createdAt: new Date(r.createdAt),\n      expiresAt: r.expiresAt ? new Date(r.expiresAt) : null,\n      releasedAt: r.releasedAt ? new Date(r.releasedAt) : null,\n    }\n  }\n\n  private scheduleExpiry(reservationId: string, ttlMs: number): void {\n    const timer = setTimeout(() => {\n      this.expireReservation(reservationId)\n    }, ttlMs)\n\n    // Allow Node.js to exit even with pending timers\n    if (typeof timer === \"object\" && \"unref\" in timer) {\n      ;(timer as NodeJS.Timeout).unref()\n    }\n\n    this.expiryTimers.set(reservationId, timer)\n  }\n\n  private cancelExpiry(reservationId: string): void {\n    const timer = this.expiryTimers.get(reservationId)\n    if (timer != null) {\n      clearTimeout(timer)\n      this.expiryTimers.delete(reservationId)\n    }\n  }\n\n  private expireReservation(reservationId: string): void {\n    const reservation = this.reservations.get(reservationId)\n    if (!reservation || reservation.status !== \"active\") return\n\n    reservation.status = \"expired\"\n    reservation.releasedAt = new Date()\n\n    const item = this.items.get(reservation.sku)\n    if (item) {\n      item.reservedQuantity = Math.max(0, item.reservedQuantity - reservation.quantity)\n    }\n\n    this.expiryTimers.delete(reservationId)\n  }\n\n  private purgeExpired(sku: string): void {\n    const now = new Date()\n    for (const [id, res] of this.reservations) {\n      if (\n        res.sku === sku &&\n        res.status === \"active\" &&\n        res.expiresAt &&\n        res.expiresAt <= now\n      ) {\n        this.expireReservation(id)\n      }\n    }\n  }\n}\n\n// ─── Validation helpers ───────────────────────────────────────────────────────\n\nfunction validateSku(sku: unknown): asserts sku is string {\n  if (typeof sku !== \"string\" || sku.trim().length === 0) {\n    throw new InventoryError(\n      `SKU must be a non-empty string, got ${JSON.stringify(sku)}`,\n      \"INVALID_SKU\"\n    )\n  }\n}\n\nfunction validateQuantity(quantity: unknown): asserts quantity is number {\n  if (!Number.isInteger(quantity) || (quantity as number) <= 0) {\n    throw new InvalidQuantityError(quantity as number)\n  }\n}\n\n// ─── Default singleton export ─────────────────────────────────────────────────\n\nexport const defaultStore = new InventoryStore()\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1549,
+        "cache_read_input_tokens": 9623,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1549
+        },
+        "output_tokens": 6,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "d960c32c-1422-4f3f-938d-1d39ae29c0bf",
+    "uuid": "c3148c5f-5815-44fa-be63-b4055cde5c36"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.84,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "a8820af9-0287-412b-b6e5-df158f9c2cec",
+    "session_id": "d960c32c-1422-4f3f-938d-1d39ae29c0bf"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 55546,
+    "duration_api_ms": 55524,
+    "num_turns": 1,
+    "result": "```typescript\nimport { randomUUID } from \"crypto\"\n\n// ─── Types & Errors ──────────────────────────────────────────────────────────\n\nexport type ReservationStatus = \"active\" | \"released\" | \"expired\"\n\nexport interface InventoryItem {\n  sku: string\n  totalQuantity: number\n  reservedQuantity: number\n  availableQuantity: number\n}\n\nexport interface Reservation {\n  id: string\n  sku: string\n  quantity: number\n  status: ReservationStatus\n  createdAt: Date\n  expiresAt: Date | null\n  releasedAt: Date | null\n}\n\nexport interface ReserveOptions {\n  ttlMs?: number // time-to-live in milliseconds; null = no expiry\n}\n\nexport interface ReleaseResult {\n  released: boolean\n  reservation: Reservation\n}\n\nexport interface AvailabilityResult {\n  sku: string\n  totalQuantity: number\n  reservedQuantity: number\n  availableQuantity: number\n  canFulfill: (qty: number) => boolean\n}\n\nexport class InventoryError extends Error {\n  constructor(\n    message: string,\n    public readonly code: string\n  ) {\n    super(message)\n    this.name = \"InventoryError\"\n  }\n}\n\nexport class InsufficientStockError extends InventoryError {\n  constructor(\n    public readonly sku: string,\n    public readonly requested: number,\n    public readonly available: number\n  ) {\n    super(\n      `Insufficient stock for SKU \"${sku}\": requested ${requested}, available ${available}`,\n      \"INSUFFICIENT_STOCK\"\n    )\n    this.name = \"InsufficientStockError\"\n  }\n}\n\nexport class SkuNotFoundError extends InventoryError {\n  constructor(public readonly sku: string) {\n    super(`SKU \"${sku}\" not found in inventory`, \"SKU_NOT_FOUND\")\n    this.name = \"SkuNotFoundError\"\n  }\n}\n\nexport class ReservationNotFoundError extends InventoryError {\n  constructor(public readonly reservationId: string) {\n    super(`Reservation \"${reservationId}\" not found`, \"RESERVATION_NOT_FOUND\")\n    this.name = \"ReservationNotFoundError\"\n  }\n}\n\nexport class InvalidQuantityError extends InventoryError {\n  constructor(quantity: number) {\n    super(`Quantity must be a positive integer, got ${quantity}`, \"INVALID_QUANTITY\")\n    this.name = \"InvalidQuantityError\"\n  }\n}\n\n// ─── Internal State ───────────────────────────────────────────────────────────\n\ninterface InternalItem {\n  sku: string\n  totalQuantity: number\n  reservedQuantity: number\n}\n\ninterface InternalReservation {\n  id: string\n  sku: string\n  quantity: number\n  status: ReservationStatus\n  createdAt: Date\n  expiresAt: Date | null\n  releasedAt: Date | null\n}\n\n// ─── Inventory Store ──────────────────────────────────────────────────────────\n\nexport class InventoryStore {\n  private items = new Map<string, InternalItem>()\n  private reservations = new Map<string, InternalReservation>()\n  private expiryTimers = new Map<string, ReturnType<typeof setTimeout>>()\n\n  // ── Stock management ────────────────────────────────────────────────────────\n\n  /**\n   * Add a new SKU or increase the total quantity of an existing one.\n   * Quantity must be a positive integer.\n   */\n  addStock(sku: string, quantity: number): InventoryItem {\n    validateSku(sku)\n    validateQuantity(quantity)\n\n    const existing = this.items.get(sku)\n    if (existing) {\n      existing.totalQuantity += quantity\n    } else {\n      this.items.set(sku, { sku, totalQuantity: quantity, reservedQuantity: 0 })\n    }\n\n    return this.buildItem(this.items.get(sku)!)\n  }\n\n  /**\n   * Remove stock from total. Cannot remove more than is currently available\n   * (i.e. total minus reserved).\n   */\n  removeStock(sku: string, quantity: number): InventoryItem {\n    validateSku(sku)\n    validateQuantity(quantity)\n\n    const item = this.requireItem(sku)\n    const available = item.totalQuantity - item.reservedQuantity\n\n    if (quantity > available) {\n      throw new InsufficientStockError(sku, quantity, available)\n    }\n\n    item.totalQuantity -= quantity\n    return this.buildItem(item)\n  }\n\n  /**\n   * Completely remove a SKU. Fails if there are active reservations.\n   */\n  removeSku(sku: string): void {\n    validateSku(sku)\n    const item = this.requireItem(sku)\n\n    if (item.reservedQuantity > 0) {\n      throw new InventoryError(\n        `Cannot remove SKU \"${sku}\" while ${item.reservedQuantity} units are reserved`,\n        \"SKU_HAS_ACTIVE_RESERVATIONS\"\n      )\n    }\n\n    this.items.delete(sku)\n  }\n\n  // ── Availability ────────────────────────────────────────────────────────────\n\n  /**\n   * Check availability for a given SKU.\n   * Expired reservations are purged before calculating.\n   */\n  checkAvailability(sku: string): AvailabilityResult {\n    validateSku(sku)\n    this.purgeExpired(sku)\n    const item = this.requireItem(sku)\n    return this.buildAvailability(item)\n  }\n\n  /**\n   * Check availability for all SKUs.\n   */\n  checkAllAvailability(): AvailabilityResult[] {\n    for (const sku of this.items.keys()) {\n      this.purgeExpired(sku)\n    }\n    return Array.from(this.items.values()).map((item) => this.buildAvailability(item))\n  }\n\n  /**\n   * Returns true when the requested quantity can be reserved right now.\n   */\n  canReserve(sku: string, quantity: number): boolean {\n    validateSku(sku)\n    validateQuantity(quantity)\n\n    try {\n      this.purgeExpired(sku)\n      const item = this.requireItem(sku)\n      return item.totalQuantity - item.reservedQuantity >= quantity\n    } catch {\n      return false\n    }\n  }\n\n  // ── Reservation ─────────────────────────────────────────────────────────────\n\n  /**\n   * Reserve stock for a given SKU.\n   * Throws InsufficientStockError when not enough units are available.\n   * Optionally accepts a TTL (in ms) after which the reservation auto-expires.\n   */\n  reserve(sku: string, quantity: number, options: ReserveOptions = {}): Reservation {\n    validateSku(sku)\n    validateQuantity(quantity)\n\n    this.purgeExpired(sku)\n    const item = this.requireItem(sku)\n    const available = item.totalQuantity - item.reservedQuantity\n\n    if (quantity > available) {\n      throw new InsufficientStockError(sku, quantity, available)\n    }\n\n    const now = new Date()\n    const expiresAt =\n      options.ttlMs != null && options.ttlMs > 0\n        ? new Date(now.getTime() + options.ttlMs)\n        : null\n\n    const reservation: InternalReservation = {\n      id: randomUUID(),\n      sku,\n      quantity,\n      status: \"active\",\n      createdAt: now,\n      expiresAt,\n      releasedAt: null,\n    }\n\n    item.reservedQuantity += quantity\n    this.reservations.set(reservation.id, reservation)\n\n    if (expiresAt) {\n      this.scheduleExpiry(reservation.id, options.ttlMs!)\n    }\n\n    return this.buildReservation(reservation)\n  }\n\n  /**\n   * Release a reservation by ID, freeing the reserved stock.\n   * Idempotent: releasing an already-released reservation returns gracefully.\n   */\n  release(reservationId: string): ReleaseResult {\n    const reservation = this.reservations.get(reservationId)\n    if (!reservation) {\n      throw new ReservationNotFoundError(reservationId)\n    }\n\n    if (reservation.status !== \"active\") {\n      // already released or expired — idempotent\n      return { released: false, reservation: this.buildReservation(reservation) }\n    }\n\n    reservation.status = \"released\"\n    reservation.releasedAt = new Date()\n\n    const item = this.items.get(reservation.sku)\n    if (item) {\n      item.reservedQuantity = Math.max(0, item.reservedQuantity - reservation.quantity)\n    }\n\n    this.cancelExpiry(reservationId)\n\n    return { released: true, reservation: this.buildReservation(reservation) }\n  }\n\n  /**\n   * Extend the TTL of an active reservation.\n   */\n  extendReservation(reservationId: string, additionalMs: number): Reservation {\n    if (!Number.isInteger(additionalMs) || additionalMs <= 0) {\n      throw new InventoryError(\n        `additionalMs must be a positive integer, got ${additionalMs}`,\n        \"INVALID_TTL\"\n      )\n    }\n\n    const reservation = this.reservations.get(reservationId)\n    if (!reservation) {\n      throw new ReservationNotFoundError(reservationId)\n    }\n\n    if (reservation.status !== \"active\") {\n      throw new InventoryError(\n        `Cannot extend a reservation with status \"${reservation.status}\"`,\n        \"RESERVATION_NOT_ACTIVE\"\n      )\n    }\n\n    const base = reservation.expiresAt ?? new Date()\n    reservation.expiresAt = new Date(base.getTime() + additionalMs)\n\n    this.cancelExpiry(reservationId)\n    const remaining = reservation.expiresAt.getTime() - Date.now()\n    if (remaining > 0) {\n      this.scheduleExpiry(reservationId, remaining)\n    } else {\n      this.expireReservation(reservationId)\n    }\n\n    return this.buildReservation(reservation)\n  }\n\n  /**\n   * Get a single reservation by ID.\n   */\n  getReservation(reservationId: string): Reservation {\n    const reservation = this.reservations.get(reservationId)\n    if (!reservation) {\n      throw new ReservationNotFoundError(reservationId)\n    }\n    return this.buildReservation(reservation)\n  }\n\n  /**\n   * List all reservations, optionally filtered by SKU and/or status.\n   */\n  listReservations(filters?: {\n    sku?: string\n    status?: ReservationStatus\n  }): Reservation[] {\n    let results = Array.from(this.reservations.values())\n\n    if (filters?.sku) {\n      results = results.filter((r) => r.sku === filters.sku)\n    }\n    if (filters?.status) {\n      results = results.filter((r) => r.status === filters.status)\n    }\n\n    return results.map((r) => this.buildReservation(r))\n  }\n\n  /**\n   * Get a snapshot of a specific item (without purging expiry).\n   */\n  getItem(sku: string): InventoryItem {\n    validateSku(sku)\n    return this.buildItem(this.requireItem(sku))\n  }\n\n  /**\n   * List all items.\n   */\n  listItems(): InventoryItem[] {\n    return Array.from(this.items.values()).map((item) => this.buildItem(item))\n  }\n\n  /**\n   * Atomically reserve across multiple SKUs.\n   * All-or-nothing: if any SKU cannot be reserved, no stock is touched.\n   */\n  reserveMultiple(\n    requests: Array<{ sku: string; quantity: number }>,\n    options: ReserveOptions = {}\n  ): Reservation[] {\n    if (!Array.isArray(requests) || requests.length === 0) {\n      throw new InventoryError(\"requests must be a non-empty array\", \"INVALID_REQUESTS\")\n    }\n\n    // Validate and check availability for all first (no side effects yet)\n    for (const req of requests) {\n      validateSku(req.sku)\n      validateQuantity(req.quantity)\n      this.purgeExpired(req.sku)\n      const item = this.requireItem(req.sku)\n      const available = item.totalQuantity - item.reservedQuantity\n      if (req.quantity > available) {\n        throw new InsufficientStockError(req.sku, req.quantity, available)\n      }\n    }\n\n    // Commit all reservations\n    return requests.map((req) => this.reserve(req.sku, req.quantity, options))\n  }\n\n  /**\n   * Release multiple reservations atomically (best-effort: all succeed or throws\n   * on first unknown ID).\n   */\n  releaseMultiple(reservationIds: string[]): ReleaseResult[] {\n    if (!Array.isArray(reservationIds) || reservationIds.length === 0) {\n      throw new InventoryError(\n        \"reservationIds must be a non-empty array\",\n        \"INVALID_RESERVATION_IDS\"\n      )\n    }\n\n    // Validate all exist first\n    for (const id of reservationIds) {\n      if (!this.reservations.has(id)) {\n        throw new ReservationNotFoundError(id)\n      }\n    }\n\n    return reservationIds.map((id) => this.release(id))\n  }\n\n  /**\n   * Purge all expired reservations across every SKU.\n   */\n  purgeAllExpired(): number {\n    let count = 0\n    const now = new Date()\n    for (const [id, res] of this.reservations) {\n      if (res.status === \"active\" && res.expiresAt && res.expiresAt <= now) {\n        this.expireReservation(id)\n        count++\n      }\n    }\n    return count\n  }\n\n  /**\n   * Destroy all state (useful for testing).\n   */\n  clear(): void {\n    for (const timer of this.expiryTimers.values()) {\n      clearTimeout(timer)\n    }\n    this.expiryTimers.clear()\n    this.reservations.clear()\n    this.items.clear()\n  }\n\n  // ── Private helpers ─────────────────────────────────────────────────────────\n\n  private requireItem(sku: string): InternalItem {\n    const item = this.items.get(sku)\n    if (!item) throw new SkuNotFoundError(sku)\n    return item\n  }\n\n  private buildItem(item: InternalItem): InventoryItem {\n    return {\n      sku: item.sku,\n      totalQuantity: item.totalQuantity,\n      reservedQuantity: item.reservedQuantity,\n      availableQuantity: item.totalQuantity - item.reservedQuantity,\n    }\n  }\n\n  private buildAvailability(item: InternalItem): AvailabilityResult {\n    const available = item.totalQuantity - item.reservedQuantity\n    return {\n      sku: item.sku,\n      totalQuantity: item.totalQuantity,\n      reservedQuantity: item.reservedQuantity,\n      availableQuantity: available,\n      canFulfill: (qty: number) => qty > 0 && Number.isInteger(qty) && qty <= available,\n    }\n  }\n\n  private buildReservation(r: InternalReservation): Reservation {\n    return {\n      id: r.id,\n      sku: r.sku,\n      quantity: r.quantity,\n      status: r.status,\n      createdAt: new Date(r.createdAt),\n      expiresAt: r.expiresAt ? new Date(r.expiresAt) : null,\n      releasedAt: r.releasedAt ? new Date(r.releasedAt) : null,\n    }\n  }\n\n  private scheduleExpiry(reservationId: string, ttlMs: number): void {\n    const timer = setTimeout(() => {\n      this.expireReservation(reservationId)\n    }, ttlMs)\n\n    // Allow Node.js to exit even with pending timers\n    if (typeof timer === \"object\" && \"unref\" in timer) {\n      ;(timer as NodeJS.Timeout).unref()\n    }\n\n    this.expiryTimers.set(reservationId, timer)\n  }\n\n  private cancelExpiry(reservationId: string): void {\n    const timer = this.expiryTimers.get(reservationId)\n    if (timer != null) {\n      clearTimeout(timer)\n      this.expiryTimers.delete(reservationId)\n    }\n  }\n\n  private expireReservation(reservationId: string): void {\n    const reservation = this.reservations.get(reservationId)\n    if (!reservation || reservation.status !== \"active\") return\n\n    reservation.status = \"expired\"\n    reservation.releasedAt = new Date()\n\n    const item = this.items.get(reservation.sku)\n    if (item) {\n      item.reservedQuantity = Math.max(0, item.reservedQuantity - reservation.quantity)\n    }\n\n    this.expiryTimers.delete(reservationId)\n  }\n\n  private purgeExpired(sku: string): void {\n    const now = new Date()\n    for (const [id, res] of this.reservations) {\n      if (\n        res.sku === sku &&\n        res.status === \"active\" &&\n        res.expiresAt &&\n        res.expiresAt <= now\n      ) {\n        this.expireReservation(id)\n      }\n    }\n  }\n}\n\n// ─── Validation helpers ───────────────────────────────────────────────────────\n\nfunction validateSku(sku: unknown): asserts sku is string {\n  if (typeof sku !== \"string\" || sku.trim().length === 0) {\n    throw new InventoryError(\n      `SKU must be a non-empty string, got ${JSON.stringify(sku)}`,\n      \"INVALID_SKU\"\n    )\n  }\n}\n\nfunction validateQuantity(quantity: unknown): asserts quantity is number {\n  if (!Number.isInteger(quantity) || (quantity as number) <= 0) {\n    throw new InvalidQuantityError(quantity as number)\n  }\n}\n\n// ─── Default singleton export ─────────────────────────────────────────────────\n\nexport const defaultStore = new InventoryStore()\n```",
+    "stop_reason": "end_turn",
+    "session_id": "d960c32c-1422-4f3f-938d-1d39ae29c0bf",
+    "total_cost_usd": 0.08242665,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 1549,
+      "cache_read_input_tokens": 9623,
+      "output_tokens": 4915,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1549,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 4915,
+        "cacheReadInputTokens": 9623,
+        "cacheCreationInputTokens": 1549,
+        "webSearchRequests": 0,
+        "costUSD": 0.08242665,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "dd3b9e86-8441-43eb-b4aa-ab0f034cd2f3"
+  }
+]

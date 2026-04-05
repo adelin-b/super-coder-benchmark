@@ -1,0 +1,10 @@
+name: pbt
+version: 2
+parent: 1
+model_default: sonnet
+max_turns: 1
+tools: []
+context_bundle:
+  - context-bundles/fastcheck-core/arbitraries.md
+system_prompt_file: system-prompt.md
+changelog: "v2: added fast-check arbitraries reference"

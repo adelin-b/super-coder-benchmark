@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "89ab695e-39c1-437e-b482-eb2eeb72006c",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "8bca0861-601f-4b46-a2d7-d14fdad8f640",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_019JtvbfrC4iNJvHCwxb2EPJ",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user wants me to implement an inventory reservation system in TypeScript based on the spec. Let me analyze the spec and identify what needs to be implemented.\n\nThe spec mentions:\n- Reserve stock\n- Release stock\n- Check availability\n- Handle concurrent-style operations\n\nSince there's no detailed spec beyond this, I need to design a reasonable inventory reservation system. Let me think about what this should include:\n\n1. Types/interfaces:\n   - `InventoryItem` - represents an item with stock\n   - `Reservation` - represents a reservation\n   - `ReservationResult` - result of reservation operations\n\n2. Functions:\n   - `reserveStock(itemId, quantity, reservationId?)` - reserve stock\n   - `releaseReservation(reservationId)` - release a reservation\n   - `checkAvailability(itemId)` - check available stock\n   - `addStock(itemId, quantity)` - add stock to inventory\n   - `commitReservation(reservationId)` - commit/confirm a reservation\n\n3. Error classes:\n   - `InsufficientStockError`\n   - `ReservationNotFoundError`\n   - `ItemNotFoundError`\n\n4. For concurrent-style operations, I need to handle atomic reservations and prevent over-reservation.\n\nNow I'm setting up the TypeScript types and interfaces... I'm defining the core TypeScript interfaces and error classes for an inventory management system that tracks items, reservations, and their statuses, then moving into the main implementation logic.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1549,
+        "cache_read_input_tokens": 8798,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1549
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "89ab695e-39c1-437e-b482-eb2eeb72006c",
+    "uuid": "e632a709-2c8d-4b8f-947f-bfea89cc105c"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_019JtvbfrC4iNJvHCwxb2EPJ",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\n// inventory.ts\n\n// ─── Error Classes ────────────────────────────────────────────────────────────\n\nexport class InventoryError extends Error {\n  constructor(message: string) {\n    super(message);\n    this.name = \"InventoryError\";\n  }\n}\n\nexport class ItemNotFoundError extends InventoryError {\n  constructor(public readonly itemId: string) {\n    super(`Item not found: ${itemId}`);\n    this.name = \"ItemNotFoundError\";\n  }\n}\n\nexport class InsufficientStockError extends InventoryError {\n  constructor(\n    public readonly itemId: string,\n    public readonly requested: number,\n    public readonly available: number\n  ) {\n    super(\n      `Insufficient stock for item \"${itemId}\": requested ${requested}, available ${available}`\n    );\n    this.name = \"InsufficientStockError\";\n  }\n}\n\nexport class ReservationNotFoundError extends InventoryError {\n  constructor(public readonly reservationId: string) {\n    super(`Reservation not found: ${reservationId}`);\n    this.name = \"ReservationNotFoundError\";\n  }\n}\n\nexport class InvalidQuantityError extends InventoryError {\n  constructor(quantity: number) {\n    super(`Quantity must be a positive integer, received: ${quantity}`);\n    this.name = \"InvalidQuantityError\";\n  }\n}\n\nexport class DuplicateItemError extends InventoryError {\n  constructor(public readonly itemId: string) {\n    super(`Item already exists: ${itemId}`);\n    this.name = \"DuplicateItemError\";\n  }\n}\n\nexport class ReservationAlreadyFinalizedError extends InventoryError {\n  constructor(reservationId: string, status: ReservationStatus) {\n    super(\n      `Reservation \"${reservationId}\" is already finalized with status: ${status}`\n    );\n    this.name = \"ReservationAlreadyFinalizedError\";\n  }\n}\n\n// ─── Types ────────────────────────────────────────────────────────────────────\n\nexport type ReservationStatus = \"pending\" | \"committed\" | \"released\" | \"expired\";\n\nexport interface InventoryItem {\n  id: string;\n  name: string;\n  totalQuantity: number;\n  availableQuantity: number;\n  reservedQuantity: number;\n}\n\nexport interface Reservation {\n  id: string;\n  itemId: string;\n  quantity: number;\n  status: ReservationStatus;\n  createdAt: Date;\n  expiresAt: Date | null;\n}\n\nexport interface AvailabilityInfo {\n  itemId: string;\n  name: string;\n  totalQuantity: number;\n  availableQuantity: number;\n  reservedQuantity: number;\n  isAvailable: boolean;\n}\n\nexport interface ReserveOptions {\n  /** Optional TTL in milliseconds. Reservation auto-expires after this duration. */\n  ttlMs?: number;\n  /** Optional caller-supplied reservation ID (must be unique). */\n  reservationId?: string;\n}\n\n// ─── Helpers ──────────────────────────────────────────────────────────────────\n\nfunction assertPositiveInteger(value: number): void {\n  if (!Number.isInteger(value) || value <= 0) {\n    throw new InvalidQuantityError(value);\n  }\n}\n\nfunction generateId(): string {\n  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;\n}\n\n// ─── InventorySystem ──────────────────────────────────────────────────────────\n\nexport class InventorySystem {\n  private readonly items = new Map<string, InventoryItem>();\n  private readonly reservations = new Map<string, Reservation>();\n\n  // ── Item Management ─────────────────────────────────────────────────────────\n\n  /**\n   * Add a new item to the inventory.\n   * Throws DuplicateItemError if an item with the same id already exists.\n   */\n  addItem(id: string, name: string, quantity: number): InventoryItem {\n    if (!id || !id.trim()) {\n      throw new InventoryError(\"Item id must be a non-empty string\");\n    }\n    if (!name || !name.trim()) {\n      throw new InventoryError(\"Item name must be a non-empty string\");\n    }\n    assertPositiveInteger(quantity);\n    if (this.items.has(id)) {\n      throw new DuplicateItemError(id);\n    }\n    const item: InventoryItem = {\n      id,\n      name,\n      totalQuantity: quantity,\n      availableQuantity: quantity,\n      reservedQuantity: 0,\n    };\n    this.items.set(id, item);\n    return { ...item };\n  }\n\n  /**\n   * Restock an existing item by adding more units.\n   */\n  restock(itemId: string, quantity: number): InventoryItem {\n    assertPositiveInteger(quantity);\n    const item = this.getItemOrThrow(itemId);\n    item.totalQuantity += quantity;\n    item.availableQuantity += quantity;\n    return { ...item };\n  }\n\n  // ── Availability ─────────────────────────────────────────────────────────────\n\n  /**\n   * Check the current availability of an item.\n   * Lazily expires any pending reservations whose TTL has passed before computing.\n   */\n  checkAvailability(itemId: string): AvailabilityInfo {\n    this.expireStaleReservations(itemId);\n    const item = this.getItemOrThrow(itemId);\n    return {\n      itemId: item.id,\n      name: item.name,\n      totalQuantity: item.totalQuantity,\n      availableQuantity: item.availableQuantity,\n      reservedQuantity: item.reservedQuantity,\n      isAvailable: item.availableQuantity > 0,\n    };\n  }\n\n  /**\n   * Returns true only if at least `quantity` units are currently available.\n   */\n  canReserve(itemId: string, quantity: number): boolean {\n    assertPositiveInteger(quantity);\n    this.expireStaleReservations(itemId);\n    const item = this.getItemOrThrow(itemId);\n    return item.availableQuantity >= quantity;\n  }\n\n  // ── Reservation ──────────────────────────────────────────────────────────────\n\n  /**\n   * Reserve `quantity` units of an item.\n   * Succeeds atomically: either the full amount is reserved or an error is thrown.\n   * Throws InsufficientStockError if not enough units are available.\n   */\n  reserve(\n    itemId: string,\n    quantity: number,\n    options: ReserveOptions = {}\n  ): Reservation {\n    assertPositiveInteger(quantity);\n    this.expireStaleReservations(itemId);\n    const item = this.getItemOrThrow(itemId);\n\n    if (item.availableQuantity < quantity) {\n      throw new InsufficientStockError(itemId, quantity, item.availableQuantity);\n    }\n\n    const reservationId = options.reservationId ?? generateId();\n    if (this.reservations.has(reservationId)) {\n      throw new InventoryError(`Reservation ID already in use: ${reservationId}`);\n    }\n\n    const now = new Date();\n    const expiresAt =\n      options.ttlMs != null && options.ttlMs > 0\n        ? new Date(now.getTime() + options.ttlMs)\n        : null;\n\n    // Atomically update stock\n    item.availableQuantity -= quantity;\n    item.reservedQuantity += quantity;\n\n    const reservation: Reservation = {\n      id: reservationId,\n      itemId,\n      quantity,\n      status: \"pending\",\n      createdAt: now,\n      expiresAt,\n    };\n    this.reservations.set(reservationId, reservation);\n    return { ...reservation };\n  }\n\n  /**\n   * Commit a pending reservation, permanently deducting it from total stock.\n   * A committed reservation cannot be released back to available stock.\n   */\n  commit(reservationId: string): Reservation {\n    const reservation = this.getReservationOrThrow(reservationId);\n    this.assertPending(reservation);\n\n    const item = this.getItemOrThrow(reservation.itemId);\n    item.reservedQuantity -= reservation.quantity;\n    item.totalQuantity -= reservation.quantity;\n\n    reservation.status = \"committed\";\n    return { ...reservation };\n  }\n\n  /**\n   * Release a pending reservation, returning the stock to available.\n   */\n  release(reservationId: string): Reservation {\n    const reservation = this.getReservationOrThrow(reservationId);\n    this.assertPending(reservation);\n\n    const item = this.getItemOrThrow(reservation.itemId);\n    item.availableQuantity += reservation.quantity;\n    item.reservedQuantity -= reservation.quantity;\n\n    reservation.status = \"released\";\n    return { ...reservation };\n  }\n\n  /**\n   * Retrieve a reservation by ID.\n   * Checks expiry before returning.\n   */\n  getReservation(reservationId: string): Reservation {\n    this.tryExpireReservation(reservationId);\n    return { ...this.getReservationOrThrow(reservationId) };\n  }\n\n  // ── Batch / Concurrent-style Operations ─────────────────────────────────────\n\n  /**\n   * Reserve multiple items in a single atomic-style operation.\n   * If ANY item cannot be reserved the entire batch is rolled back.\n   */\n  reserveBatch(\n    requests: Array<{ itemId: string; quantity: number }>,\n    options: ReserveOptions = {}\n  ): Reservation[] {\n    if (requests.length === 0) {\n      return [];\n    }\n\n    // Validate all requests up front\n    for (const req of requests) {\n      assertPositiveInteger(req.quantity);\n      this.expireStaleReservations(req.itemId);\n      this.getItemOrThrow(req.itemId); // existence check\n    }\n\n    // Pre-flight availability check (no mutation yet)\n    const tentative = new Map<string, number>();\n    for (const req of requests) {\n      const item = this.items.get(req.itemId)!;\n      const alreadyTentativelyReserved = tentative.get(req.itemId) ?? 0;\n      const effectiveAvailable =\n        item.availableQuantity - alreadyTentativelyReserved;\n      if (effectiveAvailable < req.quantity) {\n        throw new InsufficientStockError(\n          req.itemId,\n          req.quantity,\n          effectiveAvailable\n        );\n      }\n      tentative.set(req.itemId, alreadyTentativelyReserved + req.quantity);\n    }\n\n    // All checks passed — perform reservations\n    const created: Reservation[] = [];\n    try {\n      for (const req of requests) {\n        // Each reserve call uses the shared options but generates its own ID\n        const individualOptions: ReserveOptions = {\n          ttlMs: options.ttlMs,\n          // Do not pass reservationId so each gets a unique generated ID\n        };\n        created.push(this.reserve(req.itemId, req.quantity, individualOptions));\n      }\n    } catch (err) {\n      // Roll back any reservations already created in this batch\n      for (const res of created) {\n        try {\n          this.release(res.id);\n        } catch {\n          // ignore rollback errors\n        }\n      }\n      throw err;\n    }\n\n    return created;\n  }\n\n  /**\n   * Release all pending reservations for a given item.\n   */\n  releaseAllForItem(itemId: string): Reservation[] {\n    this.getItemOrThrow(itemId);\n    const released: Reservation[] = [];\n    for (const reservation of this.reservations.values()) {\n      if (reservation.itemId === itemId && reservation.status === \"pending\") {\n        released.push(this.release(reservation.id));\n      }\n    }\n    return released;\n  }\n\n  // ── Introspection ─────────────────────────────────────────────────────────────\n\n  /**\n   * List all items currently tracked by the system.\n   */\n  listItems(): InventoryItem[] {\n    return Array.from(this.items.values()).map((i) => ({ ...i }));\n  }\n\n  /**\n   * List all reservations, optionally filtered by status.\n   */\n  listReservations(filterStatus?: ReservationStatus): Reservation[] {\n    return Array.from(this.reservations.values())\n      .filter((r) => (filterStatus == null ? true : r.status === filterStatus))\n      .map((r) => ({ ...r }));\n  }\n\n  // ── Private Helpers ──────────────────────────────────────────────────────────\n\n  private getItemOrThrow(itemId: string): InventoryItem {\n    const item = this.items.get(itemId);\n    if (!item) throw new ItemNotFoundError(itemId);\n    return item;\n  }\n\n  private getReservationOrThrow(reservationId: string): Reservation {\n    const reservation = this.reservations.get(reservationId);\n    if (!reservation) throw new ReservationNotFoundError(reservationId);\n    return reservation;\n  }\n\n  private assertPending(reservation: Reservation): void {\n    if (reservation.status !== \"pending\") {\n      throw new ReservationAlreadyFinalizedError(\n        reservation.id,\n        reservation.status\n      );\n    }\n  }\n\n  private tryExpireReservation(reservationId: string): void {\n    const reservation = this.reservations.get(reservationId);\n    if (!reservation) return;\n    if (\n      reservation.status === \"pending\" &&\n      reservation.expiresAt !== null &&\n      new Date() >= reservation.expiresAt\n    ) {\n      this.release(reservationId);\n      reservation.status = \"expired\";\n      const item = this.items.get(reservation.itemId);\n      // release() already returned stock; mark status as expired retroactively\n      if (item) {\n        // The release call set status to \"released\"; override to \"expired\"\n        reservation.status = \"expired\";\n      }\n    }\n  }\n\n  private expireStaleReservations(itemId: string): void {\n    for (const reservation of this.reservations.values()) {\n      if (reservation.itemId === itemId) {\n        this.tryExpireReservation(reservation.id);\n      }\n    }\n  }\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1549,
+        "cache_read_input_tokens": 8798,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1549
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "89ab695e-39c1-437e-b482-eb2eeb72006c",
+    "uuid": "f2f2ab0c-fff9-441e-909b-8c835e452fca"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.84,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "8f5bf35a-cd50-4079-ba58-b6c5ffa4b0c0",
+    "session_id": "89ab695e-39c1-437e-b482-eb2eeb72006c"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 44097,
+    "duration_api_ms": 44072,
+    "num_turns": 1,
+    "result": "```typescript\n// inventory.ts\n\n// ─── Error Classes ────────────────────────────────────────────────────────────\n\nexport class InventoryError extends Error {\n  constructor(message: string) {\n    super(message);\n    this.name = \"InventoryError\";\n  }\n}\n\nexport class ItemNotFoundError extends InventoryError {\n  constructor(public readonly itemId: string) {\n    super(`Item not found: ${itemId}`);\n    this.name = \"ItemNotFoundError\";\n  }\n}\n\nexport class InsufficientStockError extends InventoryError {\n  constructor(\n    public readonly itemId: string,\n    public readonly requested: number,\n    public readonly available: number\n  ) {\n    super(\n      `Insufficient stock for item \"${itemId}\": requested ${requested}, available ${available}`\n    );\n    this.name = \"InsufficientStockError\";\n  }\n}\n\nexport class ReservationNotFoundError extends InventoryError {\n  constructor(public readonly reservationId: string) {\n    super(`Reservation not found: ${reservationId}`);\n    this.name = \"ReservationNotFoundError\";\n  }\n}\n\nexport class InvalidQuantityError extends InventoryError {\n  constructor(quantity: number) {\n    super(`Quantity must be a positive integer, received: ${quantity}`);\n    this.name = \"InvalidQuantityError\";\n  }\n}\n\nexport class DuplicateItemError extends InventoryError {\n  constructor(public readonly itemId: string) {\n    super(`Item already exists: ${itemId}`);\n    this.name = \"DuplicateItemError\";\n  }\n}\n\nexport class ReservationAlreadyFinalizedError extends InventoryError {\n  constructor(reservationId: string, status: ReservationStatus) {\n    super(\n      `Reservation \"${reservationId}\" is already finalized with status: ${status}`\n    );\n    this.name = \"ReservationAlreadyFinalizedError\";\n  }\n}\n\n// ─── Types ────────────────────────────────────────────────────────────────────\n\nexport type ReservationStatus = \"pending\" | \"committed\" | \"released\" | \"expired\";\n\nexport interface InventoryItem {\n  id: string;\n  name: string;\n  totalQuantity: number;\n  availableQuantity: number;\n  reservedQuantity: number;\n}\n\nexport interface Reservation {\n  id: string;\n  itemId: string;\n  quantity: number;\n  status: ReservationStatus;\n  createdAt: Date;\n  expiresAt: Date | null;\n}\n\nexport interface AvailabilityInfo {\n  itemId: string;\n  name: string;\n  totalQuantity: number;\n  availableQuantity: number;\n  reservedQuantity: number;\n  isAvailable: boolean;\n}\n\nexport interface ReserveOptions {\n  /** Optional TTL in milliseconds. Reservation auto-expires after this duration. */\n  ttlMs?: number;\n  /** Optional caller-supplied reservation ID (must be unique). */\n  reservationId?: string;\n}\n\n// ─── Helpers ──────────────────────────────────────────────────────────────────\n\nfunction assertPositiveInteger(value: number): void {\n  if (!Number.isInteger(value) || value <= 0) {\n    throw new InvalidQuantityError(value);\n  }\n}\n\nfunction generateId(): string {\n  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 9)}`;\n}\n\n// ─── InventorySystem ──────────────────────────────────────────────────────────\n\nexport class InventorySystem {\n  private readonly items = new Map<string, InventoryItem>();\n  private readonly reservations = new Map<string, Reservation>();\n\n  // ── Item Management ─────────────────────────────────────────────────────────\n\n  /**\n   * Add a new item to the inventory.\n   * Throws DuplicateItemError if an item with the same id already exists.\n   */\n  addItem(id: string, name: string, quantity: number): InventoryItem {\n    if (!id || !id.trim()) {\n      throw new InventoryError(\"Item id must be a non-empty string\");\n    }\n    if (!name || !name.trim()) {\n      throw new InventoryError(\"Item name must be a non-empty string\");\n    }\n    assertPositiveInteger(quantity);\n    if (this.items.has(id)) {\n      throw new DuplicateItemError(id);\n    }\n    const item: InventoryItem = {\n      id,\n      name,\n      totalQuantity: quantity,\n      availableQuantity: quantity,\n      reservedQuantity: 0,\n    };\n    this.items.set(id, item);\n    return { ...item };\n  }\n\n  /**\n   * Restock an existing item by adding more units.\n   */\n  restock(itemId: string, quantity: number): InventoryItem {\n    assertPositiveInteger(quantity);\n    const item = this.getItemOrThrow(itemId);\n    item.totalQuantity += quantity;\n    item.availableQuantity += quantity;\n    return { ...item };\n  }\n\n  // ── Availability ─────────────────────────────────────────────────────────────\n\n  /**\n   * Check the current availability of an item.\n   * Lazily expires any pending reservations whose TTL has passed before computing.\n   */\n  checkAvailability(itemId: string): AvailabilityInfo {\n    this.expireStaleReservations(itemId);\n    const item = this.getItemOrThrow(itemId);\n    return {\n      itemId: item.id,\n      name: item.name,\n      totalQuantity: item.totalQuantity,\n      availableQuantity: item.availableQuantity,\n      reservedQuantity: item.reservedQuantity,\n      isAvailable: item.availableQuantity > 0,\n    };\n  }\n\n  /**\n   * Returns true only if at least `quantity` units are currently available.\n   */\n  canReserve(itemId: string, quantity: number): boolean {\n    assertPositiveInteger(quantity);\n    this.expireStaleReservations(itemId);\n    const item = this.getItemOrThrow(itemId);\n    return item.availableQuantity >= quantity;\n  }\n\n  // ── Reservation ──────────────────────────────────────────────────────────────\n\n  /**\n   * Reserve `quantity` units of an item.\n   * Succeeds atomically: either the full amount is reserved or an error is thrown.\n   * Throws InsufficientStockError if not enough units are available.\n   */\n  reserve(\n    itemId: string,\n    quantity: number,\n    options: ReserveOptions = {}\n  ): Reservation {\n    assertPositiveInteger(quantity);\n    this.expireStaleReservations(itemId);\n    const item = this.getItemOrThrow(itemId);\n\n    if (item.availableQuantity < quantity) {\n      throw new InsufficientStockError(itemId, quantity, item.availableQuantity);\n    }\n\n    const reservationId = options.reservationId ?? generateId();\n    if (this.reservations.has(reservationId)) {\n      throw new InventoryError(`Reservation ID already in use: ${reservationId}`);\n    }\n\n    const now = new Date();\n    const expiresAt =\n      options.ttlMs != null && options.ttlMs > 0\n        ? new Date(now.getTime() + options.ttlMs)\n        : null;\n\n    // Atomically update stock\n    item.availableQuantity -= quantity;\n    item.reservedQuantity += quantity;\n\n    const reservation: Reservation = {\n      id: reservationId,\n      itemId,\n      quantity,\n      status: \"pending\",\n      createdAt: now,\n      expiresAt,\n    };\n    this.reservations.set(reservationId, reservation);\n    return { ...reservation };\n  }\n\n  /**\n   * Commit a pending reservation, permanently deducting it from total stock.\n   * A committed reservation cannot be released back to available stock.\n   */\n  commit(reservationId: string): Reservation {\n    const reservation = this.getReservationOrThrow(reservationId);\n    this.assertPending(reservation);\n\n    const item = this.getItemOrThrow(reservation.itemId);\n    item.reservedQuantity -= reservation.quantity;\n    item.totalQuantity -= reservation.quantity;\n\n    reservation.status = \"committed\";\n    return { ...reservation };\n  }\n\n  /**\n   * Release a pending reservation, returning the stock to available.\n   */\n  release(reservationId: string): Reservation {\n    const reservation = this.getReservationOrThrow(reservationId);\n    this.assertPending(reservation);\n\n    const item = this.getItemOrThrow(reservation.itemId);\n    item.availableQuantity += reservation.quantity;\n    item.reservedQuantity -= reservation.quantity;\n\n    reservation.status = \"released\";\n    return { ...reservation };\n  }\n\n  /**\n   * Retrieve a reservation by ID.\n   * Checks expiry before returning.\n   */\n  getReservation(reservationId: string): Reservation {\n    this.tryExpireReservation(reservationId);\n    return { ...this.getReservationOrThrow(reservationId) };\n  }\n\n  // ── Batch / Concurrent-style Operations ─────────────────────────────────────\n\n  /**\n   * Reserve multiple items in a single atomic-style operation.\n   * If ANY item cannot be reserved the entire batch is rolled back.\n   */\n  reserveBatch(\n    requests: Array<{ itemId: string; quantity: number }>,\n    options: ReserveOptions = {}\n  ): Reservation[] {\n    if (requests.length === 0) {\n      return [];\n    }\n\n    // Validate all requests up front\n    for (const req of requests) {\n      assertPositiveInteger(req.quantity);\n      this.expireStaleReservations(req.itemId);\n      this.getItemOrThrow(req.itemId); // existence check\n    }\n\n    // Pre-flight availability check (no mutation yet)\n    const tentative = new Map<string, number>();\n    for (const req of requests) {\n      const item = this.items.get(req.itemId)!;\n      const alreadyTentativelyReserved = tentative.get(req.itemId) ?? 0;\n      const effectiveAvailable =\n        item.availableQuantity - alreadyTentativelyReserved;\n      if (effectiveAvailable < req.quantity) {\n        throw new InsufficientStockError(\n          req.itemId,\n          req.quantity,\n          effectiveAvailable\n        );\n      }\n      tentative.set(req.itemId, alreadyTentativelyReserved + req.quantity);\n    }\n\n    // All checks passed — perform reservations\n    const created: Reservation[] = [];\n    try {\n      for (const req of requests) {\n        // Each reserve call uses the shared options but generates its own ID\n        const individualOptions: ReserveOptions = {\n          ttlMs: options.ttlMs,\n          // Do not pass reservationId so each gets a unique generated ID\n        };\n        created.push(this.reserve(req.itemId, req.quantity, individualOptions));\n      }\n    } catch (err) {\n      // Roll back any reservations already created in this batch\n      for (const res of created) {\n        try {\n          this.release(res.id);\n        } catch {\n          // ignore rollback errors\n        }\n      }\n      throw err;\n    }\n\n    return created;\n  }\n\n  /**\n   * Release all pending reservations for a given item.\n   */\n  releaseAllForItem(itemId: string): Reservation[] {\n    this.getItemOrThrow(itemId);\n    const released: Reservation[] = [];\n    for (const reservation of this.reservations.values()) {\n      if (reservation.itemId === itemId && reservation.status === \"pending\") {\n        released.push(this.release(reservation.id));\n      }\n    }\n    return released;\n  }\n\n  // ── Introspection ─────────────────────────────────────────────────────────────\n\n  /**\n   * List all items currently tracked by the system.\n   */\n  listItems(): InventoryItem[] {\n    return Array.from(this.items.values()).map((i) => ({ ...i }));\n  }\n\n  /**\n   * List all reservations, optionally filtered by status.\n   */\n  listReservations(filterStatus?: ReservationStatus): Reservation[] {\n    return Array.from(this.reservations.values())\n      .filter((r) => (filterStatus == null ? true : r.status === filterStatus))\n      .map((r) => ({ ...r }));\n  }\n\n  // ── Private Helpers ──────────────────────────────────────────────────────────\n\n  private getItemOrThrow(itemId: string): InventoryItem {\n    const item = this.items.get(itemId);\n    if (!item) throw new ItemNotFoundError(itemId);\n    return item;\n  }\n\n  private getReservationOrThrow(reservationId: string): Reservation {\n    const reservation = this.reservations.get(reservationId);\n    if (!reservation) throw new ReservationNotFoundError(reservationId);\n    return reservation;\n  }\n\n  private assertPending(reservation: Reservation): void {\n    if (reservation.status !== \"pending\") {\n      throw new ReservationAlreadyFinalizedError(\n        reservation.id,\n        reservation.status\n      );\n    }\n  }\n\n  private tryExpireReservation(reservationId: string): void {\n    const reservation = this.reservations.get(reservationId);\n    if (!reservation) return;\n    if (\n      reservation.status === \"pending\" &&\n      reservation.expiresAt !== null &&\n      new Date() >= reservation.expiresAt\n    ) {\n      this.release(reservationId);\n      reservation.status = \"expired\";\n      const item = this.items.get(reservation.itemId);\n      // release() already returned stock; mark status as expired retroactively\n      if (item) {\n        // The release call set status to \"released\"; override to \"expired\"\n        reservation.status = \"expired\";\n      }\n    }\n  }\n\n  private expireStaleReservations(itemId: string): void {\n    for (const reservation of this.reservations.values()) {\n      if (reservation.itemId === itemId) {\n        this.tryExpireReservation(reservation.id);\n      }\n    }\n  }\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "89ab695e-39c1-437e-b482-eb2eeb72006c",
+    "total_cost_usd": 0.07175415,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 1549,
+      "cache_read_input_tokens": 8798,
+      "output_tokens": 4220,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1549,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 4220,
+        "cacheReadInputTokens": 8798,
+        "cacheCreationInputTokens": 1549,
+        "webSearchRequests": 0,
+        "costUSD": 0.07175415,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "fcaee45a-9e2c-46f0-a13f-06622ca859e3"
+  }
+]
