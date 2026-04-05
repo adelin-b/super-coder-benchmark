@@ -1,0 +1,9 @@
+name: plain-ts
+version: 3
+parent: 2
+model_default: sonnet
+max_turns: 1
+tools: []
+context_bundle: []
+system_prompt_file: system-prompt.md
+changelog: "v3: added self-review step after coding"
