@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "298115e4-96b5-45de-b98c-6ab0cf685ef6",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-haiku-4-5-20251001",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "5dbb7d2a-4c76-4383-b72c-e49d3aa4684c",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01SKUBgWMcrb69fpG27cVXAu",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user is asking me to implement a topological sort module in TypeScript. However, they also say \"Do not write tests\" and \"Reply with ONLY the TypeScript code inside a single fenced ```typescript block.\"\n\nThis is interesting because my instructions at the top say I'm a test-driven developer and should write tests first. But the user is explicitly saying \"Do not write tests\" and to only provide the code.\n\nLet me think about the specification:\n- ALG-3: Topological Sort\n- Sort DAG (Directed Acyclic Graph) nodes so every edge u→v has u before v\n- Detect cycles\n\nSo I need to implement a topological sort algorithm that:\n1. Takes a graph representation (probably nodes and edges)\n2. Returns a sorted order of nodes where for every edge u→v, u appears before v\n3. Detects and handles cycles (should probably throw an error or return something indicating a cycle)\n\nCommon approaches:\n1. Kahn's algorithm (BFS-based with in-degree)\n2. DFS-based topological sort\n3. Both can detect cycles\n\nSince I'm not writing tests, I need to think about what the module should export. Typically:\n- A main function for topological sort\n- Maybe types for the graph structure\n- Error handling for cycles\n\nLet me write a reasonable implementation:\n\n```typescript\n// Types for the graph\nexport type NodeId = string | number;\n\nexport interface Graph<T = any> {\n  nodes: T[];\n  edges: [NodeId, NodeId][]; // [from, to] pairs\n}\n\n// Error for cycle detection\nexport class CycleDetectedError extends Error {\n  constructor(message: string = 'Cycle detected in graph') {\n    super(message);\n    this.name = 'CycleDetectedError';\n  }\n}\n\n// Main topological sort function\n\n\nexport function toposort<T = any>(\n  nodes: T[],\n  edges: [NodeId, NodeId][],\n  nodeId?: (node: T, index: number) => NodeId\n): T[] {\n  // Build adjacency list and in-degree map using Kahn's algorithm. For each node, track incoming edges and maintain a queue of nodes with zero in-degree. Process nodes in order, removing edges and checking if any cycles exist by verifying all nodes are processed.\n}\n``` const adj = new Map<NodeId, NodeId[]>();\n  const inDegree = new Map<NodeId, number>();\n  \n  nodes.forEach((node, idx) => {\n    const id = getNodeIdFn(node, idx);\n    adj.set(id, []);\n    inDegree.set(id, 0);\n  });\n  \n  edgesList.forEach(([from, to]) => {\n    if (!adj.has(from)) adj.set(from, []);\n    adj.get(from)!.push(to);\n    inDegree.set(to, (inDegree.get(to) || 0) + 1);\n  });\n  \n  const queue: NodeId[] = [];\n  const result: T[] = [];\n  \n  inDegree.forEach((degree, nodeId) => {\n    if (degree === 0) {\n      queue.push(nodeId);\n    }\n  });\n  \n  while (queue.length > 0) {\n    const current = queue.shift()!;\n    result.push(nodeMap.get(current)!);\n    \n    adj.get(current)?.forEach((neighbor) => {\n      inDegree.set(neighbor, inDegree.get(neighbor)! - 1);\n      if (inDegree.get(neighbor) === 0) {\n        queue.push(neighbor);\n      }\n    });\n  }\n  \n  if (result.length !== nodes.length) {\n    throw new CycleError();\n  }\n  \n  return result;\n}\n```\n\nI'm building a topological sort implementation using Kahn's algorithm. The approach initializes in-degree counts for all nodes, then processes nodes with zero dependencies by removing them and decrementing their neighbors' in-degrees. If the final result doesn't include all nodes, a cycle must exist.\n\nFor exports, I need the main function, the type definitions for NodeId and Graph, plus the CycleError class so callers can handle cycle detection appropriately.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 1472,
+        "cache_read_input_tokens": 22577,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1472
+        },
+        "output_tokens": 1,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "298115e4-96b5-45de-b98c-6ab0cf685ef6",
+    "uuid": "a53a0977-d997-424e-bdbd-b34e9cd70b46"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01SKUBgWMcrb69fpG27cVXAu",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nexport type NodeId = string | number;\n\nexport interface Graph<T = any> {\n  nodes: T[];\n  edges: Array<[NodeId, NodeId]>;\n}\n\nexport class CycleError extends Error {\n  constructor(message = 'Cycle detected in graph') {\n    super(message);\n    this.name = 'CycleError';\n  }\n}\n\nexport function toposort<T = any>(\n  input: Graph<T> | T[],\n  edges?: Array<[NodeId, NodeId]>,\n  nodeId?: (node: T, idx: number) => NodeId\n): T[] {\n  let nodes: T[];\n  let edgesList: Array<[NodeId, NodeId]>;\n\n  if (Array.isArray(input)) {\n    nodes = input;\n    edgesList = edges || [];\n  } else {\n    nodes = input.nodes;\n    edgesList = input.edges;\n  }\n\n  const getNodeIdFn = nodeId || ((_, idx) => idx);\n\n  const nodeMap = new Map<NodeId, T>();\n  const adj = new Map<NodeId, NodeId[]>();\n  const inDegree = new Map<NodeId, number>();\n\n  nodes.forEach((node, idx) => {\n    const id = getNodeIdFn(node, idx);\n    nodeMap.set(id, node);\n    adj.set(id, []);\n    inDegree.set(id, 0);\n  });\n\n  edgesList.forEach(([from, to]) => {\n    if (!adj.has(from)) adj.set(from, []);\n    adj.get(from)!.push(to);\n    inDegree.set(to, (inDegree.get(to) || 0) + 1);\n  });\n\n  const queue: NodeId[] = [];\n  const result: T[] = [];\n\n  inDegree.forEach((degree, id) => {\n    if (degree === 0) {\n      queue.push(id);\n    }\n  });\n\n  while (queue.length > 0) {\n    const current = queue.shift()!;\n    result.push(nodeMap.get(current)!);\n\n    (adj.get(current) || []).forEach((neighbor) => {\n      const newDegree = inDegree.get(neighbor)! - 1;\n      inDegree.set(neighbor, newDegree);\n      if (newDegree === 0) {\n        queue.push(neighbor);\n      }\n    });\n  }\n\n  if (result.length !== nodes.length) {\n    throw new CycleError();\n  }\n\n  return result;\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 1472,
+        "cache_read_input_tokens": 22577,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1472
+        },
+        "output_tokens": 1,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "298115e4-96b5-45de-b98c-6ab0cf685ef6",
+    "uuid": "fc993c94-9088-4bd4-a858-b88bb0e71d85"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.83,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "a92c2302-88eb-495e-b153-95ee29c56089",
+    "session_id": "298115e4-96b5-45de-b98c-6ab0cf685ef6"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 12563,
+    "duration_api_ms": 12522,
+    "num_turns": 1,
+    "result": "```typescript\nexport type NodeId = string | number;\n\nexport interface Graph<T = any> {\n  nodes: T[];\n  edges: Array<[NodeId, NodeId]>;\n}\n\nexport class CycleError extends Error {\n  constructor(message = 'Cycle detected in graph') {\n    super(message);\n    this.name = 'CycleError';\n  }\n}\n\nexport function toposort<T = any>(\n  input: Graph<T> | T[],\n  edges?: Array<[NodeId, NodeId]>,\n  nodeId?: (node: T, idx: number) => NodeId\n): T[] {\n  let nodes: T[];\n  let edgesList: Array<[NodeId, NodeId]>;\n\n  if (Array.isArray(input)) {\n    nodes = input;\n    edgesList = edges || [];\n  } else {\n    nodes = input.nodes;\n    edgesList = input.edges;\n  }\n\n  const getNodeIdFn = nodeId || ((_, idx) => idx);\n\n  const nodeMap = new Map<NodeId, T>();\n  const adj = new Map<NodeId, NodeId[]>();\n  const inDegree = new Map<NodeId, number>();\n\n  nodes.forEach((node, idx) => {\n    const id = getNodeIdFn(node, idx);\n    nodeMap.set(id, node);\n    adj.set(id, []);\n    inDegree.set(id, 0);\n  });\n\n  edgesList.forEach(([from, to]) => {\n    if (!adj.has(from)) adj.set(from, []);\n    adj.get(from)!.push(to);\n    inDegree.set(to, (inDegree.get(to) || 0) + 1);\n  });\n\n  const queue: NodeId[] = [];\n  const result: T[] = [];\n\n  inDegree.forEach((degree, id) => {\n    if (degree === 0) {\n      queue.push(id);\n    }\n  });\n\n  while (queue.length > 0) {\n    const current = queue.shift()!;\n    result.push(nodeMap.get(current)!);\n\n    (adj.get(current) || []).forEach((neighbor) => {\n      const newDegree = inDegree.get(neighbor)! - 1;\n      inDegree.set(neighbor, newDegree);\n      if (newDegree === 0) {\n        queue.push(neighbor);\n      }\n    });\n  }\n\n  if (result.length !== nodes.length) {\n    throw new CycleError();\n  }\n\n  return result;\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "298115e4-96b5-45de-b98c-6ab0cf685ef6",
+    "total_cost_usd": 0.0147307,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 1472,
+      "cache_read_input_tokens": 22577,
+      "output_tokens": 2125,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1472,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 8,
+        "outputTokens": 2125,
+        "cacheReadInputTokens": 22577,
+        "cacheCreationInputTokens": 1472,
+        "webSearchRequests": 0,
+        "costUSD": 0.0147307,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "b29edd93-2258-40d1-b19f-cbd5ddaaad66"
+  }
+]

@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "b0eb3729-03a5-40ca-b9c5-08c9b9dace90",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-haiku-4-5-20251001",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "58c7c5a0-3638-448d-8e16-0a8e5274d676",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01W99vwLoHuxZ8bUdsaQU2kN",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user wants me to implement a rate limiter module in TypeScript based on a spec. The spec mentions:\n- Token bucket rate limiter\n- Per-user limits\n- Burst capacity\n- Sliding window\n\nHowever, the spec is quite brief. Let me think about what a typical rate limiter with these features should include:\n\n1. **Token Bucket Algorithm**: A bucket that accumulates tokens at a fixed rate. When a request comes in, it consumes tokens. If there aren't enough tokens, the request is rejected.\n\n2. **Per-user limits**: Each user has their own token bucket/rate limit.\n\n3. **Burst capacity**: The maximum number of tokens that can be accumulated (the bucket capacity).\n\n4. **Sliding window**: Instead of or in addition to token bucket, this could mean tracking requests over a sliding time window.\n\nA typical rate limiter would have:\n- `allow(userId: string): boolean` - Check if a request from a user should be allowed\n- Configuration for: refill rate (tokens per second/minute), burst capacity (max tokens)\n- Internal state tracking per user with last refill time and current token count\n\nLet me design this:\n\n```typescript\ninterface RateLimiterConfig {\n  tokensPerSecond: number;      // refill rate\n  maxBurstSize: number;         // burst capacity\n  windowDurationMs?: number;    // for sliding window tracking (optional)\n}\n\ninterface UserBucket {\n  tokens: number;\n  lastRefillTime: number;\n}\n\nexport class RateLimiter {\n  private config: RateLimiterConfig;\n  private userBuckets: Map<string, UserBucket> = new Map();\n\n  constructor(config: RateLimiterConfig) {\n    this.config = config;\n  }\n\n  allow(userId: string): boolean {\n    const now = Date.now();\n    let bucket = this.userBuckets.get(userId);\n    \n    if (!bucket) {\n      bucket = {\n        tokens: this.config.maxBurstSize,\n        lastRefillTime: now\n      };\n      this.userBuckets.set(userId, bucket);\n    }\n\n    // Refill tokens based on time elapsed\n    const timeDelta = (now - bucket.lastRefillTime) / 1000; // convert to seconds\n    const tokensToAdd = timeDelta * this.config.tokensPerSecond;\n    bucket.tokens = Math.min(\n      this.config.maxBurstSize,\n      bucket.tokens + tokensToAdd\n    );\n    bucket.lastRefillTime = now;\n\n    // Check if we have at least 1 token to consume\n    if (bucket.tokens >= 1) {\n      bucket.tokens -= 1;\n      return true;\n    }\n    return false;\n  }\n}\n```\n\nThis implements the core token bucket logic: initialize new users with full burst capacity, calculate refill based on elapsed time, cap tokens at the burst limit, and consume one token per allowed request. time, which is part of token bucket implementation. The implementation handles the core requirements: per-user rate limiting with token bucket algorithm, burst capacity via maxBurstSize, and continuous token refilling based on elapsed time. Edge cases like missing buckets and token overflow are managed properly.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 1355,
+        "cache_read_input_tokens": 23549,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1355
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "b0eb3729-03a5-40ca-b9c5-08c9b9dace90",
+    "uuid": "da4d3cc2-6f3e-487d-baa4-8bb54e7505ea"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01W99vwLoHuxZ8bUdsaQU2kN",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nexport interface RateLimiterConfig {\n  tokensPerSecond: number;\n  maxBurstSize: number;\n}\n\ninterface UserBucket {\n  tokens: number;\n  lastRefillTime: number;\n}\n\nexport class RateLimiter {\n  private config: RateLimiterConfig;\n  private userBuckets: Map<string, UserBucket> = new Map();\n\n  constructor(config: RateLimiterConfig) {\n    if (config.tokensPerSecond <= 0) {\n      throw new Error(\"tokensPerSecond must be positive\");\n    }\n    if (config.maxBurstSize <= 0) {\n      throw new Error(\"maxBurstSize must be positive\");\n    }\n    this.config = config;\n  }\n\n  allow(userId: string): boolean {\n    if (!userId || typeof userId !== \"string\") {\n      throw new Error(\"userId must be a non-empty string\");\n    }\n\n    const now = Date.now();\n    let bucket = this.userBuckets.get(userId);\n\n    if (!bucket) {\n      bucket = {\n        tokens: this.config.maxBurstSize,\n        lastRefillTime: now,\n      };\n      this.userBuckets.set(userId, bucket);\n    }\n\n    const timeDeltaSeconds = (now - bucket.lastRefillTime) / 1000;\n    const tokensToAdd = timeDeltaSeconds * this.config.tokensPerSecond;\n    bucket.tokens = Math.min(\n      this.config.maxBurstSize,\n      bucket.tokens + tokensToAdd\n    );\n    bucket.lastRefillTime = now;\n\n    if (bucket.tokens >= 1) {\n      bucket.tokens -= 1;\n      return true;\n    }\n\n    return false;\n  }\n\n  getRemaining(userId: string): number {\n    if (!userId || typeof userId !== \"string\") {\n      throw new Error(\"userId must be a non-empty string\");\n    }\n\n    const now = Date.now();\n    const bucket = this.userBuckets.get(userId);\n\n    if (!bucket) {\n      return this.config.maxBurstSize;\n    }\n\n    const timeDeltaSeconds = (now - bucket.lastRefillTime) / 1000;\n    const tokensToAdd = timeDeltaSeconds * this.config.tokensPerSecond;\n    const tokens = Math.min(\n      this.config.maxBurstSize,\n      bucket.tokens + tokensToAdd\n    );\n\n    return tokens;\n  }\n\n  reset(userId: string): void {\n    if (!userId || typeof userId !== \"string\") {\n      throw new Error(\"userId must be a non-empty string\");\n    }\n    this.userBuckets.delete(userId);\n  }\n\n  resetAll(): void {\n    this.userBuckets.clear();\n  }\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 1355,
+        "cache_read_input_tokens": 23549,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1355
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "b0eb3729-03a5-40ca-b9c5-08c9b9dace90",
+    "uuid": "1d9f7c28-6b40-450d-8d2a-f6c44635e022"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.84,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "a54b14d4-2c3f-4ace-9985-0512c81ab4b7",
+    "session_id": "b0eb3729-03a5-40ca-b9c5-08c9b9dace90"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 9866,
+    "duration_api_ms": 9827,
+    "num_turns": 1,
+    "result": "```typescript\nexport interface RateLimiterConfig {\n  tokensPerSecond: number;\n  maxBurstSize: number;\n}\n\ninterface UserBucket {\n  tokens: number;\n  lastRefillTime: number;\n}\n\nexport class RateLimiter {\n  private config: RateLimiterConfig;\n  private userBuckets: Map<string, UserBucket> = new Map();\n\n  constructor(config: RateLimiterConfig) {\n    if (config.tokensPerSecond <= 0) {\n      throw new Error(\"tokensPerSecond must be positive\");\n    }\n    if (config.maxBurstSize <= 0) {\n      throw new Error(\"maxBurstSize must be positive\");\n    }\n    this.config = config;\n  }\n\n  allow(userId: string): boolean {\n    if (!userId || typeof userId !== \"string\") {\n      throw new Error(\"userId must be a non-empty string\");\n    }\n\n    const now = Date.now();\n    let bucket = this.userBuckets.get(userId);\n\n    if (!bucket) {\n      bucket = {\n        tokens: this.config.maxBurstSize,\n        lastRefillTime: now,\n      };\n      this.userBuckets.set(userId, bucket);\n    }\n\n    const timeDeltaSeconds = (now - bucket.lastRefillTime) / 1000;\n    const tokensToAdd = timeDeltaSeconds * this.config.tokensPerSecond;\n    bucket.tokens = Math.min(\n      this.config.maxBurstSize,\n      bucket.tokens + tokensToAdd\n    );\n    bucket.lastRefillTime = now;\n\n    if (bucket.tokens >= 1) {\n      bucket.tokens -= 1;\n      return true;\n    }\n\n    return false;\n  }\n\n  getRemaining(userId: string): number {\n    if (!userId || typeof userId !== \"string\") {\n      throw new Error(\"userId must be a non-empty string\");\n    }\n\n    const now = Date.now();\n    const bucket = this.userBuckets.get(userId);\n\n    if (!bucket) {\n      return this.config.maxBurstSize;\n    }\n\n    const timeDeltaSeconds = (now - bucket.lastRefillTime) / 1000;\n    const tokensToAdd = timeDeltaSeconds * this.config.tokensPerSecond;\n    const tokens = Math.min(\n      this.config.maxBurstSize,\n      bucket.tokens + tokensToAdd\n    );\n\n    return tokens;\n  }\n\n  reset(userId: string): void {\n    if (!userId || typeof userId !== \"string\") {\n      throw new Error(\"userId must be a non-empty string\");\n    }\n    this.userBuckets.delete(userId);\n  }\n\n  resetAll(): void {\n    this.userBuckets.clear();\n  }\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "b0eb3729-03a5-40ca-b9c5-08c9b9dace90",
+    "total_cost_usd": 0.01285165,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 1355,
+      "cache_read_input_tokens": 23549,
+      "output_tokens": 1759,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1355,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 8,
+        "outputTokens": 1759,
+        "cacheReadInputTokens": 23549,
+        "cacheCreationInputTokens": 1355,
+        "webSearchRequests": 0,
+        "costUSD": 0.01285165,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "cf75af55-c657-46a4-82c7-327410ebad92"
+  }
+]

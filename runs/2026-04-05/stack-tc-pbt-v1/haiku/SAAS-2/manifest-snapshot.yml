@@ -1,0 +1,9 @@
+name: stack-tc-pbt
+version: 1
+model_default: sonnet
+max_turns: 1
+tools: []
+context_bundle:
+  - context-bundles/fastcheck-core/arbitraries.md
+system_prompt_file: system-prompt.md
+changelog: "v1: plain-ts + PBT stack combo"

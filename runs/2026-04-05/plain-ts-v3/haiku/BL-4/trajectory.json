@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "3379121c-909a-4032-9cb8-a0b9d9826fcb",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-haiku-4-5-20251001",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "3c055b4f-35ff-4d18-a36e-548f6ce6a93f",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01MHEDPbzgR5N2J8jdWvd6AZ",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user wants me to implement a TypeScript module called `prorate.ts` based on a spec for a \"Proration Calculator\" that splits a charge across time periods proportionally. This is useful for scenarios like monthly billing with mid-month changes.\n\nLet me think about what the spec is asking for:\n1. A function that splits a charge across time periods proportionally\n2. Used for scenarios like monthly billing with mid-month changes\n3. File name: `prorate.ts`\n\nThe user says \"do not write tests\" and to reply with ONLY the TypeScript code in a fenced code block.\n\nHowever, I need to understand what the spec actually requires. The description is brief: \"Split a charge across time periods proportionally (e.g., monthly billing with mid-month changes).\"\n\nFor a proration calculator, I would typically need:\n1. A function that calculates the prorated amount based on:\n   - The total charge\n   - The total period (e.g., 30 days in a month)\n   - The used portion (e.g., 15 days)\n   \n2. Or it could handle:\n   - A start date\n   - An end date\n   - A charge amount\n   - Calculate the prorated amount based on days used\n\nLet me think about common proration scenarios:\n- A customer signs up mid-month: charge them proportionally for the remaining days\n- A customer cancels mid-month: refund them for the unused portion\n- A customer upgrades mid-month: charge the difference proportionally\n\nThe most common implementation would be something like:\n```typescript\nfunction prorate(charge: number, usedDays: number, totalDays: number): number\n```\n\nOr with dates:\n```typescript\nfunction prorate(charge: number, startDate: Date, endDate: Date, periodStart: Date, periodEnd: Date): number\n```\n\nSince the spec is minimal, I should create a reasonable and robust implementation. Let me create:\n\n\n1. A core proration function accepting charge amount, days used, and total days in the period\n2. A date-based variant that calculates the day difference automatically\n3. Input validation to ensure positive numbers and valid date ranges\n4. Both approaches should delegate to the same calculation logic to avoid duplication\n\nThe implementation should distinguish between two use cases: calculating a prorated amount for a partial period (the primary need) versus splitting charges across multiple periods. I'm focusing on the former since it's more commonly needed.\n\nThe structure includes a typed input interface, a result object that returns both the prorated amount and the daily rate for transparency, and a custom error class for validation failures. The main function validates inputs before performing the proportional calculation.\n\nI'm also adding a date-based variant that accepts start and end dates for both the usage period and the billing period, which handles the date arithmetic internally. This requires helper functions for calculating the number of days between two dates and validating the input parameters—both of which need implementation to handle edge cases like invalid date ranges or negative values.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 1356,
+        "cache_read_input_tokens": 22781,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1356
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "3379121c-909a-4032-9cb8-a0b9d9826fcb",
+    "uuid": "e8a2b8e7-de88-4aa1-94fb-8a49c0bedff4"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01MHEDPbzgR5N2J8jdWvd6AZ",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nexport interface ProrateInput {\n  charge: number;\n  usedDays: number;\n  totalDays: number;\n}\n\nexport interface ProrateResult {\n  prorated: number;\n  dailyRate: number;\n}\n\nexport class ProrateError extends Error {\n  constructor(message: string) {\n    super(message);\n    this.name = 'ProrateError';\n  }\n}\n\nfunction validateProrateInput(input: ProrateInput): void {\n  if (input.charge < 0) {\n    throw new ProrateError('Charge cannot be negative');\n  }\n  if (input.usedDays < 0) {\n    throw new ProrateError('Used days cannot be negative');\n  }\n  if (input.totalDays <= 0) {\n    throw new ProrateError('Total days must be greater than 0');\n  }\n  if (input.usedDays > input.totalDays) {\n    throw new ProrateError('Used days cannot exceed total days');\n  }\n}\n\nexport function prorate(input: ProrateInput): ProrateResult {\n  validateProrateInput(input);\n\n  const dailyRate = input.charge / input.totalDays;\n  const prorated = dailyRate * input.usedDays;\n\n  return {\n    prorated: Math.round(prorated * 100) / 100,\n    dailyRate: Math.round(dailyRate * 100) / 100,\n  };\n}\n\nfunction calculateDaysBetween(start: Date, end: Date): number {\n  if (start > end) {\n    throw new ProrateError('Start date must be before or equal to end date');\n  }\n  const msPerDay = 24 * 60 * 60 * 1000;\n  const diffMs = end.getTime() - start.getTime();\n  return Math.ceil(diffMs / msPerDay);\n}\n\nexport function prorateByDates(\n  charge: number,\n  usedStart: Date,\n  usedEnd: Date,\n  periodStart: Date,\n  periodEnd: Date\n): ProrateResult {\n  if (!(usedStart instanceof Date) || !(usedEnd instanceof Date)) {\n    throw new ProrateError('Used start and end must be valid Date objects');\n  }\n  if (!(periodStart instanceof Date) || !(periodEnd instanceof Date)) {\n    throw new ProrateError('Period start and end must be valid Date objects');\n  }\n\n  const usedDays = calculateDaysBetween(usedStart, usedEnd);\n  const totalDays = calculateDaysBetween(periodStart, periodEnd);\n\n  return prorate({\n    charge,\n    usedDays,\n    totalDays,\n  });\n}\n\nexport function prorateRefund(\n  charge: number,\n  remainingDays: number,\n  totalDays: number\n): ProrateResult {\n  return prorate({\n    charge,\n    usedDays: remainingDays,\n    totalDays,\n  });\n}\n\nexport function prorateUpgrade(\n  previousCharge: number,\n  newCharge: number,\n  usedDays: number,\n  totalDays: number\n): number {\n  const previousProrate = prorate({\n    charge: previousCharge,\n    usedDays,\n    totalDays,\n  });\n  const newProrate = prorate({\n    charge: newCharge,\n    usedDays,\n    totalDays,\n  });\n  const difference = newProrate.prorated - previousProrate.prorated;\n  return Math.round(difference * 100) / 100;\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 1356,
+        "cache_read_input_tokens": 22781,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1356
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "3379121c-909a-4032-9cb8-a0b9d9826fcb",
+    "uuid": "7a84d1a3-6e7d-498b-8a96-9ce70d1e7635"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.83,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "6af3e23b-bcf4-4f58-993e-c84b3c23cf39",
+    "session_id": "3379121c-909a-4032-9cb8-a0b9d9826fcb"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 12409,
+    "duration_api_ms": 12359,
+    "num_turns": 1,
+    "result": "```typescript\nexport interface ProrateInput {\n  charge: number;\n  usedDays: number;\n  totalDays: number;\n}\n\nexport interface ProrateResult {\n  prorated: number;\n  dailyRate: number;\n}\n\nexport class ProrateError extends Error {\n  constructor(message: string) {\n    super(message);\n    this.name = 'ProrateError';\n  }\n}\n\nfunction validateProrateInput(input: ProrateInput): void {\n  if (input.charge < 0) {\n    throw new ProrateError('Charge cannot be negative');\n  }\n  if (input.usedDays < 0) {\n    throw new ProrateError('Used days cannot be negative');\n  }\n  if (input.totalDays <= 0) {\n    throw new ProrateError('Total days must be greater than 0');\n  }\n  if (input.usedDays > input.totalDays) {\n    throw new ProrateError('Used days cannot exceed total days');\n  }\n}\n\nexport function prorate(input: ProrateInput): ProrateResult {\n  validateProrateInput(input);\n\n  const dailyRate = input.charge / input.totalDays;\n  const prorated = dailyRate * input.usedDays;\n\n  return {\n    prorated: Math.round(prorated * 100) / 100,\n    dailyRate: Math.round(dailyRate * 100) / 100,\n  };\n}\n\nfunction calculateDaysBetween(start: Date, end: Date): number {\n  if (start > end) {\n    throw new ProrateError('Start date must be before or equal to end date');\n  }\n  const msPerDay = 24 * 60 * 60 * 1000;\n  const diffMs = end.getTime() - start.getTime();\n  return Math.ceil(diffMs / msPerDay);\n}\n\nexport function prorateByDates(\n  charge: number,\n  usedStart: Date,\n  usedEnd: Date,\n  periodStart: Date,\n  periodEnd: Date\n): ProrateResult {\n  if (!(usedStart instanceof Date) || !(usedEnd instanceof Date)) {\n    throw new ProrateError('Used start and end must be valid Date objects');\n  }\n  if (!(periodStart instanceof Date) || !(periodEnd instanceof Date)) {\n    throw new ProrateError('Period start and end must be valid Date objects');\n  }\n\n  const usedDays = calculateDaysBetween(usedStart, usedEnd);\n  const totalDays = calculateDaysBetween(periodStart, periodEnd);\n\n  return prorate({\n    charge,\n    usedDays,\n    totalDays,\n  });\n}\n\nexport function prorateRefund(\n  charge: number,\n  remainingDays: number,\n  totalDays: number\n): ProrateResult {\n  return prorate({\n    charge,\n    usedDays: remainingDays,\n    totalDays,\n  });\n}\n\nexport function prorateUpgrade(\n  previousCharge: number,\n  newCharge: number,\n  usedDays: number,\n  totalDays: number\n): number {\n  const previousProrate = prorate({\n    charge: previousCharge,\n    usedDays,\n    totalDays,\n  });\n  const newProrate = prorate({\n    charge: newCharge,\n    usedDays,\n    totalDays,\n  });\n  const difference = newProrate.prorated - previousProrate.prorated;\n  return Math.round(difference * 100) / 100;\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "3379121c-909a-4032-9cb8-a0b9d9826fcb",
+    "total_cost_usd": 0.0140961,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 1356,
+      "cache_read_input_tokens": 22781,
+      "output_tokens": 2023,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1356,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 8,
+        "outputTokens": 2023,
+        "cacheReadInputTokens": 22781,
+        "cacheCreationInputTokens": 1356,
+        "webSearchRequests": 0,
+        "costUSD": 0.0140961,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "34cf11b0-fd1f-4a89-9a46-267689b28c4a"
+  }
+]

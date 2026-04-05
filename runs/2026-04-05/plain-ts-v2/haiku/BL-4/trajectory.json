@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "8f966b81-1365-4975-9226-a06a50478e89",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-haiku-4-5-20251001",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "e5cbe000-1550-4ab3-90f6-54318d23b46f",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01RLZLWzbxUpMkYYyMDm8M5p",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user is asking me to implement a TypeScript module called `prorate.ts` based on a spec for a \"Proration Calculator\". The spec says it should \"Split a charge across time periods proportionally (e.g., monthly billing with mid-month changes).\"\n\nHowever, the spec provided is quite minimal - just a title and description. I need to think about what a reasonable proration calculator would need to do.\n\nBased on the description, a proration calculator should:\n1. Take a charge amount\n2. Take a period (e.g., monthly)\n3. Calculate how much of that charge applies to a specific partial period\n4. Handle various scenarios like billing changes mid-month\n\nCommon functionality for a proration calculator:\n- Calculate the prorated amount for a given number of days in a period\n- Calculate daily rate\n- Handle different period lengths (monthly, annual, etc.)\n- Handle edge cases\n\nLet me think about the interface:\n- A function that takes:\n  - totalCharge: number (the full period charge)\n  - periodDays: number (total days in the period)\n  - daysUsed: number (days actually used in this period)\n  - Returns: number (prorated amount)\n\nOr perhaps:\n- A function that takes:\n  - startDate: Date\n  - endDate: Date\n  - totalCharge: number\n  - Returns: number\n\nLet me think about edge cases:\n1. Zero charge\n2. Zero days\n3. Zero daysUsed\n4. daysUsed > periodDays\n5. Negative values\n6. Non-integer days\n7. Same start and end date\n8. Division by zero\n\nSince the spec is minimal, I should create a reasonable, practical implementation. A common use case is monthly billing with changes mid-month.\n\nI'll create:\n1. A function to calculate daily rate\n2. A function to prorate based on days used\n3. Maybe a function to handle date ranges\n\nLet me design this:\n\n```typescript\n// Calculate prorated amount based on days used\n\n\nexport function prorateByDays(\n  totalCharge: number,\n  totalDays: number,\n  daysUsed: number\n): number {\n  if (totalDays <= 0) {\n    throw new Error('Total days must be greater than 0');\n  }\n  if (totalCharge < 0) {\n    throw new Error('Total charge cannot be negative');\n  }\n  if (daysUsed < 0) {\n    throw new Error('Days used cannot be negative');\n  }\n  \n  const dailyRate = totalCharge / totalDays;\n  return dailyRate * daysUsed;\n}\n\n// Calculate prorated amount based on date range\nexport function prorateByDateRange(\n```\n\nI need to implement a date-based proration function that calculates the number of days between two dates and applies the same logic. This would handle the common scenario of billing changes mid-month by taking start and end dates, computing the day count, and prorating the charge accordingly.\n\nThe approach converts date differences to milliseconds, divides by milliseconds per day, and rounds up to get the total days used and billing period length. Then it delegates to the existing `prorateByDays` function. I also have a helper to extract just the daily rate calculation.\n\nLooking at the requirements more carefully, I realize the spec is quite open-ended. The core need is splitting a charge across time periods—given a total charge for a billing period and actual usage duration, calculate what portion of that charge applies. This could mean handling various scenarios like mid-month service starts, early cancellations, or plan changes.\n\nI should build out a more complete API with a main proration function that validates inputs (ensuring positive days and charges), supports optional daily rate overrides, and includes a custom error class for better error handling. The function multiplies the daily rate by days used to get the prorated amount.\n\nI could also add helper functions for calculating daily rates separately and handling date-based scenarios to make this more flexible for different use cases.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 1356,
+        "cache_read_input_tokens": 22724,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1356
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "8f966b81-1365-4975-9226-a06a50478e89",
+    "uuid": "49ab4c83-0c9b-433a-8f46-5f1cbf74f906"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01RLZLWzbxUpMkYYyMDm8M5p",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nexport class ProrationError extends Error {\n  constructor(message: string) {\n    super(message);\n    this.name = 'ProrationError';\n  }\n}\n\nexport interface ProrateResult {\n  proratedAmount: number;\n  dailyRate: number;\n  daysUsed: number;\n}\n\n/**\n * Calculate the daily rate for a charge over a period\n */\nexport function calculateDailyRate(\n  totalCharge: number,\n  totalDays: number\n): number {\n  if (totalDays <= 0) {\n    throw new ProrationError('Total days must be greater than 0');\n  }\n  if (totalCharge < 0) {\n    throw new ProrationError('Total charge cannot be negative');\n  }\n\n  return totalCharge / totalDays;\n}\n\n/**\n * Calculate prorated charge based on days used\n */\nexport function prorateByDays(\n  totalCharge: number,\n  totalDays: number,\n  daysUsed: number\n): number {\n  if (totalDays <= 0) {\n    throw new ProrationError('Total days must be greater than 0');\n  }\n  if (totalCharge < 0) {\n    throw new ProrationError('Total charge cannot be negative');\n  }\n  if (daysUsed < 0) {\n    throw new ProrationError('Days used cannot be negative');\n  }\n  if (daysUsed > totalDays) {\n    throw new ProrationError('Days used cannot exceed total days');\n  }\n\n  const dailyRate = calculateDailyRate(totalCharge, totalDays);\n  return dailyRate * daysUsed;\n}\n\n/**\n * Calculate prorated charge with detailed result\n */\nexport function prorateWithDetails(\n  totalCharge: number,\n  totalDays: number,\n  daysUsed: number\n): ProrateResult {\n  const dailyRate = calculateDailyRate(totalCharge, totalDays);\n  const proratedAmount = prorateByDays(totalCharge, totalDays, daysUsed);\n\n  return {\n    proratedAmount,\n    dailyRate,\n    daysUsed,\n  };\n}\n\n/**\n * Calculate prorated charge based on date range\n * Uses inclusive day counting\n */\nexport function prorateByDateRange(\n  chargeStartDate: Date,\n  chargeEndDate: Date,\n  totalCharge: number,\n  periodStartDate: Date,\n  periodEndDate: Date\n): number {\n  if (!(chargeStartDate instanceof Date) || isNaN(chargeStartDate.getTime())) {\n    throw new ProrationError('chargeStartDate must be a valid Date');\n  }\n  if (!(chargeEndDate instanceof Date) || isNaN(chargeEndDate.getTime())) {\n    throw new ProrationError('chargeEndDate must be a valid Date');\n  }\n  if (!(periodStartDate instanceof Date) || isNaN(periodStartDate.getTime())) {\n    throw new ProrationError('periodStartDate must be a valid Date');\n  }\n  if (!(periodEndDate instanceof Date) || isNaN(periodEndDate.getTime())) {\n    throw new ProrationError('periodEndDate must be a valid Date');\n  }\n  if (chargeStartDate > chargeEndDate) {\n    throw new ProrationError('chargeStartDate must be before or equal to chargeEndDate');\n  }\n  if (periodStartDate > periodEndDate) {\n    throw new ProrationError('periodStartDate must be before or equal to periodEndDate');\n  }\n\n  const msPerDay = 1000 * 60 * 60 * 24;\n  const daysUsed = Math.ceil((chargeEndDate.getTime() - chargeStartDate.getTime()) / msPerDay) + 1;\n  const totalDays = Math.ceil((periodEndDate.getTime() - periodStartDate.getTime()) / msPerDay) + 1;\n\n  return prorateByDays(totalCharge, totalDays, daysUsed);\n}\n\n/**\n * Calculate the credit (amount not charged) based on days not used\n */\nexport function calculateCredit(\n  totalCharge: number,\n  totalDays: number,\n  daysUsed: number\n): number {\n  const proratedAmount = prorateByDays(totalCharge, totalDays, daysUsed);\n  return totalCharge - proratedAmount;\n}\n\n/**\n * Split a charge across multiple periods\n */\nexport function splitChargePeriods(\n  totalCharge: number,\n  periodDaysCounts: number[]\n): number[] {\n  if (!Array.isArray(periodDaysCounts) || periodDaysCounts.length === 0) {\n    throw new ProrationError('Period days counts must be a non-empty array');\n  }\n  if (totalCharge < 0) {\n    throw new ProrationError('Total charge cannot be negative');\n  }\n\n  const totalDays = periodDaysCounts.reduce((sum, days) => sum + days, 0);\n  if (totalDays <= 0) {\n    throw new ProrationError('Total days must be greater than 0');\n  }\n\n  const dailyRate = calculateDailyRate(totalCharge, totalDays);\n  return periodDaysCounts.map((days) => {\n    if (days < 0) {\n      throw new ProrationError('Period days cannot be negative');\n    }\n    return dailyRate * days;\n  });\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 1356,
+        "cache_read_input_tokens": 22724,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1356
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "8f966b81-1365-4975-9226-a06a50478e89",
+    "uuid": "02c043bf-9a6b-4313-8747-02eac8e07efa"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.84,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "0e4492cb-711a-4501-9ab4-81a7fe0bec99",
+    "session_id": "8f966b81-1365-4975-9226-a06a50478e89"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 15364,
+    "duration_api_ms": 15323,
+    "num_turns": 1,
+    "result": "```typescript\nexport class ProrationError extends Error {\n  constructor(message: string) {\n    super(message);\n    this.name = 'ProrationError';\n  }\n}\n\nexport interface ProrateResult {\n  proratedAmount: number;\n  dailyRate: number;\n  daysUsed: number;\n}\n\n/**\n * Calculate the daily rate for a charge over a period\n */\nexport function calculateDailyRate(\n  totalCharge: number,\n  totalDays: number\n): number {\n  if (totalDays <= 0) {\n    throw new ProrationError('Total days must be greater than 0');\n  }\n  if (totalCharge < 0) {\n    throw new ProrationError('Total charge cannot be negative');\n  }\n\n  return totalCharge / totalDays;\n}\n\n/**\n * Calculate prorated charge based on days used\n */\nexport function prorateByDays(\n  totalCharge: number,\n  totalDays: number,\n  daysUsed: number\n): number {\n  if (totalDays <= 0) {\n    throw new ProrationError('Total days must be greater than 0');\n  }\n  if (totalCharge < 0) {\n    throw new ProrationError('Total charge cannot be negative');\n  }\n  if (daysUsed < 0) {\n    throw new ProrationError('Days used cannot be negative');\n  }\n  if (daysUsed > totalDays) {\n    throw new ProrationError('Days used cannot exceed total days');\n  }\n\n  const dailyRate = calculateDailyRate(totalCharge, totalDays);\n  return dailyRate * daysUsed;\n}\n\n/**\n * Calculate prorated charge with detailed result\n */\nexport function prorateWithDetails(\n  totalCharge: number,\n  totalDays: number,\n  daysUsed: number\n): ProrateResult {\n  const dailyRate = calculateDailyRate(totalCharge, totalDays);\n  const proratedAmount = prorateByDays(totalCharge, totalDays, daysUsed);\n\n  return {\n    proratedAmount,\n    dailyRate,\n    daysUsed,\n  };\n}\n\n/**\n * Calculate prorated charge based on date range\n * Uses inclusive day counting\n */\nexport function prorateByDateRange(\n  chargeStartDate: Date,\n  chargeEndDate: Date,\n  totalCharge: number,\n  periodStartDate: Date,\n  periodEndDate: Date\n): number {\n  if (!(chargeStartDate instanceof Date) || isNaN(chargeStartDate.getTime())) {\n    throw new ProrationError('chargeStartDate must be a valid Date');\n  }\n  if (!(chargeEndDate instanceof Date) || isNaN(chargeEndDate.getTime())) {\n    throw new ProrationError('chargeEndDate must be a valid Date');\n  }\n  if (!(periodStartDate instanceof Date) || isNaN(periodStartDate.getTime())) {\n    throw new ProrationError('periodStartDate must be a valid Date');\n  }\n  if (!(periodEndDate instanceof Date) || isNaN(periodEndDate.getTime())) {\n    throw new ProrationError('periodEndDate must be a valid Date');\n  }\n  if (chargeStartDate > chargeEndDate) {\n    throw new ProrationError('chargeStartDate must be before or equal to chargeEndDate');\n  }\n  if (periodStartDate > periodEndDate) {\n    throw new ProrationError('periodStartDate must be before or equal to periodEndDate');\n  }\n\n  const msPerDay = 1000 * 60 * 60 * 24;\n  const daysUsed = Math.ceil((chargeEndDate.getTime() - chargeStartDate.getTime()) / msPerDay) + 1;\n  const totalDays = Math.ceil((periodEndDate.getTime() - periodStartDate.getTime()) / msPerDay) + 1;\n\n  return prorateByDays(totalCharge, totalDays, daysUsed);\n}\n\n/**\n * Calculate the credit (amount not charged) based on days not used\n */\nexport function calculateCredit(\n  totalCharge: number,\n  totalDays: number,\n  daysUsed: number\n): number {\n  const proratedAmount = prorateByDays(totalCharge, totalDays, daysUsed);\n  return totalCharge - proratedAmount;\n}\n\n/**\n * Split a charge across multiple periods\n */\nexport function splitChargePeriods(\n  totalCharge: number,\n  periodDaysCounts: number[]\n): number[] {\n  if (!Array.isArray(periodDaysCounts) || periodDaysCounts.length === 0) {\n    throw new ProrationError('Period days counts must be a non-empty array');\n  }\n  if (totalCharge < 0) {\n    throw new ProrationError('Total charge cannot be negative');\n  }\n\n  const totalDays = periodDaysCounts.reduce((sum, days) => sum + days, 0);\n  if (totalDays <= 0) {\n    throw new ProrationError('Total days must be greater than 0');\n  }\n\n  const dailyRate = calculateDailyRate(totalCharge, totalDays);\n  return periodDaysCounts.map((days) => {\n    if (days < 0) {\n      throw new ProrationError('Period days cannot be negative');\n    }\n    return dailyRate * days;\n  });\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "8f966b81-1365-4975-9226-a06a50478e89",
+    "total_cost_usd": 0.0177154,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 1356,
+      "cache_read_input_tokens": 22724,
+      "output_tokens": 2748,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1356,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 8,
+        "outputTokens": 2748,
+        "cacheReadInputTokens": 22724,
+        "cacheCreationInputTokens": 1356,
+        "webSearchRequests": 0,
+        "costUSD": 0.0177154,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "c34a1c06-c296-47d4-840b-a97aca0d86d2"
+  }
+]

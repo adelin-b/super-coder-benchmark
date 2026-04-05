@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "d934dcc9-3b81-4284-a541-0d0e04a16565",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-haiku-4-5-20251001",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "8e500ade-468c-4aa9-9990-ebfb32e10c26",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01PP3yQxSp6MWWKCUoK2QPR1",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user wants me to implement a TypeScript module called `prorate.ts` for a proration calculator. They want me to split charges across time periods proportionally (e.g., for monthly billing with mid-month changes).\n\nHowever, the spec they've provided is quite minimal - just a description of what it does. I need to infer what a reasonable proration calculator API would look like based on the description \"Split a charge across time periods proportionally (e.g., monthly billing with mid-month changes).\"\n\nA typical proration calculator would need:\n1. Input: total amount, start date, end date (or period)\n2. Output: amounts for each sub-period\n3. Handle partial periods\n\nLet me think about what functions would be useful:\n- `prorateAmount(amount, startDate, endDate, billingPeriodStart, billingPeriodEnd)` - splits an amount across a period\n- Or maybe `prorateDaily(amount, totalDays, daysUsed)` - simple daily proration\n- `prorateMonthly(amount, startDate, endDate)` - prorate across months\n\nThe spec says \"exactly as specified\" but the spec is very minimal. Let me re-read...\n\nThe spec says:\n\"# BL-4: Proration Calculator\nSplit a charge across time periods proportionally (e.g., monthly billing with mid-month changes).\"\n\nThis is labeled as \"BL-4\" which suggests it's a business logic requirement #4 from some larger system. The key operation is \"split a charge across time periods proportionally\".\n\nFor a proration calculator, I should probably provide:\n1. A function to calculate the prorated amount for a date range within a billing period\n2. Handle different billing periods (daily, monthly, yearly)\n3. Return proportional amounts\n\nLet me implement a reasonable API:\n\n```typescript\ninterface ProrationResult {\n  originalAmount: number\n  proratedAmount: number\n  daysInPeriod: number\n  daysUsed: number\n  rate: number\n}\n\nexport function prorateByDays(\n  dailyRate: number,\n  daysUsed: number\n): number {\n  return dailyRate * daysUsed\n}\n\nexport function prorateAmount(\n  amount: number,\n  startDate: Date,\n  endDate: Date,\n  periodStart: Date,\n  periodEnd: Date\n): ProrationResult {\n  // Calculate days in the billing period\n  const totalDays = Math.floor((periodEnd.getTime() - periodStart.getTime()) / (1000 * 60 * 60 * 24)) + 1\n  // Calculate days used in the requested range\n  const daysUsed = Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1\n  // Calculate daily rate and prorated amount\n  const dailyRate = amount / totalDays\n  const proratedAmount = dailyRate * daysUsed\n\n  return {\n    originalAmount: amount,\n    proratedAmount,\n    daysInPeriod: totalDays,\n    daysUsed,\n    rate: dailyRate\n  }\n}\n```\n\nThis approach calculates a daily rate by dividing the total charge by days in the billing period, then multiplies by the actual days used. The result includes both the prorated amount and metadata about the calculation.",
+          "signature": "EpMZCmMIDBgCKkArWbLRWHjKBKnJrQZzXbIu7qVoHyvTzXUgRHQwJhMHxPDOX2mIBRCujjQTMdnCneV6G9VXBcxHlfd2yD1NNxMlMhljbGF1ZGUtaGFpa3UtNC01LTIwMjUxMDAxOAASDFdVKTqStwWZJ0SoERoMmlaHK3YBJNkwBWV5IjBWJ5rJFEaiVNCk7PM+AFfHEBvZ40F1HB5aGK2oP6ZiuvFJXUnDHnYt/iOgACNdzBsq3Rd8kbbGF9maXFVujMWGyJOz6ShRmqng4HWXX4u4pnhpkmN7mFd0Pyv6Hl4aGKfS1E5vtwdf78S3t9S9yeslyM5Wl5pfpYaymS4JdIwRmJC8H6jNtwhtxk19GT3XTdHpS444ICiNdNeXGpr51033Ag123c8pHbRmctFVe9YAEKHKdd696X3dvhWYAGqvFAn1CfFnBl7/G/lwWTUk66yikNLc58aGaPkc6Y4L5nfYrvdvC2xyehqP1q4ee7GkidnDDKyrUcAOICNo1XK0BVMFkyJ7BaY2QUai1XYBUHik9AdOJQlzzaRgO7Auqrs1Y0R0Ccd15NTpV+GB7B3xoF594PdY7GPBUtazFQLEWrttZ6i88a1m5JJHTPKNLMKo1gWhloWfkXLNA5Sfxd99sXI8aWtoGVqVnSjc7dHWaffDxzIAu8ExxoYKqNlEg5lP/GeDAOB6VGIkKFza0H/DRSg0LdMKs85seC06pT0v3I6LffWudKzvdGaeKcSHdNPm69sNJr4YIEFlZL0MAz120GOw2NPbycdpKGMMNgxxmcTSDNkumVrSgA0aUscyYb6QTHPlhwwsZGU9IyzPo7Tzn/0R1laYR6+dJfo/vmMBpsgPOovgHUMPuCTv6Ua8MOU5AGY0e06h7OIB/g2mDICbMyI5Jbaj8BcpXBHw5v3XO/r8AUgswn6imGAxdU8+lck+RcbRFeEFiwGaF77GNrxrykC36rAfHtiNgSHIC3loMQMuRkOV+eUCFfM7+5eMDqQEsjpOel/IsYtnlDNvLAfa3dNgUhur018RS9d27TgZCToDsnUy8KCpslG0GQP/G5Jc13lLqiB2xma0LESNgAJ4DeJAnGcruKB51D+0QW3NYTaSEfqyMh92brPtS3NR75bFDYRkO6bVHBIOP7XlX23lDUnJXQN5hNuo+41rqImYkZz+D4QslVzd7j2zuK7ARFBJ8sRw9OPsDd3CsyuzXn14HcCqJR8+lBqAzQtLO6YDlanPUvcSPPzh+InFNDFZ245RS47NUQhGay0GRBpP8QBa3lj2iG10ee/7Px1pAPTbMJs2/nxBrMD5U+BAxflgcmFQORQ6oxpl1szMf0RNiA2PRGBANAja+jak8Ox+Ap2VvjftUc6CjxR+4YyoqqVTjelcfeTJqwlaNZmq4kxxtK7on5g/ajzCquOE1Rdi4JncLyrWBizomisY/H+QjeE6Kedkyc1z42pqQsYjIWM+P+gVSHdgaW+E65Txb2TqZLHG2/ejZCPND3j7/9Zx1pABZ7qbX0aRyetKf0qkoTOxkUPsoeHEoJ3w1L0avpK5LlXXtDNId/6zSZG1SrbC269tW/bSr+Uj17CjxrgT+yPpNcQEGppc32n016Rp5oIGpw9bpIjiBpuq/dBr9dZX1w756NOH7rGEpCwMCru/v0Aa1GNIhT/lB06PnP0plcVfD4Df7DFjCJ6MyFmZJVYswoVWpnTiB1+fnLgM5H2dA6alovLR34XosXv9TgW1Wfl4ba6JRFkKSZiZJArBYQwjXEF0fahrjQLt5NWlM2CtfUsAQuzgYpUCsSwjug3HZxtyAQf74HX238CVWTzrwkZfTTQoGbt97iANXO3a7Y7UxNULK9b6nQKvIc2m2SzaO/Ss4WdT6oa0Bn5m0WEt0Rvc0DsJ8wkc/n8DMaSD+K2RmFpTFiXRfIYq/GfM2PP1U6Fvzoyy3J/tRhZFhsxaI8q6BcdUxdBaXFTxIn04JrdkgjHCWuxULwkxnFPYMuFRNx3ANGjYYQky79GQmzX1GqabTfWsJoa8g/8ULrOtMr7mG6RP8+oChPlLDHyUQ8U09dBXwmpvYYaD55Eu5peP48/KGTE3oKNK18As16QuCvZ8BGjDhoxNZnO3AscTjmj4UqL5UlC6eULPQtVIFF1xolRPDLmZAL5Mw3kM6huzzgOsG9rjvcx2a++Ekk7M2Yk5K33NoxW/pHOr7TFUmHA11AokXbuqVn2UqwI0JuiQX1pVxydCmVOJ/dS7K7k1h1K/wWtvQaxuBRorQXHzl2r6GNWiT4pTnukuQeWfHo8IC+j+0FE30MtjJWptfD6vmCenhGonT6w6pv06IWnduvR70D4k59oiY4YyALICUIaZckcyqLPUx1mpzqqFnyb+b5baWAD1I8ao+KNl1vjx6GWOhJb8WOKWVJQOoTmkNZ6tfD6WwesQxwF3mK3dSYIT+mn9Q+mcs5JEffyq5qYKhcNgWdLL89tL4ZEvbfTKF3HlBoBFOxE3nEvRvXhmLUgLixQ2D+9zNxpv4y2E+2i51Cskcx/dVeGjvXVX3RfHhisHg4WGv0ZGZVcUC74aP5GCLE3INbxgmiyCScgB82H49auffx7NS22AMVXk5n8+IHaqoE6KeltP3Mu0iRGpyfEcCN3DcFVqdd99tuVTtHgnQYf8IeefJYL8vfNUBmwWjT87wxjtB2PN8DjxAwIMz7uTBMQCXx+XQ9kswgLeE/gnCLCBZnAfq12VwZkZr3va9fO/UTEXn0Dey/wgvpR1I6k84AaK/Qxx5Y3HLDKqtAq4ZAIA3BytMb/KKNY/uYyLpV7+qakP61YPp+5ZfbMDfbUGANN9W6L9iiosH4rOICIkHoHFarMMsgq+1skjaRZD083xz1p7PddxMyoMFzQs+34qEB48r+2v7VfBS6350peqrRnUF7VlMU+R++cYweRXG151sFIqZC6rNpbIjkPH2ily0rVHSNTxzz9iWw/ZBI1TqVAAIaMn+42mtQaciC2GdyBHa7/hje9/rjUwZRsCftSBhIMAAw+vurAGfUUlqbMXPvJorwgwPIzlbK0IA8z7zngljS5v2XNRhUqoEsu9Ee70CrKmcm7RA0izok2xQo+OZt1pjwIH7O4Ge7ph3O+N8P2SBV4Z7yDAkgem3MORpws1R4YJx5nqX4UF0sWY3N2bIp9ov/keTgaHuOGXLnL9q8TrLjyQwbRMrlBmmrRvlMzvdrUqiaysauuwwyR3/M3Sjd9PeT4H4zGr93JrNQxA9fMnJEeCbaY9FBhb0ICXW6H2PR9Um5zfHk2QrIDpFBIegMenSyUpFKJmME5Rljb95DaVV4tW7ieiEAvsgvAZkw/0237An0x5XMOQhEo4vAE3r9rkgk4/6tfBcUIQ3w0ETIQ4gjgghyKrNT561vm38qlWcpOlX+moQ3gCAS5ouzKz6DBNneKorFx3UUPEZY3J0yNIU4jAedJcgXXXUdhKdk6nBrQ1Qb2OU849kE4GFVImRmGQ21tkbAdqEaPPcEIrfa9yxJeBzVpF9vLFnfKjv/j7K9DYcNi27l1qpW0cKAjFwwRRL9oCHYPR6QFd2P7sk4ZdWpnATtYA2VFOVhxa+NzjXD3Er+r8l3lyz42rVCO8wwpb4N92GIRnupgWSQzme1S5RF95HQwzaUCIziDP2STtx2mRGSx2i21Y+fkDFtAaWB9iuxO0NciTIp3HxN5l9I/zJLAfdHfSVkcHYd/SVUlkUXuMxnGAvcCEcrhC9lKEa6iNAB4TsQ7cI7D+rcfeOkt4594U/VNHhvj8q3Ck+nhdDc0Gpf8ulQ5funUYv1eRAH/lagus1GN3IslOo/I0VIj/uyfK8TaZ0sQp3NRUUFmYIHE6YHZSt7/tgqU9l/mi4PZlloY29qU63ef9qzV0XNExHcDGg6v7yePotr69FAHU5Cn+rxcnfVWNnKQqL9it5B7l0UMaIDelhLT8BQXAbIVIgryj22azAbMj2r9up/MxuYNrXyctlpUR492pNKejIvd+Uyf24j0Bi0m30hEQy/uydQsA0ZKwUu8edkoxwwmpfDc9RpJUxmZrVWfgoHOg4pwN7aF9U5LaF9UbaZ3/zlrhXENXK1Q1s6F4K7bDko8M7AltwD1W+c0dY0TbExL9qluQ0l2+vAu7tKN0byvlEbJdAmJqWs6/4S8Ffgky6LgLcjlujfMJ6puSmnbAugcJF6zxrEdXyR73sFe/o7sWJc7mylea0I9sdumE8DzieqDMgcEYe+zG91C/XuSB9gzBe0rS1BuA34z+qUnLrsn5DC3rL6x4nCetKjKfD449GAE="
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 1356,
+        "cache_read_input_tokens": 23549,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1356
+        },
+        "output_tokens": 3,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "d934dcc9-3b81-4284-a541-0d0e04a16565",
+    "uuid": "2c4fb90f-55da-4288-9a87-6e3f95d2e0a3"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01PP3yQxSp6MWWKCUoK2QPR1",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nexport interface ProrationResult {\n  amount: number\n  daysUsed: number\n  daysInPeriod: number\n  dailyRate: number\n}\n\n/**\n * Calculates the prorated amount for a date range within a billing period.\n * \n * @param amount - Total charge for the billing period\n * @param usageStart - Start date of the usage period\n * @param usageEnd - End date of the usage period\n * @param periodStart - Start date of the billing period\n * @param periodEnd - End date of the billing period\n * @returns ProrationResult with the prorated amount and calculation details\n * @throws Error if dates are invalid or periods don't overlap\n */\nexport function prorateCharge(\n  amount: number,\n  usageStart: Date,\n  usageEnd: Date,\n  periodStart: Date,\n  periodEnd: Date\n): ProrationResult {\n  if (amount < 0) {\n    throw new Error(\"Amount must be non-negative\")\n  }\n\n  const start = new Date(usageStart)\n  const end = new Date(usageEnd)\n  const pStart = new Date(periodStart)\n  const pEnd = new Date(periodEnd)\n\n  if (start > end) {\n    throw new Error(\"Usage start date must be before or equal to usage end date\")\n  }\n\n  if (pStart > pEnd) {\n    throw new Error(\"Period start date must be before or equal to period end date\")\n  }\n\n  // Clamp usage dates to billing period\n  const clampedStart = new Date(Math.max(start.getTime(), pStart.getTime()))\n  const clampedEnd = new Date(Math.min(end.getTime(), pEnd.getTime()))\n\n  // If no overlap, return zero\n  if (clampedStart > clampedEnd) {\n    return {\n      amount: 0,\n      daysUsed: 0,\n      daysInPeriod: daysBetween(pStart, pEnd),\n      dailyRate: amount / daysBetween(pStart, pEnd),\n    }\n  }\n\n  const daysInPeriod = daysBetween(pStart, pEnd)\n  const daysUsed = daysBetween(clampedStart, clampedEnd)\n  const dailyRate = amount / daysInPeriod\n\n  return {\n    amount: Math.round(dailyRate * daysUsed * 100) / 100,\n    daysUsed,\n    daysInPeriod,\n    dailyRate,\n  }\n}\n\n/**\n * Calculates prorated amount based on daily rate and days used.\n * \n * @param dailyRate - Cost per day\n * @param daysUsed - Number of days used\n * @returns Prorated amount\n * @throws Error if inputs are negative\n */\nexport function prorateDaily(dailyRate: number, daysUsed: number): number {\n  if (dailyRate < 0) {\n    throw new Error(\"Daily rate must be non-negative\")\n  }\n\n  if (daysUsed < 0) {\n    throw new Error(\"Days used must be non-negative\")\n  }\n\n  return Math.round(dailyRate * daysUsed * 100) / 100\n}\n\n/**\n * Helper: Calculate the number of days between two dates (inclusive of both endpoints).\n * @internal\n */\nfunction daysBetween(start: Date, end: Date): number {\n  const msPerDay = 1000 * 60 * 60 * 24\n  return Math.floor((end.getTime() - start.getTime()) / msPerDay) + 1\n}\n\nexport type { ProrationResult }\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 1356,
+        "cache_read_input_tokens": 23549,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1356
+        },
+        "output_tokens": 3,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "d934dcc9-3b81-4284-a541-0d0e04a16565",
+    "uuid": "23a50a97-f8e5-4941-8f03-d63c4ed28d5c"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.84,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "06189cba-177e-44f1-8398-201a27cefc11",
+    "session_id": "d934dcc9-3b81-4284-a541-0d0e04a16565"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 10923,
+    "duration_api_ms": 10890,
+    "num_turns": 1,
+    "result": "```typescript\nexport interface ProrationResult {\n  amount: number\n  daysUsed: number\n  daysInPeriod: number\n  dailyRate: number\n}\n\n/**\n * Calculates the prorated amount for a date range within a billing period.\n * \n * @param amount - Total charge for the billing period\n * @param usageStart - Start date of the usage period\n * @param usageEnd - End date of the usage period\n * @param periodStart - Start date of the billing period\n * @param periodEnd - End date of the billing period\n * @returns ProrationResult with the prorated amount and calculation details\n * @throws Error if dates are invalid or periods don't overlap\n */\nexport function prorateCharge(\n  amount: number,\n  usageStart: Date,\n  usageEnd: Date,\n  periodStart: Date,\n  periodEnd: Date\n): ProrationResult {\n  if (amount < 0) {\n    throw new Error(\"Amount must be non-negative\")\n  }\n\n  const start = new Date(usageStart)\n  const end = new Date(usageEnd)\n  const pStart = new Date(periodStart)\n  const pEnd = new Date(periodEnd)\n\n  if (start > end) {\n    throw new Error(\"Usage start date must be before or equal to usage end date\")\n  }\n\n  if (pStart > pEnd) {\n    throw new Error(\"Period start date must be before or equal to period end date\")\n  }\n\n  // Clamp usage dates to billing period\n  const clampedStart = new Date(Math.max(start.getTime(), pStart.getTime()))\n  const clampedEnd = new Date(Math.min(end.getTime(), pEnd.getTime()))\n\n  // If no overlap, return zero\n  if (clampedStart > clampedEnd) {\n    return {\n      amount: 0,\n      daysUsed: 0,\n      daysInPeriod: daysBetween(pStart, pEnd),\n      dailyRate: amount / daysBetween(pStart, pEnd),\n    }\n  }\n\n  const daysInPeriod = daysBetween(pStart, pEnd)\n  const daysUsed = daysBetween(clampedStart, clampedEnd)\n  const dailyRate = amount / daysInPeriod\n\n  return {\n    amount: Math.round(dailyRate * daysUsed * 100) / 100,\n    daysUsed,\n    daysInPeriod,\n    dailyRate,\n  }\n}\n\n/**\n * Calculates prorated amount based on daily rate and days used.\n * \n * @param dailyRate - Cost per day\n * @param daysUsed - Number of days used\n * @returns Prorated amount\n * @throws Error if inputs are negative\n */\nexport function prorateDaily(dailyRate: number, daysUsed: number): number {\n  if (dailyRate < 0) {\n    throw new Error(\"Daily rate must be non-negative\")\n  }\n\n  if (daysUsed < 0) {\n    throw new Error(\"Days used must be non-negative\")\n  }\n\n  return Math.round(dailyRate * daysUsed * 100) / 100\n}\n\n/**\n * Helper: Calculate the number of days between two dates (inclusive of both endpoints).\n * @internal\n */\nfunction daysBetween(start: Date, end: Date): number {\n  const msPerDay = 1000 * 60 * 60 * 24\n  return Math.floor((end.getTime() - start.getTime()) / msPerDay) + 1\n}\n\nexport type { ProrationResult }\n```",
+    "stop_reason": "end_turn",
+    "session_id": "d934dcc9-3b81-4284-a541-0d0e04a16565",
+    "total_cost_usd": 0.0129729,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 1356,
+      "cache_read_input_tokens": 23549,
+      "output_tokens": 1783,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1356,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 8,
+        "outputTokens": 1783,
+        "cacheReadInputTokens": 23549,
+        "cacheCreationInputTokens": 1356,
+        "webSearchRequests": 0,
+        "costUSD": 0.0129729,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "e39e1f24-fc1f-426b-81ba-3cf247f0ba25"
+  }
+]

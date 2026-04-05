@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "e7fcc726-16c6-41ba-97cd-2b504937a0c5",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-haiku-4-5-20251001",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "aed726cd-adc4-4416-9fa7-778fad0d853d",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01QTjy3DrCzBF7TSN5gTzV8m",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user is asking me to implement a TypeScript module for an inventory reservation system. Let me analyze the spec:\n\nFrom \"BL-5: Inventory Reservation System\":\n- Reserve stock\n- Release (reserved stock)\n- Check availability\n- Handle concurrent-style operations\n\nThe user says \"Do not write tests\" and \"Reply with ONLY the TypeScript code inside a single fenced ```typescript block.\"\n\nThis is a deviation from the normal instructions which ask me to:\n1. List edge cases\n2. Create implementation file\n3. Create test file\n4. Ensure tests pass\n\nBut the user is explicitly saying \"Do not write tests\" and \"Reply with ONLY the TypeScript code\". So I should follow the user's explicit instruction.\n\nLet me think about what an inventory reservation system should do:\n\n1. **Reserve stock**: Deduct from available inventory and track the reservation\n2. **Release**: Return reserved stock back to available\n3. **Check availability**: See how much stock is available\n4. **Handle concurrent-style operations**: This suggests the system should handle operations in a way that prevents race conditions\n\nKey considerations:\n- Track total stock\n- Track reserved stock\n- Track available stock (total - reserved)\n- Operations should be atomic or handle concurrent access\n- Error handling for invalid operations (e.g., reserving more than available)\n\nLet me design the API:\n\n```typescript\ninterface Reservation {\n  id: string;\n  quantity: number;\n  timestamp: number;\n}\n\nclass InventoryReservationSystem {\n  private totalStock: number;\n  private reservedQuantity: number;\n  private reservations: Map<string, Reservation>;\n\n  constructor(initialStock: number) {\n    this.totalStock = initialStock;\n    this.reservedQuantity = 0;\n    this.reservations = new Map();\n  }\n\n  reserve(quantity: number): string {\n    // Check if quantity is available\n    // Create a reservation with unique ID\n    // Track it\n    // Return reservation ID\n  }\n\n  release(reservationId: string): void {\n    // Find reservation\n    // Return quantity to available\n    // Remove reservation\n  }\n\n  getAvailable(): number {\n    return this.totalStock - this.reservedQuantity;\n  }\n\n  getTotalStock(): number {\n    return this.totalStock;\n  }\n\n  getReservedQuantity(): number {\n    return this.reservedQuantity;\n  }\n}\n```\n\nI need to handle several edge cases: attempting to reserve zero or negative quantities, reserving beyond available stock, releasing a reservation that doesn't exist, and preventing duplicate releases of the same reservation ID.",
+          "signature": "EuMVCmMIDBgCKkDede5DChszS0DttiN/eDMj8Dq1XNxC+osOBLXUnGoUGBIHvn0kaleNWryqeTkBnOcDcUikWJPbqBSrxBJIUM0iMhljbGF1ZGUtaGFpa3UtNC01LTIwMjUxMDAxOAASDFYxmxhrG+Hs7jkYVRoMX49M+0TCiz+xYFx+IjCOVjWqEA3+uVnuLIf56++0AYIetb42UztDSa9AGo/KUXhmm8hIIQKJOIXRodV82kUqrRQdJi82iWMB8v7n9lOWY0ahKLk75mdYUdXBymQ2AYl3JyVPaRzscZsB39xtVBMGuXpLkW0k3lG6WqZfKKIN6ObXPSKHiwS1hJ3rR0m57rymWXazqbTnGetbiLGedQKEkd3eT9VZNAlgFJKdo/XSnDqbrBlmfBGRYXsUjI+zTdhHHeFDJidxOOmdIHoElZkhRLxSMFxHeL4JivxXIYgkhj8i4MJjqaTZdrI94nqmHKdvPfnlN9zOo7X/BEjLEEL+nNINZYLz3BH3NNC+mTm82FTUmrooiMpe4QNUisljS/VyieMbRFzuiiPRANEAJh2ehJzt9Ghsi+/wLnuU+37wuuQsp4AQVLfQFIJHXLD3iEIom6qtWJg0TtUb7KmNovy2uDmJe6fH2kC6vXuCExtGV9L0sIO3Vy0TFJMRB+Lp2x/rvnA9cCfiRDnkX/Ob+c2pbfVzf19z+bzpYghQyaH7KS1X43Bi1O9M9ZoQeUB0E885TOFrDmTngSlMnHiC6DofABL1SMi1Y5ORTetBBfMaWxx76wMCnvjjZfURAeR60nU/zGV1FZ340+Tj9INr5LgkSuYKpGR3L9yalR27FFbv3GQiITK+uAICwXkQiGD5GYjnfpAVIwKQoja8hrxfg6I8GvJonWecU3J+lYu/YNqfmIw7qY7DMfpQbWY9rvOSV+fSL7gMgeZcTh4JxZLvbxzoBAT8Aaem7e/8vd4WZEkqIApyvgo8+NUaCHf5ddr1ob+0f2QLnulfKuie4rdwoJ1+5BCnoSTNj9mQ9Ag8tblr26/wjr/Ef8cOLnR0phPBjYRZd3ZaM2DvcpKAhgKeMjxP0IOZN4bsBwV518eUcRqcYMvlBsKjjOH2JNldt3JoZDAiuCFKhEqFwUcZHF4T65zB+LOF7znijZWvXGJ/XgcQvTiXu78TdHAyae8AW6lC5FvoztUpvBdG5Ztm+xsvh/qqrKl4Cx0AdHiChydtLN0K56QtgdJBgd66ZHJDo/R8/OdeIbfIiom5m4n0k1DOo9abBH3D73XyXBW3sLlSFCjaKrJ1UMeImBrau9+pru2gXCO1JtXtgnTrbZ8lyC6vqX5rsROkM/AQP2I967zgkXGS/v7lPv/XBYcE627UHAYWi9N3NwO25PjmYLNzXEpZQsT9lMZ/bNDdMC/0eskDZOrmJFLt2PrOE6zAPZcn+j/z5VRf8OS/kkFWrP275d+HLQjPxHvO4cHCWazEBZtIccEh4tHFTmWUIATstJsHOv/TT5gVS720TJxzYFe6A2f15e7ZlT44Q0I4+DTA/YWo8RMWc2EC6LFhTXnsSzHtJoiW5MqdKxF2GlLHfVwmtPzHx70tQd4s+ekaOZQHk29kCrWCfIVHZuQzYSB32f3zuLLuWTjVCcgAGnJ5nA4lxm5IPq69b8kmKVbsYLnfdBrOTCPTzw6LyzQwQbRCL2J5eToV0PoynpPGaakDT8oKVqiA0aEZnZ94jODtgGcCXPV9DXAx+rZ8njEgS8qCivEM3rrMK78gFARhZ7pRCsm6XF/OU1rq6zygrBQUIQNJaf75XiauE5BaoLj2qoeOw5sGCxKW3AsNJCmu5VK/uE+gzbN2hzCL+lD/WgjlFcKumbctHTTTYzpWuekJMwD2ZV4J8ehIicxwyrM6l6t2lRCRCxQN7jE/RN6dhzxbzX7fkQjRwMkMazytxA8QsCnemQrGm/9eve20ausd2AYxfEMhhopl8XDpVn3MD3hxyk0W93335FDziQVuvMcJ/SLzua0h+WLA7PCY0END5ij8peXXRzYXbqu5yxZH1Li3bWx9qx3UYmloxbI/K0DSAeinH/MCcJHBBsL58k+u1jqNbUmyJk0DdxToSTQVN1vrIWA11wyE1X9x9SsEUkY7MbxeMvVbnXeZ+Tz3naoA1oGq2+80uHZGFbDYWssM+uUysFHeqUqSZMfjHNrC0Vc9UMXI+QOuA6MHaR62PE3RTNS1nCAqS/UgcwLC65clR2VLgPYV1XRTzQuMoNbO1tWJp/32xG5GRj3KGnENvhUDeFXGNnJiKA2ZTKxNlZA4jZ7p7nWPSGETCNW8p9Ze/qxABAdVyPR3srvS/iK5OWaJAMzEnHkhNbSpza85XxpADlbbSdCTfyinvd1uIkNyrhao7tiJHziMHYXLMqX9Q0LYBSMLaapyCplVev4kJCIdCaYMC4nqJ5R+vdjNaJDUQOCRaHtlzt+OOUfRwWiR4C20F06jgzgiePotH1h83y4p83YfSggJgVHsVcKQyl02lCS0XPzTUoYJ5JkawG+pn98TX/yiAyRuIFDkgGS+LwV6+JewkwULpnByP7dW91klrBoSlU17GTd3DYsMEoHzE+9iN3lqmH9H5pB06gi/XfpmNCTBiiSKjTQs6A5Vni0FeiDLwk3ukmMLvQ1j3lK6ku9+XCF+56CM/AuH1B9WJw7oT+xn4ppI5cjIF5UowJx8cxrjV9iRH5nmsaFMw8jDiV6q8ij98z+sS9giliAtNyljfwk35occlgpe4ClKbapn8pcwAWQZbHrUcAIFjcCVMGCAXWo7BiqkdPGcvzNMxmIVrJRdmI+8KjhYqowzjaf6zfLBtb9RR+66bSeBX40UPVajxBLl/wBqtsAxiiNST/psQY+kjV8xxvYGBjMtTO4oLHCeBuszEBoI6qCDK8eys5pU77ek4PsyXGJE0SFJhRINQDzvOlYcDsrphMuKHJ3FZmDVV8LNwOrocQabKUhUliSlrtydiZ7lZqraZtK1Tl46nJc8gNAZDRTdjAfLF+k5edYDtj6IHt3QOfn+qTpZkaE/xP3plgPbpQlwF3m+j0kyMT//ayXB2yoDeVvmTCavr9d80fLayM7X57i++TDTACvrzokkS/BFkyq9E7LbLNr/hgFwM9W/BUd2C9OfGXpqd5jjrdmT/Dz5TbUBTBnnWL9QNoactAP2lvcLRC5d4qSNhLWNUN+1uw+HG+dTVWa3aSKVtdflWrLMgvZK5xVixkMcTUnpkCt01Yhb0dLpnQoWp4QPvEgqvYcodsRmYus4gsQpqEDXYTpi9BUyBCsJ30S2icQozB6tJ+Zx/ICFQvsM09y6PTo4bbcz90c2DmW9AnEJwVWXCT42DhhzLUxjEIAnPRSX7JB36H1vJJepspFTlRdKBx/xzd2LnU4WTYo2jwrqbjd+auyuhI5ApWxfnTGNZkl4LTAu/b5y9AkpAbm4zMkiIs/CSsiKVSNsjDH4HlIl1EZoudLPg9rps2+0uFvfLS7elnzAw/CiJhqb1iE2ajh1UFcPd6v9hsqc3jdhOmsSmYBkAxOEidiUV1A5MenQnmeFNRhRoMXmHB2yVFzuQxqcTxu4umGgYG4d0t6iNQUgV+hCkarRiX2iRSNA06nKJj8Rtt/Bk5+340rP+ImcSxbAn3ZU8vBI04dnj+ee5CyR97xu9rMUDlTLp+gyWxYdJ14CdzJSs9xc0q91sJZka2iJyV/UHEf23Zb3GAE="
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 1349,
+        "cache_read_input_tokens": 22724,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1349
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "e7fcc726-16c6-41ba-97cd-2b504937a0c5",
+    "uuid": "8dde7478-8093-45ea-8538-39b49cf71dab"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01QTjy3DrCzBF7TSN5gTzV8m",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nimport crypto from 'crypto';\n\nexport interface Reservation {\n  id: string;\n  quantity: number;\n  timestamp: number;\n}\n\nexport class InsufficientStockError extends Error {\n  constructor(message: string) {\n    super(message);\n    this.name = 'InsufficientStockError';\n  }\n}\n\nexport class InvalidReservationError extends Error {\n  constructor(message: string) {\n    super(message);\n    this.name = 'InvalidReservationError';\n  }\n}\n\nexport class InventoryReservationSystem {\n  private totalStock: number;\n  private reservedQuantity: number;\n  private reservations: Map<string, Reservation>;\n\n  constructor(initialStock: number) {\n    if (initialStock < 0) {\n      throw new Error('Initial stock cannot be negative');\n    }\n    this.totalStock = initialStock;\n    this.reservedQuantity = 0;\n    this.reservations = new Map();\n  }\n\n  /**\n   * Reserve stock and return a reservation ID\n   */\n  reserve(quantity: number): string {\n    if (quantity <= 0) {\n      throw new Error('Quantity must be greater than zero');\n    }\n\n    const available = this.getAvailable();\n    if (quantity > available) {\n      throw new InsufficientStockError(\n        `Cannot reserve ${quantity} units. Only ${available} units available.`\n      );\n    }\n\n    const reservationId = this.generateReservationId();\n    const reservation: Reservation = {\n      id: reservationId,\n      quantity,\n      timestamp: Date.now(),\n    };\n\n    this.reservations.set(reservationId, reservation);\n    this.reservedQuantity += quantity;\n\n    return reservationId;\n  }\n\n  /**\n   * Release a reservation and return the quantity back to available stock\n   */\n  release(reservationId: string): number {\n    const reservation = this.reservations.get(reservationId);\n\n    if (!reservation) {\n      throw new InvalidReservationError(\n        `Reservation with ID \"${reservationId}\" not found`\n      );\n    }\n\n    const quantity = reservation.quantity;\n    this.reservations.delete(reservationId);\n    this.reservedQuantity -= quantity;\n\n    return quantity;\n  }\n\n  /**\n   * Get the amount of stock available for reservation\n   */\n  getAvailable(): number {\n    return this.totalStock - this.reservedQuantity;\n  }\n\n  /**\n   * Get the total stock\n   */\n  getTotalStock(): number {\n    return this.totalStock;\n  }\n\n  /**\n   * Get the total reserved quantity\n   */\n  getReservedQuantity(): number {\n    return this.reservedQuantity;\n  }\n\n  /**\n   * Get all active reservations\n   */\n  getReservations(): Reservation[] {\n    return Array.from(this.reservations.values());\n  }\n\n  /**\n   * Check if a reservation exists\n   */\n  hasReservation(reservationId: string): boolean {\n    return this.reservations.has(reservationId);\n  }\n\n  /**\n   * Get a specific reservation details\n   */\n  getReservation(reservationId: string): Reservation | undefined {\n    return this.reservations.get(reservationId);\n  }\n\n  /**\n   * Adjust total stock (for restock or adjustment)\n   */\n  adjustStock(amount: number): void {\n    const newTotal = this.totalStock + amount;\n    if (newTotal < this.reservedQuantity) {\n      throw new Error(\n        `Cannot reduce stock below reserved quantity (${this.reservedQuantity})`\n      );\n    }\n    if (newTotal < 0) {\n      throw new Error('Total stock cannot be negative');\n    }\n    this.totalStock = newTotal;\n  }\n\n  /**\n   * Clear all reservations (for testing or reset)\n   */\n  clearReservations(): void {\n    this.reservedQuantity = 0;\n    this.reservations.clear();\n  }\n\n  private generateReservationId(): string {\n    return crypto.randomBytes(16).toString('hex');\n  }\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 1349,
+        "cache_read_input_tokens": 22724,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1349
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "e7fcc726-16c6-41ba-97cd-2b504937a0c5",
+    "uuid": "b128deca-560d-4c03-a2bc-5fabda753edf"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.84,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "18ce228b-46da-4035-8897-d7a91b3db9ec",
+    "session_id": "e7fcc726-16c6-41ba-97cd-2b504937a0c5"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 10417,
+    "duration_api_ms": 10381,
+    "num_turns": 1,
+    "result": "```typescript\nimport crypto from 'crypto';\n\nexport interface Reservation {\n  id: string;\n  quantity: number;\n  timestamp: number;\n}\n\nexport class InsufficientStockError extends Error {\n  constructor(message: string) {\n    super(message);\n    this.name = 'InsufficientStockError';\n  }\n}\n\nexport class InvalidReservationError extends Error {\n  constructor(message: string) {\n    super(message);\n    this.name = 'InvalidReservationError';\n  }\n}\n\nexport class InventoryReservationSystem {\n  private totalStock: number;\n  private reservedQuantity: number;\n  private reservations: Map<string, Reservation>;\n\n  constructor(initialStock: number) {\n    if (initialStock < 0) {\n      throw new Error('Initial stock cannot be negative');\n    }\n    this.totalStock = initialStock;\n    this.reservedQuantity = 0;\n    this.reservations = new Map();\n  }\n\n  /**\n   * Reserve stock and return a reservation ID\n   */\n  reserve(quantity: number): string {\n    if (quantity <= 0) {\n      throw new Error('Quantity must be greater than zero');\n    }\n\n    const available = this.getAvailable();\n    if (quantity > available) {\n      throw new InsufficientStockError(\n        `Cannot reserve ${quantity} units. Only ${available} units available.`\n      );\n    }\n\n    const reservationId = this.generateReservationId();\n    const reservation: Reservation = {\n      id: reservationId,\n      quantity,\n      timestamp: Date.now(),\n    };\n\n    this.reservations.set(reservationId, reservation);\n    this.reservedQuantity += quantity;\n\n    return reservationId;\n  }\n\n  /**\n   * Release a reservation and return the quantity back to available stock\n   */\n  release(reservationId: string): number {\n    const reservation = this.reservations.get(reservationId);\n\n    if (!reservation) {\n      throw new InvalidReservationError(\n        `Reservation with ID \"${reservationId}\" not found`\n      );\n    }\n\n    const quantity = reservation.quantity;\n    this.reservations.delete(reservationId);\n    this.reservedQuantity -= quantity;\n\n    return quantity;\n  }\n\n  /**\n   * Get the amount of stock available for reservation\n   */\n  getAvailable(): number {\n    return this.totalStock - this.reservedQuantity;\n  }\n\n  /**\n   * Get the total stock\n   */\n  getTotalStock(): number {\n    return this.totalStock;\n  }\n\n  /**\n   * Get the total reserved quantity\n   */\n  getReservedQuantity(): number {\n    return this.reservedQuantity;\n  }\n\n  /**\n   * Get all active reservations\n   */\n  getReservations(): Reservation[] {\n    return Array.from(this.reservations.values());\n  }\n\n  /**\n   * Check if a reservation exists\n   */\n  hasReservation(reservationId: string): boolean {\n    return this.reservations.has(reservationId);\n  }\n\n  /**\n   * Get a specific reservation details\n   */\n  getReservation(reservationId: string): Reservation | undefined {\n    return this.reservations.get(reservationId);\n  }\n\n  /**\n   * Adjust total stock (for restock or adjustment)\n   */\n  adjustStock(amount: number): void {\n    const newTotal = this.totalStock + amount;\n    if (newTotal < this.reservedQuantity) {\n      throw new Error(\n        `Cannot reduce stock below reserved quantity (${this.reservedQuantity})`\n      );\n    }\n    if (newTotal < 0) {\n      throw new Error('Total stock cannot be negative');\n    }\n    this.totalStock = newTotal;\n  }\n\n  /**\n   * Clear all reservations (for testing or reset)\n   */\n  clearReservations(): void {\n    this.reservedQuantity = 0;\n    this.reservations.clear();\n  }\n\n  private generateReservationId(): string {\n    return crypto.randomBytes(16).toString('hex');\n  }\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "e7fcc726-16c6-41ba-97cd-2b504937a0c5",
+    "total_cost_usd": 0.01227165,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 1349,
+      "cache_read_input_tokens": 22724,
+      "output_tokens": 1661,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1349,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 8,
+        "outputTokens": 1661,
+        "cacheReadInputTokens": 22724,
+        "cacheCreationInputTokens": 1349,
+        "webSearchRequests": 0,
+        "costUSD": 0.01227165,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "b7f5306f-189a-4a04-ab6d-67a4435a79da"
+  }
+]

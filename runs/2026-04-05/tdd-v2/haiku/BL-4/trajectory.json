@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "f61f32c7-b379-45a6-a3b1-6ea1ab40e21b",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-haiku-4-5-20251001",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "2bc705fb-d126-43af-acb6-3cda08b4ab1d",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01JQyQifonrxyrJAFciZU8YD",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user is asking me to implement a TypeScript module called `prorate.ts` that implements a \"Proration Calculator\" - which splits a charge across time periods proportionally (e.g., monthly billing with mid-month changes).\n\nThe user explicitly says \"Do not write tests\" and \"Reply with ONLY the TypeScript code inside a single fenced ```typescript block.\"\n\nHowever, I need to be careful here. The system message says I'm a test-driven developer and should write tests first. But the user is explicitly saying \"Do not write tests\" and wants only the TypeScript code.\n\nLet me think about what a proration calculator would typically need to do:\n\n1. Handle splitting a charge across time periods\n2. Handle monthly billing with mid-month changes\n3. Calculate proportional amounts based on days used vs total days in the period\n\nCommon functionality might include:\n- Calculate the daily rate from a monthly charge\n- Calculate how much to charge for a partial period\n- Handle different scenarios like:\n  - Starting mid-month\n  - Ending mid-month\n  - Full period usage\n  - Zero days (edge case)\n  - Zero charge (edge case)\n\nWithout more specific details in the spec, I should infer reasonable functionality. A proration calculator typically:\n1. Takes a total charge amount\n2. Takes a time period (start and end dates)\n3. Takes a billing period (e.g., a month)\n4. Calculates the prorated amount for the partial period\n\nLet me think about what functions might be exported:\n- `prorateAmount` - calculates prorated amount for a period\n- `calculateDailyRate` - calculates daily rate from a monthly charge\n- Maybe interfaces for the parameters\n\nThe spec is quite minimal, so I'll create a reasonable proration calculator that:\n1. Calculates daily rates\n2. Prorates charges across partial months\n3. Handles edge cases\n\nHere's what I'll implement:\n\n\n- A `ProrateOptions` interface that accepts the charge amount, service start/end dates, and the billing period boundaries\n- A `ProrateResult` interface that returns the calculated amount along with days used and total days in the period\n- Core functions: `prorateAmount` to compute the prorated charge, `calculateDailyRate` to get the per-day cost, and `getDaysInMonth` as a utility for determining days in a given month periodStart: Date,\n  periodEnd: Date\n): ProrateResult\n\nThe spec is asking for a way to handle mid-month billing changes—when a subscription modifies partway through a cycle, I need to calculate what portion of the monthly charge applies to each period. I'll create helper functions to compute daily rates and day counts, then use those to determine the prorated amount for any partial period within a billing cycle.",
+          "signature": "Eq8gCmMIDBgCKkC0GTVC/4+vRWXoACOQdfyGeYvaiCeNlm/0X6lv+/zuvYY/g+pk+RylnyHmE5xc36lvt5key05MTk0jkW22DVjIMhljbGF1ZGUtaGFpa3UtNC01LTIwMjUxMDAxOAASDCkxwiUBNLuqVI7TSRoMnkzgpnKKOP0NTcxGIjBGCmInxnOTkf4JHml9bPCHhJBVGqq1+x0J580Xg336b2GJ0SxLKE7gD1OIG8GI+cwq+R51znv/lEdGZJVU0i3NQpcIVG81unydtuCfj8j4P7691/A59ERh6Hnze8q8ox9DEgvveP9M9Q/GIbKFCQUwRrEvhrFK+/oI52I8M1oy9UkaARC81mV3fzLyQHGpqNqvlzOVj/EipAW1SZyOOA8ZKghn9dq4BG4U0oGBhHLi4cLXDevs+7y8Gne5sjEOGggIzh46esXGP11G6+0/pERq4CnrogCeNLms8yEAatBn8U4tFxi7joTgHbIs4X1NP74oS/quLPcF8KYQHBwWtWgVaZlTqJOt5tEtOFh4EPuVe4Ix6PPDI/DwWaArZmUhgoiY1PfPlOqbNqaxU9CGvsk/x1NjXNugrc4ItyrqTm34dpgdAuO6e8ReseLasrz9uwRL+74w8h68Ozw1mzPlPuY97adM/Hf5QZc1Z8nWR1mZ3rvB2b9uFjww1Na8k2r3s37d/DD3sHkoRGl1a2jX8PT94IVVnl90c9o6qsVNAe8i/BbPKaohfDcKAkWSjjbEEnfnDmS1K2OupFZ+RCdDA7E1zJXRSBn+Om+Gxao/oMcmM2dxxnWc+j49v6tTB9Ze3nVAnovmUce5SmUfWaUxRqFxPsu2l4QkXR+83PwelHaBUzv/uvmzRgfpf2zN9v7qY7edxXI1XWQy/PR1tJOmYuiMhVmHccFzTHf9AxKNy8ttmSKolNWTUk1GadG2IFiNqZEuVXVR35WbtYnTeVxpOUBRvlbZ/xNp8loZTiY4zXtLrczHutUGKLaEsQuLIXsrzFq8E4NwoO8iK5FFolIxHuoFN2ddFWs6iCtoqOiDdBVYgxE8R7/3+A73o6iy5pZwFVy9m44bcH9Dmq36TPv6X0yvOJE37u15RTxrQuK3O0fUMUU3ZKgYUeedu48HxH48Gx+0TSL5MkKdGAKtgp97eQ98ITKYq2eFQ9vqgcTCGzsGZCr+zj8mJZUk804XjCzhTRZPT4uXrv1K1G1DOC6zGO7YPEx4pQxhPZ/Qnlcwey7l2+iZz2IRYs/KfzoOX0HVaS23EcbGYbwSRYSoo+wbmrM7lVlexnn+kd/VhktQejXwI3kCFyuKOvfehTI4QuPNSOY1xGj5m1uRDXRfXoScY/dbIc9K50b3JAIngzEC6+rMXdqxcpJtZVjkgE5xySe7yWzWKhh3+hwVe5bdlc0/EFWQ5XV6lU1gkWHgrEY+nr1Jd6t9s+lEnHVmJ0R3fjP4kSiyOVEGFbpWRp9AzxPZskbIcQ5dDMUvGK9Oub36F8g6Fw6KQxlysujG2eMxF4bBZSgt47wV9oxLQEiES+P7MzA7YA5WWrHWUlb697BfDcF3H/LHnzzxLziWBXTdGufoFolZrVss95vy/SNkgAezWfD//OqlVncMDnTVRGnf5rJPmPpfgahI5vBdATyYMVsNyV4NUyHag7dJlQ7DaFNJbywTB9xTchw1A0r4kBZReQ1ruYdm3JksHWdoaW4qGUyDPvH86yktsUvBM+nfjQiIzWZCG9Zh8NGmlvoYP//B3Qcl/NMH/KSxOoRBLZiODLjgjrbu3WpRA4/K/t9fdiA0OOVGUiUakbyUejIZNsYtsVLoOuYGMD8UNtHonbjmgT7AEn/D5TeytGs0jIJ1WIplorFcs/XZNGmxxLP1OSSlifNq87RtrwIB/btgYs2hONszUmlQ33eoHLGMgtar81VUBOx7yZQmGqFY/ODSda0sbjuP2YN3Biiz84uWRHwcrZKxFloovBMvf93iHcP0J7TfywkcXYwTDjSF7OHAmMNPL6McqYAeaL3ziJiz59Rjkei4lqgC25SAsU5sxMstQQc4GwviMxfXm05Tn43snBPkW4CgO+9isTqFdCum59NWzXLeK6Up9gQoM94EQrWgV7f9rrsZKPF/I+jsuxX0ITlUnqSdEBDWWwDz2zk+4qmMtFrRq+67Rsxm5toVDuyimxWEfez1W57V8Zt0UOXuELUyYaHNf+lcK6qpV+K0ib9p9DXPBM21rr8wmvCvJQkSCrKrPx5jXt0FXAPjSpvpxFFsWnl60t5k14vHa9cq8IuK+349kGZDLqS1B57p3XR9wU7o8vP1ba3uOqTwRBzp3rUY3h7pD0ORYfS8Lq0ytREnKDkp6dVTmxiprBdkJLjhzzbIumk1fDXaBf1RakC4SnF9ZI1OfTQkJdkdFu5EGglTfbwD9Rse3g83kPozmt5KmZHugV0hF/ydZ4KhJSLr2Et1Cu66J/IOd+RjxHB3sZ+LEQ4OMhwAV5BM40QKC2IbqbNB99CL7oB/bHYZ6ghN5Go8+Hi86xBl61SO2yWFiHPX/LBGQhifKS0RFxTlLiVdwgVsbTohljxdcegpSoLi3XUAt9y89YvYZC2G9irWJ8I7XhTlyFq0g4rhSHvERaJZMgFUlQJFSKue1ltyfPxVG1G3yebFfs0b/QI3N0pyG1RgdVK4CkQ6ZtsbPuX5ZzzfcX2csQReA9QtGrrDLHL8XEqyphQjz/8nKu0NXMS1VZL+/G6/M+iVCTWUoHXMouJ2KZjDEL5PBJObVMFsW3MunTrgPUFgveSEm0f/mTwF5TE/+GHp5Zm1iIamuhATdh8622OT58dXmBxiHLlGrFynmTpwvAtKoO6FyHW3/+u2EYBTHH9qOImOd0dPT9ac4U0KNoGfqwqby6/cCPi0YhviilYDmr+AxMPJnWqk3jcqZiZZ/vQRL7dUDrkQBFX7ze0h0oFgQMp1mbVWRxCP46Pim/f2oxdek6C0XizJtSFmYStk3HWazh1u7Jzt34GACtr0ffC3mh7ZFDjLI2w4GSGLPPHqnE8Z9Svn/qEmMrsOO+Y4Z9he9sFsY1BqIlyq9kj24gewWbGiHcyfw/FDBViYlkGQ6Z5bP/RX7bhHFiKTzkO7zuicaOhh4UUrKH/LkQ5W5HNm1RQvXzno03IOIm0CVhZmqLzzzAPPby2i+d+9o6omIzRKXGar2EVEonMC8bzjY7TIUAmTXYytXgoD81VMM/i4un/OuVxxeqrW0dfhRbpvUwt6Y7vA9qLE7sJ0NE5e56kQkh20S/6sI98tDF/w4rDSXf61/BltZKwzjhKP1Az2WXZeKdnB32HczMUBXKbEthBkMDxo8E2J+yuvFTCJJJFZR6bhIuZpCEPg0vqbz1ZyvagwhiI4F/adBo/Vr0L81jyiGN5mM44N7OYWUlq5ACT1rHe1EQ0INSAWpeJ4gi0i0PdXtuaGQx3LYmhUvkwDUrLqNc1FkmpcPnRGOMW+UKblK2jUxAo8U116866ef7Kj9LNI6C/8yTDpsCqj8J1yQvdr0KOjczAlvt0BilMzdHWfMqEDij7ZCl5lmLiJ4IpuztKxlXC6+hSGmo7U6zqnwx61m4WB7Bdj5u+KzboRdBlUbYsIqvoGHd0Z2vENqme1wKFArdEY+O2v6Ewtuj7L34YBsPjSozSAOKzpt0KEUNX2atilLWGBb1e9eMOaUjZ2sXxtjmMXa8ZX6spLv5xWWUaZuvuRDpmin2qd58SrWTWuMWRCyupyueHoFlaJw5DxOBT6OaqODSK4LbBZDC+I5Ufh+BtvOZa8BMAQDAY23vg/g7HuoNINeeGyIOsjo9KTk7jzy6/+qPA4V2UKtYm2/Pirmw6EnvWfaObMWZn7lALzPeo6+4QfsrAig6WKOrLlakhhWqP4DN2/gJXtgIoctk+F5U3fmy1RPQO6F8cVbhyiH7GCdI2APE59a6ILCATPQbbbpbv6FpC9uAuKOsKPRbi3OaB7YZI4Kl8Q1hEV5B7LdeUhCz07B9hj5Vh80PkIpcW9OKcZt9uoq8hqv1HDJqW8qFjJxfQ6YK18ayulR5qoQIKQd2K33hoOpE2lGbdphQbRttIgtVCDdHQJvGHqC53Qv2nNZemQSIxsQ9jo37yNoDtVrUGOukoj7lxJ3Dahs5uYWxFb5W25y0C+07qYbb+REwkQnk7mNqyB/9n9D2t/G/EThNQEkEskGp41P1R2nRK4M5ALarCObyOvAvw4QLYk1IhsjC3/F92R+PrBDfyBQjpxEpYgxFgQ2UEXKaZgsGXcUqNAqKGP388Ne7/eePUNHBcaETelqaAdob4CLfYkqIeOpHkSmbc5Pqs++MUIgOINap62u6MN+58W40wn46Jgxqj49LwEmqCPXQuf7s18ePtbjBDXAD/qn2gAJIMJd6S0ppP+PGHXH7bLZ5sLwacGrMuG9VpLu6D7tV4ku9V+0Aqfz8ZBobldnLRFvCYgvH/OFuUO1QGdrU40dmozGestMwqVWaV9IE0tvqmmE8783UuP/zJWOPMPL7Dd645hfFdDLYgOUy2D5lVtAI8dtFz+P/lIvQbpSGWa2MbHWNVGsuGEyTB1CwrCpKkSQRIGaFMwg1uh2rBEBC6nTDCTMUadHAna5kWtH2eUB5dJzXuGdbOTFV1aDQ5Tqum8QTNYpUCg3TWTvJWwHa1VVU3T1ETwnCunV6lZTQdusF0PZcrOqRSaujB3F94O8GdPSbOp2Gx3Pp+vETagB7xJOxfc836dzazrmabBAcAeFje0hGnz01OV/ZG2QmktMsoIrci5vh3Cblxsh1xHAZCkcrTut4W8oEsoO1G3MCfNQrdnsmLAcSofEUMTSPbtYb74YRzy4X63avBvgAhlNBlm6h8KrD8BixsK+UgNMMYdQ17q3B97YSVfz7DwzujBCAIEdKMgjXufdnAafLtIZjODAUKKzFGutV55bcKnYrFqtS1hMut3ItVCLSny7zR1XGf1mCU7JIbD88VRDg3vSjax+TWBactJHEudwfThg1W/63u36z0sk/6aMR4ef4ntXZYz9p12fKp1eoS7fMhYwdfTaG7lpcuE/HdhJ23MDMuQue63R/Q/pste0uYBqn6DXTTj8sR7zvu6LUDMKy74DMinchMFMiEvwVUwSALOoXGZBwjeCIY32NhlMBlzfkDOz74V2dO5BNdqGw4vQadVqXub8wzAJ9Gqr/RK+AhhsqH2c7/bphb6uzYPVhFHhu806UfJcFbBuR8rhe8genqT0lnIq2UyECDcjWAOm0mynQA4vj3b1HZ9kx/m8RG1b3K6i7bQLsWTJ+qqXx0E72q0wy5s75NqhYrPs7GNvjtwxXof1+UepRjGjxgPZ269Q/U+J+qKqeOc25+FQrn0vbSCyBXAPCVk/4T1Cf+caJWiMhX0O7bRXq3lBmV9SE7b8b0fyr8k4/xqLU9UETBbhTrqK+d38dJzGQ3aSUdCz5GqaGI2o8bWEGgyfmsAMzuOhLjUYNHYNrBCFzSJbtRN2HN1Wb0SzW2lpEFN3qwmYD5MJQBtcN4fuTu8GAE="
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 1356,
+        "cache_read_input_tokens": 22694,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1356
+        },
+        "output_tokens": 1,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "f61f32c7-b379-45a6-a3b1-6ea1ab40e21b",
+    "uuid": "92b063cf-020d-4df2-8882-838f7fa3bfc1"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01JQyQifonrxyrJAFciZU8YD",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nexport interface ProrateOptions {\n  amount: number;\n  startDate: Date;\n  endDate: Date;\n  periodStart: Date;\n  periodEnd: Date;\n}\n\nexport interface ProrateResult {\n  proratedAmount: number;\n  daysUsed: number;\n  daysInPeriod: number;\n}\n\nexport function getDaysInRange(start: Date, end: Date): number {\n  const startDate = new Date(start);\n  const endDate = new Date(end);\n  startDate.setHours(0, 0, 0, 0);\n  endDate.setHours(0, 0, 0, 0);\n  const diffTime = Math.abs(endDate.getTime() - startDate.getTime());\n  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;\n  return Math.max(1, diffDays);\n}\n\nexport function calculateDailyRate(\n  amount: number,\n  daysInPeriod: number\n): number {\n  if (daysInPeriod <= 0) {\n    return 0;\n  }\n  return amount / daysInPeriod;\n}\n\nexport function prorateAmount(options: ProrateOptions): ProrateResult {\n  const { amount, startDate, endDate, periodStart, periodEnd } = options;\n\n  const daysInPeriod = getDaysInRange(periodStart, periodEnd);\n  const daysUsed = getDaysInRange(startDate, endDate);\n\n  const clampedDaysUsed = Math.min(daysUsed, daysInPeriod);\n\n  const dailyRate = calculateDailyRate(amount, daysInPeriod);\n  const proratedAmount = dailyRate * clampedDaysUsed;\n\n  return {\n    proratedAmount: Math.max(0, proratedAmount),\n    daysUsed: clampedDaysUsed,\n    daysInPeriod,\n  };\n}\n\nexport function prorateByPeriods(\n  amount: number,\n  periods: Array<{ start: Date; end: Date }>\n): Array<{ period: { start: Date; end: Date }; amount: number }> {\n  if (periods.length === 0) {\n    return [];\n  }\n\n  const totalDays = periods.reduce(\n    (sum, period) => sum + getDaysInRange(period.start, period.end),\n    0\n  );\n\n  if (totalDays === 0) {\n    return periods.map((period) => ({ period, amount: 0 }));\n  }\n\n  const dailyRate = amount / totalDays;\n\n  return periods.map((period) => ({\n    period,\n    amount: dailyRate * getDaysInRange(period.start, period.end),\n  }));\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 1356,
+        "cache_read_input_tokens": 22694,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1356
+        },
+        "output_tokens": 1,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "f61f32c7-b379-45a6-a3b1-6ea1ab40e21b",
+    "uuid": "38a9d6b0-e7fa-45ab-9500-197e6c8b33b1"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.84,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "c03d0340-337f-4759-84c4-c6c9a81d38f8",
+    "session_id": "f61f32c7-b379-45a6-a3b1-6ea1ab40e21b"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 11353,
+    "duration_api_ms": 11311,
+    "num_turns": 1,
+    "result": "```typescript\nexport interface ProrateOptions {\n  amount: number;\n  startDate: Date;\n  endDate: Date;\n  periodStart: Date;\n  periodEnd: Date;\n}\n\nexport interface ProrateResult {\n  proratedAmount: number;\n  daysUsed: number;\n  daysInPeriod: number;\n}\n\nexport function getDaysInRange(start: Date, end: Date): number {\n  const startDate = new Date(start);\n  const endDate = new Date(end);\n  startDate.setHours(0, 0, 0, 0);\n  endDate.setHours(0, 0, 0, 0);\n  const diffTime = Math.abs(endDate.getTime() - startDate.getTime());\n  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;\n  return Math.max(1, diffDays);\n}\n\nexport function calculateDailyRate(\n  amount: number,\n  daysInPeriod: number\n): number {\n  if (daysInPeriod <= 0) {\n    return 0;\n  }\n  return amount / daysInPeriod;\n}\n\nexport function prorateAmount(options: ProrateOptions): ProrateResult {\n  const { amount, startDate, endDate, periodStart, periodEnd } = options;\n\n  const daysInPeriod = getDaysInRange(periodStart, periodEnd);\n  const daysUsed = getDaysInRange(startDate, endDate);\n\n  const clampedDaysUsed = Math.min(daysUsed, daysInPeriod);\n\n  const dailyRate = calculateDailyRate(amount, daysInPeriod);\n  const proratedAmount = dailyRate * clampedDaysUsed;\n\n  return {\n    proratedAmount: Math.max(0, proratedAmount),\n    daysUsed: clampedDaysUsed,\n    daysInPeriod,\n  };\n}\n\nexport function prorateByPeriods(\n  amount: number,\n  periods: Array<{ start: Date; end: Date }>\n): Array<{ period: { start: Date; end: Date }; amount: number }> {\n  if (periods.length === 0) {\n    return [];\n  }\n\n  const totalDays = periods.reduce(\n    (sum, period) => sum + getDaysInRange(period.start, period.end),\n    0\n  );\n\n  if (totalDays === 0) {\n    return periods.map((period) => ({ period, amount: 0 }));\n  }\n\n  const dailyRate = amount / totalDays;\n\n  return periods.map((period) => ({\n    period,\n    amount: dailyRate * getDaysInRange(period.start, period.end),\n  }));\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "f61f32c7-b379-45a6-a3b1-6ea1ab40e21b",
+    "total_cost_usd": 0.0126924,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 1356,
+      "cache_read_input_tokens": 22694,
+      "output_tokens": 1744,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1356,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 8,
+        "outputTokens": 1744,
+        "cacheReadInputTokens": 22694,
+        "cacheCreationInputTokens": 1356,
+        "webSearchRequests": 0,
+        "costUSD": 0.0126924,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "be7fc683-fb16-42f8-8a98-af9124956e8b"
+  }
+]

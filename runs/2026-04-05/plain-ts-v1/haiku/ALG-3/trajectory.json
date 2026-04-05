@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "423a7836-9152-442b-9b84-9b610879c501",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-haiku-4-5-20251001",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "12461071-d118-4c79-9f07-35e37589a42b",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01GxrNFdXv3ooPS5mmA59mEa",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user wants me to implement a topological sort algorithm in TypeScript. Let me break down the requirements:\n\n1. Implement a topological sort for DAG (Directed Acyclic Graph)\n2. Sort nodes so that for every edge u→v, u comes before v\n3. Detect cycles\n4. File name: `toposort.ts`\n5. Export everything the spec says to export\n6. No tests needed\n7. Return only the TypeScript code\n\nFor a topological sort, I need to:\n1. Define data structures for the graph (nodes, edges)\n2. Implement a topological sort algorithm (Kahn's algorithm or DFS-based)\n3. Detect cycles\n4. Return the sorted order and cycle detection information\n\nLet me think about the structure:\n- I'll use Kahn's algorithm (BFS-based) as it's good for cycle detection\n- Or DFS-based approach which is also good for cycle detection\n\nI'll implement both approaches or choose the most practical one. Let me go with a DFS-based approach as it's cleaner for cycle detection.\n\nHere's what I need to export:\n- `toposort` function that takes a graph and returns sorted nodes or detects cycles\n- Types for the graph structure\n- Error class for cycle detection\n- Possibly helper functions\n\nLet me design the API:\n- Input: could be adjacency list, edge list, or node list with edges\n- Output: sorted array of nodes or an error indicating a cycle\n\nI'll use an adjacency list representation internally.\n\n```typescript\nexport class CycleDetectedError extends Error {\n  constructor(message: string = \"Cycle detected in graph\") {\n    super(message);\n    this.name = \"CycleDetectedError\";\n  }\n}\n\nexport interface ToposortResult {\n  sorted: string[];\n  hasCycle: boolean;\n}\n\nexport function toposort(\n  nodes: string[],\n  edges: Array<[string, string]>\n): ToposortResult {\n  // Implementation\n}\n```\n\nThe function needs to accept nodes and edges as inputs, then return both the sorted order and whether a cycle was detected. I'll implement this with a DFS-based approach that tracks visited states (unvisited, visiting, visited) to identify cycles during traversal.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 1355,
+        "cache_read_input_tokens": 22685,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1355
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "423a7836-9152-442b-9b84-9b610879c501",
+    "uuid": "f99041fd-19ab-48e0-981e-e0943bb38862"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01GxrNFdXv3ooPS5mmA59mEa",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nexport class CycleDetectedError extends Error {\n  constructor(message: string = \"Cycle detected in graph\") {\n    super(message);\n    this.name = \"CycleDetectedError\";\n  }\n}\n\nexport interface Graph {\n  nodes: string[];\n  edges: Array<[string, string]>;\n}\n\nexport interface ToposortResult {\n  sorted: string[];\n  hasCycle: boolean;\n  cycle?: string[];\n}\n\nexport function toposort(graph: Graph): ToposortResult {\n  const { nodes, edges } = graph;\n\n  // Build adjacency list and in-degree map\n  const adjacencyList = new Map<string, string[]>();\n  const inDegree = new Map<string, number>();\n\n  // Initialize all nodes\n  for (const node of nodes) {\n    adjacencyList.set(node, []);\n    inDegree.set(node, 0);\n  }\n\n  // Build graph from edges\n  for (const [from, to] of edges) {\n    if (!adjacencyList.has(from) || !adjacencyList.has(to)) {\n      throw new Error(\"Edge references non-existent node\");\n    }\n    adjacencyList.get(from)!.push(to);\n    inDegree.set(to, (inDegree.get(to) ?? 0) + 1);\n  }\n\n  // Kahn's algorithm with cycle detection\n  const queue: string[] = [];\n  const sorted: string[] = [];\n  const inDegreeCopy = new Map(inDegree);\n\n  // Find all nodes with in-degree 0\n  for (const node of nodes) {\n    if (inDegreeCopy.get(node) === 0) {\n      queue.push(node);\n    }\n  }\n\n  while (queue.length > 0) {\n    const current = queue.shift()!;\n    sorted.push(current);\n\n    for (const neighbor of adjacencyList.get(current)!) {\n      inDegreeCopy.set(neighbor, (inDegreeCopy.get(neighbor) ?? 0) - 1);\n      if (inDegreeCopy.get(neighbor) === 0) {\n        queue.push(neighbor);\n      }\n    }\n  }\n\n  const hasCycle = sorted.length !== nodes.length;\n\n  if (hasCycle) {\n    const cycle = findCycle(graph);\n    return {\n      sorted,\n      hasCycle: true,\n      cycle,\n    };\n  }\n\n  return {\n    sorted,\n    hasCycle: false,\n  };\n}\n\nfunction findCycle(graph: Graph): string[] | undefined {\n  const { nodes, edges } = graph;\n  const adjacencyList = new Map<string, string[]>();\n  const visited = new Map<string, \"white\" | \"gray\" | \"black\">();\n  const path: string[] = [];\n\n  for (const node of nodes) {\n    adjacencyList.set(node, []);\n    visited.set(node, \"white\");\n  }\n\n  for (const [from, to] of edges) {\n    adjacencyList.get(from)!.push(to);\n  }\n\n  for (const node of nodes) {\n    if (visited.get(node) === \"white\") {\n      const cyclePath = dfsVisit(node, adjacencyList, visited, []);\n      if (cyclePath) {\n        return cyclePath;\n      }\n    }\n  }\n\n  return undefined;\n}\n\nfunction dfsVisit(\n  node: string,\n  adjacencyList: Map<string, string[]>,\n  visited: Map<string, \"white\" | \"gray\" | \"black\">,\n  path: string[]\n): string[] | undefined {\n  visited.set(node, \"gray\");\n  path.push(node);\n\n  for (const neighbor of adjacencyList.get(node) ?? []) {\n    const state = visited.get(neighbor);\n\n    if (state === \"gray\") {\n      // Found a cycle\n      const cycleStart = path.indexOf(neighbor);\n      return path.slice(cycleStart).concat(neighbor);\n    }\n\n    if (state === \"white\") {\n      const result = dfsVisit(neighbor, adjacencyList, visited, [...path]);\n      if (result) {\n        return result;\n      }\n    }\n  }\n\n  visited.set(node, \"black\");\n  return undefined;\n}\n\nexport function toposortThrow(graph: Graph): string[] {\n  const result = toposort(graph);\n  if (result.hasCycle) {\n    throw new CycleDetectedError(\n      `Cycle detected: ${result.cycle?.join(\" → \") ?? \"unknown\"}`\n    );\n  }\n  return result.sorted;\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 1355,
+        "cache_read_input_tokens": 22685,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1355
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "423a7836-9152-442b-9b84-9b610879c501",
+    "uuid": "71451d80-fcff-4d9e-9a62-5c549cef04f2"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.84,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "b31336a0-6dcb-4526-95df-e81e7d8dcb93",
+    "session_id": "423a7836-9152-442b-9b84-9b610879c501"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 10981,
+    "duration_api_ms": 10935,
+    "num_turns": 1,
+    "result": "```typescript\nexport class CycleDetectedError extends Error {\n  constructor(message: string = \"Cycle detected in graph\") {\n    super(message);\n    this.name = \"CycleDetectedError\";\n  }\n}\n\nexport interface Graph {\n  nodes: string[];\n  edges: Array<[string, string]>;\n}\n\nexport interface ToposortResult {\n  sorted: string[];\n  hasCycle: boolean;\n  cycle?: string[];\n}\n\nexport function toposort(graph: Graph): ToposortResult {\n  const { nodes, edges } = graph;\n\n  // Build adjacency list and in-degree map\n  const adjacencyList = new Map<string, string[]>();\n  const inDegree = new Map<string, number>();\n\n  // Initialize all nodes\n  for (const node of nodes) {\n    adjacencyList.set(node, []);\n    inDegree.set(node, 0);\n  }\n\n  // Build graph from edges\n  for (const [from, to] of edges) {\n    if (!adjacencyList.has(from) || !adjacencyList.has(to)) {\n      throw new Error(\"Edge references non-existent node\");\n    }\n    adjacencyList.get(from)!.push(to);\n    inDegree.set(to, (inDegree.get(to) ?? 0) + 1);\n  }\n\n  // Kahn's algorithm with cycle detection\n  const queue: string[] = [];\n  const sorted: string[] = [];\n  const inDegreeCopy = new Map(inDegree);\n\n  // Find all nodes with in-degree 0\n  for (const node of nodes) {\n    if (inDegreeCopy.get(node) === 0) {\n      queue.push(node);\n    }\n  }\n\n  while (queue.length > 0) {\n    const current = queue.shift()!;\n    sorted.push(current);\n\n    for (const neighbor of adjacencyList.get(current)!) {\n      inDegreeCopy.set(neighbor, (inDegreeCopy.get(neighbor) ?? 0) - 1);\n      if (inDegreeCopy.get(neighbor) === 0) {\n        queue.push(neighbor);\n      }\n    }\n  }\n\n  const hasCycle = sorted.length !== nodes.length;\n\n  if (hasCycle) {\n    const cycle = findCycle(graph);\n    return {\n      sorted,\n      hasCycle: true,\n      cycle,\n    };\n  }\n\n  return {\n    sorted,\n    hasCycle: false,\n  };\n}\n\nfunction findCycle(graph: Graph): string[] | undefined {\n  const { nodes, edges } = graph;\n  const adjacencyList = new Map<string, string[]>();\n  const visited = new Map<string, \"white\" | \"gray\" | \"black\">();\n  const path: string[] = [];\n\n  for (const node of nodes) {\n    adjacencyList.set(node, []);\n    visited.set(node, \"white\");\n  }\n\n  for (const [from, to] of edges) {\n    adjacencyList.get(from)!.push(to);\n  }\n\n  for (const node of nodes) {\n    if (visited.get(node) === \"white\") {\n      const cyclePath = dfsVisit(node, adjacencyList, visited, []);\n      if (cyclePath) {\n        return cyclePath;\n      }\n    }\n  }\n\n  return undefined;\n}\n\nfunction dfsVisit(\n  node: string,\n  adjacencyList: Map<string, string[]>,\n  visited: Map<string, \"white\" | \"gray\" | \"black\">,\n  path: string[]\n): string[] | undefined {\n  visited.set(node, \"gray\");\n  path.push(node);\n\n  for (const neighbor of adjacencyList.get(node) ?? []) {\n    const state = visited.get(neighbor);\n\n    if (state === \"gray\") {\n      // Found a cycle\n      const cycleStart = path.indexOf(neighbor);\n      return path.slice(cycleStart).concat(neighbor);\n    }\n\n    if (state === \"white\") {\n      const result = dfsVisit(neighbor, adjacencyList, visited, [...path]);\n      if (result) {\n        return result;\n      }\n    }\n  }\n\n  visited.set(node, \"black\");\n  return undefined;\n}\n\nexport function toposortThrow(graph: Graph): string[] {\n  const result = toposort(graph);\n  if (result.hasCycle) {\n    throw new CycleDetectedError(\n      `Cycle detected: ${result.cycle?.join(\" → \") ?? \"unknown\"}`\n    );\n  }\n  return result.sorted;\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "423a7836-9152-442b-9b84-9b610879c501",
+    "total_cost_usd": 0.01259025,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 1355,
+      "cache_read_input_tokens": 22685,
+      "output_tokens": 1724,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1355,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 8,
+        "outputTokens": 1724,
+        "cacheReadInputTokens": 22685,
+        "cacheCreationInputTokens": 1355,
+        "webSearchRequests": 0,
+        "costUSD": 0.01259025,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "79ff4850-a75b-4077-b5d9-1f5c715af0f2"
+  }
+]
