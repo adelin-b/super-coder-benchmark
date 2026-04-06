@@ -1,0 +1,13 @@
+name: effect-ts
+version: 4
+parent: 3
+model_default: sonnet
+max_turns: 1
+tools: []
+context_bundle:
+  - context-bundles/effect-quickstart/errors.md
+  - context-bundles/effect-quickstart/generators.md
+  - context-bundles/effect-quickstart/common-pitfalls.md
+  - context-bundles/xstate-v5/primer.md
+system_prompt_file: system-prompt.md
+changelog: "v3 → v4: Autoresearch improved 64.7% → 79.3% (+23% relative). Improver added: (1) Export Completeness section with concrete examples of commonly missed exports (applyEvent, reconstruct, LRU methods, rate limiter methods), (2) Validation/Error Throwing section with explicit patterns for empty arrays, out-of-range, negatives, invalid config, (3) Dependencies section forbidding third-party packages and prescribing built-ins, (4) LRU Cache Contract section specifying undefined-for-miss and recency semantics. BL-2 90%, ALG-2 86%, SAAS-2 86% improved; BL-5 and SAAS-3 remain at 0%."
