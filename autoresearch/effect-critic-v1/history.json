@@ -1,0 +1,155 @@
+{
+  "agent": "effect-critic-v1",
+  "model": "haiku",
+  "tasks": [
+    "BL-2",
+    "BL-4",
+    "BL-5",
+    "ALG-2",
+    "ALG-3",
+    "SAAS-2",
+    "SAAS-3"
+  ],
+  "startedAt": "2026-04-06T08:09:20.834Z",
+  "iterations": [
+    {
+      "iteration": 0,
+      "promptHash": "18c3f7f6cd04",
+      "scoresPerTask": {
+        "BL-2": {
+          "passed": 8,
+          "total": 9,
+          "rate": 0.8888888888888888
+        },
+        "BL-4": {
+          "passed": 2,
+          "total": 3,
+          "rate": 0.6666666666666666
+        },
+        "BL-5": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "ALG-2": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "ALG-3": {
+          "passed": 2,
+          "total": 3,
+          "rate": 0.6666666666666666
+        },
+        "SAAS-2": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "SAAS-3": {
+          "passed": 1,
+          "total": 2,
+          "rate": 0.5
+        }
+      },
+      "avgScore": 0.7,
+      "totalPassed": 14,
+      "totalTests": 20,
+      "improved": true
+    },
+    {
+      "iteration": 1,
+      "promptHash": "3b774669fc6e",
+      "scoresPerTask": {
+        "BL-2": {
+          "passed": 9,
+          "total": 10,
+          "rate": 0.9
+        },
+        "BL-4": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "BL-5": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "ALG-2": {
+          "passed": 6,
+          "total": 7,
+          "rate": 0.8571428571428571
+        },
+        "ALG-3": {
+          "passed": 2,
+          "total": 3,
+          "rate": 0.6666666666666666
+        },
+        "SAAS-2": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "SAAS-3": {
+          "passed": 1,
+          "total": 2,
+          "rate": 0.5
+        }
+      },
+      "avgScore": 0.8,
+      "totalPassed": 20,
+      "totalTests": 25,
+      "improved": true,
+      "durationMs": 211655
+    },
+    {
+      "iteration": 2,
+      "promptHash": "626bbc695313",
+      "scoresPerTask": {
+        "BL-2": {
+          "passed": 9,
+          "total": 10,
+          "rate": 0.9
+        },
+        "BL-4": {
+          "passed": 4,
+          "total": 5,
+          "rate": 0.8
+        },
+        "BL-5": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "ALG-2": {
+          "passed": 6,
+          "total": 7,
+          "rate": 0.8571428571428571
+        },
+        "ALG-3": {
+          "passed": 5,
+          "total": 6,
+          "rate": 0.8333333333333334
+        },
+        "SAAS-2": {
+          "passed": 6,
+          "total": 7,
+          "rate": 0.8571428571428571
+        },
+        "SAAS-3": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        }
+      },
+      "avgScore": 0.8648648648648649,
+      "totalPassed": 32,
+      "totalTests": 37,
+      "improved": true,
+      "durationMs": 261183
+    }
+  ],
+  "bestIteration": 2,
+  "bestScore": 0.8648648648648649
+}

@@ -1,0 +1,1 @@
+export function prorate(chargeAmount: number, periodStart: Date, periodEnd: Date, actualStart: Date, actualEnd: Date): number
