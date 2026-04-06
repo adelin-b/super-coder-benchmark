@@ -1,0 +1,11 @@
+name: effect-critic
+version: 2
+model_default: sonnet
+max_turns: 1
+tools: []
+context_bundle:
+  - context-bundles/effect-quickstart/errors.md
+  - context-bundles/effect-quickstart/generators.md
+  - context-bundles/effect-quickstart/common-pitfalls.md
+system_prompt_file: system-prompt.md
+changelog: "v2: Autoresearch-improved from v1. Adds CRITICAL always-output-code guard, test-first import extraction, FiberFailure try/catch wrapping, duplicate-declaration avoidance, method-vs-property distinction, token-bucket pattern, and expanded checklist. Baseline 70% → 86.5%."

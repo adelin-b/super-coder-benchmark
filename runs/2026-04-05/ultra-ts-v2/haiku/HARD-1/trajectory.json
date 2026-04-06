@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "d23b719d-ad06-49f0-87a1-f53e9c1bfe76",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-haiku-4-5-20251001",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "75f5e500-a0f0-4231-bfa8-9f3f8c96ce48",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01HhVQRAQFL1UKjVqCxS6Mip",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "Alright, let me understand this spec for a concurrent sliding-window rate limiter:\n\n1. **Token Bucket**: Each key has tokens that start at `burstCapacity` and refill at `refillPerSec` tokens per second. Max is `burstCapacity`.\n\n2. **Sliding Window Log**: Track timestamps of allowed requests. Window is `[nowMs - windowMs, nowMs)` (exclusive on left, inclusive on right based on \"inclusive on the right, exclusive on the left\").\n\n3. **Combined Check**: Request allowed only if BOTH token bucket >= 1 AND window count < windowMax.\n\n4. **retryAfterMs**: \n   - If denied by bucket: time until next token\n   - If denied by window: time until oldest expires\n   - If denied by both: max of both\n   - If allowed: 0\n\n5. **Validation**: Throw RateLimitError for invalid policy.\n\n6. **Clock Skew**: If nowMs goes backwards, clamp to last seen time.\n\nLet me trace through the logic:\n\n```typescript\nexport interface Policy {\n  windowMax: number;\n  windowMs: number;\n  burstCapacity: number;\n  refillPerSec: number;\n}\n\nexport interface RateLimitResult {\n  allowed: boolean;\n  tokensRemaining: number;\n  windowRemaining: number;\n  retryAfterMs: number;\n}\n\nexport class RateLimitError extends Error {}\n\nexport function createSlidingWindowLimiter(policy: Policy) {\n  // Validate policy\n  if (!policy.windowMax || policy.windowMax < 1) {\n    throw new RateLimitError('windowMax must be >= 1');\n  }\n  if (!policy.windowMs || policy.windowMs <= 0) {\n    throw new RateLimitError('windowMs must be > 0');\n  }\n  if (!policy.burstCapacity || policy.burstCapacity < 1) {\n    throw new RateLimitError('burstCapacity must be >= 1');\n  }\n  if (!policy.refillPerSec || policy.refillPerSec <= 0) {\n    throw new RateLimitError('refillPerSec must be > 0');\n  }\n\n  // State per key\n  interface KeyState {\n    bucketTokens: number;\n    lastRefillMs: number;\n    windowLog: number[];\n  }\n\n  const keyStates = new Map<string, KeyState>();\n\n  return function allowRequest(key: string, nowMs: number): RateLimitResult {\n    // Handle clock skew\n    let state = keyStates.get(key);\n    if (state && nowMs < state.lastRefillMs) {\n      nowMs = state.lastRefillMs;\n    }\n\n    // Initialize or get state\n    if (!state) {\n      state = {\n        bucketTokens: policy.burstCapacity,\n        lastRefillMs: nowMs,\n        windowLog: []\n      };\n      keyStates.set(key, state);\n    }\n\n    // Refill tokens based on elapsed time\n    const elapsedMs = nowMs - state.lastRefillMs;\n    const tokensToAdd = (elapsedMs / 1000) * policy.refillPerSec;\n    state.bucketTokens = Math.min(\n      policy.burstCapacity,\n      state.bucketTokens + tokensToAdd\n    );\n    state.lastRefillMs = nowMs;\n\n    // Clean up old window entries\n    const windowStart = nowMs - policy.windowMs;\n    state.windowLog = state.windowLog.filter(ts => ts > windowStart);\n\n    // Check both constraints\n    const bucketAllows = state.bucketTokens >= 1;\n    const windowAllows = state.windowLog.length < policy.windowMax;\n\n    let retryAfterMs = 0;\n    if (!bucketAllows || !windowAllows) {\n      const bucketRetry = bucketAllows ? 0 : (1 - state.bucketTokens) / policy.refillPerSec * 1000;\n      const windowRetry = windowAllows ? 0 : (state.windowLog[0] + policy.windowMs - nowMs);\n      retryAfterMs = Math.max(bucketRetry, windowRetry);\n    }\n\n    const allowed = bucketAllows && windowAllows;\n    if (allowed) {\n      state.bucketTokens -= 1;\n      state.windowLog.push(nowMs);\n    }\n\n    return {\n      allowed,\n      tokensRemaining: Math.floor(state.bucketTokens),\n      windowRemaining: policy.windowMax - state.windowLog.length,\n      retryAfterMs: Math.ceil(retryAfterMs)\n    };\n  };\n}\n```\n\nI'm reconsidering how to handle fractional tokens. The spec doesn't explicitly require integer tokens, but the return type suggests `tokensRemaining` should be an integer. I'll floor the value to be conservative—if you have 0.5 tokens, you can't actually make a request, so reporting 0 is more accurate. For `retryAfterMs`, I'll ceil to ensure we don't underestimate the wait time.\n\nThe bucket retry calculation needs to account for partial tokens: if I have 0.5 tokens and need 1, I only need to refill 0.5 tokens, which takes `(0.5 / refillPerSec) * 1000` milliseconds. The window retry is straightforward—it's when the oldest logged request expires. I should also ensure the bucket retry formula uses `Math.max(0, 1 - state.bucketTokens)` to handle cases where we already have enough tokens.\n\nFor the result, `tokensRemaining` should reflect the actual fractional value after consuming exactly 1 token per request, not a rounded value.\n\nLet me trace through a concrete scenario: with a policy of windowMax=2, windowMs=1000, burstCapacity=5, refillPerSec=1. At t=0, I start with 5 tokens and an empty window. The request is allowed, I consume 1 token leaving 4, and log the request. At t=500, I've refilled 0.5 tokens (500ms elapsed), bringing me to 4.5 tokens. The window still contains only the initial request, so I'm under the window limit. I allow the request, consume another token, and now have 3.5 tokens remaining.\n\nAt t=600, I've refilled another 0.1 tokens for 3.6 total. The window now has two entries, hitting the maximum. Since the window is full, the request is denied. The oldest entry expires at 0 + 1000 = 1000ms, so I need to wait 400ms more. The window definition `ts > nowMs - windowMs` correctly filters entries within the active window, and the retry calculation `oldestTs + windowMs - nowMs` gives the exact time until the oldest entry expires.\n\nFor clock skew, I'm clamping `nowMs` to `state.lastRefillMs` if it goes backwards, then updating `lastRefillMs` with the clamped value. This prevents the system from moving backwards in time while ensuring consistent state tracking.\n\nLet me trace through a scenario: at t=100, `lastRefillMs` is set to 100. If the next check happens at t=50 (clock skew), `nowMs` gets clamped to 100, so `elapsedMs` becomes 0 and tokens remain unchanged. The state stays consistent.\n\nI also need to be careful with the `inspect` function—it should compute the state at a given time without modifying `lastRefillMs`, since it's just a read operation, not an actual refill. if allowed) {\n  state.bucketTokens -= 1;\n  state.windowLog.push(nowMs);\n}\n\nreturn {\n  allowed,\n  tokensRemaining: state.bucketTokens,\n  windowRemaining: policy.windowMax - state.windowLog.length,\n  retryAfterMs\n};\n```\n\nWhen a request is allowed, I decrement the bucket and add the timestamp to the window log. The returned token count reflects the state after consumption, and the window remaining is calculated from the current log length. For retryAfterMs, I compute it before any state modifications so it represents when the next request could succeed. 1. Check if allowed\n2. Compute retryAfterMs based on the state before consuming\n3. Consume if allowed\n4. Return with the updated windowRemaining reflecting the consumption\n\nThe tokensRemaining field returns a number type, which can be a float, so that works fine. The implementation looks solid overall.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 3637,
+        "cache_read_input_tokens": 22577,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 3637
+        },
+        "output_tokens": 5,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "d23b719d-ad06-49f0-87a1-f53e9c1bfe76",
+    "uuid": "f37a1079-5825-4f82-8388-b22e3383f511"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01HhVQRAQFL1UKjVqCxS6Mip",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nexport interface Policy {\n  windowMax: number;\n  windowMs: number;\n  burstCapacity: number;\n  refillPerSec: number;\n}\n\nexport interface RateLimitResult {\n  allowed: boolean;\n  tokensRemaining: number;\n  windowRemaining: number;\n  retryAfterMs: number;\n}\n\nexport class RateLimitError extends Error {}\n\nexport function createSlidingWindowLimiter(policy: Policy) {\n  if (policy.windowMax < 1) {\n    throw new RateLimitError('windowMax must be >= 1');\n  }\n  if (policy.windowMs <= 0) {\n    throw new RateLimitError('windowMs must be > 0');\n  }\n  if (policy.burstCapacity < 1) {\n    throw new RateLimitError('burstCapacity must be >= 1');\n  }\n  if (policy.refillPerSec <= 0) {\n    throw new RateLimitError('refillPerSec must be > 0');\n  }\n\n  interface KeyState {\n    bucketTokens: number;\n    lastRefillMs: number;\n    windowLog: number[];\n  }\n\n  const states = new Map<string, KeyState>();\n\n  function getState(key: string, nowMs: number): KeyState {\n    if (!states.has(key)) {\n      states.set(key, {\n        bucketTokens: policy.burstCapacity,\n        lastRefillMs: nowMs,\n        windowLog: []\n      });\n    }\n    return states.get(key)!;\n  }\n\n  function check(key: string, nowMs: number): RateLimitResult {\n    const state = getState(key, nowMs);\n\n    if (nowMs < state.lastRefillMs) {\n      nowMs = state.lastRefillMs;\n    }\n\n    const elapsedMs = nowMs - state.lastRefillMs;\n    const tokensToAdd = (elapsedMs / 1000) * policy.refillPerSec;\n    state.bucketTokens = Math.min(\n      policy.burstCapacity,\n      state.bucketTokens + tokensToAdd\n    );\n    state.lastRefillMs = nowMs;\n\n    const windowStart = nowMs - policy.windowMs;\n    state.windowLog = state.windowLog.filter(ts => ts > windowStart);\n\n    const hasTokens = state.bucketTokens >= 1;\n    const hasWindow = state.windowLog.length < policy.windowMax;\n    const allowed = hasTokens && hasWindow;\n\n    let retryAfterMs = 0;\n\n    if (!allowed) {\n      let bucketRetryMs = 0;\n      let windowRetryMs = 0;\n\n      if (!hasTokens) {\n        const tokensNeeded = 1 - state.bucketTokens;\n        bucketRetryMs = Math.ceil(\n          (tokensNeeded / policy.refillPerSec) * 1000\n        );\n      }\n\n      if (!hasWindow && state.windowLog.length > 0) {\n        const oldestTs = state.windowLog[0];\n        windowRetryMs = oldestTs + policy.windowMs - nowMs;\n      }\n\n      retryAfterMs = Math.max(bucketRetryMs, windowRetryMs);\n    }\n\n    if (allowed) {\n      state.bucketTokens -= 1;\n      state.windowLog.push(nowMs);\n    }\n\n    return {\n      allowed,\n      tokensRemaining: state.bucketTokens,\n      windowRemaining: policy.windowMax - state.windowLog.length,\n      retryAfterMs\n    };\n  }\n\n  function reset(key: string): void {\n    states.delete(key);\n  }\n\n  function inspect(key: string, nowMs: number) {\n    if (!states.has(key)) {\n      return {\n        bucketTokens: policy.burstCapacity,\n        windowRequestCount: 0,\n        oldestRequestMs: null\n      };\n    }\n\n    const state = states.get(key)!;\n\n    let currentNowMs = nowMs;\n    if (currentNowMs < state.lastRefillMs) {\n      currentNowMs = state.lastRefillMs;\n    }\n\n    const elapsedMs = currentNowMs - state.lastRefillMs;\n    const tokensToAdd = (elapsedMs / 1000) * policy.refillPerSec;\n    const bucketTokens = Math.min(\n      policy.burstCapacity,\n      state.bucketTokens + tokensToAdd\n    );\n\n    const windowStart = currentNowMs - policy.windowMs;\n    const windowLog = state.windowLog.filter(ts => ts > windowStart);\n\n    return {\n      bucketTokens,\n      windowRequestCount: windowLog.length,\n      oldestRequestMs: windowLog.length > 0 ? windowLog[0] : null\n    };\n  }\n\n  return { check, reset, inspect };\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 8,
+        "cache_creation_input_tokens": 3637,
+        "cache_read_input_tokens": 22577,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 3637
+        },
+        "output_tokens": 5,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "d23b719d-ad06-49f0-87a1-f53e9c1bfe76",
+    "uuid": "7476afc5-6a39-4ba3-af01-cebcdca411ef"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.91,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "8ccd47fa-7150-40e8-b42e-e2cb4e2483b5",
+    "session_id": "d23b719d-ad06-49f0-87a1-f53e9c1bfe76"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 30928,
+    "duration_api_ms": 30896,
+    "num_turns": 1,
+    "result": "```typescript\nexport interface Policy {\n  windowMax: number;\n  windowMs: number;\n  burstCapacity: number;\n  refillPerSec: number;\n}\n\nexport interface RateLimitResult {\n  allowed: boolean;\n  tokensRemaining: number;\n  windowRemaining: number;\n  retryAfterMs: number;\n}\n\nexport class RateLimitError extends Error {}\n\nexport function createSlidingWindowLimiter(policy: Policy) {\n  if (policy.windowMax < 1) {\n    throw new RateLimitError('windowMax must be >= 1');\n  }\n  if (policy.windowMs <= 0) {\n    throw new RateLimitError('windowMs must be > 0');\n  }\n  if (policy.burstCapacity < 1) {\n    throw new RateLimitError('burstCapacity must be >= 1');\n  }\n  if (policy.refillPerSec <= 0) {\n    throw new RateLimitError('refillPerSec must be > 0');\n  }\n\n  interface KeyState {\n    bucketTokens: number;\n    lastRefillMs: number;\n    windowLog: number[];\n  }\n\n  const states = new Map<string, KeyState>();\n\n  function getState(key: string, nowMs: number): KeyState {\n    if (!states.has(key)) {\n      states.set(key, {\n        bucketTokens: policy.burstCapacity,\n        lastRefillMs: nowMs,\n        windowLog: []\n      });\n    }\n    return states.get(key)!;\n  }\n\n  function check(key: string, nowMs: number): RateLimitResult {\n    const state = getState(key, nowMs);\n\n    if (nowMs < state.lastRefillMs) {\n      nowMs = state.lastRefillMs;\n    }\n\n    const elapsedMs = nowMs - state.lastRefillMs;\n    const tokensToAdd = (elapsedMs / 1000) * policy.refillPerSec;\n    state.bucketTokens = Math.min(\n      policy.burstCapacity,\n      state.bucketTokens + tokensToAdd\n    );\n    state.lastRefillMs = nowMs;\n\n    const windowStart = nowMs - policy.windowMs;\n    state.windowLog = state.windowLog.filter(ts => ts > windowStart);\n\n    const hasTokens = state.bucketTokens >= 1;\n    const hasWindow = state.windowLog.length < policy.windowMax;\n    const allowed = hasTokens && hasWindow;\n\n    let retryAfterMs = 0;\n\n    if (!allowed) {\n      let bucketRetryMs = 0;\n      let windowRetryMs = 0;\n\n      if (!hasTokens) {\n        const tokensNeeded = 1 - state.bucketTokens;\n        bucketRetryMs = Math.ceil(\n          (tokensNeeded / policy.refillPerSec) * 1000\n        );\n      }\n\n      if (!hasWindow && state.windowLog.length > 0) {\n        const oldestTs = state.windowLog[0];\n        windowRetryMs = oldestTs + policy.windowMs - nowMs;\n      }\n\n      retryAfterMs = Math.max(bucketRetryMs, windowRetryMs);\n    }\n\n    if (allowed) {\n      state.bucketTokens -= 1;\n      state.windowLog.push(nowMs);\n    }\n\n    return {\n      allowed,\n      tokensRemaining: state.bucketTokens,\n      windowRemaining: policy.windowMax - state.windowLog.length,\n      retryAfterMs\n    };\n  }\n\n  function reset(key: string): void {\n    states.delete(key);\n  }\n\n  function inspect(key: string, nowMs: number) {\n    if (!states.has(key)) {\n      return {\n        bucketTokens: policy.burstCapacity,\n        windowRequestCount: 0,\n        oldestRequestMs: null\n      };\n    }\n\n    const state = states.get(key)!;\n\n    let currentNowMs = nowMs;\n    if (currentNowMs < state.lastRefillMs) {\n      currentNowMs = state.lastRefillMs;\n    }\n\n    const elapsedMs = currentNowMs - state.lastRefillMs;\n    const tokensToAdd = (elapsedMs / 1000) * policy.refillPerSec;\n    const bucketTokens = Math.min(\n      policy.burstCapacity,\n      state.bucketTokens + tokensToAdd\n    );\n\n    const windowStart = currentNowMs - policy.windowMs;\n    const windowLog = state.windowLog.filter(ts => ts > windowStart);\n\n    return {\n      bucketTokens,\n      windowRequestCount: windowLog.length,\n      oldestRequestMs: windowLog.length > 0 ? windowLog[0] : null\n    };\n  }\n\n  return { check, reset, inspect };\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "d23b719d-ad06-49f0-87a1-f53e9c1bfe76",
+    "total_cost_usd": 0.03359195,
+    "usage": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 3637,
+      "cache_read_input_tokens": 22577,
+      "output_tokens": 5356,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3637,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 8,
+        "outputTokens": 5356,
+        "cacheReadInputTokens": 22577,
+        "cacheCreationInputTokens": 3637,
+        "webSearchRequests": 0,
+        "costUSD": 0.03359195,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "ad5ab9f1-7e56-4de1-b1ca-5d5052c4c8e4"
+  }
+]

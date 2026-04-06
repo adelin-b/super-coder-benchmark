@@ -1,0 +1,152 @@
+[
+  {
+    "task": "HARD-1",
+    "agent": "effect-critic",
+    "model": "haiku",
+    "tests_passed": 22,
+    "tests_total": 22,
+    "pass_rate": 1.0,
+    "verdict": "pass",
+    "notes": "clean pass"
+  },
+  {
+    "task": "HARD-2",
+    "agent": "effect-critic",
+    "model": "haiku",
+    "tests_passed": 25,
+    "tests_total": 25,
+    "pass_rate": 1.0,
+    "verdict": "pass",
+    "notes": "clean pass"
+  },
+  {
+    "task": "HARD-3",
+    "agent": "effect-critic",
+    "model": "haiku",
+    "tests_passed": 15,
+    "tests_total": 20,
+    "pass_rate": 0.75,
+    "verdict": "fail",
+    "notes": "5 failures: cycle detection, critical path, validation edge cases"
+  },
+  {
+    "task": "HARD-4",
+    "agent": "effect-critic",
+    "model": "haiku",
+    "tests_passed": 20,
+    "tests_total": 20,
+    "pass_rate": 1.0,
+    "verdict": "pass",
+    "notes": "clean pass"
+  },
+  {
+    "task": "HARD-5",
+    "agent": "effect-critic",
+    "model": "haiku",
+    "tests_passed": 0,
+    "tests_total": 27,
+    "pass_rate": 0.0,
+    "verdict": "error",
+    "notes": "truncated output - code ends with dangling 'const'"
+  },
+  {
+    "task": "HARD-1",
+    "agent": "effect-pbt",
+    "model": "haiku",
+    "tests_passed": 22,
+    "tests_total": 22,
+    "pass_rate": 1.0,
+    "verdict": "pass",
+    "notes": "clean pass"
+  },
+  {
+    "task": "HARD-2",
+    "agent": "effect-pbt",
+    "model": "haiku",
+    "tests_passed": 25,
+    "tests_total": 25,
+    "pass_rate": 1.0,
+    "verdict": "pass",
+    "notes": "clean pass"
+  },
+  {
+    "task": "HARD-3",
+    "agent": "effect-pbt",
+    "model": "haiku",
+    "tests_passed": 0,
+    "tests_total": 20,
+    "pass_rate": 0.0,
+    "verdict": "error",
+    "notes": "truncated output - only 2 lines of code generated"
+  },
+  {
+    "task": "HARD-4",
+    "agent": "effect-pbt",
+    "model": "haiku",
+    "tests_passed": 18,
+    "tests_total": 20,
+    "pass_rate": 0.9,
+    "verdict": "fail",
+    "notes": "2 failures: accounting equation edge cases"
+  },
+  {
+    "task": "HARD-5",
+    "agent": "effect-pbt",
+    "model": "haiku",
+    "tests_passed": 0,
+    "tests_total": 27,
+    "pass_rate": 0.0,
+    "verdict": "error",
+    "notes": "truncated output - code cut mid-loop"
+  },
+  {
+    "task": "HARD-1",
+    "agent": "ultra-ts",
+    "model": "haiku",
+    "tests_passed": 22,
+    "tests_total": 22,
+    "pass_rate": 1.0,
+    "verdict": "pass",
+    "notes": "clean pass"
+  },
+  {
+    "task": "HARD-2",
+    "agent": "ultra-ts",
+    "model": "haiku",
+    "tests_passed": 25,
+    "tests_total": 25,
+    "pass_rate": 1.0,
+    "verdict": "pass",
+    "notes": "clean pass"
+  },
+  {
+    "task": "HARD-3",
+    "agent": "ultra-ts",
+    "model": "haiku",
+    "tests_passed": 15,
+    "tests_total": 20,
+    "pass_rate": 0.75,
+    "verdict": "fail",
+    "notes": "5 failures: cycle detection, critical path, validation edge cases"
+  },
+  {
+    "task": "HARD-4",
+    "agent": "ultra-ts",
+    "model": "haiku",
+    "tests_passed": 19,
+    "tests_total": 20,
+    "pass_rate": 0.95,
+    "verdict": "fail",
+    "notes": "1 failure: multi-entry accounting equation"
+  },
+  {
+    "task": "HARD-5",
+    "agent": "ultra-ts",
+    "model": "haiku",
+    "tests_passed": 26,
+    "tests_total": 27,
+    "pass_rate": 0.963,
+    "verdict": "fail",
+    "notes": "1 failure: no role assignments edge case"
+  }
+]

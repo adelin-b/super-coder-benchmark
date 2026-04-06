@@ -1,0 +1,8 @@
+name: ultra-ts
+version: 2
+model_default: sonnet
+max_turns: 1
+tools: []
+context_bundle: []
+system_prompt_file: system-prompt.md
+changelog: "v2: Autoresearch-optimized from v1. Baseline 58.8% -> 80.0% (+36% relative). Key improvements: test-file-as-ground-truth emphasis, explicit event/type string matching from test literals, confirm-reduces-stock pattern, percentage>100 throw rule, output-only-valid-TS enforcement, no-questions-asked stance."

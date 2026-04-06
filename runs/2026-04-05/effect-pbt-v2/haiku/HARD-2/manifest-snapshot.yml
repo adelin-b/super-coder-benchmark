@@ -1,0 +1,12 @@
+name: effect-pbt
+version: 2
+model_default: sonnet
+max_turns: 1
+tools: []
+context_bundle:
+  - context-bundles/effect-quickstart/errors.md
+  - context-bundles/effect-quickstart/generators.md
+  - context-bundles/effect-quickstart/common-pitfalls.md
+  - context-bundles/fastcheck-core/arbitraries.md
+system_prompt_file: system-prompt.md
+changelog: "v2: Autoresearch-optimized from v1. Baseline 61.1% -> 83.3% (+36% relative). Key additions: explicit runSyncExit+Cause.squash boundary pattern, detailed export shape matching table, validation-first approach, final export checklist."

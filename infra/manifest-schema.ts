@@ -47,6 +47,11 @@ export const TASK_FILE_MAP: Record<string, string> = {
   "SAAS-1": "rbac",
   "SAAS-2": "ratelimit",
   "SAAS-3": "account",
+  "HARD-1": "sliding-window-limiter",
+  "HARD-2": "event-store",
+  "HARD-3": "task-scheduler",
+  "HARD-4": "ledger",
+  "HARD-5": "rbac",
 };
 
 /** Verdict JSON output by the runner */
