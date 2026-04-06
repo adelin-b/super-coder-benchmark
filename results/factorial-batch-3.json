@@ -1,0 +1,209 @@
+[
+  {
+    "run": 1,
+    "agent": "base",
+    "task": "ALG-3",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 14
+  },
+  {
+    "run": 2,
+    "agent": "V",
+    "task": "BL-5",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 30
+  },
+  {
+    "run": 3,
+    "agent": "V",
+    "task": "SAAS-3",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 23
+  },
+  {
+    "run": 4,
+    "agent": "V",
+    "task": "ALG-3",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 16
+  },
+  {
+    "run": 5,
+    "agent": "K",
+    "task": "BL-5",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 24
+  },
+  {
+    "run": 6,
+    "agent": "K",
+    "task": "SAAS-3",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 23
+  },
+  {
+    "run": 7,
+    "agent": "K",
+    "task": "ALG-3",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 30
+  },
+  {
+    "run": 8,
+    "agent": "KV",
+    "task": "BL-5",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 9
+  },
+  {
+    "run": 9,
+    "agent": "KV",
+    "task": "SAAS-3",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 18
+  },
+  {
+    "run": 10,
+    "agent": "KV",
+    "task": "ALG-3",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 22
+  },
+  {
+    "run": 11,
+    "agent": "E",
+    "task": "BL-5",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 19
+  },
+  {
+    "run": 12,
+    "agent": "E",
+    "task": "SAAS-3",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 21
+  },
+  {
+    "run": 13,
+    "agent": "E",
+    "task": "ALG-3",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 14
+  },
+  {
+    "run": 14,
+    "agent": "EV",
+    "task": "BL-5",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 25
+  },
+  {
+    "run": 15,
+    "agent": "EV",
+    "task": "SAAS-3",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 25
+  },
+  {
+    "run": 16,
+    "agent": "EV",
+    "task": "ALG-3",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 16
+  },
+  {
+    "run": 17,
+    "agent": "EK",
+    "task": "BL-5",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 13
+  },
+  {
+    "run": 18,
+    "agent": "EK",
+    "task": "SAAS-3",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 21
+  },
+  {
+    "run": 19,
+    "agent": "EK",
+    "task": "ALG-3",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 21
+  },
+  {
+    "run": 20,
+    "agent": "EKV",
+    "task": "BL-5",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 10
+  },
+  {
+    "run": 21,
+    "agent": "EKV",
+    "task": "SAAS-3",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 25
+  },
+  {
+    "run": 22,
+    "agent": "EKV",
+    "task": "ALG-3",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 19
+  },
+  {
+    "run": 23,
+    "agent": "C",
+    "task": "BL-5",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 118
+  }
+]
