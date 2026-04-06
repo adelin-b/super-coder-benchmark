@@ -1,0 +1,9 @@
+name: plain-ts
+version: 5
+parent: 3
+model_default: sonnet
+max_turns: 1
+tools: []
+context_bundle: []
+system_prompt_file: system-prompt.md
+changelog: "v3 → v5: autoresearch-improved prompt (5 iterations, improver=sonnet, runner=haiku). Baseline 62.5% → 70.8%. Key additions: explicit named-export matching rules, strict validation with custom Error subclasses, parameter type inference from test call sites, structured pre-coding checklist. BL-2 87.5%→90%, ALG-2 100%→85.7%, SAAS-2 0%→50%, SAAS-3 0%→50%."
