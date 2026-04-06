@@ -1,0 +1,58 @@
+{
+  "generated": "2026-04-06",
+  "tasks": [
+    {
+      "task_id": "HARD-1",
+      "title": "Concurrent Sliding-Window Rate Limiter",
+      "source": "synthetic-L3",
+      "difficulty_estimate": "L3",
+      "test_count": 22,
+      "impl_lines": 156,
+      "description": "Hybrid token bucket + sliding window log rate limiter with per-key isolation, clock skew handling, and precise retryAfterMs calculation."
+    },
+    {
+      "task_id": "HARD-2",
+      "title": "Event Sourcing with Snapshotting",
+      "source": "synthetic-L3",
+      "difficulty_estimate": "L3",
+      "test_count": 25,
+      "impl_lines": 220,
+      "description": "Event-sourced cart aggregate with 5 event types, automatic snapshotting, replay-from-snapshot consistency, and payload validation."
+    },
+    {
+      "task_id": "HARD-3",
+      "title": "Dependency-Aware Task Scheduler",
+      "source": "synthetic-L4",
+      "difficulty_estimate": "L4",
+      "test_count": 20,
+      "impl_lines": 312,
+      "description": "DAG task scheduler with priority-based greedy scheduling, resource constraints, cycle detection, anti-starvation boost, critical path analysis, and topological ordering."
+    },
+    {
+      "task_id": "HARD-4",
+      "title": "Multi-Currency Double-Entry Ledger",
+      "source": "synthetic-L4",
+      "difficulty_estimate": "L4",
+      "test_count": 20,
+      "impl_lines": 294,
+      "description": "Double-entry bookkeeping with multi-currency journal entries, exchange rate staleness detection, inverse rate inference, settlement, balance sheets, and rounding."
+    },
+    {
+      "task_id": "HARD-5",
+      "title": "RBAC with Temporal Permissions",
+      "source": "synthetic-L4",
+      "difficulty_estimate": "L4",
+      "test_count": 27,
+      "impl_lines": 273,
+      "description": "Role-based access control with time-bounded grants, transitive role inheritance, wildcard matching, deny-takes-precedence, retroactive revocation, and cycle detection."
+    }
+  ],
+  "summary": {
+    "total_tasks": 5,
+    "total_tests": 114,
+    "sources": {
+      "synthetic-L3": 2,
+      "synthetic-L4": 3
+    }
+  }
+}
