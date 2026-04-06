@@ -1,0 +1,10 @@
+name: factorial-eff-CK
+version: 1
+model_default: haiku
+max_turns: 1
+tools: []
+context_bundle:
+  - context-bundles/effect-quickstart/errors.md
+  - context-bundles/effect-quickstart/common-pitfalls.md
+system_prompt_file: system-prompt.md
+changelog: "Factorial experiment: paradigm=effect, critique=True, export=False, checklist=True, validate=False"
