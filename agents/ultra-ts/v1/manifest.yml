@@ -1,0 +1,8 @@
+name: ultra-ts
+version: 1
+model_default: sonnet
+max_turns: 1
+tools: []
+context_bundle: []
+system_prompt_file: system-prompt.md
+changelog: "v1: Kitchen-sink plain TS combining ALL winning patterns: edge-case listing (v2), PBT invariants, explicit validation rules (v4), self-critique 3-bug loop, pre-submission checklist (v4/v5)."

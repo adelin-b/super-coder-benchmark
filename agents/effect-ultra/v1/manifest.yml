@@ -1,0 +1,12 @@
+name: effect-ultra
+version: 1
+model_default: sonnet
+max_turns: 1
+tools: []
+context_bundle:
+  - context-bundles/effect-quickstart/errors.md
+  - context-bundles/effect-quickstart/generators.md
+  - context-bundles/effect-quickstart/common-pitfalls.md
+  - context-bundles/xstate-v5/primer.md
+system_prompt_file: system-prompt.md
+changelog: "v1: Maximum-everything agent. All 7 winning patterns (edge-cases, PBT invariants, validation rules, self-critique, checklist) combined with Effect boundary wrapping and Effect context bundles."

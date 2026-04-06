@@ -1,0 +1,11 @@
+name: effect-critic
+version: 1
+model_default: sonnet
+max_turns: 1
+tools: []
+context_bundle:
+  - context-bundles/effect-quickstart/errors.md
+  - context-bundles/effect-quickstart/generators.md
+  - context-bundles/effect-quickstart/common-pitfalls.md
+system_prompt_file: system-prompt.md
+changelog: "v1: Combines Effect boundary wrapping (effect-ts v4) with self-critic find-3-bugs loop. Targets Effect's interface issues with self-correction."
