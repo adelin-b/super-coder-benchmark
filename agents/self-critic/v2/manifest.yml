@@ -1,0 +1,9 @@
+name: self-critic
+version: 2
+parent: 1
+model_default: sonnet
+max_turns: 1
+tools: []
+context_bundle: []
+system_prompt_file: system-prompt.md
+changelog: "v2: autoresearch-improved prompt — added test-file-first reading, exact API matching, edge-case clamping-vs-throwing guidance, export name verification in critique step. Baseline 66.7% -> best 68.2% (+2% relative) on BL-2,BL-4,BL-5,ALG-2,ALG-3,SAAS-2,SAAS-3 x haiku."

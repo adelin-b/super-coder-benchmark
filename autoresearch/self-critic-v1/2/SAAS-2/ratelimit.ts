@@ -1,0 +1,3 @@
+I need to see the test file to implement this correctly. The spec description is minimal, and according to the instructions, the test file is authoritative and defines every function name, class name, method signature, and exported symbol.
+
+Could you please provide the test file (typically named `ratelimit.test.ts` or similar)? Once I have it, I'll extract the exact API requirements and implement the module to pass all tests.
