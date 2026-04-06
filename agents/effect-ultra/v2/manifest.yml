@@ -1,0 +1,12 @@
+name: effect-ultra
+version: 2
+model_default: sonnet
+max_turns: 1
+tools: []
+context_bundle:
+  - context-bundles/effect-quickstart/errors.md
+  - context-bundles/effect-quickstart/generators.md
+  - context-bundles/effect-quickstart/common-pitfalls.md
+  - context-bundles/xstate-v5/primer.md
+system_prompt_file: system-prompt.md
+changelog: "v2: Autoresearch-improved from v1 (68.2% -> 78.6% on haiku). Key improvements: explicit try-catch around all Effect.runSync calls, stronger export checklist, UTC date parsing guidance, factory initial-state hints (tokens=maxTokens), incomplete-spec handling."

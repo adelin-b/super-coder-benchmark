@@ -1,0 +1,93 @@
+[
+  {
+    "task": "BL-2",
+    "agent": "effect-ultra",
+    "model": "haiku",
+    "generated": true,
+    "tests_passed": 9,
+    "tests_total": 10,
+    "pass_rate": 0.9,
+    "tokens_in": 8,
+    "tokens_out": 3796,
+    "duration_ms": 26398,
+    "verdict": "fail"
+  },
+  {
+    "task": "BL-4",
+    "agent": "effect-ultra",
+    "model": "haiku",
+    "generated": true,
+    "tests_passed": 0,
+    "tests_total": 1,
+    "pass_rate": 0,
+    "tokens_in": 8,
+    "tokens_out": 3114,
+    "duration_ms": 22741,
+    "verdict": "fail"
+  },
+  {
+    "task": "BL-5",
+    "agent": "effect-ultra",
+    "model": "haiku",
+    "generated": true,
+    "tests_passed": 0,
+    "tests_total": 1,
+    "pass_rate": 0,
+    "tokens_in": 8,
+    "tokens_out": 503,
+    "duration_ms": 10396,
+    "verdict": "fail"
+  },
+  {
+    "task": "ALG-2",
+    "agent": "effect-ultra",
+    "model": "haiku",
+    "generated": true,
+    "tests_passed": 6,
+    "tests_total": 7,
+    "pass_rate": 0.8571,
+    "tokens_in": 8,
+    "tokens_out": 4083,
+    "duration_ms": 29162,
+    "verdict": "fail"
+  },
+  {
+    "task": "ALG-3",
+    "agent": "effect-ultra",
+    "model": "haiku",
+    "generated": true,
+    "tests_passed": 0,
+    "tests_total": 1,
+    "pass_rate": 0,
+    "tokens_in": 8,
+    "tokens_out": 3900,
+    "duration_ms": 31731,
+    "verdict": "fail"
+  },
+  {
+    "task": "SAAS-2",
+    "agent": "effect-ultra",
+    "model": "haiku",
+    "generated": true,
+    "tests_passed": 0,
+    "tests_total": 1,
+    "pass_rate": 0,
+    "tokens_in": 8,
+    "tokens_out": 2765,
+    "duration_ms": 22068,
+    "verdict": "fail"
+  },
+  {
+    "task": "SAAS-3",
+    "agent": "effect-ultra",
+    "model": "haiku",
+    "generated": true,
+    "tests_passed": 0,
+    "tests_total": 1,
+    "pass_rate": 0,
+    "tokens_in": 8,
+    "tokens_out": 1867,
+    "duration_ms": 19000,
+    "verdict": "fail"
+  }
+]

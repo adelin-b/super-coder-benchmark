@@ -1,0 +1,201 @@
+{
+  "agent": "ultra-ts-v1",
+  "model": "haiku",
+  "tasks": [
+    "BL-2",
+    "BL-4",
+    "BL-5",
+    "ALG-2",
+    "ALG-3",
+    "SAAS-2",
+    "SAAS-3"
+  ],
+  "startedAt": "2026-04-06T08:09:26.819Z",
+  "iterations": [
+    {
+      "iteration": 0,
+      "promptHash": "b17bd907839f",
+      "scoresPerTask": {
+        "BL-2": {
+          "passed": 8,
+          "total": 9,
+          "rate": 0.8888888888888888
+        },
+        "BL-4": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "BL-5": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "ALG-2": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "ALG-3": {
+          "passed": 2,
+          "total": 3,
+          "rate": 0.6666666666666666
+        },
+        "SAAS-2": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "SAAS-3": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        }
+      },
+      "avgScore": 0.5882352941176471,
+      "totalPassed": 10,
+      "totalTests": 17,
+      "improved": true
+    },
+    {
+      "iteration": 1,
+      "promptHash": "6fb8d513f0c7",
+      "scoresPerTask": {
+        "BL-2": {
+          "passed": 9,
+          "total": 10,
+          "rate": 0.9
+        },
+        "BL-4": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "BL-5": {
+          "passed": 6,
+          "total": 7,
+          "rate": 0.8571428571428571
+        },
+        "ALG-2": {
+          "passed": 6,
+          "total": 7,
+          "rate": 0.8571428571428571
+        },
+        "ALG-3": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "SAAS-2": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "SAAS-3": {
+          "passed": 1,
+          "total": 2,
+          "rate": 0.5
+        }
+      },
+      "avgScore": 0.7931034482758621,
+      "totalPassed": 23,
+      "totalTests": 29,
+      "improved": true,
+      "durationMs": 169255
+    },
+    {
+      "iteration": 2,
+      "promptHash": "c1658e34c6d7",
+      "scoresPerTask": {
+        "BL-2": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "BL-4": {
+          "passed": 2,
+          "total": 3,
+          "rate": 0.6666666666666666
+        },
+        "BL-5": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "ALG-2": {
+          "passed": 6,
+          "total": 7,
+          "rate": 0.8571428571428571
+        },
+        "ALG-3": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "SAAS-2": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "SAAS-3": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        }
+      },
+      "avgScore": 0.8,
+      "totalPassed": 12,
+      "totalTests": 15,
+      "improved": true,
+      "durationMs": 171687
+    },
+    {
+      "iteration": 3,
+      "promptHash": "eb0b1ee1d303",
+      "scoresPerTask": {
+        "BL-2": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "BL-4": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "BL-5": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "ALG-2": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "ALG-3": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "SAAS-2": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "SAAS-3": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        }
+      },
+      "avgScore": 0.7142857142857143,
+      "totalPassed": 5,
+      "totalTests": 7,
+      "improved": false,
+      "durationMs": 204819
+    }
+  ],
+  "bestIteration": 2,
+  "bestScore": 0.8
+}
