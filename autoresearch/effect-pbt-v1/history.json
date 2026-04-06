@@ -1,0 +1,201 @@
+{
+  "agent": "effect-pbt-v1",
+  "model": "haiku",
+  "tasks": [
+    "BL-2",
+    "BL-4",
+    "BL-5",
+    "ALG-2",
+    "ALG-3",
+    "SAAS-2",
+    "SAAS-3"
+  ],
+  "startedAt": "2026-04-06T08:09:19.874Z",
+  "iterations": [
+    {
+      "iteration": 0,
+      "promptHash": "28f2cd3dbee0",
+      "scoresPerTask": {
+        "BL-2": {
+          "passed": 7,
+          "total": 8,
+          "rate": 0.875
+        },
+        "BL-4": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "BL-5": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "ALG-2": {
+          "passed": 1,
+          "total": 2,
+          "rate": 0.5
+        },
+        "ALG-3": {
+          "passed": 2,
+          "total": 3,
+          "rate": 0.6666666666666666
+        },
+        "SAAS-2": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "SAAS-3": {
+          "passed": 1,
+          "total": 2,
+          "rate": 0.5
+        }
+      },
+      "avgScore": 0.6111111111111112,
+      "totalPassed": 11,
+      "totalTests": 18,
+      "improved": true
+    },
+    {
+      "iteration": 1,
+      "promptHash": "661c26ce18e8",
+      "scoresPerTask": {
+        "BL-2": {
+          "passed": 7,
+          "total": 8,
+          "rate": 0.875
+        },
+        "BL-4": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "BL-5": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "ALG-2": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "ALG-3": {
+          "passed": 5,
+          "total": 6,
+          "rate": 0.8333333333333334
+        },
+        "SAAS-2": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "SAAS-3": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        }
+      },
+      "avgScore": 0.7368421052631579,
+      "totalPassed": 14,
+      "totalTests": 19,
+      "improved": true,
+      "durationMs": 212176
+    },
+    {
+      "iteration": 2,
+      "promptHash": "3e15ad1e9817",
+      "scoresPerTask": {
+        "BL-2": {
+          "passed": 9,
+          "total": 10,
+          "rate": 0.9
+        },
+        "BL-4": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "BL-5": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "ALG-2": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "ALG-3": {
+          "passed": 1,
+          "total": 2,
+          "rate": 0.5
+        },
+        "SAAS-2": {
+          "passed": 1,
+          "total": 2,
+          "rate": 0.5
+        },
+        "SAAS-3": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        }
+      },
+      "avgScore": 0.8333333333333334,
+      "totalPassed": 15,
+      "totalTests": 18,
+      "improved": true,
+      "durationMs": 219970
+    },
+    {
+      "iteration": 3,
+      "promptHash": "c383e61585fa",
+      "scoresPerTask": {
+        "BL-2": {
+          "passed": 9,
+          "total": 10,
+          "rate": 0.9
+        },
+        "BL-4": {
+          "passed": 2,
+          "total": 3,
+          "rate": 0.6666666666666666
+        },
+        "BL-5": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "ALG-2": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "ALG-3": {
+          "passed": 2,
+          "total": 3,
+          "rate": 0.6666666666666666
+        },
+        "SAAS-2": {
+          "passed": 1,
+          "total": 2,
+          "rate": 0.5
+        },
+        "SAAS-3": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        }
+      },
+      "avgScore": 0.7142857142857143,
+      "totalPassed": 15,
+      "totalTests": 21,
+      "improved": false,
+      "durationMs": 188036
+    }
+  ],
+  "bestIteration": 2,
+  "bestScore": 0.8333333333333334
+}
