@@ -205,5 +205,14 @@
     "verdict": "FAIL",
     "status": "ok",
     "duration_s": 118
+  },
+  {
+    "run": 24,
+    "agent": "C",
+    "task": "SAAS-3",
+    "model": "haiku",
+    "verdict": "FAIL",
+    "status": "ok",
+    "duration_s": 30
   }
 ]
