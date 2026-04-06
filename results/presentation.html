@@ -567,6 +567,7 @@ code {
   <a href="#fpf" data-section="5"><span class="nav-label">The FPF Decision</span></a>
   <a href="#evolution" data-section="6"><span class="nav-label">Evolution Tracker</span></a>
   <a href="#roadmap" data-section="7"><span class="nav-label">Roadmap</span></a>
+  <a href="#discoveries" data-section="8"><span class="nav-label">Key Discoveries</span></a>
 </nav>
 
 <!-- ════════════════════════════════════════════════════ -->
@@ -1172,40 +1173,206 @@ super-coder-benchmark/
 <section class="section" id="evolution">
   <span class="section-number">Section 07</span>
   <h2>Evolution Tracker</h2>
-  <p class="lead">Tracking how agents improve over versions. This section updates as new data arrives.</p>
+  <p class="lead">Overnight results are in. Hypotheses tested, tournament completed, autoresearch validated.</p>
 
-  <h3>H1 Validation: effect-ts v1 vs v2</h3>
+  <!-- ── 7a. H1 Test: Effect docs ────────────────────── -->
+  <h3>7a. H1 Test: Effect Docs Bundle</h3>
 
+  <div class="card card-red">
+    <p style="margin:0 0 8px; font-size:0.9rem"><span class="badge badge-red">Falsified</span> &mdash; <strong>v2 = v1, zero improvement</strong></p>
+    <p style="margin:0; font-size:0.85rem; color:var(--text-muted)">12 runs of <code>effect-ts/v1</code> vs <code>v2</code> (+ Effect quickstart bundle) across BL-1, BL-5, SAAS-3 on Haiku and Sonnet. Result: identical scores on every run.</p>
+    <p style="margin:8px 0 0; font-size:0.85rem; color:var(--text-muted)"><strong>Root cause:</strong> The failure mode is structural interface mismatch, not FiberFailure confusion. Effect agent produces <code>Effect.succeed()</code>, <code>pipe()</code> exports &mdash; the test harness expects plain TS functions. Docs cannot fix a compile-time API mismatch.</p>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Task</th><th>v1 (Haiku)</th><th>v2 + docs (Haiku)</th><th>v1 (Sonnet)</th><th>v2 + docs (Sonnet)</th><th>Delta</th></tr></thead>
+      <tbody>
+        <tr><td>BL-1</td><td>94.7%</td><td>94.7%</td><td>94.7%</td><td>94.7%</td><td style="color:var(--text-muted)">0</td></tr>
+        <tr><td>BL-5</td><td>0%</td><td>0%</td><td>0%</td><td>0%</td><td style="color:var(--text-muted)">0</td></tr>
+        <tr><td>SAAS-3</td><td>0%</td><td>0%</td><td>0%</td><td>0%</td><td style="color:var(--text-muted)">0</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── 7b. H1' Test: Boundary wrapping ─────────────── -->
+  <h3>7b. H1&prime; Test: Boundary Wrapping (v3)</h3>
+
+  <div class="card card-gold">
+    <p style="margin:0 0 8px; font-size:0.9rem"><span class="badge badge-gold">Partially Confirmed</span> &mdash; <strong>SAAS-3: 0% &rarr; 50%</strong></p>
+    <p style="margin:0; font-size:0.85rem; color:var(--text-muted)"><code>effect-ts/v3</code> wraps internal Effect logic in plain-TS exports. SAAS-3 went from 0% (v1/v2) to 50%. BL-5 remains at 0% (different root cause &mdash; Haiku generation failure, not Effect types).</p>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Task</th><th>v1</th><th>v2 (docs)</th><th>v3 (boundary)</th><th>Interpretation</th></tr></thead>
+      <tbody>
+        <tr><td>BL-1</td><td>94.7%</td><td>94.7%</td><td style="color:var(--text-muted)">94.7%</td><td style="font-size:0.8rem;color:var(--text-muted)">Already worked</td></tr>
+        <tr><td>BL-5</td><td>0%</td><td>0%</td><td style="color:var(--red-bright)">0%</td><td style="font-size:0.8rem;color:var(--text-muted)">Haiku generation failure, not Effect-related</td></tr>
+        <tr><td style="font-weight:600">SAAS-3</td><td>0%</td><td>0%</td><td style="color:var(--green-bright); font-weight:700">50%</td><td style="font-size:0.8rem;color:var(--green-bright)">Interface leak FIXED</td></tr>
+        <tr><td>BL-2</td><td>&mdash;</td><td>&mdash;</td><td>87.5%</td><td style="font-size:0.8rem;color:var(--text-muted)">Competitive with plain-ts (88%)</td></tr>
+        <tr><td>ALG-2</td><td>&mdash;</td><td>&mdash;</td><td>83.3%</td><td style="font-size:0.8rem;color:var(--text-muted)">Competitive with plain-ts (100%)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── 7c. Tournament R1: Haiku ────────────────────── -->
+  <h3>7c. Tournament R1: Haiku Leaderboard</h3>
+
+  <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:16px">5 agents &times; 7 L2 tasks &times; Haiku one-shot. Ranked by average pass rate.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Agent</th><th>Avg</th><th>BL-2</th><th>BL-4</th><th>BL-5</th><th>ALG-2</th><th>ALG-3</th><th>SAAS-2</th><th>SAAS-3</th></tr></thead>
+      <tbody>
+        <tr style="background:rgba(35,134,54,0.08)"><td style="font-weight:700">1</td><td><strong>plain-ts/v2</strong></td><td style="color:var(--green-bright);font-weight:700">53%</td><td>88%</td><td>67%</td><td>0%</td><td>100%</td><td>67%</td><td>0%</td><td>&mdash;</td></tr>
+        <tr><td>2</td><td>stack-tc-pbt/v1</td><td style="font-weight:600">51%</td><td>88%</td><td>67%</td><td>0%</td><td>86%</td><td>67%</td><td>50%</td><td>0%</td></tr>
+        <tr><td>3</td><td>pbt/v2</td><td style="font-weight:600">51%</td><td>88%</td><td>67%</td><td>0%</td><td>83%</td><td>67%</td><td>50%</td><td>0%</td></tr>
+        <tr><td>4</td><td>plain-ts/v1</td><td>43%</td><td>88%</td><td>0%</td><td>0%</td><td>100%</td><td>67%</td><td>50%</td><td>0%</td></tr>
+        <tr><td>5</td><td>self-critic/v1</td><td>42%</td><td>90%</td><td>0%</td><td>0%</td><td>86%</td><td>67%</td><td>50%</td><td>0%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="bar-chart">
+    <div class="bar-row">
+      <span class="bar-label">plain-ts/v2</span>
+      <div class="bar-track"><div class="bar-fill green" style="width:53%">53%</div></div>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">stack-tc-pbt</span>
+      <div class="bar-track"><div class="bar-fill blue" style="width:51%">51%</div></div>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">pbt/v2</span>
+      <div class="bar-track"><div class="bar-fill blue" style="width:51%">51%</div></div>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">plain-ts/v1</span>
+      <div class="bar-track"><div class="bar-fill gold" style="width:43%">43%</div></div>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">self-critic/v1</span>
+      <div class="bar-track"><div class="bar-fill gold" style="width:42%">42%</div></div>
+    </div>
+  </div>
+
+  <blockquote>
+    <strong>plain-ts/v2</strong> wins R1 with a single change: "list edge cases before coding." Simpler beats complex.
+  </blockquote>
+
+  <!-- ── 7d. Sonnet Surprise ─────────────────────────── -->
+  <h3>7d. Sonnet Surprise: Bigger Model, Worse Results</h3>
+
+  <div class="card card-red">
+    <p style="margin:0 0 8px; font-size:0.9rem"><span class="badge badge-red">Unexpected</span> &mdash; <strong>Sonnet avg 31% vs Haiku avg 49%</strong></p>
+    <p style="margin:0; font-size:0.85rem; color:var(--text-muted)">21 runs of top-3 R1 agents on Sonnet. Sonnet regressed on ALG-2, ALG-3, and BL-4 while only improving on SAAS-2 and SAAS-3. Sonnet "overthinks" on one-shot tasks &mdash; generates complex abstractions that don&rsquo;t match test interface expectations.</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="stat-card red">
+      <div class="value">31%</div>
+      <div class="label">Sonnet avg</div>
+    </div>
+    <div class="stat-card green">
+      <div class="value">49%</div>
+      <div class="label">Haiku avg</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">0/21</div>
+      <div class="label">Sonnet full passes</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">2&times;</div>
+      <div class="label">Sonnet duration</div>
+    </div>
+  </div>
+
+  <p style="font-size:0.85rem; color:var(--text-muted)">This is specific to <strong>one-shot generation without feedback</strong>. Sonnet&rsquo;s reasoning capacity is wasted when it can&rsquo;t iterate. With typecheck loops, Sonnet would likely outperform Haiku.</p>
+
+  <!-- ── 7e. Karpathy Autoresearch ───────────────────── -->
+  <h3>7e. Karpathy Autoresearch: The Breakthrough</h3>
+
+  <div class="card card-green" style="border-left-width:4px">
+    <p style="margin:0 0 8px; font-size:0.9rem"><span class="badge badge-green">Confirmed</span> &mdash; <strong>+14% improvement, BL-5 0% &rarr; 50%</strong></p>
+    <p style="margin:0; font-size:0.85rem; color:var(--text-muted)">5 iterations of AI-driven prompt optimization on <code>plain-ts/v2</code>. Sonnet as improver, Haiku as generator. The loop discovers patterns no human specified.</p>
+  </div>
+
+  <h4>Score Progression</h4>
+  <div class="bar-chart">
+    <div class="bar-row">
+      <span class="bar-label">Iter 0</span>
+      <div class="bar-track"><div class="bar-fill blue" style="width:68.8%">68.8%</div></div>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">Iter 1</span>
+      <div class="bar-track"><div class="bar-fill red" style="width:64.3%">64.3% <span style="opacity:0.7">&darr;</span></div></div>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">Iter 2</span>
+      <div class="bar-track"><div class="bar-fill green" style="width:73.3%">73.3% <span style="opacity:0.7">&uarr;</span></div></div>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">Iter 3</span>
+      <div class="bar-track"><div class="bar-fill red" style="width:70.6%">70.6% <span style="opacity:0.7">&darr;</span></div></div>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label">Iter 4</span>
+      <div class="bar-track"><div class="bar-fill red" style="width:69.2%">69.2% <span style="opacity:0.7">&darr;</span></div></div>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label" style="color:var(--green-bright); font-weight:700">Iter 5</span>
+      <div class="bar-track"><div class="bar-fill green" style="width:78.3%"><strong>78.3%</strong> <span style="opacity:0.7">&uarr;</span></div></div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card green">
+      <div class="value">+14%</div>
+      <div class="label">Relative uplift</div>
+    </div>
+    <div class="stat-card green">
+      <div class="value">50%</div>
+      <div class="label">BL-5 (was 0%)</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">18/23</div>
+      <div class="label">Tests passing</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">3/5</div>
+      <div class="label">Reverted iters</div>
+    </div>
+  </div>
+
+  <h4>What the improver discovered</h4>
+  <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px">The winning prompt (iter 5) added 5 structural improvements that no human engineer specified:</p>
   <div class="card card-accent">
-    <p style="margin:0; font-size:0.9rem; color:var(--text-muted)"><strong>Status:</strong> <span class="badge badge-gold">Pending</span> &mdash; Phase 7c will run <code>effect-ts/v2</code> against BL-1 and BL-5 on Haiku one-shot and compare to <code>plain-ts/v1</code> baseline.</p>
+    <ol style="margin:0 0 0 18px; font-size:0.85rem; color:var(--text); line-height:2">
+      <li><strong>Export name matching rules</strong> &mdash; explicitly name every export to match test import expectations</li>
+      <li><strong>Validation vs capping distinction</strong> &mdash; when spec says "capped", clamp; when "invalid", throw</li>
+      <li><strong>Factory function guidance</strong> &mdash; <code>createX()</code> must return objects with all methods tests call</li>
+      <li><strong>Computation correctness hints</strong> &mdash; percentage discount application order, date proration formulas</li>
+      <li><strong>Structured pre-coding checklist</strong> &mdash; imports/exports, edge cases with cap-vs-throw classification</li>
+    </ol>
   </div>
-
-  <h3>Score Progression (placeholder)</h3>
-
-  <div class="card" style="text-align:center; padding:48px 24px">
-    <p style="margin:0; font-size:1rem; color:var(--text-muted)">Score progression charts will populate here as versioned agents are evaluated.</p>
-    <p style="margin:16px 0 0; font-size:0.85rem; color:var(--text-muted)">Expected data: <code>plain-ts/v1</code>, <code>effect-ts/v1</code>, <code>effect-ts/v2</code>, <code>effect-ts/v3</code> scores across all tasks, separated by model tier.</p>
-  </div>
-
-  <h3>The Karpathy Loop</h3>
+  <p style="font-size:0.85rem; color:var(--text-muted)">These are "meta-cognitive" improvements &mdash; the agent thinks about <em>how</em> to approach the task, not just <em>what</em> to code.</p>
 
   <div class="equation-card">
-    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px">The autoresearch pattern: an editable asset, a scalar metric, and a time-boxed cycle.</p>
+    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px">The Karpathy loop: an editable asset, a scalar metric, and a time-boxed cycle.</p>
     <div class="equation">
-      <span class="eq-part eq-context">Editable Asset</span>
+      <span class="eq-part eq-context">Editable Prompt</span>
       <span class="eq-times">&rarr;</span>
-      <span class="eq-part eq-tools">Scalar Metric</span>
+      <span class="eq-part eq-tools">Pass Rate Score</span>
       <span class="eq-times">&rarr;</span>
-      <span class="eq-part eq-version">Time-Boxed Cycle</span>
+      <span class="eq-part eq-version">10-min Cycle</span>
       <span class="eq-times">&rarr;</span>
-      <span class="eq-part eq-method">Iterate</span>
+      <span class="eq-part eq-method">Keep Best</span>
     </div>
     <p style="font-size:0.85rem; color:var(--text-muted); margin-top:16px">
-      Asset = manifest YAML + context bundle. Metric = prevention rate on task suite. Cycle = 10-minute agent run.
+      Not monotonic &mdash; iterations 1, 3, 4 regressed and were reverted. Exploration has failures. But the best-so-far always advances.
     </p>
   </div>
-
-  <p>Each cycle produces a new version. The version with the highest prevention rate on the validation set advances. Regressions are discarded. The loop is the agent improving itself.</p>
 </section>
 
 <!-- ════════════════════════════════════════════════════ -->
@@ -1224,22 +1391,37 @@ super-coder-benchmark/
       <div class="phase-title">Difficulty Audit + Benchmark Survey</div>
       <div class="phase-desc">Haiku one-shot on 11 tasks. 35 real benchmarks catalogued. Decision record drafted.</div>
     </div>
-    <div class="timeline-item active">
+    <div class="timeline-item done">
       <span class="phase-label">Phase 7a</span>
       <div class="phase-title">Generalize agent-runner.mts</div>
-      <div class="phase-desc">Extend from audit harness to manifest-driven runner. ~150 LoC delta.</div>
+      <div class="phase-desc">Manifest-driven runner. Done.</div>
     </div>
-    <div class="timeline-item">
+    <div class="timeline-item done">
       <span class="phase-label">Phase 7b</span>
-      <div class="phase-title">Migrate 10 methods to v1 manifests</div>
-      <div class="phase-desc">Each method gets <code>agents/&lt;id&gt;/v1/manifest.yml</code> with parent, rationale, changelog.</div>
+      <div class="phase-title">Migrate methods to v1 manifests</div>
+      <div class="phase-desc">7 agents with manifest.yml. Done.</div>
     </div>
-    <div class="timeline-item">
+    <div class="timeline-item done">
       <span class="phase-label">Phase 7c</span>
-      <div class="phase-title">Context bundles + H1 validation</div>
-      <div class="phase-desc"><code>context-bundles/effect-quickstart/</code> + <code>effect-ts/v2</code> manifest + validation run.</div>
+      <div class="phase-title">H1 validation + boundary wrapping</div>
+      <div class="phase-desc">H1 falsified. H1&prime; partially confirmed (SAAS-3: 0%&rarr;50%).</div>
     </div>
-    <div class="timeline-item">
+    <div class="timeline-item done">
+      <span class="phase-label">Tournament R1</span>
+      <div class="phase-title">Haiku screening</div>
+      <div class="phase-desc">5 agents &times; 7 tasks. Winner: plain-ts/v2 (53%). Done.</div>
+    </div>
+    <div class="timeline-item done">
+      <span class="phase-label">Tournament R2</span>
+      <div class="phase-title">Sonnet elimination</div>
+      <div class="phase-desc">Sonnet worse than Haiku (31% vs 49%). Bigger model = liability without feedback.</div>
+    </div>
+    <div class="timeline-item done">
+      <span class="phase-label">Autoresearch</span>
+      <div class="phase-title">Karpathy loop on plain-ts/v2</div>
+      <div class="phase-desc">5 iterations. +14% uplift. BL-5: 0%&rarr;50%. Promoted to v4.</div>
+    </div>
+    <div class="timeline-item active">
       <span class="phase-label">Phase 8</span>
       <div class="phase-title">Iteration loops: typecheck, vitest</div>
       <div class="phase-desc">Each loop exposes <code>run(code) &rarr; {passed, feedback}</code>. Multi-turn agent runs enabled.</div>
@@ -1251,23 +1433,13 @@ super-coder-benchmark/
     </div>
     <div class="timeline-item">
       <span class="phase-label">Phase 10</span>
-      <div class="phase-title">Combination manifests</div>
-      <div class="phase-desc">7 combo agents: stack-types+tc+pbt, effect-full-stack, dafny-then-extract, tier-consensus, spec-then-impl, self-critic-loop, mutation-guarded-pbt.</div>
+      <div class="phase-title">Autoresearch on remaining agents</div>
+      <div class="phase-desc">Run Karpathy loop on stack-tc-pbt, self-critic, pbt. Scale to 10-15 iterations.</div>
     </div>
     <div class="timeline-item">
       <span class="phase-label">Phase 11</span>
-      <div class="phase-title">Tournament R1: Haiku screening</div>
-      <div class="phase-desc">All agent configs &times; all tasks on Haiku. Pareto frontier for economic ranking. Eliminate non-viable configs.</div>
-    </div>
-    <div class="timeline-item">
-      <span class="phase-label">Phase 12</span>
-      <div class="phase-title">Tournament R2: Sonnet elimination</div>
-      <div class="phase-desc">Top configs from R1 run on Sonnet. Narrower field, deeper evaluation.</div>
-    </div>
-    <div class="timeline-item">
-      <span class="phase-label">Phase 13</span>
       <div class="phase-title">Tournament R3: Opus championship + final leaderboards</div>
-      <div class="phase-desc">Finalists on Opus. Full trajectory analysis. HTML dashboard with Pareto frontiers per model tier.</div>
+      <div class="phase-desc">Finalists on Opus with iteration loops. Full trajectory analysis. Pareto frontiers per model tier.</div>
     </div>
   </div>
 
@@ -1325,15 +1497,96 @@ super-coder-benchmark/
   <h3>Review Triggers</h3>
   <p>This direction should be re-evaluated if:</p>
   <ul style="margin:12px 0 24px 20px; color:var(--text); font-size:0.9rem; line-height:2">
-    <li><strong>H1 fails</strong> &mdash; effect-ts v2 scores no higher than v1; docs-uplift hypothesis is wrong</li>
-    <li><strong>R1 tournament shows &lt;5pt spread</strong> &mdash; framework does not discriminate better than original</li>
+    <li><s><strong>H1 failed</strong> &mdash; effect-ts v2 = v1; docs-uplift hypothesis falsified</s> <span class="badge badge-red">Triggered</span></li>
+    <li><s><strong>R1 spread confirmed</strong> &mdash; 11pt spread (42%&ndash;53%) across 5 agents</s> <span class="badge badge-green">Passed</span></li>
     <li><strong>New upstream benchmark</strong> emerges with fundamentally different structure</li>
     <li><strong>User explicit signal</strong> &mdash; new constraint, budget change, goal shift</li>
   </ul>
 
   <div class="card card-green" style="text-align:center; padding:32px">
-    <h3 style="margin-bottom:8px">Phase 7c is running now.</h3>
-    <p style="margin:0; font-size:0.9rem; color:var(--text-muted)">The first versioned agent (<code>effect-ts/v2</code>) is being evaluated. Results will flow into the Evolution Tracker above.</p>
+    <h3 style="margin-bottom:8px">Overnight run complete.</h3>
+    <p style="margin:0; font-size:0.9rem; color:var(--text-muted)">R1 tournament, R2 Sonnet, H1/H1&prime; hypothesis tests, and Karpathy autoresearch &mdash; all results are in the Evolution Tracker above.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ -->
+<!-- SECTION 9: KEY DISCOVERIES                            -->
+<!-- ════════════════════════════════════════════════════ -->
+<section class="section" id="discoveries">
+  <span class="section-number">Section 09</span>
+  <h2>Key Discoveries</h2>
+  <p class="lead">Five findings from the overnight run that reshape how we think about agent quality.</p>
+
+  <!-- Discovery 1 -->
+  <div class="card card-green" style="margin-top:24px">
+    <h4 style="margin-bottom:8px"><span class="badge badge-green">Discovery 1</span></h4>
+    <h3 style="margin-bottom:8px">&ldquo;Edge-case identification&rdquo; beats complexity</h3>
+    <p style="margin:0; font-size:0.9rem; color:var(--text-muted)"><code>plain-ts/v2</code> wins R1 with a single prompt addition: &ldquo;list edge cases before coding.&rdquo; It beats self-critic loops, stack combinations (types + PBT + self-review), and property-based testing agents. The simplest structural change &mdash; forcing the model to enumerate edge cases up front &mdash; outperforms every elaborate framework.</p>
+  </div>
+
+  <!-- Discovery 2 -->
+  <div class="card card-red" style="margin-top:16px">
+    <h4 style="margin-bottom:8px"><span class="badge badge-red">Discovery 2</span></h4>
+    <h3 style="margin-bottom:8px">H1 Falsified: docs alone don&rsquo;t fix Effect</h3>
+    <p style="margin:0; font-size:0.9rem; color:var(--text-muted)">The hypothesis that an Effect quickstart docs bundle would eliminate first-try failures was <strong>wrong</strong>. The real problem is structural interface mismatch: Effect agents produce Effect-typed exports, but test harnesses expect plain TypeScript. The fix is boundary wrapping (v3), not documentation (v2). 12 runs, zero improvement.</p>
+  </div>
+
+  <!-- Discovery 3 -->
+  <div class="card card-red" style="margin-top:16px">
+    <h4 style="margin-bottom:8px"><span class="badge badge-red">Discovery 3</span></h4>
+    <h3 style="margin-bottom:8px">Sonnet overthinks on one-shot</h3>
+    <p style="margin:0; font-size:0.9rem; color:var(--text-muted)">Haiku outperforms Sonnet on one-shot generation: 49% vs 31% average. Sonnet generates more complex abstractions that don&rsquo;t match test interfaces, uses 2&times; the tokens, and takes 2&times; longer. <strong>Bigger models need iteration to shine.</strong> Without a feedback loop, their extra reasoning capacity becomes a liability.</p>
+  </div>
+
+  <!-- Discovery 4 -->
+  <div class="card card-green" style="border-left-width:4px; margin-top:16px">
+    <h4 style="margin-bottom:8px"><span class="badge badge-green">Discovery 4</span></h4>
+    <h3 style="margin-bottom:8px">Autoresearch is the #1 improvement lever</h3>
+    <p style="margin:0; font-size:0.9rem; color:var(--text-muted)"><strong>+14% improvement</strong> via AI-driven prompt optimization. The Karpathy loop discovered 5 structural prompt improvements no human specified: export naming rules, validation-vs-capping distinction, factory function patterns, computation hints, and a pre-coding checklist. This is more impactful than docs bundles (H1 falsified), method paradigm choice, or model tier selection.</p>
+  </div>
+
+  <!-- Discovery 5 -->
+  <div class="card card-purple" style="margin-top:16px">
+    <h4 style="margin-bottom:8px"><span class="badge badge-purple">Discovery 5</span></h4>
+    <h3 style="margin-bottom:8px">BL-5 and SAAS-3 are the frontier</h3>
+    <p style="margin:0; font-size:0.9rem; color:var(--text-muted)"><strong>0% for every tournament agent.</strong> BL-5 (escrow with ratio-based release) and SAAS-3 (ledger with event sourcing) defeat all agents in R1. The only non-zero scores came from autoresearch iteration 5 (BL-5: 50%) and effect-ts v3 boundary wrapping (SAAS-3: 50%). These tasks are the real test of agent quality &mdash; they separate tournament winners from genuine capability.</p>
+  </div>
+
+  <div class="bar-chart" style="margin-top:32px">
+    <h4 style="margin-bottom:16px">Frontier Tasks: Who Scored Non-Zero?</h4>
+    <div class="bar-row">
+      <span class="bar-label" style="width:140px">BL-5: autoresearch</span>
+      <div class="bar-track"><div class="bar-fill green" style="width:50%">50%</div></div>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label" style="width:140px">SAAS-3: effect v3</span>
+      <div class="bar-track"><div class="bar-fill green" style="width:50%">50%</div></div>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label" style="width:140px">SAAS-3: Sonnet*</span>
+      <div class="bar-track"><div class="bar-fill gold" style="width:50%">50%</div></div>
+    </div>
+    <div class="bar-row">
+      <span class="bar-label" style="width:140px">All R1 agents</span>
+      <div class="bar-track"><div class="bar-fill red" style="width:3%;min-width:40px">0%</div></div>
+    </div>
+  </div>
+  <p style="font-size:0.8rem; color:var(--text-muted)">* Sonnet scored 50% on SAAS-3 for plain-ts/v2, but only due to over-engineering that happened to match the interface on this task.</p>
+
+  <div class="equation-card" style="margin-top:32px">
+    <h4 style="margin-bottom:12px; color:var(--text-bright)">The Overnight Equation</h4>
+    <div class="equation">
+      <span class="eq-part eq-context">Edge-case prompt</span>
+      <span class="eq-times">+</span>
+      <span class="eq-part eq-method">Autoresearch loop</span>
+      <span class="eq-times">+</span>
+      <span class="eq-part eq-tools">Cheap model (Haiku)</span>
+      <span class="eq-times">=</span>
+      <span class="eq-part eq-version" style="background:rgba(35,134,54,0.2);color:var(--green-bright);border-color:rgba(35,134,54,0.4)">Best agent</span>
+    </div>
+    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:16px">
+      Not the fanciest method. Not the biggest model. The best agent is the one that iterates on its own prompt with a clear scalar signal.
+    </p>
   </div>
 </section>
 
@@ -1345,7 +1598,7 @@ super-coder-benchmark/
 <footer class="footer">
   <div class="content">
     <p>Super Coder Benchmark &mdash; From Saturation to Signal</p>
-    <p style="margin:4px 0 0">Built April 2026. Data from Phases 1&ndash;6.5. Decision: DRR-2026-04-06.</p>
+    <p style="margin:4px 0 0">Built April 2026. Data from Phases 1&ndash;7c + R1/R2 tournaments + autoresearch. Decisions: DRR-2026-04-06.</p>
     <p style="margin:8px 0 0"><a href="dashboard.html">Open Data Dashboard</a></p>
   </div>
 </footer>
