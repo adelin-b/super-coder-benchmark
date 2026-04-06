@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "698e1176-89b3-48de-9bec-4cffe67b2837",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-haiku-4-5-20251001",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "bdaa1d8f-10f4-40f5-8688-d632f800dda4",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01Um7HK9vss8tRKvjfBkrJbi",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user is asking me to implement a topological sort algorithm in TypeScript. Let me understand the requirements:\n\n1. Sort DAG (Directed Acyclic Graph) nodes\n2. Ensure every edge u→v has u before v\n3. Detect cycles\n4. File name should be `toposort.ts`\n5. Export everything the spec says to export\n6. Reply with ONLY TypeScript code in a single fenced block\n\nI need to implement a topological sort that:\n- Takes a directed graph as input\n- Returns a topologically sorted order\n- Detects and handles cycles (likely throws an error if a cycle is detected)\n\nCommon approaches:\n1. Kahn's algorithm (BFS-based, using in-degrees)\n2. DFS-based topological sort\n\nI'll implement a robust solution that:\n- Validates inputs\n- Detects cycles\n- Returns sorted nodes in correct order\n- Throws on cycles\n\nLet me write the code:\n\n```typescript\ninterface Graph {\n  [node: string]: string[];\n}\n\ninterface ToposortResult {\n  sorted: string[];\n  hasCycle: boolean;\n}\n\nexport function toposort(graph: Graph): string[] {\n  // Validate input\n  if (!graph || typeof graph !== 'object') {\n    throw new Error('Graph must be a valid object');\n  }\n\n  const visited = new Set<string>();\n  const visiting = new Set<string>();\n  const result: string[] = [];\n\n  // Helper function for DFS\n  function dfs(node: string): boolean {\n    if (visiting.has(node)) {\n      return false; // Cycle detected\n    }\n    if (visited.has(node)) {\n      return true; // Already processed\n    }\n\n    visiting.add(node);\n\n    const neighbors = graph[node] || [];\n    for (const neighbor of neighbors) {\n      if (!dfs(neighbor)) {\n        return false; // Cycle detected in recursive call\n      }\n    }\n\n    visiting.delete(node);\n    visited.add(node);\n    result.push(node);\n    return true;\n  }\n\n  // Process all nodes\n  for (const node in graph) {\n    if (!visited.has(node)) {\n      if (!dfs(node)) {\n        throw new Error('Cycle detected in graph');\n      }\n    }\n  }\n\n  // Also need to handle nodes that are referenced but not in the keys\n  for (const node in graph) {\n    const neighbors = graph[node] || [];\n    for (const neighbor of neighbors) {\n      if (!visited.has(neighbor)) {\n        if (!dfs(neighbor)) {\n          throw new Error('Cycle detected in graph');\n        }\n      }\n    }\n  }\n\n  return result.reverse();\n}\n```\n\nThe DFS approach tracks visiting and visited nodes to detect cycles—if we encounter a node currently in the visiting set, we've found a back edge indicating a cycle. After processing all neighbors, we add the node to the result, then reverse it at the end to get the correct topological order. visiting.delete(node);\n    visited.add(node);\n    result.push(node);\n  }\n\n  // Collect all nodes from both keys and adjacency lists\n  const allNodes = new Set<string>();\n  for (const node in graph) {\n    allNodes.add(node);\n    const neighbors = graph[node];\n    if (neighbors) {\n      for (const neighbor of neighbors) {\n        allNodes.add(neighbor);\n      }\n    }\n  }\n\n  for (const node of allNodes) {\n    if (!visited.has(node)) {\n      dfs(node);\n    }\n  }\n\n  return result.reverse();\n}\n```\n\nI need to ensure all nodes are processed, including those that only appear as neighbors. After the DFS completes for each unvisited node, reversing the result gives the correct topological order where each edge u→v has u appearing before v in the final sequence.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 9,
+        "cache_creation_input_tokens": 1355,
+        "cache_read_input_tokens": 22674,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1355
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "698e1176-89b3-48de-9bec-4cffe67b2837",
+    "uuid": "2de461b7-02b9-4757-99d7-29d5966f5b22"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01Um7HK9vss8tRKvjfBkrJbi",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nexport interface Graph {\n  [node: string]: string[];\n}\n\nexport function toposort(graph: Graph): string[] {\n  if (!graph || typeof graph !== 'object') {\n    throw new Error('Graph must be a valid object');\n  }\n\n  const visited = new Set<string>();\n  const visiting = new Set<string>();\n  const result: string[] = [];\n\n  function dfs(node: string): void {\n    if (visiting.has(node)) {\n      throw new Error('Cycle detected in graph');\n    }\n    if (visited.has(node)) {\n      return;\n    }\n\n    visiting.add(node);\n    const neighbors = graph[node];\n    if (neighbors) {\n      for (const neighbor of neighbors) {\n        if (!Array.isArray(neighbors)) {\n          throw new Error('Invalid graph: adjacency list must be an array');\n        }\n        dfs(neighbor);\n      }\n    }\n    visiting.delete(node);\n    visited.add(node);\n    result.push(node);\n  }\n\n  // Collect all nodes (both keys and referenced in adjacency lists)\n  const allNodes = new Set<string>();\n  for (const node in graph) {\n    allNodes.add(node);\n    const neighbors = graph[node];\n    if (!Array.isArray(neighbors)) {\n      throw new Error('Invalid graph: adjacency list must be an array');\n    }\n    for (const neighbor of neighbors) {\n      if (typeof neighbor !== 'string') {\n        throw new Error('Invalid graph: nodes must be strings');\n      }\n      allNodes.add(neighbor);\n    }\n  }\n\n  // Run DFS from each unvisited node\n  for (const node of allNodes) {\n    if (!visited.has(node)) {\n      dfs(node);\n    }\n  }\n\n  return result.reverse();\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 9,
+        "cache_creation_input_tokens": 1355,
+        "cache_read_input_tokens": 22674,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1355
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "698e1176-89b3-48de-9bec-4cffe67b2837",
+    "uuid": "0d8cd2c2-7d34-4cba-ac4b-12d36269f9db"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.92,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "e1560da7-f6ed-458e-8165-f31aaf496374",
+    "session_id": "698e1176-89b3-48de-9bec-4cffe67b2837"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 8858,
+    "duration_api_ms": 8811,
+    "num_turns": 1,
+    "result": "```typescript\nexport interface Graph {\n  [node: string]: string[];\n}\n\nexport function toposort(graph: Graph): string[] {\n  if (!graph || typeof graph !== 'object') {\n    throw new Error('Graph must be a valid object');\n  }\n\n  const visited = new Set<string>();\n  const visiting = new Set<string>();\n  const result: string[] = [];\n\n  function dfs(node: string): void {\n    if (visiting.has(node)) {\n      throw new Error('Cycle detected in graph');\n    }\n    if (visited.has(node)) {\n      return;\n    }\n\n    visiting.add(node);\n    const neighbors = graph[node];\n    if (neighbors) {\n      for (const neighbor of neighbors) {\n        if (!Array.isArray(neighbors)) {\n          throw new Error('Invalid graph: adjacency list must be an array');\n        }\n        dfs(neighbor);\n      }\n    }\n    visiting.delete(node);\n    visited.add(node);\n    result.push(node);\n  }\n\n  // Collect all nodes (both keys and referenced in adjacency lists)\n  const allNodes = new Set<string>();\n  for (const node in graph) {\n    allNodes.add(node);\n    const neighbors = graph[node];\n    if (!Array.isArray(neighbors)) {\n      throw new Error('Invalid graph: adjacency list must be an array');\n    }\n    for (const neighbor of neighbors) {\n      if (typeof neighbor !== 'string') {\n        throw new Error('Invalid graph: nodes must be strings');\n      }\n      allNodes.add(neighbor);\n    }\n  }\n\n  // Run DFS from each unvisited node\n  for (const node of allNodes) {\n    if (!visited.has(node)) {\n      dfs(node);\n    }\n  }\n\n  return result.reverse();\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "698e1176-89b3-48de-9bec-4cffe67b2837",
+    "total_cost_usd": 0.01180515,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 1355,
+      "cache_read_input_tokens": 22674,
+      "output_tokens": 1567,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1355,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 9,
+        "outputTokens": 1567,
+        "cacheReadInputTokens": 22674,
+        "cacheCreationInputTokens": 1355,
+        "webSearchRequests": 0,
+        "costUSD": 0.01180515,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "0a453641-4a2a-4af4-8705-d5a41bd3c88b"
+  }
+]

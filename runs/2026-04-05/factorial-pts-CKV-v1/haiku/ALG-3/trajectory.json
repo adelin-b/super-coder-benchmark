@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "7e7aed9e-fb4e-4eff-9817-ad9e35be082f",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-haiku-4-5-20251001",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "14e1c15c-3e50-4379-8215-e0a405e6c11b",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01MZBGeHUQrY1ecXv76jnHNS",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user wants me to implement a topological sort algorithm in TypeScript. Let me break down what's needed:\n\n1. Sort DAG (Directed Acyclic Graph) nodes so every edge u→v has u before v\n2. Detect cycles\n3. The file should be named `toposort.ts`\n4. Export everything the spec says to export\n\nThe spec is pretty minimal, so I need to infer reasonable API design. Typical topological sort implementations would:\n- Take a graph as input\n- Return a sorted array if possible\n- Throw or indicate an error if there's a cycle\n\nLet me think about the graph representation. Common approaches:\n- Adjacency list (Map or object)\n- Adjacency matrix\n- Edge list\n\nI'll use an adjacency list representation as it's efficient and flexible.\n\nFor the algorithm, I can use:\n1. Kahn's algorithm (BFS-based, uses in-degree)\n2. DFS-based approach\n\nI'll go with Kahn's algorithm as it naturally detects cycles (if we can't process all nodes, there's a cycle).\n\nLet me design the API:\n- `toposort(graph: Graph): string[]` - returns sorted nodes, throws if cycle detected\n- Maybe also export a type for the graph\n\nGraph type could be:\n```typescript\ntype Graph = Record<string, string[]>; // node -> list of adjacent nodes\n```\n\nOr more explicitly:\n```typescript\ninterface Graph {\n  [node: string]: string[];\n}\n```\n\nLet me implement:\n\n```typescript\nexport type Graph = Record<string, string[]>;\n\nexport function toposort(graph: Graph): string[] {\n  // Input validation\n  if (!graph || typeof graph !== 'object') {\n    throw new Error('Graph must be a valid object');\n  }\n\n  const inDegree: Record<string, number> = {};\n  const adjList: Record<string, string[]> = {};\n  \n  // Initialize all nodes\n  const nodes = Object.keys(graph);\n  for (const node of nodes) {\n    inDegree[node] = 0;\n    adjList[node] = graph[node] || [];\n  }\n\n  // Calculate in-degrees and track all reachable nodes\n  for (const node of nodes) {\n    for (const neighbor of graph[node]) {\n      if (!(neighbor in inDegree)) {\n        inDegree[neighbor] = 0;\n        adjList[neighbor] = [];\n      }\n      inDegree[neighbor]++;\n    }\n  }\n\n  // Collect all nodes with no incoming edges and start processing from them\n  const queue: string[] = [];\n  for (const node of Object.keys(inDegree)) {\n    if (inDegree[node] === 0) {\n      queue.push(node);\n    }\n  }\n\n  const result: string[] = [];\n  \n  while (queue.length > 0) {\n    const node = queue.shift()!;\n    result.push(node);\n\n    for (const neighbor of adjList[node]) {\n      inDegree[neighbor]--;\n      if (inDegree[neighbor] === 0) {\n        queue.push(neighbor);\n      }\n    }\n  }\n\n  // Verify all nodes were processed; if not, there's a cycle\n  if (result.length !== Object.keys(inDegree).length) {\n    throw new Error('Cycle detected in graph');\n  }\n\n  return result;\n\nNeed to handle several edge cases: an empty graph should return an empty array, a graph with disconnected nodes should include all of them, cycles should be detected and throw an error, and nodes referenced only as neighbors should be properly initialized.\n\nAlso considering validation—what if the input is null, undefined, or not an object? Should validate that the graph is a proper object and handle cases where edges point to nodes not explicitly defined as keys. The implementation should initialize all nodes found either as keys or as neighbors in the adjacency list.\n\nFor each node in the graph, I need to verify it's a string key with an array value. Then iterate through edges to calculate in-degrees, adding any referenced nodes that weren't already present. This ensures all nodes are tracked even if they only appear as targets of edges.\n\nNow I initialize a queue with all nodes having zero in-degree, then process them in topological order. As I remove each node, I decrement the in-degree of its neighbors and add any that reach zero to the queue. Finally, if the result contains fewer nodes than the total count, a cycle exists in the graph.\n\nFor potential issues: the validation for undefined edges is handled. The cycle detection works because if all nodes are processed, there's no cycle—if any remain unprocessed, they're part of a cycle. Empty graphs return correctly since zero nodes processed equals zero total nodes. One edge case to consider is when an edge points to a node not in the original graph keys; this gets added to the in-degree map and adjacency list, which is the right behavior. The algorithm correctly implements the requirement that for every edge u→v, u appears before v in the result. I've verified the logic works correctly for both acyclic and cyclic cases. In the acyclic example, all nodes get processed in topological order since we start with node A (in-degree 0) and progressively reduce in-degrees as we traverse. With a cycle present, no node has in-degree 0 initially, so the queue stays empty and we never add anything to the result—this mismatch between result length and total nodes confirms the cycle exists. Now I'll write out the implementation.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 9,
+        "cache_creation_input_tokens": 1355,
+        "cache_read_input_tokens": 22771,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1355
+        },
+        "output_tokens": 3,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "7e7aed9e-fb4e-4eff-9817-ad9e35be082f",
+    "uuid": "10e3dbc7-70e4-4825-b775-cb3e35776f89"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01MZBGeHUQrY1ecXv76jnHNS",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nexport type Graph = Record<string, string[]>;\n\nexport function toposort(graph: Graph): string[] {\n  // Input validation\n  if (!graph || typeof graph !== 'object' || Array.isArray(graph)) {\n    throw new Error('Graph must be a valid object');\n  }\n\n  const inDegree: Record<string, number> = {};\n  const adjList: Record<string, string[]> = {};\n\n  // Initialize nodes from graph keys\n  const nodes = Object.keys(graph);\n  for (const node of nodes) {\n    inDegree[node] = 0;\n    const edges = graph[node];\n    if (!Array.isArray(edges)) {\n      throw new Error(`Adjacency list for node \"${node}\" must be an array`);\n    }\n    adjList[node] = edges;\n  }\n\n  // Calculate in-degrees and build adjacency list for all nodes\n  for (const node of nodes) {\n    for (const neighbor of graph[node]) {\n      if (typeof neighbor !== 'string') {\n        throw new Error('All node references must be strings');\n      }\n      // Add neighbor to graph if not already present\n      if (!(neighbor in inDegree)) {\n        inDegree[neighbor] = 0;\n        adjList[neighbor] = [];\n      }\n      inDegree[neighbor]++;\n    }\n  }\n\n  // Kahn's algorithm: collect all nodes with in-degree 0\n  const queue: string[] = [];\n  for (const node of Object.keys(inDegree)) {\n    if (inDegree[node] === 0) {\n      queue.push(node);\n    }\n  }\n\n  const result: string[] = [];\n\n  while (queue.length > 0) {\n    const node = queue.shift()!;\n    result.push(node);\n\n    // Reduce in-degree for all neighbors\n    for (const neighbor of adjList[node]) {\n      inDegree[neighbor]--;\n      if (inDegree[neighbor] === 0) {\n        queue.push(neighbor);\n      }\n    }\n  }\n\n  // If we couldn't process all nodes, there's a cycle\n  if (result.length !== Object.keys(inDegree).length) {\n    throw new Error('Cycle detected in graph');\n  }\n\n  return result;\n}\n```\n\n**Critique & Fixes:**\n\n**Bug 1: Missing validation for graph parameter being null/undefined**\n- Fixed: Added check `if (!graph || typeof graph !== 'object' || Array.isArray(graph))` to throw error immediately\n\n**Bug 2: Adjacency list not initialized for nodes referenced by edges but not in original keys**\n- Fixed: Added code to check if neighbor exists in `inDegree` and create entry with empty adjacency list if not found: `if (!(neighbor in inDegree)) { inDegree[neighbor] = 0; adjList[neighbor] = []; }`\n\n**Bug 3: Edge case where edges array contains non-string values would cause silent failures**\n- Fixed: Added validation `if (typeof neighbor !== 'string')` to throw error for invalid node references, and validation that adjacency list values are arrays"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 9,
+        "cache_creation_input_tokens": 1355,
+        "cache_read_input_tokens": 22771,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1355
+        },
+        "output_tokens": 3,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "7e7aed9e-fb4e-4eff-9817-ad9e35be082f",
+    "uuid": "a2e6d6a3-7fb1-467e-94e6-5dd0d5186dd9"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.93,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "f3931c93-4b18-4a00-b144-1a0f5364f70d",
+    "session_id": "7e7aed9e-fb4e-4eff-9817-ad9e35be082f"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 18522,
+    "duration_api_ms": 18485,
+    "num_turns": 1,
+    "result": "```typescript\nexport type Graph = Record<string, string[]>;\n\nexport function toposort(graph: Graph): string[] {\n  // Input validation\n  if (!graph || typeof graph !== 'object' || Array.isArray(graph)) {\n    throw new Error('Graph must be a valid object');\n  }\n\n  const inDegree: Record<string, number> = {};\n  const adjList: Record<string, string[]> = {};\n\n  // Initialize nodes from graph keys\n  const nodes = Object.keys(graph);\n  for (const node of nodes) {\n    inDegree[node] = 0;\n    const edges = graph[node];\n    if (!Array.isArray(edges)) {\n      throw new Error(`Adjacency list for node \"${node}\" must be an array`);\n    }\n    adjList[node] = edges;\n  }\n\n  // Calculate in-degrees and build adjacency list for all nodes\n  for (const node of nodes) {\n    for (const neighbor of graph[node]) {\n      if (typeof neighbor !== 'string') {\n        throw new Error('All node references must be strings');\n      }\n      // Add neighbor to graph if not already present\n      if (!(neighbor in inDegree)) {\n        inDegree[neighbor] = 0;\n        adjList[neighbor] = [];\n      }\n      inDegree[neighbor]++;\n    }\n  }\n\n  // Kahn's algorithm: collect all nodes with in-degree 0\n  const queue: string[] = [];\n  for (const node of Object.keys(inDegree)) {\n    if (inDegree[node] === 0) {\n      queue.push(node);\n    }\n  }\n\n  const result: string[] = [];\n\n  while (queue.length > 0) {\n    const node = queue.shift()!;\n    result.push(node);\n\n    // Reduce in-degree for all neighbors\n    for (const neighbor of adjList[node]) {\n      inDegree[neighbor]--;\n      if (inDegree[neighbor] === 0) {\n        queue.push(neighbor);\n      }\n    }\n  }\n\n  // If we couldn't process all nodes, there's a cycle\n  if (result.length !== Object.keys(inDegree).length) {\n    throw new Error('Cycle detected in graph');\n  }\n\n  return result;\n}\n```\n\n**Critique & Fixes:**\n\n**Bug 1: Missing validation for graph parameter being null/undefined**\n- Fixed: Added check `if (!graph || typeof graph !== 'object' || Array.isArray(graph))` to throw error immediately\n\n**Bug 2: Adjacency list not initialized for nodes referenced by edges but not in original keys**\n- Fixed: Added code to check if neighbor exists in `inDegree` and create entry with empty adjacency list if not found: `if (!(neighbor in inDegree)) { inDegree[neighbor] = 0; adjList[neighbor] = []; }`\n\n**Bug 3: Edge case where edges array contains non-string values would cause silent failures**\n- Fixed: Added validation `if (typeof neighbor !== 'string')` to throw error for invalid node references, and validation that adjacency list values are arrays",
+    "stop_reason": "end_turn",
+    "session_id": "7e7aed9e-fb4e-4eff-9817-ad9e35be082f",
+    "total_cost_usd": 0.01892485,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 1355,
+      "cache_read_input_tokens": 22771,
+      "output_tokens": 2989,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1355,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 9,
+        "outputTokens": 2989,
+        "cacheReadInputTokens": 22771,
+        "cacheCreationInputTokens": 1355,
+        "webSearchRequests": 0,
+        "costUSD": 0.01892485,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "b7acd416-a8e4-43e8-a2bf-5b67cd4fa48e"
+  }
+]

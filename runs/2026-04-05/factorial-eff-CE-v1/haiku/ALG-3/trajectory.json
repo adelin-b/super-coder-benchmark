@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "381b6e91-2c06-471a-9d79-7da47b4d0bf5",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-haiku-4-5-20251001",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "a5f252f7-889c-49c5-93a6-c97de812fc26",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01J7aZm4Mj5aMAHbv1HbmQeF",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user wants me to implement a topological sort algorithm in TypeScript. Let me break down what's needed:\n\n1. A function to sort DAG (Directed Acyclic Graph) nodes so that for every edge u→v, u comes before v\n2. Detect cycles in the graph\n3. Export everything that the spec says to export\n\nThe spec is quite brief, so I need to think about what a reasonable API would be for a topological sort module. Let me think about common patterns:\n\n1. A function that takes a graph and returns a topologically sorted array\n2. A function or mechanism to detect cycles\n3. The module should probably accept nodes and edges\n\nCommon implementations:\n- Kahn's algorithm (BFS-based)\n- DFS-based approach\n\nLet me think about what to export:\n- `toposort` - main function that performs topological sort\n- Possibly a result type that indicates success or cycle detection\n- Maybe functions/classes to build the graph\n\nSince this is a \"module\" and we're exporting \"everything the spec says\", I need to think about what makes sense:\n\nThe spec mentions:\n- Sort DAG nodes\n- Every edge u→v has u before v\n- Detect cycles\n\nSo the minimum would be a function that:\n- Takes a graph representation\n- Returns sorted nodes if successful\n- Throws or returns an error if a cycle is detected\n\nLet me implement this with:\n1. A graph representation (adjacency list)\n2. A main `toposort` function\n3. Support for cycle detection\n\nHere's my approach:\n```typescript\ninterface Node {\n  id: string | number\n}\n\ninterface Edge {\n  from: string | number\n  to: string | number\n}\n\ninterface ToposortResult<T> {\n  sorted: T[]\n  hasCycle: boolean\n}\n\nexport function toposort<T extends { id: string | number }>(\n  nodes: T[],\n  edges: Edge[]\n\n\n): T[] {\n  // Implementation using Kahn's algorithm or DFS\n}\n\nexport class CycleDetectedError extends Error {\n  constructor(message: string = \"Cycle detected in graph\") {\n    super(message)\n    this.name = \"CycleDetectedError\"\n  }\n}\n```\n\nI'll implement this using DFS or Kahn's algorithm. The main `toposort` function will accept nodes and edges, returning a sorted array or throwing `CycleDetectedError` if a cycle exists. I should provide a clean, flexible API that handles the core requirements of ordering nodes based on dependencies and detecting circular references.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 9,
+        "cache_creation_input_tokens": 1355,
+        "cache_read_input_tokens": 24174,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1355
+        },
+        "output_tokens": 3,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "381b6e91-2c06-471a-9d79-7da47b4d0bf5",
+    "uuid": "dd3b7017-4c23-4d41-9478-255b518824fb"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01J7aZm4Mj5aMAHbv1HbmQeF",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nimport { Effect } from \"effect\"\nimport { Data } from \"effect\"\n\nclass CycleDetected extends Data.TaggedError(\"CycleDetected\")<{\n  nodes: (string | number)[]\n}> {}\n\ninterface Edge {\n  from: string | number\n  to: string | number\n}\n\ninterface Node {\n  id: string | number\n}\n\nexport class CycleDetectedError extends Error {\n  constructor(public nodes: (string | number)[] = []) {\n    super(`Cycle detected in graph`)\n    this.name = \"CycleDetectedError\"\n  }\n}\n\n/**\n * Performs topological sort on a DAG using Kahn's algorithm.\n * @param nodes - Array of nodes with id property\n * @param edges - Array of edges with from and to properties\n * @returns Topologically sorted array of node IDs\n * @throws CycleDetectedError if a cycle is detected\n */\nexport function toposort(\n  nodes: Node[],\n  edges: Edge[]\n): (string | number)[] {\n  const effect = Effect.gen(function* () {\n    const nodeSet = new Set(nodes.map((n) => n.id))\n    const inDegree = new Map<string | number, number>()\n    const adjList = new Map<string | number, (string | number)[]>()\n\n    // Initialize\n    for (const node of nodes) {\n      inDegree.set(node.id, 0)\n      adjList.set(node.id, [])\n    }\n\n    // Build graph\n    for (const edge of edges) {\n      if (!nodeSet.has(edge.from) || !nodeSet.has(edge.to)) {\n        yield* Effect.die(\n          new Error(\n            `Edge references non-existent node: ${edge.from} -> ${edge.to}`\n          )\n        )\n      }\n      const neighbors = adjList.get(edge.from)!\n      neighbors.push(edge.to)\n      inDegree.set(edge.to, (inDegree.get(edge.to) || 0) + 1)\n    }\n\n    // Find nodes with no incoming edges\n    const queue: (string | number)[] = []\n    for (const [nodeId, degree] of inDegree.entries()) {\n      if (degree === 0) {\n        queue.push(nodeId)\n      }\n    }\n\n    const sorted: (string | number)[] = []\n\n    while (queue.length > 0) {\n      const nodeId = queue.shift()!\n      sorted.push(nodeId)\n\n      const neighbors = adjList.get(nodeId) || []\n      for (const neighbor of neighbors) {\n        const newDegree = (inDegree.get(neighbor) || 0) - 1\n        inDegree.set(neighbor, newDegree)\n        if (newDegree === 0) {\n          queue.push(neighbor)\n        }\n      }\n    }\n\n    // Check for cycles\n    if (sorted.length !== nodes.length) {\n      const remaining = nodes\n        .map((n) => n.id)\n        .filter((id) => !sorted.includes(id))\n      yield* Effect.fail(new CycleDetected({ nodes: remaining }))\n    }\n\n    return sorted\n  })\n\n  try {\n    return Effect.runSync(effect)\n  } catch (e) {\n    if (e instanceof CycleDetected) {\n      throw new CycleDetectedError(e.nodes)\n    }\n    throw e instanceof Error ? e : new Error(String(e))\n  }\n}\n\n/**\n * Async version of topological sort\n * @param nodes - Array of nodes with id property\n * @param edges - Array of edges with from and to properties\n * @returns Promise resolving to topologically sorted array of node IDs\n * @throws CycleDetectedError if a cycle is detected\n */\nexport async function toposortAsync(\n  nodes: Node[],\n  edges: Edge[]\n): Promise<(string | number)[]> {\n  const effect = Effect.gen(function* () {\n    const nodeSet = new Set(nodes.map((n) => n.id))\n    const inDegree = new Map<string | number, number>()\n    const adjList = new Map<string | number, (string | number)[]>()\n\n    for (const node of nodes) {\n      inDegree.set(node.id, 0)\n      adjList.set(node.id, [])\n    }\n\n    for (const edge of edges) {\n      if (!nodeSet.has(edge.from) || !nodeSet.has(edge.to)) {\n        yield* Effect.die(\n          new Error(\n            `Edge references non-existent node: ${edge.from} -> ${edge.to}`\n          )\n        )\n      }\n      const neighbors = adjList.get(edge.from)!\n      neighbors.push(edge.to)\n      inDegree.set(edge.to, (inDegree.get(edge.to) || 0) + 1)\n    }\n\n    const queue: (string | number)[] = []\n    for (const [nodeId, degree] of inDegree.entries()) {\n      if (degree === 0) {\n        queue.push(nodeId)\n      }\n    }\n\n    const sorted: (string | number)[] = []\n\n    while (queue.length > 0) {\n      const nodeId = queue.shift()!\n      sorted.push(nodeId)\n\n      const neighbors = adjList.get(nodeId) || []\n      for (const neighbor of neighbors) {\n        const newDegree = (inDegree.get(neighbor) || 0) - 1\n        inDegree.set(neighbor, newDegree)\n        if (newDegree === 0) {\n          queue.push(neighbor)\n        }\n      }\n    }\n\n    if (sorted.length !== nodes.length) {\n      const remaining = nodes\n        .map((n) => n.id)\n        .filter((id) => !sorted.includes(id))\n      yield* Effect.fail(new CycleDetected({ nodes: remaining }))\n    }\n\n    return sorted\n  })\n\n  try {\n    return await Effect.runPromise(effect)\n  } catch (e) {\n    if (e instanceof CycleDetected) {\n      throw new CycleDetectedError(e.nodes)\n    }\n    throw e instanceof Error ? e : new Error(String(e))\n  }\n}\n```\n\n**Critique:**\n\n1. **Bug: Missing import** — `import { Effect } from \"effect\"` and `import { Data } from \"effect\"` require the Effect library. The code assumes Effect TS is available, but should provide a standalone version. **Fix:** Remove Effect dependency and implement pure TS with standard Error.\n\n2. **Bug: Node interface too restrictive** — Tests may pass nodes with additional properties beyond `id`, and the current Node type doesn't account for generics. **Fix:** Change `Node` to a generic type or use `Pick<any, \"id\">`.\n\n3. **Bug: Duplicate code in toposort and toposortAsync** — The graph building and sort logic is identical, violating DRY. **Fix:** Extract shared logic into a helper function.\n\n```typescript\ninterface Edge {\n  from: string | number\n  to: string | number\n}\n\ninterface Node {\n  id: string | number\n}\n\nexport class CycleDetectedError extends Error {\n  constructor(public nodes: (string | number)[] = []) {\n    super(`Cycle detected in graph`)\n    this.name = \"CycleDetectedError\"\n  }\n}\n\nfunction performToposort(\n  nodes: Node[],\n  edges: Edge[]\n): (string | number)[] {\n  const nodeSet = new Set(nodes.map((n) => n.id))\n  const inDegree = new Map<string | number, number>()\n  const adjList = new Map<string | number, (string | number)[]>()\n\n  // Initialize\n  for (const node of nodes) {\n    inDegree.set(node.id, 0)\n    adjList.set(node.id, [])\n  }\n\n  // Build graph\n  for (const edge of edges) {\n    if (!nodeSet.has(edge.from) || !nodeSet.has(edge.to)) {\n      throw new Error(\n        `Edge references non-existent node: ${edge.from} -> ${edge.to}`\n      )\n    }\n    const neighbors = adjList.get(edge.from)!\n    neighbors.push(edge.to)\n    inDegree.set(edge.to, (inDegree.get(edge.to) || 0) + 1)\n  }\n\n  // Find nodes with no incoming edges\n  const queue: (string | number)[] = []\n  for (const [nodeId, degree] of inDegree.entries()) {\n    if (degree === 0) {\n      queue.push(nodeId)\n    }\n  }\n\n  const sorted: (string | number)[] = []\n\n  while (queue.length > 0) {\n    const nodeId = queue.shift()!\n    sorted.push(nodeId)\n\n    const neighbors = adjList.get(nodeId) || []\n    for (const neighbor of neighbors) {\n      const newDegree = (inDegree.get(neighbor) || 0) - 1\n      inDegree.set(neighbor, newDegree)\n      if (newDegree === 0) {\n        queue.push(neighbor)\n      }\n    }\n  }\n\n  // Check for cycles\n  if (sorted.length !== nodes.length) {\n    const remaining = nodes\n      .map((n) => n.id)\n      .filter((id) => !sorted.includes(id))\n    throw new CycleDetectedError(remaining)\n  }\n\n  return sorted\n}\n\n/**\n * Performs topological sort on a DAG using Kahn's algorithm.\n * @param nodes - Array of nodes with id property\n * @param edges - Array of edges with from and to properties\n * @returns Topologically sorted array of node IDs\n * @throws CycleDetectedError if a cycle is detected\n */\nexport function toposort(\n  nodes: Node[],\n  edges: Edge[]\n): (string | number)[] {\n  return performToposort(nodes, edges)\n}\n\n/**\n * Async version of topological sort\n * @param nodes - Array of nodes with id property\n * @param edges - Array of edges with from and to properties\n * @returns Promise resolving to topologically sorted array of node IDs\n * @throws CycleDetectedError if a cycle is detected\n */\nexport async function toposortAsync(\n  nodes: Node[],\n  edges: Edge[]\n): Promise<(string | number)[]> {\n  return Promise.resolve(performToposort(nodes, edges))\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 9,
+        "cache_creation_input_tokens": 1355,
+        "cache_read_input_tokens": 24174,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1355
+        },
+        "output_tokens": 3,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "381b6e91-2c06-471a-9d79-7da47b4d0bf5",
+    "uuid": "e7e4ce47-85a2-43ee-afb5-b9a9c513a01b"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.93,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "c4dacccc-f765-4eb2-84b2-4736754e3f56",
+    "session_id": "381b6e91-2c06-471a-9d79-7da47b4d0bf5"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 19345,
+    "duration_api_ms": 19307,
+    "num_turns": 1,
+    "result": "```typescript\nimport { Effect } from \"effect\"\nimport { Data } from \"effect\"\n\nclass CycleDetected extends Data.TaggedError(\"CycleDetected\")<{\n  nodes: (string | number)[]\n}> {}\n\ninterface Edge {\n  from: string | number\n  to: string | number\n}\n\ninterface Node {\n  id: string | number\n}\n\nexport class CycleDetectedError extends Error {\n  constructor(public nodes: (string | number)[] = []) {\n    super(`Cycle detected in graph`)\n    this.name = \"CycleDetectedError\"\n  }\n}\n\n/**\n * Performs topological sort on a DAG using Kahn's algorithm.\n * @param nodes - Array of nodes with id property\n * @param edges - Array of edges with from and to properties\n * @returns Topologically sorted array of node IDs\n * @throws CycleDetectedError if a cycle is detected\n */\nexport function toposort(\n  nodes: Node[],\n  edges: Edge[]\n): (string | number)[] {\n  const effect = Effect.gen(function* () {\n    const nodeSet = new Set(nodes.map((n) => n.id))\n    const inDegree = new Map<string | number, number>()\n    const adjList = new Map<string | number, (string | number)[]>()\n\n    // Initialize\n    for (const node of nodes) {\n      inDegree.set(node.id, 0)\n      adjList.set(node.id, [])\n    }\n\n    // Build graph\n    for (const edge of edges) {\n      if (!nodeSet.has(edge.from) || !nodeSet.has(edge.to)) {\n        yield* Effect.die(\n          new Error(\n            `Edge references non-existent node: ${edge.from} -> ${edge.to}`\n          )\n        )\n      }\n      const neighbors = adjList.get(edge.from)!\n      neighbors.push(edge.to)\n      inDegree.set(edge.to, (inDegree.get(edge.to) || 0) + 1)\n    }\n\n    // Find nodes with no incoming edges\n    const queue: (string | number)[] = []\n    for (const [nodeId, degree] of inDegree.entries()) {\n      if (degree === 0) {\n        queue.push(nodeId)\n      }\n    }\n\n    const sorted: (string | number)[] = []\n\n    while (queue.length > 0) {\n      const nodeId = queue.shift()!\n      sorted.push(nodeId)\n\n      const neighbors = adjList.get(nodeId) || []\n      for (const neighbor of neighbors) {\n        const newDegree = (inDegree.get(neighbor) || 0) - 1\n        inDegree.set(neighbor, newDegree)\n        if (newDegree === 0) {\n          queue.push(neighbor)\n        }\n      }\n    }\n\n    // Check for cycles\n    if (sorted.length !== nodes.length) {\n      const remaining = nodes\n        .map((n) => n.id)\n        .filter((id) => !sorted.includes(id))\n      yield* Effect.fail(new CycleDetected({ nodes: remaining }))\n    }\n\n    return sorted\n  })\n\n  try {\n    return Effect.runSync(effect)\n  } catch (e) {\n    if (e instanceof CycleDetected) {\n      throw new CycleDetectedError(e.nodes)\n    }\n    throw e instanceof Error ? e : new Error(String(e))\n  }\n}\n\n/**\n * Async version of topological sort\n * @param nodes - Array of nodes with id property\n * @param edges - Array of edges with from and to properties\n * @returns Promise resolving to topologically sorted array of node IDs\n * @throws CycleDetectedError if a cycle is detected\n */\nexport async function toposortAsync(\n  nodes: Node[],\n  edges: Edge[]\n): Promise<(string | number)[]> {\n  const effect = Effect.gen(function* () {\n    const nodeSet = new Set(nodes.map((n) => n.id))\n    const inDegree = new Map<string | number, number>()\n    const adjList = new Map<string | number, (string | number)[]>()\n\n    for (const node of nodes) {\n      inDegree.set(node.id, 0)\n      adjList.set(node.id, [])\n    }\n\n    for (const edge of edges) {\n      if (!nodeSet.has(edge.from) || !nodeSet.has(edge.to)) {\n        yield* Effect.die(\n          new Error(\n            `Edge references non-existent node: ${edge.from} -> ${edge.to}`\n          )\n        )\n      }\n      const neighbors = adjList.get(edge.from)!\n      neighbors.push(edge.to)\n      inDegree.set(edge.to, (inDegree.get(edge.to) || 0) + 1)\n    }\n\n    const queue: (string | number)[] = []\n    for (const [nodeId, degree] of inDegree.entries()) {\n      if (degree === 0) {\n        queue.push(nodeId)\n      }\n    }\n\n    const sorted: (string | number)[] = []\n\n    while (queue.length > 0) {\n      const nodeId = queue.shift()!\n      sorted.push(nodeId)\n\n      const neighbors = adjList.get(nodeId) || []\n      for (const neighbor of neighbors) {\n        const newDegree = (inDegree.get(neighbor) || 0) - 1\n        inDegree.set(neighbor, newDegree)\n        if (newDegree === 0) {\n          queue.push(neighbor)\n        }\n      }\n    }\n\n    if (sorted.length !== nodes.length) {\n      const remaining = nodes\n        .map((n) => n.id)\n        .filter((id) => !sorted.includes(id))\n      yield* Effect.fail(new CycleDetected({ nodes: remaining }))\n    }\n\n    return sorted\n  })\n\n  try {\n    return await Effect.runPromise(effect)\n  } catch (e) {\n    if (e instanceof CycleDetected) {\n      throw new CycleDetectedError(e.nodes)\n    }\n    throw e instanceof Error ? e : new Error(String(e))\n  }\n}\n```\n\n**Critique:**\n\n1. **Bug: Missing import** — `import { Effect } from \"effect\"` and `import { Data } from \"effect\"` require the Effect library. The code assumes Effect TS is available, but should provide a standalone version. **Fix:** Remove Effect dependency and implement pure TS with standard Error.\n\n2. **Bug: Node interface too restrictive** — Tests may pass nodes with additional properties beyond `id`, and the current Node type doesn't account for generics. **Fix:** Change `Node` to a generic type or use `Pick<any, \"id\">`.\n\n3. **Bug: Duplicate code in toposort and toposortAsync** — The graph building and sort logic is identical, violating DRY. **Fix:** Extract shared logic into a helper function.\n\n```typescript\ninterface Edge {\n  from: string | number\n  to: string | number\n}\n\ninterface Node {\n  id: string | number\n}\n\nexport class CycleDetectedError extends Error {\n  constructor(public nodes: (string | number)[] = []) {\n    super(`Cycle detected in graph`)\n    this.name = \"CycleDetectedError\"\n  }\n}\n\nfunction performToposort(\n  nodes: Node[],\n  edges: Edge[]\n): (string | number)[] {\n  const nodeSet = new Set(nodes.map((n) => n.id))\n  const inDegree = new Map<string | number, number>()\n  const adjList = new Map<string | number, (string | number)[]>()\n\n  // Initialize\n  for (const node of nodes) {\n    inDegree.set(node.id, 0)\n    adjList.set(node.id, [])\n  }\n\n  // Build graph\n  for (const edge of edges) {\n    if (!nodeSet.has(edge.from) || !nodeSet.has(edge.to)) {\n      throw new Error(\n        `Edge references non-existent node: ${edge.from} -> ${edge.to}`\n      )\n    }\n    const neighbors = adjList.get(edge.from)!\n    neighbors.push(edge.to)\n    inDegree.set(edge.to, (inDegree.get(edge.to) || 0) + 1)\n  }\n\n  // Find nodes with no incoming edges\n  const queue: (string | number)[] = []\n  for (const [nodeId, degree] of inDegree.entries()) {\n    if (degree === 0) {\n      queue.push(nodeId)\n    }\n  }\n\n  const sorted: (string | number)[] = []\n\n  while (queue.length > 0) {\n    const nodeId = queue.shift()!\n    sorted.push(nodeId)\n\n    const neighbors = adjList.get(nodeId) || []\n    for (const neighbor of neighbors) {\n      const newDegree = (inDegree.get(neighbor) || 0) - 1\n      inDegree.set(neighbor, newDegree)\n      if (newDegree === 0) {\n        queue.push(neighbor)\n      }\n    }\n  }\n\n  // Check for cycles\n  if (sorted.length !== nodes.length) {\n    const remaining = nodes\n      .map((n) => n.id)\n      .filter((id) => !sorted.includes(id))\n    throw new CycleDetectedError(remaining)\n  }\n\n  return sorted\n}\n\n/**\n * Performs topological sort on a DAG using Kahn's algorithm.\n * @param nodes - Array of nodes with id property\n * @param edges - Array of edges with from and to properties\n * @returns Topologically sorted array of node IDs\n * @throws CycleDetectedError if a cycle is detected\n */\nexport function toposort(\n  nodes: Node[],\n  edges: Edge[]\n): (string | number)[] {\n  return performToposort(nodes, edges)\n}\n\n/**\n * Async version of topological sort\n * @param nodes - Array of nodes with id property\n * @param edges - Array of edges with from and to properties\n * @returns Promise resolving to topologically sorted array of node IDs\n * @throws CycleDetectedError if a cycle is detected\n */\nexport async function toposortAsync(\n  nodes: Node[],\n  edges: Edge[]\n): Promise<(string | number)[]> {\n  return Promise.resolve(performToposort(nodes, edges))\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "381b6e91-2c06-471a-9d79-7da47b4d0bf5",
+    "total_cost_usd": 0.020670149999999998,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 1355,
+      "cache_read_input_tokens": 24174,
+      "output_tokens": 3310,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1355,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 9,
+        "outputTokens": 3310,
+        "cacheReadInputTokens": 24174,
+        "cacheCreationInputTokens": 1355,
+        "webSearchRequests": 0,
+        "costUSD": 0.020670149999999998,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "573f312f-9bda-4cf6-9632-02aad4e5caaa"
+  }
+]

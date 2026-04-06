@@ -1,0 +1,128 @@
+{
+  "agent": "effect-god/v1",
+  "model": "haiku",
+  "run_date": "2026-04-06",
+  "system_prompt_words": 714,
+  "results": [
+    {
+      "task": "BL-2",
+      "tests_passed": 9,
+      "tests_total": 10,
+      "pass_rate": 0.9,
+      "verdict": "fail",
+      "tokens_out": 4462,
+      "duration_ms": 30296
+    },
+    {
+      "task": "BL-5",
+      "tests_passed": 0,
+      "tests_total": 1,
+      "pass_rate": 0.0,
+      "verdict": "fail",
+      "tokens_out": 2262,
+      "duration_ms": 18324
+    },
+    {
+      "task": "SAAS-3",
+      "tests_passed": 0,
+      "tests_total": 1,
+      "pass_rate": 0.0,
+      "verdict": "fail",
+      "tokens_out": 3015,
+      "duration_ms": 20718
+    },
+    {
+      "task": "ALG-3",
+      "tests_passed": 0,
+      "tests_total": 1,
+      "pass_rate": 0.0,
+      "verdict": "fail",
+      "tokens_out": 2739,
+      "duration_ms": 19997
+    },
+    {
+      "task": "HARD-1",
+      "tests_passed": 0,
+      "tests_total": 1,
+      "pass_rate": 0.0,
+      "verdict": "fail",
+      "tokens_out": 25564,
+      "duration_ms": 147200
+    },
+    {
+      "task": "HARD-2",
+      "tests_passed": 1,
+      "tests_total": 1,
+      "pass_rate": 1.0,
+      "verdict": "pass",
+      "tokens_out": 6377,
+      "duration_ms": 37870
+    },
+    {
+      "task": "HARD-3",
+      "tests_passed": 0,
+      "tests_total": 0,
+      "pass_rate": 0.0,
+      "verdict": "fail",
+      "tokens_out": 7078,
+      "duration_ms": 37953
+    },
+    {
+      "task": "HARD-4",
+      "tests_passed": 0,
+      "tests_total": 1,
+      "pass_rate": 0.0,
+      "verdict": "fail",
+      "tokens_out": 31613,
+      "duration_ms": 200792
+    },
+    {
+      "task": "HARD-5",
+      "tests_passed": 26,
+      "tests_total": 27,
+      "pass_rate": 0.963,
+      "verdict": "fail",
+      "tokens_out": 6982,
+      "duration_ms": 42358
+    }
+  ],
+  "summary": {
+    "tasks_run": 9,
+    "tasks_passed": 1,
+    "pass_verdict_rate": 0.111,
+    "average_pass_rate": 0.318,
+    "l2_tasks": {
+      "BL-2": 0.9,
+      "BL-5": 0.0,
+      "SAAS-3": 0.0,
+      "ALG-3": 0.0,
+      "average": 0.225
+    },
+    "hard_tasks": {
+      "HARD-1": 0.0,
+      "HARD-2": 1.0,
+      "HARD-3": 0.0,
+      "HARD-4": 0.0,
+      "HARD-5": 0.963,
+      "average": 0.393
+    }
+  },
+  "comparison": {
+    "effect_critic_v2_l2": "86.5%",
+    "ultra_ts_v2_hard": "93.3%",
+    "effect_god_v1_l2_avg": "22.5%",
+    "effect_god_v1_hard_avg": "39.3%"
+  },
+  "failure_analysis": {
+    "BL-2": "9/10 — missing 1 validation edge case (typical for this task)",
+    "BL-5": "0/1 — duplicate class declarations: Data.TaggedError AND plain class with same name (prompt warned against this)",
+    "SAAS-3": "0/1 — event types TitleCase 'Deposited' instead of lowercase 'deposited' (prompt warned but Haiku ignored)",
+    "ALG-3": "0/1 — function name 'toposort' not 'topoSort', wrong signature Record<string,string[]> instead of (string[],string[][])",
+    "HARD-1": "0/1 — test suite crash, likely interface mismatch",
+    "HARD-2": "1/1 PASS — clean implementation",
+    "HARD-3": "0/0 — test suite crashed entirely (import error), 7078 tokens output may have been truncated",
+    "HARD-4": "0/1 — test suite crash, 31613 tokens output suggests massive over-generation",
+    "HARD-5": "26/27 — near-perfect, missed 1 edge case"
+  },
+  "verdict": "SIGNIFICANTLY WORSE than baselines. The 10-step pipeline did not help — the additional structure may have confused Haiku by adding cognitive overhead. The same interface mismatch failures persist despite explicit warnings. The prompt length (714 words + context bundles) is within budget but the multi-step pipeline format may be harder for Haiku to follow than a simpler linear prompt."
+}

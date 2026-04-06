@@ -1,0 +1,8 @@
+name: factorial-pts-base
+version: 1
+model_default: haiku
+max_turns: 1
+tools: []
+context_bundle: []
+system_prompt_file: system-prompt.md
+changelog: "Factorial experiment: paradigm=plain, critique=False, export=False, checklist=False, validate=False"

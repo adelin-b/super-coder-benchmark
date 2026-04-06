@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "6d7a5e8c-ff10-49b8-999b-877c66516f8d",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-haiku-4-5-20251001",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "5ab163f0-0d24-4ffd-8099-08948da2b1b7",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01ETWGZxLgxzSWM1swBnWCes",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user is asking me to implement a TypeScript module called `inventory.ts` that implements an Inventory Reservation System. The spec mentions:\n- Reserve stock\n- Release (unreserve/release reserved stock)\n- Check availability\n- Handle concurrent-style operations\n\nHowever, the spec is quite minimal. Let me think about what would be a reasonable implementation for an inventory reservation system that:\n1. Allows reserving stock\n2. Allows releasing reserved stock\n3. Allows checking availability\n4. Handles concurrent operations (suggesting it might need to handle race conditions or support concurrent-style operations, possibly with Effect.js)\n\nSince the system prompt says I should use Effect TS internally but export plain TypeScript interfaces, I should:\n1. Use Effect.js for internal implementation\n2. Export plain TypeScript interfaces/functions\n3. Use Effect.runSync() or Effect.runPromise() to unwrap at boundaries\n4. Throw standard Error subclasses for domain errors\n\nLet me design the API:\n- `reserveStock(productId: string, quantity: number): void` - reserves stock\n- `releaseStock(productId: string, quantity: number): void` - releases reserved stock\n- `checkAvailability(productId: string): number` - returns available quantity\n- Possibly need to initialize with `setStock(productId: string, quantity: number)`\n- Possibly need to get reservation status\n\nSince this needs to handle \"concurrent-style operations\", I should probably use a fiber-based approach with Effect.js internally. However, at the boundary, I should export plain functions.\n\nLet me think about the structure:\n```typescript\nexport class InventoryReservation {\n  setStock(productId: string, quantity: number): void\n  reserve(productId: string, quantity: number): void\n  release(productId: string, quantity: number): void\n  getAvailable(productId: string): number\n  getReserved(productId: string): number\n}\n```\n\nFor concurrent-style operations, I might want to support async operations as well:\n\n\nI'll use Effect.Ref to manage state immutably and validate inputs before any computation. The factory function `createInventory()` will instantiate the class, and I'll use Effect.runSync() at boundaries to unwrap Effect values. Input validation should happen at function entry—clamping silently for constraints like caps, throwing Error for invalid inputs like negative quantities. ) => ({\n          ...s,\n          [productId]: {\n            ...s[productId],\n            reserved: s[productId].reserved + quantity,\n          },\n        }))\n      })\n    )\n\n    try {\n      Effect.runSync(effect)\n    } catch (e) {\n      throw e instanceof Error ? e : new Error(String(e))\n    }\n  }\n\n  release(productId: string, quantity: number): void {\n    this.validateProductId(productId)\n    this.validateQuantity(quantity)\n\n    const effect = Ref.get(this.stateRef).pipe(\n      Effect.flatMap((state) => {\n        const product = state[productId]\n        if (!product) {\n          return Effect.fail(new ProductNotFound(productId))\n        }\n\n        if (quantity > product.reserved) {\n          return Effect.fail(\n            new InsufficientStock(productId, quantity, product.reserved)\n          )\n        }\n\n        return Ref.update(this.stateRef, (s) => ({\n          ...s,\n          [productId]: {\n            ...s[productId],\n            reserved: s[productId].reserved - quantity,\n          },\n        }))\n      })\n    )\n\n    try {\n      Effect.runSync(effect)\n    } catch (e) {\n      throw e instanceof Error ? e : new Error(String(e))\n    }\n  }\n\n  private validateProductId(productId: string): void {\n    if (!productId || productId.trim() === \"\") {\n      throw new InvalidProductId()\n    }\n  }\n\n  private validateQuantity(quantity: number): void {\n    if (quantity <= 0) {\n      throw new InvalidQuantity(quantity)\n    }\n  }\n}\n\nNow I need to define custom error types for each validation failure and implement the three core operations. The `setStock` method initializes inventory with validation, `reserve` checks available stock and updates the reserved count, and `release` ensures we don't release more than what's reserved. Each operation uses Effect to manage state mutations safely and catches any errors during synchronous execution. The constructor shouldn't expose Effect internals directly to users. I need to hide the Ref implementation and provide a factory function that handles the Effect setup internally, returning a clean public interface without leaking the Effect library details. Ref.update(this.stateRef, (s) => ({\n          ...s,\n          [productId]: {\n            ...s[productId],\n            reserved: s[productId].reserved + quantity,\n          },\n        }))\n      })\n    )\n\n    try {\n      Effect.runSync(effect)\n    } catch (e) {\n      throw e instanceof Error ? e : new Error(String(e))\n    }\n  }\n\nThe release method follows a similar pattern—it validates inputs, retrieves the current state, checks if the product exists and if there's enough reserved quantity to release, then updates the reserved count downward. The getAvailable method validates the product ID and retrieves the difference between total and reserved stock.\n\nThe getReserved method uses Effect.map instead of flatMap since it doesn't need to fail, returning the reserved count or 0 if the product doesn't exist. Both getAvailable and getReserved wrap their effects in try-catch blocks to handle errors consistently.\n\nThe validation methods check for empty product IDs and ensure quantities are positive integers. The factory function createInventory initializes an empty state reference and returns a new InventoryReservation instance.\n\nA few issues stand out: the error classes aren't exported despite being used for instanceof checks, getReserved silently returns 0 for missing products while other methods throw exceptions, and the synchronous Effect.runSync calls could introduce race conditions in truly concurrent scenarios.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 9,
+        "cache_creation_input_tokens": 2968,
+        "cache_read_input_tokens": 22577,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 2968
+        },
+        "output_tokens": 1,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "6d7a5e8c-ff10-49b8-999b-877c66516f8d",
+    "uuid": "f5432950-ad80-4055-b0fc-941939630b18"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01ETWGZxLgxzSWM1swBnWCes",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nimport { Effect, Ref } from \"effect\"\n\ninterface InventoryState {\n  [productId: string]: {\n    total: number\n    reserved: number\n  }\n}\n\nexport class InsufficientStock extends Error {\n  constructor(productId: string, requested: number, available: number) {\n    super(`Insufficient stock for ${productId}: requested ${requested}, available ${available}`)\n    this.name = \"InsufficientStock\"\n  }\n}\n\nexport class InvalidProductId extends Error {\n  constructor() {\n    super(\"Product ID cannot be empty\")\n    this.name = \"InvalidProductId\"\n  }\n}\n\nexport class InvalidQuantity extends Error {\n  constructor(quantity: number) {\n    super(`Quantity must be positive, got ${quantity}`)\n    this.name = \"InvalidQuantity\"\n  }\n}\n\nexport class ProductNotFound extends Error {\n  constructor(productId: string) {\n    super(`Product not found: ${productId}`)\n    this.name = \"ProductNotFound\"\n  }\n}\n\nexport interface IInventoryReservation {\n  setStock(productId: string, quantity: number): void\n  reserve(productId: string, quantity: number): void\n  release(productId: string, quantity: number): void\n  getAvailable(productId: string): number\n  getReserved(productId: string): number\n  getTotal(productId: string): number\n}\n\nclass InventoryReservation implements IInventoryReservation {\n  private stateRef: Ref.Ref<InventoryState>\n\n  constructor(stateRef: Ref.Ref<InventoryState>) {\n    this.stateRef = stateRef\n  }\n\n  setStock(productId: string, quantity: number): void {\n    this.validateProductId(productId)\n    this.validateQuantity(quantity)\n\n    const effect = Ref.update(this.stateRef, (state) => ({\n      ...state,\n      [productId]: {\n        total: quantity,\n        reserved: 0,\n      },\n    }))\n\n    try {\n      Effect.runSync(effect)\n    } catch (e) {\n      throw e instanceof Error ? e : new Error(String(e))\n    }\n  }\n\n  reserve(productId: string, quantity: number): void {\n    this.validateProductId(productId)\n    this.validateQuantity(quantity)\n\n    const effect = Ref.get(this.stateRef).pipe(\n      Effect.flatMap((state) => {\n        const product = state[productId]\n        if (!product) {\n          return Effect.fail(new ProductNotFound(productId))\n        }\n\n        const available = product.total - product.reserved\n        if (quantity > available) {\n          return Effect.fail(\n            new InsufficientStock(productId, quantity, available)\n          )\n        }\n\n        return Ref.update(this.stateRef, (s) => ({\n          ...s,\n          [productId]: {\n            ...s[productId],\n            reserved: s[productId].reserved + quantity,\n          },\n        }))\n      })\n    )\n\n    try {\n      Effect.runSync(effect)\n    } catch (e) {\n      throw e instanceof Error ? e : new Error(String(e))\n    }\n  }\n\n  release(productId: string, quantity: number): void {\n    this.validateProductId(productId)\n    this.validateQuantity(quantity)\n\n    const effect = Ref.get(this.stateRef).pipe(\n      Effect.flatMap((state) => {\n        const product = state[productId]\n        if (!product) {\n          return Effect.fail(new ProductNotFound(productId))\n        }\n\n        if (quantity > product.reserved) {\n          return Effect.fail(\n            new Error(`Cannot release ${quantity}: only ${product.reserved} reserved`)\n          )\n        }\n\n        return Ref.update(this.stateRef, (s) => ({\n          ...s,\n          [productId]: {\n            ...s[productId],\n            reserved: s[productId].reserved - quantity,\n          },\n        }))\n      })\n    )\n\n    try {\n      Effect.runSync(effect)\n    } catch (e) {\n      throw e instanceof Error ? e : new Error(String(e))\n    }\n  }\n\n  getAvailable(productId: string): number {\n    this.validateProductId(productId)\n\n    const effect = Ref.get(this.stateRef).pipe(\n      Effect.flatMap((state) => {\n        const product = state[productId]\n        if (!product) {\n          return Effect.fail(new ProductNotFound(productId))\n        }\n        return Effect.succeed(product.total - product.reserved)\n      })\n    )\n\n    try {\n      return Effect.runSync(effect)\n    } catch (e) {\n      throw e instanceof Error ? e : new Error(String(e))\n    }\n  }\n\n  getReserved(productId: string): number {\n    this.validateProductId(productId)\n\n    const effect = Ref.get(this.stateRef).pipe(\n      Effect.flatMap((state) => {\n        const product = state[productId]\n        if (!product) {\n          return Effect.fail(new ProductNotFound(productId))\n        }\n        return Effect.succeed(product.reserved)\n      })\n    )\n\n    try {\n      return Effect.runSync(effect)\n    } catch (e) {\n      throw e instanceof Error ? e : new Error(String(e))\n    }\n  }\n\n  getTotal(productId: string): number {\n    this.validateProductId(productId)\n\n    const effect = Ref.get(this.stateRef).pipe(\n      Effect.flatMap((state) => {\n        const product = state[productId]\n        if (!product) {\n          return Effect.fail(new ProductNotFound(productId))\n        }\n        return Effect.succeed(product.total)\n      })\n    )\n\n    try {\n      return Effect.runSync(effect)\n    } catch (e) {\n      throw e instanceof Error ? e : new Error(String(e))\n    }\n  }\n\n  private validateProductId(productId: string): void {\n    if (!productId || typeof productId !== \"string\" || productId.trim() === \"\") {\n      throw new InvalidProductId()\n    }\n  }\n\n  private validateQuantity(quantity: number): void {\n    if (!Number.isInteger(quantity) || quantity <= 0) {\n      throw new InvalidQuantity(quantity)\n    }\n  }\n}\n\nexport function createInventory(): IInventoryReservation {\n  const effect = Ref.make<InventoryState>({})\n  const stateRef = Effect.runSync(effect)\n  return new InventoryReservation(stateRef)\n}\n```\n\n**Potential bugs & fixes:**\n\n1. **Bug: `getReserved` inconsistency** — Originally returned 0 for non-existent products instead of throwing like other methods. Fixed: Now throws `ProductNotFound` consistently.\n\n2. **Bug: Missing `getTotal` export** — Spec says check availability but inventory system needs to expose total stock separately from available. Fixed: Added `getTotal()` method to interface and implementation.\n\n3. **Bug: Type validation for productId** — Only checked for empty string but didn't validate type. Fixed: Added `typeof productId !== \"string\"` check in `validateProductId()`."
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 9,
+        "cache_creation_input_tokens": 2968,
+        "cache_read_input_tokens": 22577,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 2968
+        },
+        "output_tokens": 1,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "6d7a5e8c-ff10-49b8-999b-877c66516f8d",
+    "uuid": "fff94f0b-6745-4377-9ac4-85afee020c1f"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.92,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "4f20670d-e682-490a-a6b3-93f1a61ed6b1",
+    "session_id": "6d7a5e8c-ff10-49b8-999b-877c66516f8d"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 28106,
+    "duration_api_ms": 28062,
+    "num_turns": 1,
+    "result": "```typescript\nimport { Effect, Ref } from \"effect\"\n\ninterface InventoryState {\n  [productId: string]: {\n    total: number\n    reserved: number\n  }\n}\n\nexport class InsufficientStock extends Error {\n  constructor(productId: string, requested: number, available: number) {\n    super(`Insufficient stock for ${productId}: requested ${requested}, available ${available}`)\n    this.name = \"InsufficientStock\"\n  }\n}\n\nexport class InvalidProductId extends Error {\n  constructor() {\n    super(\"Product ID cannot be empty\")\n    this.name = \"InvalidProductId\"\n  }\n}\n\nexport class InvalidQuantity extends Error {\n  constructor(quantity: number) {\n    super(`Quantity must be positive, got ${quantity}`)\n    this.name = \"InvalidQuantity\"\n  }\n}\n\nexport class ProductNotFound extends Error {\n  constructor(productId: string) {\n    super(`Product not found: ${productId}`)\n    this.name = \"ProductNotFound\"\n  }\n}\n\nexport interface IInventoryReservation {\n  setStock(productId: string, quantity: number): void\n  reserve(productId: string, quantity: number): void\n  release(productId: string, quantity: number): void\n  getAvailable(productId: string): number\n  getReserved(productId: string): number\n  getTotal(productId: string): number\n}\n\nclass InventoryReservation implements IInventoryReservation {\n  private stateRef: Ref.Ref<InventoryState>\n\n  constructor(stateRef: Ref.Ref<InventoryState>) {\n    this.stateRef = stateRef\n  }\n\n  setStock(productId: string, quantity: number): void {\n    this.validateProductId(productId)\n    this.validateQuantity(quantity)\n\n    const effect = Ref.update(this.stateRef, (state) => ({\n      ...state,\n      [productId]: {\n        total: quantity,\n        reserved: 0,\n      },\n    }))\n\n    try {\n      Effect.runSync(effect)\n    } catch (e) {\n      throw e instanceof Error ? e : new Error(String(e))\n    }\n  }\n\n  reserve(productId: string, quantity: number): void {\n    this.validateProductId(productId)\n    this.validateQuantity(quantity)\n\n    const effect = Ref.get(this.stateRef).pipe(\n      Effect.flatMap((state) => {\n        const product = state[productId]\n        if (!product) {\n          return Effect.fail(new ProductNotFound(productId))\n        }\n\n        const available = product.total - product.reserved\n        if (quantity > available) {\n          return Effect.fail(\n            new InsufficientStock(productId, quantity, available)\n          )\n        }\n\n        return Ref.update(this.stateRef, (s) => ({\n          ...s,\n          [productId]: {\n            ...s[productId],\n            reserved: s[productId].reserved + quantity,\n          },\n        }))\n      })\n    )\n\n    try {\n      Effect.runSync(effect)\n    } catch (e) {\n      throw e instanceof Error ? e : new Error(String(e))\n    }\n  }\n\n  release(productId: string, quantity: number): void {\n    this.validateProductId(productId)\n    this.validateQuantity(quantity)\n\n    const effect = Ref.get(this.stateRef).pipe(\n      Effect.flatMap((state) => {\n        const product = state[productId]\n        if (!product) {\n          return Effect.fail(new ProductNotFound(productId))\n        }\n\n        if (quantity > product.reserved) {\n          return Effect.fail(\n            new Error(`Cannot release ${quantity}: only ${product.reserved} reserved`)\n          )\n        }\n\n        return Ref.update(this.stateRef, (s) => ({\n          ...s,\n          [productId]: {\n            ...s[productId],\n            reserved: s[productId].reserved - quantity,\n          },\n        }))\n      })\n    )\n\n    try {\n      Effect.runSync(effect)\n    } catch (e) {\n      throw e instanceof Error ? e : new Error(String(e))\n    }\n  }\n\n  getAvailable(productId: string): number {\n    this.validateProductId(productId)\n\n    const effect = Ref.get(this.stateRef).pipe(\n      Effect.flatMap((state) => {\n        const product = state[productId]\n        if (!product) {\n          return Effect.fail(new ProductNotFound(productId))\n        }\n        return Effect.succeed(product.total - product.reserved)\n      })\n    )\n\n    try {\n      return Effect.runSync(effect)\n    } catch (e) {\n      throw e instanceof Error ? e : new Error(String(e))\n    }\n  }\n\n  getReserved(productId: string): number {\n    this.validateProductId(productId)\n\n    const effect = Ref.get(this.stateRef).pipe(\n      Effect.flatMap((state) => {\n        const product = state[productId]\n        if (!product) {\n          return Effect.fail(new ProductNotFound(productId))\n        }\n        return Effect.succeed(product.reserved)\n      })\n    )\n\n    try {\n      return Effect.runSync(effect)\n    } catch (e) {\n      throw e instanceof Error ? e : new Error(String(e))\n    }\n  }\n\n  getTotal(productId: string): number {\n    this.validateProductId(productId)\n\n    const effect = Ref.get(this.stateRef).pipe(\n      Effect.flatMap((state) => {\n        const product = state[productId]\n        if (!product) {\n          return Effect.fail(new ProductNotFound(productId))\n        }\n        return Effect.succeed(product.total)\n      })\n    )\n\n    try {\n      return Effect.runSync(effect)\n    } catch (e) {\n      throw e instanceof Error ? e : new Error(String(e))\n    }\n  }\n\n  private validateProductId(productId: string): void {\n    if (!productId || typeof productId !== \"string\" || productId.trim() === \"\") {\n      throw new InvalidProductId()\n    }\n  }\n\n  private validateQuantity(quantity: number): void {\n    if (!Number.isInteger(quantity) || quantity <= 0) {\n      throw new InvalidQuantity(quantity)\n    }\n  }\n}\n\nexport function createInventory(): IInventoryReservation {\n  const effect = Ref.make<InventoryState>({})\n  const stateRef = Effect.runSync(effect)\n  return new InventoryReservation(stateRef)\n}\n```\n\n**Potential bugs & fixes:**\n\n1. **Bug: `getReserved` inconsistency** — Originally returned 0 for non-existent products instead of throwing like other methods. Fixed: Now throws `ProductNotFound` consistently.\n\n2. **Bug: Missing `getTotal` export** — Spec says check availability but inventory system needs to expose total stock separately from available. Fixed: Added `getTotal()` method to interface and implementation.\n\n3. **Bug: Type validation for productId** — Only checked for empty string but didn't validate type. Fixed: Added `typeof productId !== \"string\"` check in `validateProductId()`.",
+    "stop_reason": "end_turn",
+    "session_id": "6d7a5e8c-ff10-49b8-999b-877c66516f8d",
+    "total_cost_usd": 0.0335117,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 2968,
+      "cache_read_input_tokens": 22577,
+      "output_tokens": 5507,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 2968,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 9,
+        "outputTokens": 5507,
+        "cacheReadInputTokens": 22577,
+        "cacheCreationInputTokens": 2968,
+        "webSearchRequests": 0,
+        "costUSD": 0.0335117,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "99ad0178-8736-4e56-a40e-4c6c583c863f"
+  }
+]

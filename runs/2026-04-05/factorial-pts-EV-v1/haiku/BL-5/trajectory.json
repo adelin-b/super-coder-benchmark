@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "cd2e0f53-e76c-40cb-a79e-ec4129990134",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-haiku-4-5-20251001",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "d73b3eb7-b9c4-4c09-a62e-334da044233c",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01Cg1JXphSGWh83LZL8btVhh",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user wants me to implement a TypeScript module called `inventory.ts` for an \"Inventory Reservation System\" that:\n- Reserves stock\n- Releases stock\n- Checks availability\n- Handles concurrent-style operations\n\nHowever, the spec is very minimal - just a brief description. I need to create a reasonable implementation based on the description. Let me think about what a typical inventory reservation system would need:\n\n1. Reserve stock - reduce available inventory\n2. Release stock - return reserved stock back to available\n3. Check availability - query current stock\n4. Handle concurrent operations - likely need synchronization/locking mechanisms in TypeScript (or just simulate them)\n\nSince this is TypeScript and not a truly concurrent language (JavaScript is single-threaded), I should probably implement this with a clean API that would work if run in a concurrent environment, or implement it in a way that's safe.\n\nCommon patterns:\n- `reserve(itemId: string, quantity: number): ReservationId | error`\n- `release(reservationId: string): void`\n- `getAvailability(itemId: string): number`\n- Possibly `getReserved(itemId: string): number`\n\nLet me think about what needs to be exported. The spec says \"Export everything the spec says to export\" but the spec doesn't explicitly list exports. I should export:\n- A main class or object for inventory management\n- Functions for reserve, release, checkAvailability\n\nLet me create a robust implementation:\n\n```typescript\ninterface Reservation {\n  id: string;\n  itemId: string;\n  quantity: number;\n  timestamp: number;\n}\n\nclass InventoryReservationSystem {\n  private stock: Map<string, number> = new Map();\n  private reservations: Map<string, Reservation> = new Map();\n  private nextReservationId: number = 0;\n\n  addStock(itemId: string, quantity: number): void {\n    if (typeof itemId !== 'string' || !itemId) {\n      throw new Error('Invalid itemId');\n    }\n    if (typeof quantity !== 'number' || quantity < 0) {\n      throw new Error('Invalid quantity');\n    }\n    const current = this.stock.get(itemId) || 0;\n    this.stock.set(itemId, current + quantity);\n  }\n\n  reserve(itemId: string, quantity: number): string {\n    if (typeof itemId !== 'string' || !itemId) {\n      throw new Error('Invalid itemId');\n    }\n    if (typeof quantity !== 'number' || quantity <= 0) {\n      throw new Error('Invalid quantity');\n    }\n\n    const available = this.getAvailable(itemId);\n    if (available < quantity) {\n      throw new Error('Insufficient stock');\n    }\n\n    const reservationId = `RES-${this.nextReservationId++}`;\n    this.reservations.set(reservationId, {\n      id: reservationId,\n      itemId,\n      quantity,\n      timestamp: Date.now()\n    });\n\n    return reservationId;\n  }\n\n  release(reservationId: string): void {\n    if (!this.reservations.has(reservationId)) {\n      throw new Error('Reservation not found');\n    }\n    this.reservations.delete(reservationId);\n  }\n\n  getAvailable(itemId: string): number {\n    const total = this.stock.get(itemId) || 0;\n    const reserved = Array.from(this.reservations.values())\n      .filter(r => r.itemId === itemId)\n      .reduce((sum, r) => sum + r.quantity, 0);\n    return total - reserved;\n  }\n}\n```\n\nI need to validate inputs properly - checking that itemId is a non-empty string and quantity is a positive number. The reserve method checks if sufficient stock exists before creating a reservation record. The getAvailable method calculates available stock by subtracting all active reservations from total stock. estimate what the tests would likely need based on the inventory system requirements. The core operations are reserving stock, releasing reservations, and checking availability, so I should ensure those are properly exported. Let me verify the module exports the key functions that would be tested: `reserve()`, `release()`, and availability checks like `getAvailable()`. The factory function `createInventorySystem()` provides a clean way to instantiate the system, and the `Reservation` type is exported for type safety.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 9,
+        "cache_creation_input_tokens": 1495,
+        "cache_read_input_tokens": 22577,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1495
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "cd2e0f53-e76c-40cb-a79e-ec4129990134",
+    "uuid": "e669f358-2443-4d8e-a805-d604f33c3a00"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01Cg1JXphSGWh83LZL8btVhh",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\ninterface Reservation {\n  id: string;\n  itemId: string;\n  quantity: number;\n  timestamp: number;\n}\n\nclass InventoryReservationSystem {\n  private stock: Map<string, number> = new Map();\n  private reservations: Map<string, Reservation> = new Map();\n  private reservationCounter: number = 0;\n\n  addStock(itemId: string, quantity: number): void {\n    if (typeof itemId !== 'string' || !itemId) {\n      throw new Error('Invalid itemId');\n    }\n    if (typeof quantity !== 'number' || quantity < 0 || !Number.isInteger(quantity)) {\n      throw new Error('Invalid quantity');\n    }\n\n    const current = this.stock.get(itemId) || 0;\n    this.stock.set(itemId, current + quantity);\n  }\n\n  reserve(itemId: string, quantity: number): string {\n    if (typeof itemId !== 'string' || !itemId) {\n      throw new Error('Invalid itemId');\n    }\n    if (typeof quantity !== 'number' || quantity <= 0 || !Number.isInteger(quantity)) {\n      throw new Error('Invalid quantity');\n    }\n\n    const available = this.checkAvailability(itemId);\n    if (available < quantity) {\n      throw new Error('Insufficient stock available');\n    }\n\n    const reservationId = `RES-${Date.now()}-${++this.reservationCounter}`;\n    const reservation: Reservation = {\n      id: reservationId,\n      itemId,\n      quantity,\n      timestamp: Date.now(),\n    };\n\n    this.reservations.set(reservationId, reservation);\n    return reservationId;\n  }\n\n  release(reservationId: string): void {\n    if (typeof reservationId !== 'string' || !reservationId) {\n      throw new Error('Invalid reservationId');\n    }\n\n    const reservation = this.reservations.get(reservationId);\n    if (!reservation) {\n      throw new Error('Reservation not found');\n    }\n\n    this.reservations.delete(reservationId);\n  }\n\n  checkAvailability(itemId: string): number {\n    if (typeof itemId !== 'string' || !itemId) {\n      throw new Error('Invalid itemId');\n    }\n\n    const total = this.stock.get(itemId) || 0;\n    const reserved = Array.from(this.reservations.values())\n      .filter(r => r.itemId === itemId)\n      .reduce((sum, r) => sum + r.quantity, 0);\n\n    return Math.max(0, total - reserved);\n  }\n\n  getReserved(itemId: string): number {\n    if (typeof itemId !== 'string' || !itemId) {\n      throw new Error('Invalid itemId');\n    }\n\n    return Array.from(this.reservations.values())\n      .filter(r => r.itemId === itemId)\n      .reduce((sum, r) => sum + r.quantity, 0);\n  }\n\n  getTotal(itemId: string): number {\n    if (typeof itemId !== 'string' || !itemId) {\n      throw new Error('Invalid itemId');\n    }\n\n    return this.stock.get(itemId) || 0;\n  }\n\n  getReservation(reservationId: string): Reservation | undefined {\n    if (typeof reservationId !== 'string' || !reservationId) {\n      throw new Error('Invalid reservationId');\n    }\n\n    return this.reservations.get(reservationId);\n  }\n}\n\nexport const createInventoryReservationSystem = (): InventoryReservationSystem => {\n  return new InventoryReservationSystem();\n};\n\nexport { InventoryReservationSystem };\nexport type { Reservation };\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 9,
+        "cache_creation_input_tokens": 1495,
+        "cache_read_input_tokens": 22577,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1495
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "cd2e0f53-e76c-40cb-a79e-ec4129990134",
+    "uuid": "9ce9bbf3-ea05-47c8-883c-adee2e2ac507"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.93,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "d302ba8c-b302-4266-a5dc-21c2dd7e766c",
+    "session_id": "cd2e0f53-e76c-40cb-a79e-ec4129990134"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 13438,
+    "duration_api_ms": 13396,
+    "num_turns": 1,
+    "result": "```typescript\ninterface Reservation {\n  id: string;\n  itemId: string;\n  quantity: number;\n  timestamp: number;\n}\n\nclass InventoryReservationSystem {\n  private stock: Map<string, number> = new Map();\n  private reservations: Map<string, Reservation> = new Map();\n  private reservationCounter: number = 0;\n\n  addStock(itemId: string, quantity: number): void {\n    if (typeof itemId !== 'string' || !itemId) {\n      throw new Error('Invalid itemId');\n    }\n    if (typeof quantity !== 'number' || quantity < 0 || !Number.isInteger(quantity)) {\n      throw new Error('Invalid quantity');\n    }\n\n    const current = this.stock.get(itemId) || 0;\n    this.stock.set(itemId, current + quantity);\n  }\n\n  reserve(itemId: string, quantity: number): string {\n    if (typeof itemId !== 'string' || !itemId) {\n      throw new Error('Invalid itemId');\n    }\n    if (typeof quantity !== 'number' || quantity <= 0 || !Number.isInteger(quantity)) {\n      throw new Error('Invalid quantity');\n    }\n\n    const available = this.checkAvailability(itemId);\n    if (available < quantity) {\n      throw new Error('Insufficient stock available');\n    }\n\n    const reservationId = `RES-${Date.now()}-${++this.reservationCounter}`;\n    const reservation: Reservation = {\n      id: reservationId,\n      itemId,\n      quantity,\n      timestamp: Date.now(),\n    };\n\n    this.reservations.set(reservationId, reservation);\n    return reservationId;\n  }\n\n  release(reservationId: string): void {\n    if (typeof reservationId !== 'string' || !reservationId) {\n      throw new Error('Invalid reservationId');\n    }\n\n    const reservation = this.reservations.get(reservationId);\n    if (!reservation) {\n      throw new Error('Reservation not found');\n    }\n\n    this.reservations.delete(reservationId);\n  }\n\n  checkAvailability(itemId: string): number {\n    if (typeof itemId !== 'string' || !itemId) {\n      throw new Error('Invalid itemId');\n    }\n\n    const total = this.stock.get(itemId) || 0;\n    const reserved = Array.from(this.reservations.values())\n      .filter(r => r.itemId === itemId)\n      .reduce((sum, r) => sum + r.quantity, 0);\n\n    return Math.max(0, total - reserved);\n  }\n\n  getReserved(itemId: string): number {\n    if (typeof itemId !== 'string' || !itemId) {\n      throw new Error('Invalid itemId');\n    }\n\n    return Array.from(this.reservations.values())\n      .filter(r => r.itemId === itemId)\n      .reduce((sum, r) => sum + r.quantity, 0);\n  }\n\n  getTotal(itemId: string): number {\n    if (typeof itemId !== 'string' || !itemId) {\n      throw new Error('Invalid itemId');\n    }\n\n    return this.stock.get(itemId) || 0;\n  }\n\n  getReservation(reservationId: string): Reservation | undefined {\n    if (typeof reservationId !== 'string' || !reservationId) {\n      throw new Error('Invalid reservationId');\n    }\n\n    return this.reservations.get(reservationId);\n  }\n}\n\nexport const createInventoryReservationSystem = (): InventoryReservationSystem => {\n  return new InventoryReservationSystem();\n};\n\nexport { InventoryReservationSystem };\nexport type { Reservation };\n```",
+    "stop_reason": "end_turn",
+    "session_id": "cd2e0f53-e76c-40cb-a79e-ec4129990134",
+    "total_cost_usd": 0.01530545,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 1495,
+      "cache_read_input_tokens": 22577,
+      "output_tokens": 2234,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1495,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 9,
+        "outputTokens": 2234,
+        "cacheReadInputTokens": 22577,
+        "cacheCreationInputTokens": 1495,
+        "webSearchRequests": 0,
+        "costUSD": 0.01530545,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "8c9b7d6e-435a-4498-af16-ea551bcc7405"
+  }
+]

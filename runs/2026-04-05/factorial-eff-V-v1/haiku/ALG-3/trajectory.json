@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "7ef7cefb-b252-4163-a5e4-4dbb4bd9fc6e",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-haiku-4-5-20251001",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "256f4963-f3c4-481d-a5f1-0395dd82fee7",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01VLtqxnUEL3vXvvG9uSYg1L",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user wants me to implement a topological sort algorithm in TypeScript. Let me break down what's needed:\n\n1. Sort DAG (Directed Acyclic Graph) nodes so that for every edge u→v, node u comes before node v\n2. Detect cycles\n\nThis is a classic algorithm that can be implemented using:\n- Depth-first search (DFS) with a visited state tracking (to detect cycles)\n- Kahn's algorithm using indegrees\n\nI'll implement a robust solution that:\n- Takes a graph as input (adjacency list or edge list)\n- Returns the topologically sorted order\n- Detects and throws an error if a cycle is found\n\nLet me think about the interface:\n- Input: A graph representation (I'll go with Map<string, string[]> for adjacency list, or a more flexible generic)\n- Output: An array of sorted nodes\n- Errors: Should throw if cycle is detected\n\nBased on the system instructions, I should:\n- Export plain TypeScript interfaces\n- Use plain Error classes for errors, not Effect\n- Keep it simple and exportable\n\nLet me write a clean implementation:\n\n```typescript\n// Export types for the graph representation\nexport type Graph<T> = Map<T, T[]>;\nexport type Edge<T> = [T, T];\n\nexport interface ToposortResult<T> {\n  sorted: T[];\n  hasCycle: boolean;\n}\n\nexport class CycleDetectedError extends Error {\n  constructor(message: string = \"Cycle detected in graph\") {\n    super(message);\n    this.name = \"CycleDetectedError\";\n  }\n}\n\n/**\n * Topologically sorts a DAG using DFS\n * @param graph - Adjacency list representation of the graph\n * @returns Topologically sorted array of nodes\n * @throws CycleDetectedError if a cycle is detected\n */\nexport function toposort<T>(graph: Graph<T>): T[] {\n  const visited = new Set<T>();\n  const recursionStack = new Set<T>();\n  const sorted: T[] = [];\n\n  for (const node of graph.keys()) {\n    if (!visited.has(node)) {\n      dfs(node, graph, visited, recursionStack, sorted);\n    }\n  }\n\n  return sorted.reverse();\n}\n\n/**\n * Topologically sorts a DAG from edges\n * @param edges - Array of [from, to] edges\n * @returns Topologically sorted array of nodes\n * @throws CycleDetectedError if a cycle is detected\n */\nexport function toposortFromEdges<T>(edges: Edge<T>[]): T[] {\n  const graph = new Map<T, T[]>();\n  const nodes = new Set<T>();\n\n  for (const [from, to] of edges) {\n    nodes.add(from);\n    nodes.add(to);\n    if (!graph.has(from)) {\n      graph.set(from, []);\n    }\n    graph.get(from)!.push(to);\n  }\n\n  // Add isolated nodes\n  for (const node of nodes) {\n    if (!graph.has(node)) {\n      graph.set(node, []);\n    }\n  }\n\n  return toposort(graph);\n}\n\nfunction dfs<T>(\n  node: T,\n  graph: Graph<T>,\n  visited: Set<T>,\n  recursionStack: Set<T>,\n  sorted: T[]\n): void {\n  visited.add(node);\n  recursionStack.add(node);\n\n  const neighbors = graph.get(node) || [];\n  for (const neighbor of neighbors) {\n    if (!visited.has(neighbor)) {\n      dfs(neighbor, graph, visited, recursionStack, sorted);\n    } else if (recursionStack.has(neighbor)) {\n      throw new CycleDetectedError(`Cycle detected involving node: ${neighbor}`);\n    }\n  }\n\n  recursionStack.delete(node);\n  sorted.push(node);\n}\n```\n\nNow I need to implement the DFS helper function that tracks visited nodes and the recursion stack to detect cycles. The algorithm visits each node, explores its neighbors recursively, and throws an error if it encounters a node already in the current recursion path. After processing all neighbors, the node gets added to the sorted result, which is then reversed to get the correct topological order.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 9,
+        "cache_creation_input_tokens": 1355,
+        "cache_read_input_tokens": 24159,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1355
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "7ef7cefb-b252-4163-a5e4-4dbb4bd9fc6e",
+    "uuid": "91a27500-9a8d-40c7-a090-de3f1f372a97"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01VLtqxnUEL3vXvvG9uSYg1L",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nexport type Graph<T> = Map<T, T[]>;\nexport type Edge<T> = [T, T];\n\nexport class CycleDetectedError extends Error {\n  constructor(message: string = \"Cycle detected in graph\") {\n    super(message);\n    this.name = \"CycleDetectedError\";\n  }\n}\n\n/**\n * Topologically sorts a DAG using DFS.\n * @param graph - Adjacency list representation (Map of node -> neighbors)\n * @returns Array of nodes in topological order\n * @throws CycleDetectedError if a cycle is detected\n */\nexport function toposort<T>(graph: Graph<T>): T[] {\n  const visited = new Set<T>();\n  const recursionStack = new Set<T>();\n  const sorted: T[] = [];\n\n  for (const node of graph.keys()) {\n    if (!visited.has(node)) {\n      dfs(node, graph, visited, recursionStack, sorted);\n    }\n  }\n\n  return sorted.reverse();\n}\n\n/**\n * Topologically sorts a DAG from an edge list.\n * @param edges - Array of [from, to] edges\n * @returns Array of nodes in topological order\n * @throws CycleDetectedError if a cycle is detected\n */\nexport function toposortFromEdges<T>(edges: Edge<T>[]): T[] {\n  const graph = new Map<T, T[]>();\n  const nodes = new Set<T>();\n\n  for (const [from, to] of edges) {\n    if (!graph.has(from)) {\n      graph.set(from, []);\n    }\n    graph.get(from)!.push(to);\n    nodes.add(from);\n    nodes.add(to);\n  }\n\n  for (const node of nodes) {\n    if (!graph.has(node)) {\n      graph.set(node, []);\n    }\n  }\n\n  return toposort(graph);\n}\n\nfunction dfs<T>(\n  node: T,\n  graph: Graph<T>,\n  visited: Set<T>,\n  recursionStack: Set<T>,\n  sorted: T[]\n): void {\n  visited.add(node);\n  recursionStack.add(node);\n\n  const neighbors = graph.get(node) || [];\n  for (const neighbor of neighbors) {\n    if (!visited.has(neighbor)) {\n      dfs(neighbor, graph, visited, recursionStack, sorted);\n    } else if (recursionStack.has(neighbor)) {\n      throw new CycleDetectedError(\n        `Cycle detected: node ${String(neighbor)} reached during recursion`\n      );\n    }\n  }\n\n  recursionStack.delete(node);\n  sorted.push(node);\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 9,
+        "cache_creation_input_tokens": 1355,
+        "cache_read_input_tokens": 24159,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1355
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "7ef7cefb-b252-4163-a5e4-4dbb4bd9fc6e",
+    "uuid": "65fb0ce9-fdd0-4425-a26a-7860aa9e68da"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.92,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "57c7ed19-99e8-49c0-aeab-5f58609178a6",
+    "session_id": "7ef7cefb-b252-4163-a5e4-4dbb4bd9fc6e"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 10271,
+    "duration_api_ms": 10216,
+    "num_turns": 1,
+    "result": "```typescript\nexport type Graph<T> = Map<T, T[]>;\nexport type Edge<T> = [T, T];\n\nexport class CycleDetectedError extends Error {\n  constructor(message: string = \"Cycle detected in graph\") {\n    super(message);\n    this.name = \"CycleDetectedError\";\n  }\n}\n\n/**\n * Topologically sorts a DAG using DFS.\n * @param graph - Adjacency list representation (Map of node -> neighbors)\n * @returns Array of nodes in topological order\n * @throws CycleDetectedError if a cycle is detected\n */\nexport function toposort<T>(graph: Graph<T>): T[] {\n  const visited = new Set<T>();\n  const recursionStack = new Set<T>();\n  const sorted: T[] = [];\n\n  for (const node of graph.keys()) {\n    if (!visited.has(node)) {\n      dfs(node, graph, visited, recursionStack, sorted);\n    }\n  }\n\n  return sorted.reverse();\n}\n\n/**\n * Topologically sorts a DAG from an edge list.\n * @param edges - Array of [from, to] edges\n * @returns Array of nodes in topological order\n * @throws CycleDetectedError if a cycle is detected\n */\nexport function toposortFromEdges<T>(edges: Edge<T>[]): T[] {\n  const graph = new Map<T, T[]>();\n  const nodes = new Set<T>();\n\n  for (const [from, to] of edges) {\n    if (!graph.has(from)) {\n      graph.set(from, []);\n    }\n    graph.get(from)!.push(to);\n    nodes.add(from);\n    nodes.add(to);\n  }\n\n  for (const node of nodes) {\n    if (!graph.has(node)) {\n      graph.set(node, []);\n    }\n  }\n\n  return toposort(graph);\n}\n\nfunction dfs<T>(\n  node: T,\n  graph: Graph<T>,\n  visited: Set<T>,\n  recursionStack: Set<T>,\n  sorted: T[]\n): void {\n  visited.add(node);\n  recursionStack.add(node);\n\n  const neighbors = graph.get(node) || [];\n  for (const neighbor of neighbors) {\n    if (!visited.has(neighbor)) {\n      dfs(neighbor, graph, visited, recursionStack, sorted);\n    } else if (recursionStack.has(neighbor)) {\n      throw new CycleDetectedError(\n        `Cycle detected: node ${String(neighbor)} reached during recursion`\n      );\n    }\n  }\n\n  recursionStack.delete(node);\n  sorted.push(node);\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "7ef7cefb-b252-4163-a5e4-4dbb4bd9fc6e",
+    "total_cost_usd": 0.013228650000000002,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 1355,
+      "cache_read_input_tokens": 24159,
+      "output_tokens": 1822,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1355,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 9,
+        "outputTokens": 1822,
+        "cacheReadInputTokens": 24159,
+        "cacheCreationInputTokens": 1355,
+        "webSearchRequests": 0,
+        "costUSD": 0.013228650000000002,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "3e29cc1f-af53-407b-a22d-1b934f8e5678"
+  }
+]

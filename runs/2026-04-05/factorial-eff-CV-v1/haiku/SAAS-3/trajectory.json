@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "3fec1122-31ae-4c78-9435-697e02adf854",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-haiku-4-5-20251001",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "1a750941-545b-4bea-80a5-f8012dc31896",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01NR4hcw71rSVK6fx5DmtMqm",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user is asking me to implement a TypeScript module for event sourcing with a bank account aggregate. The spec is minimal, but it mentions:\n- Deposit, withdraw, transfer operations\n- Reconstruct state from events\n- Need to follow Effect TS patterns but export plain TypeScript interfaces\n\nSince this is event sourcing, I need:\n1. Events (Deposited, Withdrawn, Transferred)\n2. A state type (AccountState)\n3. Functions to handle deposits, withdrawals, and transfers\n4. A function to reconstruct state from events\n\nThe user wants:\n- Plain TS exports (no Effect types in signatures)\n- Use Effect internally\n- Throw standard Error subclasses for domain errors\n- Validate all inputs\n\nLet me design this:\n\nEvents:\n- Deposited { amount: number }\n- Withdrawn { amount: number }\n- Transferred { toAccountId: string, amount: number }\n\nAccountState:\n- balance: number\n- accountId: string\n- version: number (event version)\n\nFunctions to export:\n- applyEvent(state, event): AccountState\n- deposit(state, amount): Event\n- withdraw(state, amount): Event\n- transfer(state, toAccountId, amount): Event\n- reconstructFromEvents(events): AccountState\n\nActually, let me think about this more carefully. In event sourcing:\n- We have events that describe what happened\n- We apply events to a state to get a new state\n- We can reconstruct state from all events\n\nI should create:\n1. Event types (discriminated union)\n2. AccountState type\n3. Functions for creating events\n4. A function to apply events\n5. A function to reconstruct from events\n\nLet me use Effect internally but export plain TS:\n\n```typescript\nimport { Effect, Data } from \"effect\"\n\n// Events\ntype DepositedEvent = {\n  _tag: \"Deposited\"\n  amount: number\n  timestamp: number\n}\n\ntype WithdrawnEvent = {\n  _tag: \"Withdrawn\"\n  amount: number\n  timestamp: number\n}\n\ntype TransferredEvent = {\n  _tag: \"Transferred\"\n  toAccountId: string\n  amount: number\n  timestamp: number\n}\n\ntype AccountEvent = DepositedEvent | WithdrawnEvent | TransferredEvent\n\n// State\ninterface AccountState {\n  accountId: string\n  balance: number\n  version: number\n}\n\n// Domain errors\nclass InsufficientFunds extends Data.TaggedError(\"InsufficientFunds\")<{\n  available: number\n  requested: number\n}> {}\n\nclass InvalidAmount extends Data.TaggedError(\"InvalidAmount\")<{\n  amount: number\n}> {}\n\nclass InvalidAccountId extends Data.TaggedError(\"InvalidAccountId\")<{\n  accountId: string\n}> {}\n```\n\nNow I need to implement the core functions. For deposits and withdrawals, I'll validate the amount is positive. For transfers, I'll also validate the target account ID exists. The applyEvent function will handle state transitions, and reconstructFromEvents will fold over all events to build the final state. .fail(new InvalidAmount({ amount, reason: \"Amount must be positive\" }))\n    }\n    if (state.balance < amount) {\n      yield* Effect.fail(new InsufficientFunds({ available: state.balance, requested: amount }))\n    }\n    return {\n      _tag: \"Transferred\" as const,\n      toAccountId,\n      amount,\n      timestamp: Date.now(),\n    }\n  })\n\n  try {\n    return Effect.runSync(effect)\n  } catch (e) {\n    if (e instanceof Error) {\n      throw e\n    }\n    throw new Error(String(e))\n  }\n}\n\nThe transfer function validates the target account ID exists, checks that the amount is positive and that sufficient funds are available before creating a Transferred event. For applying events to state, I handle each event type by updating the balance and incrementing the version number accordingly.\n\nTo reconstruct account state from a sequence of events, I start with an initial state and fold each event through the applyEvent function. The reconstructFromEvents function iterates through the events array, applying them in order to build up the final state.\n\nI'm catching Effect errors at the boundary and converting them to standard Error instances so the domain errors don't leak out as FiberFailure exceptions. FundsError(state.balance, amount)\n  }\n  \n  return {\n    _tag: \"Transferred\",\n    toAccountId,\n    amount,\n    timestamp: Date.now(),\n  }\n}\n\n// Apply events to state\nexport function applyEvent(state: AccountState, event: AccountEvent): AccountState {\n  switch (event._tag) {\n    case \"Deposited\":\n      return { ...state, balance: state.balance + event.amount, version: state.version + 1 }\n    case \"Withdrawn\":\n      return { ...state, balance: state.balance - event.amount, version: state.version + 1 }\n    case \"Transferred\":\n      return { ...state, balance: state.balance - event.amount, version: state.version + 1 }\n  }\n}\n\nNow I need to integrate this with Effect to handle the errors properly and make the operations composable. The key is wrapping these functions to return Effect types that can fail with the custom errors.\n\nI'm completing the transfer validation logic and then defining how events get applied back to the account state. The deposit, withdraw, and transfer functions all validate their inputs and throw custom errors when constraints are violated. The applyEvent function takes an event and updates the state accordingly, incrementing the version number for each change. Now I need to wrap these in Effect to make them composable and handle errors in a functional way. I need to reconsider the approach here. The instructions specify using Effect internally while exporting plain TypeScript, so I should incorporate it even for in-memory operations. Effect would be valuable for error handling with domain errors and composing operations cleanly.\n\nLet me refactor to use Effect internally. I'll define the event types and state interface, then implement the command handlers and event application using Effect for better error management and composability. Effect.runSync(withdrawEffect(state, amount))\n  } catch (e) {\n    if (e instanceof ValidationError) {\n      throw new InvalidAmountError(amount, \"Amount must be positive\")\n    }\n    if (e instanceof InsufficientError) {\n      throw new InsufficientFundsError(e.available, e.requested)\n    }\n    throw e\n  }\n}\n\nThe deposit function executes the effect synchronously and converts internal validation errors to domain errors. The withdraw function similarly runs the effect but handles both validation and insufficient funds cases, mapping them to appropriate domain exceptions. balance: state.balance - event.amount,\n        version: state.version + 1,\n      }\n    case \"Transferred\":\n      return {\n        ...state,\n        balance: state.balance - event.amount,\n        version: state.version + 1,\n      }\n  }\n}\n\nThe applyEvent function handles state transitions for each event type—deposits increase the balance while withdrawals and transfers both decrease it, with the version incrementing each time. To reconstruct an account's state, I iterate through the event history and apply each one sequentially, starting from an initial state with zero balance.\n\nSince these operations are synchronous, the try/catch wrapper around Effect.runSync isn't needed. I should review the implementation for consistency issues: the InsufficientError class exists but the code throws InvalidAmountError instead, AccountEvent might not be exported, and applyEvent could be missing case handlers or return statements.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 9,
+        "cache_creation_input_tokens": 1357,
+        "cache_read_input_tokens": 24196,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1357
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "3fec1122-31ae-4c78-9435-697e02adf854",
+    "uuid": "9f1609db-be46-4e22-ae23-3b5ae10480b5"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_01NR4hcw71rSVK6fx5DmtMqm",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nimport { Effect, Data } from \"effect\"\n\n// Events\nexport type DepositedEvent = {\n  _tag: \"Deposited\"\n  amount: number\n  timestamp: number\n}\n\nexport type WithdrawnEvent = {\n  _tag: \"Withdrawn\"\n  amount: number\n  timestamp: number\n}\n\nexport type TransferredEvent = {\n  _tag: \"Transferred\"\n  toAccountId: string\n  amount: number\n  timestamp: number\n}\n\nexport type AccountEvent = DepositedEvent | WithdrawnEvent | TransferredEvent\n\n// State\nexport interface AccountState {\n  accountId: string\n  balance: number\n  version: number\n}\n\n// Domain errors\nexport class InsufficientFundsError extends Error {\n  constructor(\n    public available: number,\n    public requested: number\n  ) {\n    super(\n      `Insufficient funds: available ${available}, requested ${requested}`\n    )\n    this.name = \"InsufficientFundsError\"\n  }\n}\n\nexport class InvalidAmountError extends Error {\n  constructor(\n    public amount: number,\n    reason: string\n  ) {\n    super(`Invalid amount ${amount}: ${reason}`)\n    this.name = \"InvalidAmountError\"\n  }\n}\n\n// Internal Effect errors\nclass ValidationFailure extends Data.TaggedError(\"ValidationFailure\")<{\n  reason: string\n}> {}\n\nclass InsufficientFailure extends Data.TaggedError(\"InsufficientFailure\")<{\n  available: number\n  requested: number\n}> {}\n\n// Deposit\nfunction depositEffect(amount: number) {\n  return Effect.gen(function* () {\n    if (amount <= 0) {\n      yield* Effect.fail(\n        new ValidationFailure({ reason: \"Amount must be positive\" })\n      )\n    }\n    return {\n      _tag: \"Deposited\" as const,\n      amount,\n      timestamp: Date.now(),\n    }\n  })\n}\n\nexport function deposit(amount: number): DepositedEvent {\n  try {\n    return Effect.runSync(depositEffect(amount))\n  } catch (e) {\n    throw new InvalidAmountError(amount, \"Amount must be positive\")\n  }\n}\n\n// Withdraw\nfunction withdrawEffect(state: AccountState, amount: number) {\n  return Effect.gen(function* () {\n    if (amount <= 0) {\n      yield* Effect.fail(\n        new ValidationFailure({ reason: \"Amount must be positive\" })\n      )\n    }\n    if (state.balance < amount) {\n      yield* Effect.fail(\n        new InsufficientFailure({\n          available: state.balance,\n          requested: amount,\n        })\n      )\n    }\n    return {\n      _tag: \"Withdrawn\" as const,\n      amount,\n      timestamp: Date.now(),\n    }\n  })\n}\n\nexport function withdraw(\n  state: AccountState,\n  amount: number\n): WithdrawnEvent {\n  try {\n    return Effect.runSync(withdrawEffect(state, amount))\n  } catch (e) {\n    if (state.balance < amount) {\n      throw new InsufficientFundsError(state.balance, amount)\n    }\n    throw new InvalidAmountError(amount, \"Amount must be positive\")\n  }\n}\n\n// Transfer\nfunction transferEffect(\n  state: AccountState,\n  toAccountId: string,\n  amount: number\n) {\n  return Effect.gen(function* () {\n    if (!toAccountId || toAccountId.length === 0) {\n      yield* Effect.fail(\n        new ValidationFailure({ reason: \"Account ID cannot be empty\" })\n      )\n    }\n    if (amount <= 0) {\n      yield* Effect.fail(\n        new ValidationFailure({ reason: \"Amount must be positive\" })\n      )\n    }\n    if (state.balance < amount) {\n      yield* Effect.fail(\n        new InsufficientFailure({\n          available: state.balance,\n          requested: amount,\n        })\n      )\n    }\n    return {\n      _tag: \"Transferred\" as const,\n      toAccountId,\n      amount,\n      timestamp: Date.now(),\n    }\n  })\n}\n\nexport function transfer(\n  state: AccountState,\n  toAccountId: string,\n  amount: number\n): TransferredEvent {\n  try {\n    return Effect.runSync(transferEffect(state, toAccountId, amount))\n  } catch (e) {\n    if (state.balance < amount) {\n      throw new InsufficientFundsError(state.balance, amount)\n    }\n    throw new InvalidAmountError(amount, \"Amount must be positive\")\n  }\n}\n\n// Apply event to state\nexport function applyEvent(\n  state: AccountState,\n  event: AccountEvent\n): AccountState {\n  switch (event._tag) {\n    case \"Deposited\":\n      return {\n        ...state,\n        balance: state.balance + event.amount,\n        version: state.version + 1,\n      }\n    case \"Withdrawn\":\n      return {\n        ...state,\n        balance: state.balance - event.amount,\n        version: state.version + 1,\n      }\n    case \"Transferred\":\n      return {\n        ...state,\n        balance: state.balance - event.amount,\n        version: state.version + 1,\n      }\n    default:\n      const _exhaustive: never = event\n      return _exhaustive\n  }\n}\n\n// Reconstruct state from events\nexport function reconstructFromEvents(\n  accountId: string,\n  events: AccountEvent[]\n): AccountState {\n  if (!accountId || accountId.length === 0) {\n    throw new InvalidAmountError(0, \"Account ID cannot be empty\")\n  }\n\n  let state: AccountState = {\n    accountId,\n    balance: 0,\n    version: 0,\n  }\n\n  for (const event of events) {\n    state = applyEvent(state, event)\n  }\n\n  return state\n}\n```\n\n**Potential bugs found and fixed:**\n\n1. **Missing AccountEvent type export** — The spec requires exporting events. Fixed by exporting all event types (DepositedEvent, WithdrawnEvent, TransferredEvent, AccountEvent).\n\n2. **Incorrect error thrown in withdraw/transfer catch blocks** — Was throwing generic InvalidAmountError even for InsufficientFailure. Fixed by checking balance < amount first to throw the correct InsufficientFundsError.\n\n3. **No exhaustiveness check in applyEvent** — The switch could miss cases. Fixed by adding a `never` exhaustive check at the end to ensure all event types are handled."
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 9,
+        "cache_creation_input_tokens": 1357,
+        "cache_read_input_tokens": 24196,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1357
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "3fec1122-31ae-4c78-9435-697e02adf854",
+    "uuid": "a71286f0-0fbc-47d6-824f-53ba0087647b"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.92,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "31028f90-e667-4929-8792-435b378afe6b",
+    "session_id": "3fec1122-31ae-4c78-9435-697e02adf854"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 29700,
+    "duration_api_ms": 29642,
+    "num_turns": 1,
+    "result": "```typescript\nimport { Effect, Data } from \"effect\"\n\n// Events\nexport type DepositedEvent = {\n  _tag: \"Deposited\"\n  amount: number\n  timestamp: number\n}\n\nexport type WithdrawnEvent = {\n  _tag: \"Withdrawn\"\n  amount: number\n  timestamp: number\n}\n\nexport type TransferredEvent = {\n  _tag: \"Transferred\"\n  toAccountId: string\n  amount: number\n  timestamp: number\n}\n\nexport type AccountEvent = DepositedEvent | WithdrawnEvent | TransferredEvent\n\n// State\nexport interface AccountState {\n  accountId: string\n  balance: number\n  version: number\n}\n\n// Domain errors\nexport class InsufficientFundsError extends Error {\n  constructor(\n    public available: number,\n    public requested: number\n  ) {\n    super(\n      `Insufficient funds: available ${available}, requested ${requested}`\n    )\n    this.name = \"InsufficientFundsError\"\n  }\n}\n\nexport class InvalidAmountError extends Error {\n  constructor(\n    public amount: number,\n    reason: string\n  ) {\n    super(`Invalid amount ${amount}: ${reason}`)\n    this.name = \"InvalidAmountError\"\n  }\n}\n\n// Internal Effect errors\nclass ValidationFailure extends Data.TaggedError(\"ValidationFailure\")<{\n  reason: string\n}> {}\n\nclass InsufficientFailure extends Data.TaggedError(\"InsufficientFailure\")<{\n  available: number\n  requested: number\n}> {}\n\n// Deposit\nfunction depositEffect(amount: number) {\n  return Effect.gen(function* () {\n    if (amount <= 0) {\n      yield* Effect.fail(\n        new ValidationFailure({ reason: \"Amount must be positive\" })\n      )\n    }\n    return {\n      _tag: \"Deposited\" as const,\n      amount,\n      timestamp: Date.now(),\n    }\n  })\n}\n\nexport function deposit(amount: number): DepositedEvent {\n  try {\n    return Effect.runSync(depositEffect(amount))\n  } catch (e) {\n    throw new InvalidAmountError(amount, \"Amount must be positive\")\n  }\n}\n\n// Withdraw\nfunction withdrawEffect(state: AccountState, amount: number) {\n  return Effect.gen(function* () {\n    if (amount <= 0) {\n      yield* Effect.fail(\n        new ValidationFailure({ reason: \"Amount must be positive\" })\n      )\n    }\n    if (state.balance < amount) {\n      yield* Effect.fail(\n        new InsufficientFailure({\n          available: state.balance,\n          requested: amount,\n        })\n      )\n    }\n    return {\n      _tag: \"Withdrawn\" as const,\n      amount,\n      timestamp: Date.now(),\n    }\n  })\n}\n\nexport function withdraw(\n  state: AccountState,\n  amount: number\n): WithdrawnEvent {\n  try {\n    return Effect.runSync(withdrawEffect(state, amount))\n  } catch (e) {\n    if (state.balance < amount) {\n      throw new InsufficientFundsError(state.balance, amount)\n    }\n    throw new InvalidAmountError(amount, \"Amount must be positive\")\n  }\n}\n\n// Transfer\nfunction transferEffect(\n  state: AccountState,\n  toAccountId: string,\n  amount: number\n) {\n  return Effect.gen(function* () {\n    if (!toAccountId || toAccountId.length === 0) {\n      yield* Effect.fail(\n        new ValidationFailure({ reason: \"Account ID cannot be empty\" })\n      )\n    }\n    if (amount <= 0) {\n      yield* Effect.fail(\n        new ValidationFailure({ reason: \"Amount must be positive\" })\n      )\n    }\n    if (state.balance < amount) {\n      yield* Effect.fail(\n        new InsufficientFailure({\n          available: state.balance,\n          requested: amount,\n        })\n      )\n    }\n    return {\n      _tag: \"Transferred\" as const,\n      toAccountId,\n      amount,\n      timestamp: Date.now(),\n    }\n  })\n}\n\nexport function transfer(\n  state: AccountState,\n  toAccountId: string,\n  amount: number\n): TransferredEvent {\n  try {\n    return Effect.runSync(transferEffect(state, toAccountId, amount))\n  } catch (e) {\n    if (state.balance < amount) {\n      throw new InsufficientFundsError(state.balance, amount)\n    }\n    throw new InvalidAmountError(amount, \"Amount must be positive\")\n  }\n}\n\n// Apply event to state\nexport function applyEvent(\n  state: AccountState,\n  event: AccountEvent\n): AccountState {\n  switch (event._tag) {\n    case \"Deposited\":\n      return {\n        ...state,\n        balance: state.balance + event.amount,\n        version: state.version + 1,\n      }\n    case \"Withdrawn\":\n      return {\n        ...state,\n        balance: state.balance - event.amount,\n        version: state.version + 1,\n      }\n    case \"Transferred\":\n      return {\n        ...state,\n        balance: state.balance - event.amount,\n        version: state.version + 1,\n      }\n    default:\n      const _exhaustive: never = event\n      return _exhaustive\n  }\n}\n\n// Reconstruct state from events\nexport function reconstructFromEvents(\n  accountId: string,\n  events: AccountEvent[]\n): AccountState {\n  if (!accountId || accountId.length === 0) {\n    throw new InvalidAmountError(0, \"Account ID cannot be empty\")\n  }\n\n  let state: AccountState = {\n    accountId,\n    balance: 0,\n    version: 0,\n  }\n\n  for (const event of events) {\n    state = applyEvent(state, event)\n  }\n\n  return state\n}\n```\n\n**Potential bugs found and fixed:**\n\n1. **Missing AccountEvent type export** — The spec requires exporting events. Fixed by exporting all event types (DepositedEvent, WithdrawnEvent, TransferredEvent, AccountEvent).\n\n2. **Incorrect error thrown in withdraw/transfer catch blocks** — Was throwing generic InvalidAmountError even for InsufficientFailure. Fixed by checking balance < amount first to throw the correct InsufficientFundsError.\n\n3. **No exhaustiveness check in applyEvent** — The switch could miss cases. Fixed by adding a `never` exhaustive check at the end to ensure all event types are handled.",
+    "stop_reason": "end_turn",
+    "session_id": "3fec1122-31ae-4c78-9435-697e02adf854",
+    "total_cost_usd": 0.03267485,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 1357,
+      "cache_read_input_tokens": 24196,
+      "output_tokens": 5710,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1357,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 9,
+        "outputTokens": 5710,
+        "cacheReadInputTokens": 24196,
+        "cacheCreationInputTokens": 1357,
+        "webSearchRequests": 0,
+        "costUSD": 0.03267485,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "2c558401-e10a-4eb2-bca8-fb21431b4677"
+  }
+]

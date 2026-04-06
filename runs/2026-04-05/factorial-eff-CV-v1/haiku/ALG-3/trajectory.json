@@ -1,0 +1,255 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/home/adelin/super-coder-benchmark",
+    "session_id": "47db19ec-d1b6-41ef-8160-bd858c4528de",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Canva__authenticate",
+      "mcp__claude_ai_Gmail__authenticate",
+      "mcp__claude_ai_Google_Calendar__authenticate",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Hugging_Face__hf_doc_fetch",
+      "mcp__claude_ai_Hugging_Face__hf_doc_search",
+      "mcp__claude_ai_Hugging_Face__hf_whoami",
+      "mcp__claude_ai_Hugging_Face__hub_repo_details",
+      "mcp__claude_ai_Hugging_Face__hub_repo_search",
+      "mcp__claude_ai_Hugging_Face__paper_search",
+      "mcp__claude_ai_Hugging_Face__space_search",
+      "mcp__claude_ai_Notion__authenticate",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "needs-auth"
+      }
+    ],
+    "model": "claude-haiku-4-5-20251001",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Hugging_Face__User Summary",
+      "mcp__claude_ai_Hugging_Face__Paper Summary",
+      "mcp__claude_ai_Hugging_Face__Model Details",
+      "mcp__claude_ai_Hugging_Face__Dataset Details"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "6220937b-5646-42f0-9b5c-351081833a76",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_011YESmcVoyi4wvXtadqUzn1",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user wants me to implement a topological sort algorithm in TypeScript. Let me break down what's needed:\n\n1. Sort a DAG (Directed Acyclic Graph) so that for every edge u→v, u appears before v\n2. Detect cycles\n3. Export plain TypeScript (no Effect types in signatures)\n4. Validate inputs appropriately\n5. Throw standard Error subclasses for domain errors\n\nLet me think about the data structure:\n- A graph represented as an adjacency list\n- Nodes can be strings or numbers\n- Need to return sorted order\n- Need to detect cycles\n\nCommon approaches:\n1. Kahn's algorithm (BFS-based)\n2. DFS-based topological sort\n\nI'll implement Kahn's algorithm with cycle detection:\n- Calculate in-degrees for all nodes\n- Start with nodes that have in-degree 0\n- Process nodes, decrementing in-degrees\n- If we process fewer nodes than total nodes, there's a cycle\n\nHere's my implementation plan:\n```typescript\nexport interface Graph<T> {\n  nodes: T[]\n  edges: [T, T][] // [from, to] pairs\n}\n\nexport interface ToposortResult<T> {\n  sorted: T[]\n  hasCycle: boolean\n}\n\nexport function toposort<T>(graph: Graph<T>): ToposortResult<T>\n```\n\nWait, let me think about this more carefully. The user said to \"Export everything the spec says to export\". The spec is quite minimal, just:\n- Sort DAG nodes so every edge u→v has u before v\n- Detect cycles\n\nSo I need:\n1. A function that takes a graph\n2. Returns a sorted order\n3. Indicates if there's a cycle\n\nLet me use Kahn's algorithm:\n\n```typescript\nexport interface Graph<T> {\n  nodes: T[]\n  edges: Array<[T, T]> // [from, to] pairs\n\n\n}\n\nexport interface ToposortResult<T> {\n  sorted: T[]\n  hasCycle: boolean\n}\n\nexport function toposort<T>(graph: Graph<T>): ToposortResult<T> {\n  if (!graph.nodes || !Array.isArray(graph.nodes)) {\n    throw new Error(\"Graph nodes must be an array\")\n  }\n  if (!graph.edges || !Array.isArray(graph.edges)) {\n    throw new Error(\"Graph edges must be an array\")\n  }\n\n  const inDegree = new Map<T, number>()\n  const adjacencyList = new Map<T, T[]>()\n\n  // Initialize in-degree and adjacency list for all nodes\n  for (const node of graph.nodes) {\n    inDegree.set(node, 0)\n    adjacencyList.set(node, [])\n  }\n\n  // Build the graph and calculate in-degrees\n  for (const [from, to] of graph.edges) {\n    adjacencyList.get(from)?.push(to)\n    inDegree.set(to, (inDegree.get(to) ?? 0) + 1)\n  }\n\n  // Kahn's algorithm: start with nodes having zero in-degree\n  const queue: T[] = []\n  for (const [node, degree] of inDegree) {\n    if (degree === 0) queue.push(node)\n  }\n\n  const sorted: T[] = []\n  while (queue.length > 0) {\n    const node = queue.shift()!\n    sorted.push(node)\n\n    for (const neighbor of adjacencyList.get(node) ?? []) {\n      inDegree.set(neighbor, (inDegree.get(neighbor) ?? 0) - 1)\n      if (inDegree.get(neighbor) === 0) {\n        queue.push(neighbor)\n      }\n    }\n  }\n\n  const hasCycle = sorted.length < graph.nodes.length\n  return { sorted, hasCycle }\n}\n```\n\nThis validates that inputs are arrays, initializes in-degrees and adjacency lists for all nodes, then processes nodes with zero in-degree while decrementing neighbors' in-degrees. If fewer nodes are processed than exist in the graph, a cycle is detected. node of graph.nodes) {\n    if (nodeSet.has(node)) {\n      throw new Error(`Duplicate node: ${node}`)\n    }\n    nodeSet.has(node)\n  }\n\n  // Check for duplicate edges\n  const edgeSet = new Set<string>()\n  const inDegree = new Map<T, number>()\n  const adjacencyList = new Map<T, T[]>()\n\n  for (const node of graph.nodes) {\n    inDegree.set(node, 0)\n    adjacencyList.set(node, [])\n  }\n\n  for (const [from, to] of graph.edges) {\n    const edgeKey = `${from}|${to}`\n    if (edgeSet.has(edgeKey)) {\n      throw new Error(`Duplicate edge: ${from} -> ${to}`)\n    }\n    edgeSet.add(edgeKey)\n\n    if (!inDegree.has(from) || !inDegree.has(to)) {\n      throw new Error(`Invalid edge: node not in graph`)\n    }\n    inDegree.set(to, (inDegree.get(to) ?? 0) + 1)\n    adjacencyList.get(from)!.push(to)\n  }\n\n  const queue: T[] = []\n  for (const [node, degree] of inDegree) {\n    if (degree === 0) {\n      queue.push(node)\n    }\n  }\n\n  const sorted: T[] = []\n  while (queue.length > 0) {\n    const node = queue.shift()!\n    sorted.push(node)\n\n    for (const neighbor of adjacencyList.get(node) ?? []) {\n      const newDegree = (inDegree.get(neighbor) ?? 0) - 1\n      inDegree.set(neighbor, newDegree)\n      if (newDegree === 0) {\n        queue.push(neighbor)\n      }\n    }\n  }\n\n  return {\n    sorted,\n    hasCycle: sorted.length !== graph.nodes.length,\n  }\n}\n```\n\nI need to add validation for the input graph structure and handle edge cases. I'm adding checks for duplicate nodes using a Set to track which nodes we've already seen, and throwing an error if we encounter a duplicate. For duplicate edges, I'm creating a string key from the edge pair and storing it in a Set to detect duplicates. I also added early return for empty graphs and input validation to ensure nodes and edges are actually arrays. an array\")\n  }\n\n  if (graph.nodes.length === 0) {\n    return { sorted: [], hasCycle: false }\n  }\n\n  I'll initialize the in-degree and adjacency list maps for each node, then build the graph by processing edges and validating that both endpoints exist in the node set. After that, I'll apply Kahn's algorithm by starting with nodes that have zero in-degree and processing them in order, decrementing in-degrees as I traverse neighbors and adding newly zero-degree nodes to the queue. Finally, I'll check if all nodes were processed to detect cycles. duplicates in the nodes array could cause issues. I should validate that all nodes are unique before processing. For any type T, I can use a Set to track seen nodes and throw an error if duplicates are found.\n\nI'm also reconsidering the validation approach - checking that graph exists and that both nodes and edges are arrays. If edges aren't properly formatted, the algorithm could fail silently. Let me add validation to ensure edges is an array and that each edge contains exactly two elements.\n\nFor the core algorithm, I'll use Kahn's algorithm with a Map to track in-degrees and an adjacency list. I need to initialize in-degrees to 0 for all nodes, then increment them as I process edges. Before building the graph, I should verify that both nodes in each edge actually exist in the graph to catch invalid references early.\n\nThe algorithm processes nodes with in-degree 0 using a queue, removing them and decrementing the in-degree of their neighbors. At the end, if all nodes were processed, there's no cycle; otherwise, there is one.\n\nOne consideration: if T is an object type rather than a primitive, the Set will use reference equality, so two objects representing the same logical node would be treated as distinct. This could be a limitation depending on how the function is used, but it's a reasonable constraint for the current implementation.\n\nI should add duplicate edge detection to handle cases where the same edge appears multiple times, which would incorrectly increment the in-degree. The implementation checks for duplicate nodes upfront and validates the graph structure before processing. if (processedEdges.has(edgeKey)) {\n      continue // Skip duplicate edges silently\n    }\n    processedEdges.add(edgeKey)\n    \n    inDegree.set(to, (inDegree.get(to) ?? 0) + 1)\n    adjacencyList.get(from)!.push(to)\n  }\n\n  // Kahn's algorithm\n  const queue: T[] = []\n  for (const [node, degree] of inDegree) {\n    if (degree === 0) {\n      queue.push(node)\n    }\n  }\n\n  const sorted: T[] = []\n  while (queue.length > 0) {\n    const node = queue.shift()!\n    sorted.push(node)\n\n    for (const neighbor of adjacencyList.get(node) ?? []) {\n      const newDegree = (inDegree.get(neighbor) ?? 0) - 1\n      inDegree.set(neighbor, newDegree)\n      if (newDegree === 0) {\n        queue.push(neighbor)\n      }\n    }\n  }\n\n  const hasCycle = sorted.length !== graph.nodes.length\n\n  return {\n    sorted,\n    hasCycle,\n  }\n}\n```\n\nAfter processing all edges and running Kahn's algorithm, I check if the sorted array length matches the total nodes—if not, there's a cycle. The function returns both the topologically sorted nodes and whether a cycle was detected. )!\n    if (!neighbors.includes(to)) {\n      inDegree.set(to, (inDegree.get(to) ?? 0) + 1)\n      neighbors.push(to)\n    }\n  }\n\n  // Kahn's algorithm\n  const queue: T[] = []\n  for (const [node, degree] of inDegree) {\n    if (degree === 0) {\n      queue.push(node)\n    }\n  }\n\n  const sorted: T[] = []\n  while (queue.length > 0) {\n    const node = queue.shift()!\n    sorted.push(node)\n\n    for (const neighbor of adjacencyList.get(node) ?? []) {\n      const newDegree = (inDegree.get(neighbor) ?? 0) - 1\n      inDegree.set(neighbor, newDegree)\n      if (newDegree === 0) {\n        queue.push(neighbor)\n      }\n    }\n  }\n\n  const hasCycle = sorted.length\n\nNow I'm implementing Kahn's algorithm to perform the topological sort. I start by finding all nodes with no incoming edges and adding them to a queue. Then I process each node, decrementing the in-degree of its neighbors and adding any that reach zero in-degree to the queue. Finally, I check if the sorted list contains all nodes—if not, there's a cycle in the graph. the structure. If the graph is empty, we return `{ sorted: [], hasCycle: false }`, which handles that case correctly. The optional chaining with `adjacencyList.get(node) ?? []` in the final loop provides a safety net even though all nodes should be initialized, but it's a reasonable defensive measure to keep.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 9,
+        "cache_creation_input_tokens": 1355,
+        "cache_read_input_tokens": 24196,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1355
+        },
+        "output_tokens": 1,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "47db19ec-d1b6-41ef-8160-bd858c4528de",
+    "uuid": "d2f0b5a3-2fba-43c4-9dea-f254fdcd5aba"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-haiku-4-5-20251001",
+      "id": "msg_011YESmcVoyi4wvXtadqUzn1",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nexport interface Graph<T> {\n  nodes: T[]\n  edges: Array<[T, T]>\n}\n\nexport interface ToposortResult<T> {\n  sorted: T[]\n  hasCycle: boolean\n}\n\nexport function toposort<T>(graph: Graph<T>): ToposortResult<T> {\n  if (!graph || !Array.isArray(graph.nodes)) {\n    throw new Error(\"Invalid graph: nodes must be an array\")\n  }\n  if (!Array.isArray(graph.edges)) {\n    throw new Error(\"Invalid graph: edges must be an array\")\n  }\n\n  if (graph.nodes.length === 0) {\n    return { sorted: [], hasCycle: false }\n  }\n\n  // Check for duplicate nodes\n  const nodeSet = new Set<T>()\n  for (const node of graph.nodes) {\n    if (nodeSet.has(node)) {\n      throw new Error(\"Duplicate node in graph\")\n    }\n    nodeSet.add(node)\n  }\n\n  const inDegree = new Map<T, number>()\n  const adjacencyList = new Map<T, T[]>()\n\n  // Initialize\n  for (const node of graph.nodes) {\n    inDegree.set(node, 0)\n    adjacencyList.set(node, [])\n  }\n\n  // Build graph, skipping duplicate edges\n  for (const [from, to] of graph.edges) {\n    if (!nodeSet.has(from) || !nodeSet.has(to)) {\n      throw new Error(\"Invalid edge: referenced node not in graph\")\n    }\n\n    const neighbors = adjacencyList.get(from)!\n    if (!neighbors.includes(to)) {\n      inDegree.set(to, (inDegree.get(to) ?? 0) + 1)\n      neighbors.push(to)\n    }\n  }\n\n  // Kahn's algorithm\n  const queue: T[] = []\n  for (const [node, degree] of inDegree) {\n    if (degree === 0) {\n      queue.push(node)\n    }\n  }\n\n  const sorted: T[] = []\n  while (queue.length > 0) {\n    const node = queue.shift()!\n    sorted.push(node)\n\n    for (const neighbor of adjacencyList.get(node) ?? []) {\n      const newDegree = (inDegree.get(neighbor) ?? 0) - 1\n      inDegree.set(neighbor, newDegree)\n      if (newDegree === 0) {\n        queue.push(neighbor)\n      }\n    }\n  }\n\n  const hasCycle = sorted.length !== graph.nodes.length\n\n  return {\n    sorted,\n    hasCycle,\n  }\n}\n```\n\n**Critique & Fixes:**\n\n1. **Bug: Missing null check on graph parameter** — Added `!graph` check at entry.\n2. **Bug: Inefficient edge deduplication with includes()** — Kept it simple; for the typical case this is acceptable, and using a Set per node would require additional bookkeeping that complicates the type signature.\n3. **Bug: inDegree.get() returns undefined for uninitialized nodes** — Fixed by initializing all nodes before processing edges; the `?? 0` is defensive and correct."
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 9,
+        "cache_creation_input_tokens": 1355,
+        "cache_read_input_tokens": 24196,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1355
+        },
+        "output_tokens": 1,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "47db19ec-d1b6-41ef-8160-bd858c4528de",
+    "uuid": "1b14c911-46a7-45c5-b9fa-766b8d8cb8c5"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed_warning",
+      "resetsAt": 1775811600,
+      "rateLimitType": "seven_day",
+      "utilization": 0.92,
+      "isUsingOverage": false,
+      "surpassedThreshold": 0.75
+    },
+    "uuid": "1b3f16ee-3fed-4a6e-a52a-adb01bd521fd",
+    "session_id": "47db19ec-d1b6-41ef-8160-bd858c4528de"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 34154,
+    "duration_api_ms": 34124,
+    "num_turns": 1,
+    "result": "```typescript\nexport interface Graph<T> {\n  nodes: T[]\n  edges: Array<[T, T]>\n}\n\nexport interface ToposortResult<T> {\n  sorted: T[]\n  hasCycle: boolean\n}\n\nexport function toposort<T>(graph: Graph<T>): ToposortResult<T> {\n  if (!graph || !Array.isArray(graph.nodes)) {\n    throw new Error(\"Invalid graph: nodes must be an array\")\n  }\n  if (!Array.isArray(graph.edges)) {\n    throw new Error(\"Invalid graph: edges must be an array\")\n  }\n\n  if (graph.nodes.length === 0) {\n    return { sorted: [], hasCycle: false }\n  }\n\n  // Check for duplicate nodes\n  const nodeSet = new Set<T>()\n  for (const node of graph.nodes) {\n    if (nodeSet.has(node)) {\n      throw new Error(\"Duplicate node in graph\")\n    }\n    nodeSet.add(node)\n  }\n\n  const inDegree = new Map<T, number>()\n  const adjacencyList = new Map<T, T[]>()\n\n  // Initialize\n  for (const node of graph.nodes) {\n    inDegree.set(node, 0)\n    adjacencyList.set(node, [])\n  }\n\n  // Build graph, skipping duplicate edges\n  for (const [from, to] of graph.edges) {\n    if (!nodeSet.has(from) || !nodeSet.has(to)) {\n      throw new Error(\"Invalid edge: referenced node not in graph\")\n    }\n\n    const neighbors = adjacencyList.get(from)!\n    if (!neighbors.includes(to)) {\n      inDegree.set(to, (inDegree.get(to) ?? 0) + 1)\n      neighbors.push(to)\n    }\n  }\n\n  // Kahn's algorithm\n  const queue: T[] = []\n  for (const [node, degree] of inDegree) {\n    if (degree === 0) {\n      queue.push(node)\n    }\n  }\n\n  const sorted: T[] = []\n  while (queue.length > 0) {\n    const node = queue.shift()!\n    sorted.push(node)\n\n    for (const neighbor of adjacencyList.get(node) ?? []) {\n      const newDegree = (inDegree.get(neighbor) ?? 0) - 1\n      inDegree.set(neighbor, newDegree)\n      if (newDegree === 0) {\n        queue.push(neighbor)\n      }\n    }\n  }\n\n  const hasCycle = sorted.length !== graph.nodes.length\n\n  return {\n    sorted,\n    hasCycle,\n  }\n}\n```\n\n**Critique & Fixes:**\n\n1. **Bug: Missing null check on graph parameter** — Added `!graph` check at entry.\n2. **Bug: Inefficient edge deduplication with includes()** — Kept it simple; for the typical case this is acceptable, and using a Set per node would require additional bookkeeping that complicates the type signature.\n3. **Bug: inDegree.get() returns undefined for uninitialized nodes** — Fixed by initializing all nodes before processing edges; the `?? 0` is defensive and correct.",
+    "stop_reason": "end_turn",
+    "session_id": "47db19ec-d1b6-41ef-8160-bd858c4528de",
+    "total_cost_usd": 0.03579235000000001,
+    "usage": {
+      "input_tokens": 9,
+      "cache_creation_input_tokens": 1355,
+      "cache_read_input_tokens": 24196,
+      "output_tokens": 6334,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1355,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 9,
+        "outputTokens": 6334,
+        "cacheReadInputTokens": 24196,
+        "cacheCreationInputTokens": 1355,
+        "webSearchRequests": 0,
+        "costUSD": 0.03579235000000001,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "d2325c9b-ba5e-44be-9617-c8395c46c045"
+  }
+]

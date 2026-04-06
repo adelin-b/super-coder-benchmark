@@ -1,0 +1,10 @@
+name: effect-god
+version: 1
+model_default: haiku
+max_turns: 1
+tools: []
+context_bundle:
+  - context-bundles/effect-quickstart/errors.md
+  - context-bundles/effect-quickstart/common-pitfalls.md
+system_prompt_file: system-prompt.md
+changelog: "v1: Ultimate Effect agent combining all winning patterns from 350+ experimental runs. 10-step pipeline: spec parsing, test analysis, invariants, architecture, Effect impl, boundary wrapping, validation, self-critique, invariant verification, checklist."
