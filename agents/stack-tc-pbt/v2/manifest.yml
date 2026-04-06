@@ -1,0 +1,15 @@
+name: stack-tc-pbt
+version: 2
+parent: 1
+model_default: sonnet
+max_turns: 1
+tools: []
+context_bundle:
+  - context-bundles/fastcheck-core/arbitraries.md
+system_prompt_file: system-prompt.md
+changelog: >
+  v2: Autoresearch iteration 2 (best of 5). Improver (sonnet) restructured
+  prompt to emphasise exact export naming, mandatory input validation with
+  thrown errors, and added an explicit self-review checklist. Baseline 75.0%
+  -> 76.2% (+1.2pp). Biggest gains on BL-2 (87.5% -> 90%) and ALG-2
+  (83.3% -> 85.7%). BL-5 and SAAS-2 remain challenging (0% and 50%).

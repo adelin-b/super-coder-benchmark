@@ -1,0 +1,67 @@
+[
+  {
+    "task": "BL-2",
+    "agent": "stack-tc-pbt",
+    "model": "haiku",
+    "generated": true,
+    "tests_passed": 7,
+    "tests_total": 8,
+    "pass_rate": 0.875,
+    "tokens_in": 9,
+    "tokens_out": 2367,
+    "duration_ms": 18744,
+    "verdict": "fail"
+  },
+  {
+    "task": "BL-4",
+    "agent": "stack-tc-pbt",
+    "model": "haiku",
+    "generated": true,
+    "tests_passed": 2,
+    "tests_total": 3,
+    "pass_rate": 0.6667,
+    "tokens_in": 9,
+    "tokens_out": 2848,
+    "duration_ms": 19458,
+    "verdict": "fail"
+  },
+  {
+    "task": "BL-5",
+    "agent": "stack-tc-pbt",
+    "model": "haiku",
+    "generated": true,
+    "tests_passed": 0,
+    "tests_total": 1,
+    "pass_rate": 0,
+    "tokens_in": 9,
+    "tokens_out": 2020,
+    "duration_ms": 14378,
+    "verdict": "fail"
+  },
+  {
+    "task": "ALG-2",
+    "agent": "stack-tc-pbt",
+    "model": "haiku",
+    "generated": true,
+    "tests_passed": 1,
+    "tests_total": 1,
+    "pass_rate": 1,
+    "tokens_in": 9,
+    "tokens_out": 2579,
+    "duration_ms": 16689,
+    "verdict": "pass"
+  },
+  {
+    "task": "SAAS-2",
+    "agent": "stack-tc-pbt",
+    "model": "haiku",
+    "generated": true,
+    "tests_passed": 1,
+    "tests_total": 2,
+    "pass_rate": 0.5,
+    "tokens_in": 9,
+    "tokens_out": 2348,
+    "duration_ms": 18730,
+    "verdict": "fail"
+  }
+]

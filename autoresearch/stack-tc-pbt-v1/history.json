@@ -1,0 +1,231 @@
+{
+  "agent": "stack-tc-pbt-v1",
+  "model": "haiku",
+  "tasks": [
+    "BL-2",
+    "BL-4",
+    "BL-5",
+    "ALG-2",
+    "SAAS-2"
+  ],
+  "startedAt": "2026-04-05T23:55:02.435Z",
+  "iterations": [
+    {
+      "iteration": 0,
+      "promptHash": "c2fbf54a3f30",
+      "scoresPerTask": {
+        "BL-2": {
+          "passed": 7,
+          "total": 8,
+          "rate": 0.875
+        },
+        "BL-4": {
+          "passed": 2,
+          "total": 3,
+          "rate": 0.6666666666666666
+        },
+        "BL-5": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "ALG-2": {
+          "passed": 5,
+          "total": 6,
+          "rate": 0.8333333333333334
+        },
+        "SAAS-2": {
+          "passed": 1,
+          "total": 2,
+          "rate": 0.5
+        }
+      },
+      "avgScore": 0.75,
+      "totalPassed": 15,
+      "totalTests": 20,
+      "improved": true
+    },
+    {
+      "iteration": 1,
+      "promptHash": "0ea073382c9a",
+      "scoresPerTask": {
+        "BL-2": {
+          "passed": 9,
+          "total": 10,
+          "rate": 0.9
+        },
+        "BL-4": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "BL-5": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "ALG-2": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "SAAS-2": {
+          "passed": 1,
+          "total": 2,
+          "rate": 0.5
+        }
+      },
+      "avgScore": 0.7333333333333333,
+      "totalPassed": 11,
+      "totalTests": 15,
+      "improved": false,
+      "durationMs": 90089
+    },
+    {
+      "iteration": 2,
+      "promptHash": "effbd3933813",
+      "scoresPerTask": {
+        "BL-2": {
+          "passed": 9,
+          "total": 10,
+          "rate": 0.9
+        },
+        "BL-4": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "BL-5": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "ALG-2": {
+          "passed": 6,
+          "total": 7,
+          "rate": 0.8571428571428571
+        },
+        "SAAS-2": {
+          "passed": 1,
+          "total": 2,
+          "rate": 0.5
+        }
+      },
+      "avgScore": 0.7619047619047619,
+      "totalPassed": 16,
+      "totalTests": 21,
+      "improved": true,
+      "durationMs": 89123
+    },
+    {
+      "iteration": 3,
+      "promptHash": "f1acf5577848",
+      "scoresPerTask": {
+        "BL-2": {
+          "passed": 7,
+          "total": 8,
+          "rate": 0.875
+        },
+        "BL-4": {
+          "passed": 2,
+          "total": 3,
+          "rate": 0.6666666666666666
+        },
+        "BL-5": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "ALG-2": {
+          "passed": 1,
+          "total": 1,
+          "rate": 1
+        },
+        "SAAS-2": {
+          "passed": 1,
+          "total": 2,
+          "rate": 0.5
+        }
+      },
+      "avgScore": 0.7333333333333333,
+      "totalPassed": 11,
+      "totalTests": 15,
+      "improved": false,
+      "durationMs": 115801
+    },
+    {
+      "iteration": 4,
+      "promptHash": "b20eab88c6da",
+      "scoresPerTask": {
+        "BL-2": {
+          "passed": 9,
+          "total": 10,
+          "rate": 0.9
+        },
+        "BL-4": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "BL-5": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "ALG-2": {
+          "passed": 1,
+          "total": 2,
+          "rate": 0.5
+        },
+        "SAAS-2": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        }
+      },
+      "avgScore": 0.6666666666666666,
+      "totalPassed": 10,
+      "totalTests": 15,
+      "improved": false,
+      "durationMs": 101899
+    },
+    {
+      "iteration": 5,
+      "promptHash": "50b75332dfe8",
+      "scoresPerTask": {
+        "BL-2": {
+          "passed": 7,
+          "total": 8,
+          "rate": 0.875
+        },
+        "BL-4": {
+          "passed": 2,
+          "total": 3,
+          "rate": 0.6666666666666666
+        },
+        "BL-5": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        },
+        "ALG-2": {
+          "passed": 6,
+          "total": 7,
+          "rate": 0.8571428571428571
+        },
+        "SAAS-2": {
+          "passed": 0,
+          "total": 1,
+          "rate": 0
+        }
+      },
+      "avgScore": 0.75,
+      "totalPassed": 15,
+      "totalTests": 20,
+      "improved": false,
+      "durationMs": 98870
+    }
+  ],
+  "bestIteration": 2,
+  "bestScore": 0.7619047619047619
+}
