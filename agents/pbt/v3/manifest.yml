@@ -1,0 +1,16 @@
+name: pbt
+version: 3
+parent: 2
+model_default: sonnet
+max_turns: 1
+tools: []
+context_bundle:
+  - context-bundles/fastcheck-core/arbitraries.md
+system_prompt_file: system-prompt.md
+changelog: >-
+  v3: autoresearch (5 iterations, haiku generator, sonnet improver) on
+  BL-2,BL-4,BL-5,ALG-2,ALG-3,SAAS-2,SAAS-3 found no improvement over v2
+  baseline (69.6%). All 5 iterations regressed by removing PBT-specific
+  guidance in favor of generic test-matching instructions. v2 prompt retained
+  as-is — the PBT property-focused framing is confirmed as the best approach
+  for this agent archetype.
