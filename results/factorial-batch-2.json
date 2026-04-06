@@ -1,1 +1,26 @@
-[]
+[
+  {"task":"ALG-3","agent":"factorial-pts-C","model":"haiku","generated":true,"tests_passed":2,"tests_total":3,"pass_rate":0.6667,"tokens_in":9,"tokens_out":3127,"duration_ms":21347,"verdict":"fail"},
+  {"task":"BL-5","agent":"factorial-pts-CV","model":"haiku","generated":true,"tests_passed":0,"tests_total":1,"pass_rate":0,"tokens_in":9,"tokens_out":411,"duration_ms":7635,"verdict":"fail"},
+  {"task":"SAAS-3","agent":"factorial-pts-CV","model":"haiku","generated":true,"tests_passed":0,"tests_total":1,"pass_rate":0,"tokens_in":9,"tokens_out":3726,"duration_ms":24811,"verdict":"fail"},
+  {"task":"ALG-3","agent":"factorial-pts-CV","model":"haiku","generated":true,"tests_passed":2,"tests_total":3,"pass_rate":0.6667,"tokens_in":9,"tokens_out":4132,"duration_ms":26742,"verdict":"fail"},
+  {"task":"BL-5","agent":"factorial-pts-CK","model":"haiku","generated":true,"tests_passed":0,"tests_total":1,"pass_rate":0,"tokens_in":9,"tokens_out":2596,"duration_ms":18449,"verdict":"fail"},
+  {"task":"SAAS-3","agent":"factorial-pts-CK","model":"haiku","generated":true,"tests_passed":0,"tests_total":1,"pass_rate":0,"tokens_in":9,"tokens_out":2788,"duration_ms":19518,"verdict":"fail"},
+  {"task":"ALG-3","agent":"factorial-pts-CK","model":"haiku","generated":true,"tests_passed":2,"tests_total":3,"pass_rate":0.6667,"tokens_in":9,"tokens_out":3246,"duration_ms":24565,"verdict":"fail"},
+  {"task":"BL-5","agent":"factorial-pts-CKV","model":"haiku","generated":true,"tests_passed":0,"tests_total":1,"pass_rate":0,"tokens_in":9,"tokens_out":3196,"duration_ms":30479,"verdict":"fail"},
+  {"task":"SAAS-3","agent":"factorial-pts-CKV","model":"haiku","generated":true,"tests_passed":0,"tests_total":1,"pass_rate":0,"tokens_in":9,"tokens_out":5739,"duration_ms":35561,"verdict":"fail"},
+  {"task":"ALG-3","agent":"factorial-pts-CKV","model":"haiku","generated":true,"tests_passed":2,"tests_total":3,"pass_rate":0.6667,"tokens_in":9,"tokens_out":2989,"duration_ms":21980,"verdict":"fail"},
+  {"task":"BL-5","agent":"factorial-pts-CE","model":"haiku","generated":true,"tests_passed":0,"tests_total":1,"pass_rate":0,"tokens_in":9,"tokens_out":2849,"duration_ms":21996,"verdict":"fail"},
+  {"task":"SAAS-3","agent":"factorial-pts-CE","model":"haiku","generated":true,"tests_passed":0,"tests_total":1,"pass_rate":0,"tokens_in":9,"tokens_out":4665,"duration_ms":30170,"verdict":"fail"},
+  {"task":"ALG-3","agent":"factorial-pts-CE","model":"haiku","generated":true,"tests_passed":2,"tests_total":3,"pass_rate":0.6667,"tokens_in":9,"tokens_out":3389,"duration_ms":24509,"verdict":"fail"},
+  {"task":"BL-5","agent":"factorial-pts-CEV","model":"haiku","generated":true,"tests_passed":0,"tests_total":1,"pass_rate":0,"tokens_in":9,"tokens_out":4000,"duration_ms":25639,"verdict":"fail"},
+  {"task":"SAAS-3","agent":"factorial-pts-CEV","model":"haiku","generated":true,"tests_passed":0,"tests_total":1,"pass_rate":0,"tokens_in":9,"tokens_out":3467,"duration_ms":23559,"verdict":"fail"},
+  {"task":"ALG-3","agent":"factorial-pts-CEV","model":"haiku","generated":true,"tests_passed":2,"tests_total":3,"pass_rate":0.6667,"tokens_in":9,"tokens_out":5074,"duration_ms":36299,"verdict":"fail"},
+  {"task":"BL-5","agent":"factorial-pts-CEK","model":"haiku","generated":true,"tests_passed":0,"tests_total":1,"pass_rate":0,"tokens_in":9,"tokens_out":1919,"duration_ms":17050,"verdict":"fail"},
+  {"task":"SAAS-3","agent":"factorial-pts-CEK","model":"haiku","generated":true,"tests_passed":0,"tests_total":1,"pass_rate":0,"tokens_in":9,"tokens_out":2005,"duration_ms":14991,"verdict":"fail"},
+  {"task":"ALG-3","agent":"factorial-pts-CEK","model":"haiku","generated":true,"tests_passed":2,"tests_total":3,"pass_rate":0.6667,"tokens_in":9,"tokens_out":3311,"duration_ms":23933,"verdict":"fail"},
+  {"task":"BL-5","agent":"factorial-pts-CEKV","model":"haiku","generated":true,"tests_passed":0,"tests_total":1,"pass_rate":0,"tokens_in":9,"tokens_out":2880,"duration_ms":19810,"verdict":"fail"},
+  {"task":"SAAS-3","agent":"factorial-pts-CEKV","model":"haiku","generated":true,"tests_passed":0,"tests_total":1,"pass_rate":0,"tokens_in":9,"tokens_out":3052,"duration_ms":20182,"verdict":"fail"},
+  {"task":"ALG-3","agent":"factorial-pts-CEKV","model":"haiku","generated":true,"tests_passed":2,"tests_total":3,"pass_rate":0.6667,"tokens_in":9,"tokens_out":2886,"duration_ms":22301,"verdict":"fail"},
+  {"task":"BL-5","agent":"factorial-eff-base","model":"haiku","generated":true,"tests_passed":0,"tests_total":1,"pass_rate":0,"tokens_in":9,"tokens_out":458,"duration_ms":8807,"verdict":"fail"},
+  {"task":"SAAS-3","agent":"factorial-eff-base","model":"haiku","generated":true,"tests_passed":0,"tests_total":1,"pass_rate":0,"tokens_in":9,"tokens_out":2402,"duration_ms":17953,"verdict":"fail"}
+]
