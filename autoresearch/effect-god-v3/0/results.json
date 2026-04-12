@@ -1,0 +1,54 @@
+[
+  {
+    "task": "WEB-TS-1",
+    "agent": "effect-god",
+    "model": "sonnet",
+    "generated": true,
+    "tests_passed": 6,
+    "tests_total": 13,
+    "pass_rate": 0.4615,
+    "tokens_in": 2,
+    "tokens_out": 429,
+    "duration_ms": 6062,
+    "verdict": "fail"
+  },
+  {
+    "task": "WEB-TS-2",
+    "agent": "effect-god",
+    "model": "sonnet",
+    "generated": true,
+    "tests_passed": 3,
+    "tests_total": 9,
+    "pass_rate": 0.3333,
+    "tokens_in": 2,
+    "tokens_out": 1515,
+    "duration_ms": 19405,
+    "verdict": "fail"
+  },
+  {
+    "task": "WEB-TS-4",
+    "agent": "effect-god",
+    "model": "sonnet",
+    "generated": true,
+    "tests_passed": 0,
+    "tests_total": 5,
+    "pass_rate": 0,
+    "tokens_in": 6,
+    "tokens_out": 4999,
+    "duration_ms": 68771,
+    "verdict": "fail"
+  },
+  {
+    "task": "WEB-TS-7",
+    "agent": "effect-god",
+    "model": "sonnet",
+    "generated": true,
+    "tests_passed": 2,
+    "tests_total": 6,
+    "pass_rate": 0.3333,
+    "tokens_in": 2,
+    "tokens_out": 5176,
+    "duration_ms": 57419,
+    "verdict": "fail"
+  }
+]

@@ -1,0 +1,43 @@
+export type SetterValueType =
+  | string
+  | number
+  | boolean
+  | SetterValueType[]
+  | { [key: string]: SetterValueType }
+
+export interface InputSetter { type: 'input' }
+export interface NumberSetter { type: 'number' }
+export interface CheckboxSetter { type: 'checkbox' }
+
+export interface ArraySetter<Value extends SetterValueType[]> {
+  type: 'array'
+  item: ValueSetter<Value[number]>
+  value?: Value
+}
+
+export interface TupleSetter<Value extends SetterValueType[]> {
+  type: 'tuple'
+  items: { [K in keyof Value]: Value[K] extends SetterValueType ? ValueSetter<Value[K]> : never }
+  value?: Value
+}
+
+export interface ObjectSetter<Value extends { [key: string]: SetterValueType }> {
+  type: 'object'
+  properties: { [K in keyof Value]: ValueSetter<Value[K]> }
+  value?: Value
+}
+
+export type ValueSetter<T extends SetterValueType> =
+  T extends string
+    ? InputSetter
+    : T extends number
+    ? NumberSetter
+    : T extends boolean
+    ? CheckboxSetter
+    : T extends SetterValueType[]
+    ? ArraySetter<T> | TupleSetter<T>
+    : T extends { [key: string]: SetterValueType }
+    ? ObjectSetter<T>
+    : never
+
+export type Setter<T extends SetterValueType = SetterValueType> = ValueSetter<T>

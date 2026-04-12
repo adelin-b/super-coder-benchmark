@@ -1,0 +1,107 @@
+{
+  "agent": "effect-god-v3",
+  "model": "sonnet",
+  "tasks": [
+    "WEB-TS-1",
+    "WEB-TS-2",
+    "WEB-TS-4",
+    "WEB-TS-7"
+  ],
+  "startedAt": "2026-04-12T23:14:14.018Z",
+  "iterations": [
+    {
+      "iteration": 0,
+      "promptHash": "bdd34376df70",
+      "scoresPerTask": {
+        "WEB-TS-1": {
+          "passed": 6,
+          "total": 13,
+          "rate": 0.46153846153846156
+        },
+        "WEB-TS-2": {
+          "passed": 3,
+          "total": 9,
+          "rate": 0.3333333333333333
+        },
+        "WEB-TS-4": {
+          "passed": 0,
+          "total": 5,
+          "rate": 0
+        },
+        "WEB-TS-7": {
+          "passed": 2,
+          "total": 6,
+          "rate": 0.3333333333333333
+        }
+      },
+      "avgScore": 0.3333333333333333,
+      "totalPassed": 11,
+      "totalTests": 33,
+      "improved": true
+    },
+    {
+      "iteration": 1,
+      "promptHash": "6e226911eca1",
+      "scoresPerTask": {
+        "WEB-TS-1": {
+          "passed": 6,
+          "total": 13,
+          "rate": 0.46153846153846156
+        },
+        "WEB-TS-2": {
+          "passed": 3,
+          "total": 9,
+          "rate": 0.3333333333333333
+        },
+        "WEB-TS-4": {
+          "passed": 0,
+          "total": 5,
+          "rate": 0
+        },
+        "WEB-TS-7": {
+          "passed": 2,
+          "total": 6,
+          "rate": 0.3333333333333333
+        }
+      },
+      "avgScore": 0.3333333333333333,
+      "totalPassed": 11,
+      "totalTests": 33,
+      "improved": false,
+      "durationMs": 246590
+    },
+    {
+      "iteration": 2,
+      "promptHash": "15a9ad954ca2",
+      "scoresPerTask": {
+        "WEB-TS-1": {
+          "passed": 6,
+          "total": 13,
+          "rate": 0.46153846153846156
+        },
+        "WEB-TS-2": {
+          "passed": 3,
+          "total": 9,
+          "rate": 0.3333333333333333
+        },
+        "WEB-TS-4": {
+          "passed": 0,
+          "total": 5,
+          "rate": 0
+        },
+        "WEB-TS-7": {
+          "passed": 2,
+          "total": 6,
+          "rate": 0.3333333333333333
+        }
+      },
+      "avgScore": 0.3333333333333333,
+      "totalPassed": 11,
+      "totalTests": 33,
+      "improved": false,
+      "durationMs": 236516
+    }
+  ],
+  "bestIteration": 0,
+  "bestScore": 0.3333333333333333
+}
