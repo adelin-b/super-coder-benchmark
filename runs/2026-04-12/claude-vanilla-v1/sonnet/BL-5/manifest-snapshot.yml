@@ -1,0 +1,8 @@
+name: claude-vanilla
+version: 1
+model_default: sonnet
+max_turns: 10
+tools: ["Read", "Bash", "Write", "Glob", "Grep"]
+context_bundle: []
+system_prompt_file: system-prompt.md
+changelog: "v1: Vanilla Claude Code with tools. No special prompt engineering. Just 'implement this' with access to Read/Bash/Write. The baseline for what stock Claude can do with agentic tools."

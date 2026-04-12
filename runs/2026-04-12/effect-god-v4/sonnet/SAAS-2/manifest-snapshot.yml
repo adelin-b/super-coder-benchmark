@@ -1,0 +1,12 @@
+name: effect-god
+version: 4
+model_default: sonnet
+max_turns: 10
+tools: ["Read", "Bash", "Write", "Glob", "Grep"]
+context_bundle:
+  - context-bundles/effect-quickstart/errors.md
+  - context-bundles/effect-quickstart/generators.md
+  - context-bundles/effect-quickstart/common-pitfalls.md
+  - context-bundles/fastcheck-core/arbitraries.md
+system_prompt_file: system-prompt.md
+changelog: "v4: AGENTIC effect-god with tools + multi-turn. Based on v3 prompt + 8 techniques from 2026 paper analysis + Read/Bash/Write tools for test-file reading and typecheck feedback loop. 10 turns max."

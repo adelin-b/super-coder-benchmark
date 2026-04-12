@@ -1,23 +1,97 @@
 import { Effect, Data } from "effect";
 
-// ─── Internal doubly-linked list node ───────────────────────────────────────
-
-interface Node<K, V> {
-  key: K;
-  value: V;
-  prev: Node<K, V> | null;
-  next: Node<K, V> | null;
-}
-
-function makeNode<K, V>(key: K, value: V): Node<K, V> {
-  return { key, value, prev: null, next: null };
-}
-
-// ─── Internal Effect-based logic ─────────────────────────────────────────────
+// ─── Internal tagged errors ───────────────────────────────────────────────────
 
 class CapacityError extends Data.TaggedError("CapacityError")<{
   reason: string;
 }> {}
+
+// ─── Doubly-linked list node ──────────────────────────────────────────────────
+
+interface Node {
+  key: number;
+  value: number;
+  prev: Node | null;
+  next: Node | null;
+}
+
+function makeNode(key: number, value: number): Node {
+  return { key, value, prev: null, next: null };
+}
+
+// ─── Internal Effect-based logic ──────────────────────────────────────────────
+
+interface CacheState {
+  capacity: number;
+  map: Map<number, Node>;
+  head: Node; // dummy head (MRU side)
+  tail: Node; // dummy tail (LRU side)
+}
+
+function makeState(capacity: number): CacheState {
+  const head = makeNode(0, 0);
+  const tail = makeNode(0, 0);
+  head.next = tail;
+  tail.prev = head;
+  return { capacity, map: new Map(), head, tail };
+}
+
+function removeNode(node: Node): void {
+  const prev = node.prev!;
+  const next = node.next!;
+  prev.next = next;
+  next.prev = prev;
+}
+
+function insertAfterHead(state: CacheState, node: Node): void {
+  node.prev = state.head;
+  node.next = state.head.next;
+  state.head.next!.prev = node;
+  state.head.next = node;
+}
+
+const internalGet = (
+  state: CacheState,
+  key: number
+): Effect.Effect<number, never> =>
+  Effect.sync(() => {
+    const node = state.map.get(key);
+    if (node === undefined) return -1;
+    // Move to MRU position
+    removeNode(node);
+    insertAfterHead(state, node);
+    return node.value;
+  });
+
+const internalPut = (
+  state: CacheState,
+  key: number,
+  value: number
+): Effect.Effect<void, CapacityError> =>
+  Effect.gen(function* () {
+    if (state.capacity <= 0) {
+      yield* Effect.fail(new CapacityError({ reason: "capacity must be > 0" }));
+    }
+
+    const existing = state.map.get(key);
+    if (existing !== undefined) {
+      existing.value = value;
+      removeNode(existing);
+      insertAfterHead(state, existing);
+      return;
+    }
+
+    // Evict LRU if at capacity
+    if (state.map.size >= state.capacity) {
+      const lru = state.tail.prev!;
+      removeNode(lru);
+      state.map.delete(lru.key);
+    }
+
+    const node = makeNode(key, value);
+    state.map.set(key, node);
+    insertAfterHead(state, node);
+  });
 
 // ─── Public error class ───────────────────────────────────────────────────────
 
@@ -29,124 +103,102 @@ export class LRUCacheError extends Error {
   }
 }
 
-// ─── LRUCache class ───────────────────────────────────────────────────────────
+// ─── Public interface ─────────────────────────────────────────────────────────
 
-export class LRUCache<K = string, V = unknown> {
-  private capacity: number;
-  private map: Map<K, Node<K, V>>;
-  // Sentinel head (MRU end) and tail (LRU end)
-  private head: Node<K, V>;
-  private tail: Node<K, V>;
+export interface LRUCache {
+  /**
+   * Returns the value for `key`, or `-1` if not present.
+   * Marks the entry as most-recently used.
+   */
+  get(key: number): number;
 
-  constructor(capacity: number) {
-    const exit = Effect.runSyncExit(
-      Effect.gen(function* () {
-        if (capacity <= 0)
-          yield* Effect.fail(
-            new CapacityError({ reason: "Capacity must be greater than 0" })
-          );
-        return capacity;
-      })
-    );
+  /**
+   * Inserts or updates `key → value`.
+   * If the cache is at capacity, evicts the least-recently-used entry first.
+   */
+  put(key: number, value: number): void;
 
-    if (exit._tag === "Failure") {
-      const raw = exit.cause;
-      const msg =
-        raw._tag === "Fail" && raw.error instanceof Error
-          ? raw.error.message
-          : (raw as any)?.error?.reason ?? "Invalid capacity";
-      throw new LRUCacheError(msg);
-    }
+  /** Current number of entries stored. */
+  size(): number;
 
-    this.capacity = exit.value;
-    this.map = new Map();
-    // Sentinels simplify edge cases
-    this.head = makeNode<K, V>(null as unknown as K, null as unknown as V);
-    this.tail = makeNode<K, V>(null as unknown as K, null as unknown as V);
-    this.head.next = this.tail;
-    this.tail.prev = this.head;
-  }
-
-  // O(1) get — returns undefined on miss
-  get(key: K): V | undefined {
-    const node = this.map.get(key);
-    if (node === undefined) return undefined;
-    this.moveToFront(node);
-    return node.value;
-  }
-
-  // O(1) put
-  put(key: K, value: V): void {
-    const existing = this.map.get(key);
-    if (existing !== undefined) {
-      existing.value = value;
-      this.moveToFront(existing);
-      return;
-    }
-
-    const node = makeNode(key, value);
-    this.map.set(key, node);
-    this.insertAtFront(node);
-
-    if (this.map.size > this.capacity) {
-      const lru = this.tail.prev!;
-      this.removeNode(lru);
-      this.map.delete(lru.key);
-    }
-  }
-
-  // Number of entries currently in the cache
-  size(): number {
-    return this.map.size;
-  }
-
-  // Remove all entries
-  clear(): void {
-    this.map.clear();
-    this.head.next = this.tail;
-    this.tail.prev = this.head;
-  }
-
-  // Check whether a key exists (without updating recency)
-  has(key: K): boolean {
-    return this.map.has(key);
-  }
-
-  // Delete a specific key; returns true if it existed
-  delete(key: K): boolean {
-    const node = this.map.get(key);
-    if (node === undefined) return false;
-    this.removeNode(node);
-    this.map.delete(key);
-    return true;
-  }
-
-  // ── Private helpers ──────────────────────────────────────────────────────
-
-  private removeNode(node: Node<K, V>): void {
-    node.prev!.next = node.next;
-    node.next!.prev = node.prev;
-    node.prev = null;
-    node.next = null;
-  }
-
-  private insertAtFront(node: Node<K, V>): void {
-    node.next = this.head.next;
-    node.prev = this.head;
-    this.head.next!.prev = node;
-    this.head.next = node;
-  }
-
-  private moveToFront(node: Node<K, V>): void {
-    this.removeNode(node);
-    this.insertAtFront(node);
-  }
+  /** The fixed maximum number of entries this cache can hold. */
+  readonly capacity: number;
 }
 
-// ─── Factory helper (alternative construction style) ─────────────────────────
+// ─── Factory ──────────────────────────────────────────────────────────────────
 
-export function createLRUCache<K = string, V = unknown>(
-  capacity: number
-): LRUCache<K, V> {
-  return new LRUCache<K, V>(capacity);
+export function createLRUCache(capacity: number): LRUCache {
+  if (!Number.isInteger(capacity) || capacity <= 0) {
+    throw new LRUCacheError("capacity must be a positive integer");
+  }
+
+  const state = makeState(capacity);
+
+  return {
+    get capacity() {
+      return state.capacity;
+    },
+
+    get(key: number): number {
+      const exit = Effect.runSyncExit(internalGet(state, key));
+      // internalGet never fails
+      if (exit._tag === "Failure") return -1;
+      return exit.value;
+    },
+
+    put(key: number, value: number): void {
+      const exit = Effect.runSyncExit(internalPut(state, key, value));
+      if (exit._tag === "Failure") {
+        const { Cause } = require("effect") as typeof import("effect");
+        const raw = Cause.squash(exit.cause);
+        const msg =
+          raw instanceof Error
+            ? raw.message
+            : (raw as CapacityError).reason ?? String(raw);
+        throw new LRUCacheError(msg);
+      }
+    },
+
+    size(): number {
+      return state.map.size;
+    },
+  };
+}
+
+// ─── Class-based API (mirrors standard LeetCode / interview style) ─────────────
+
+export class LRUCacheClass implements LRUCache {
+  readonly capacity: number;
+  private _state: CacheState;
+
+  constructor(capacity: number) {
+    if (!Number.isInteger(capacity) || capacity <= 0) {
+      throw new LRUCacheError("capacity must be a positive integer");
+    }
+    this.capacity = capacity;
+    this._state = makeState(capacity);
+  }
+
+  get(key: number): number {
+    const exit = Effect.runSyncExit(internalGet(this._state, key));
+    if (exit._tag === "Failure") return -1;
+    return exit.value;
+  }
+
+  put(key: number, value: number): void {
+    const exit = Effect.runSyncExit(internalPut(this._state, key, value));
+    if (exit._tag === "Failure") {
+      const { Cause } = require("effect") as typeof import("effect");
+      const raw = Cause.squash(exit.cause);
+      const msg =
+        raw instanceof Error
+          ? raw.message
+          : (raw as CapacityError).reason ?? String(raw);
+      throw new LRUCacheError(msg);
+    }
+  }
+
+  size(): number {
+    return this._state.map.size;
+  }
 }
