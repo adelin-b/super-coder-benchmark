@@ -1,6 +1,6 @@
 import { Effect, Data, Exit, Cause } from "effect";
 
-// ─── Public Types ────────────────────────────────────────────────────────────
+// ── Public Types ────────────────────────────────────────────────────────────
 
 export type EventType =
   | "ItemAdded"
@@ -46,63 +46,62 @@ export class EventStoreError extends Error {
   }
 }
 
-// ─── Internal Tagged Errors ──────────────────────────────────────────────────
+// ── Internal Tagged Errors ───────────────────────────────────────────────────
 
-class InternalValidationError extends Data.TaggedError("InternalValidationError")<{
+class InternalError extends Data.TaggedError("InternalError")<{
   reason: string;
 }> {}
 
-// ─── Projection Logic ────────────────────────────────────────────────────────
+// ── Projection Logic ─────────────────────────────────────────────────────────
 
 function emptyState(id: string): CartState {
   return { id, items: [], totalAmount: 0, eventCount: 0, lastVersion: 0 };
 }
 
-function calcTotal(items: CartItem[]): number {
-  return items.reduce((sum, i) => sum + i.quantity * i.unitPrice, 0);
+function recalcTotal(items: CartItem[]): number {
+  return items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
 }
 
 function applyEvent(state: CartState, event: DomainEvent): CartState {
   let items = state.items.map((i) => ({ ...i }));
-  const p = event.payload;
 
   switch (event.type) {
     case "ItemAdded": {
-      const sku = p.sku as string;
-      const qty = p.quantity as number;
-      const price = p.unitPrice as number;
-      const idx = items.findIndex((i) => i.sku === sku);
-      if (idx >= 0) {
-        items[idx].quantity += qty;
+      const sku = event.payload.sku as string;
+      const quantity = event.payload.quantity as number;
+      const unitPrice = event.payload.unitPrice as number;
+      const existing = items.find((i) => i.sku === sku);
+      if (existing) {
+        existing.quantity += quantity;
       } else {
-        items.push({ sku, quantity: qty, unitPrice: price });
+        items.push({ sku, quantity, unitPrice });
       }
       break;
     }
     case "ItemRemoved": {
-      const sku = p.sku as string;
+      const sku = event.payload.sku as string;
       items = items.filter((i) => i.sku !== sku);
       break;
     }
     case "QuantityChanged": {
-      const sku = p.sku as string;
-      const qty = p.quantity as number;
+      const sku = event.payload.sku as string;
+      const quantity = event.payload.quantity as number;
       const idx = items.findIndex((i) => i.sku === sku);
-      if (idx >= 0) {
-        if (qty <= 0) {
-          items = items.filter((i) => i.sku !== sku);
+      if (idx !== -1) {
+        if (quantity <= 0) {
+          items.splice(idx, 1);
         } else {
-          items[idx].quantity = qty;
+          items[idx].quantity = quantity;
         }
       }
       break;
     }
     case "PriceUpdated": {
-      const sku = p.sku as string;
-      const price = p.unitPrice as number;
-      const idx = items.findIndex((i) => i.sku === sku);
-      if (idx >= 0) {
-        items[idx].unitPrice = price;
+      const sku = event.payload.sku as string;
+      const unitPrice = event.payload.unitPrice as number;
+      const item = items.find((i) => i.sku === sku);
+      if (item) {
+        item.unitPrice = unitPrice;
       }
       break;
     }
@@ -112,69 +111,66 @@ function applyEvent(state: CartState, event: DomainEvent): CartState {
     }
   }
 
+  const totalAmount = recalcTotal(items);
   return {
     id: state.id,
     items,
-    totalAmount: calcTotal(items),
+    totalAmount,
     eventCount: state.eventCount + 1,
     lastVersion: event.version,
   };
 }
 
-function replayEvents(base: CartState, events: DomainEvent[]): CartState {
-  return events.reduce((s, e) => applyEvent(s, e), base);
+function replayEvents(baseState: CartState, events: DomainEvent[]): CartState {
+  return events.reduce((s, e) => applyEvent(s, e), baseState);
 }
 
-// ─── Internal Effect-based Logic ─────────────────────────────────────────────
+// ── Validation Effects ───────────────────────────────────────────────────────
 
-const validateConfig = (snapshotEvery: number): Effect.Effect<void, InternalValidationError> =>
-  Effect.gen(function* () {
-    if (!Number.isInteger(snapshotEvery) || snapshotEvery < 1) {
-      yield* Effect.fail(
-        new InternalValidationError({ reason: "snapshotEvery must be >= 1" })
-      );
-    }
-  });
-
-const validateAggregateId = (id: string): Effect.Effect<void, InternalValidationError> =>
-  Effect.gen(function* () {
-    if (!id || typeof id !== "string" || id.trim() === "") {
-      yield* Effect.fail(
-        new InternalValidationError({ reason: "aggregateId must be a non-empty string" })
-      );
-    }
-  });
-
-const validatePayload = (
+const validateAppend = (
+  aggregateId: string,
   type: EventType,
   payload: Record<string, unknown>
-): Effect.Effect<void, InternalValidationError> =>
+): Effect.Effect<void, InternalError> =>
   Effect.gen(function* () {
+    if (!aggregateId || aggregateId.trim() === "") {
+      yield* Effect.fail(
+        new InternalError({ reason: "aggregateId must be non-empty" })
+      );
+    }
+
     if (type === "ItemAdded") {
-      const qty = payload.quantity as number;
-      const price = payload.unitPrice as number;
-      if (typeof qty !== "number" || qty < 1) {
+      const quantity = payload.quantity as number;
+      const unitPrice = payload.unitPrice as number;
+      if (typeof quantity !== "number" || quantity < 1) {
         yield* Effect.fail(
-          new InternalValidationError({ reason: "ItemAdded quantity must be >= 1" })
+          new InternalError({
+            reason: "ItemAdded quantity must be >= 1",
+          })
         );
       }
-      if (typeof price !== "number" || price < 0) {
+      if (typeof unitPrice !== "number" || unitPrice < 0) {
         yield* Effect.fail(
-          new InternalValidationError({ reason: "ItemAdded unitPrice must be >= 0" })
+          new InternalError({
+            reason: "ItemAdded unitPrice must be >= 0",
+          })
         );
       }
     }
+
     if (type === "PriceUpdated") {
-      const price = payload.unitPrice as number;
-      if (typeof price !== "number" || price < 0) {
+      const unitPrice = payload.unitPrice as number;
+      if (typeof unitPrice !== "number" || unitPrice < 0) {
         yield* Effect.fail(
-          new InternalValidationError({ reason: "PriceUpdated unitPrice must be >= 0" })
+          new InternalError({
+            reason: "PriceUpdated unitPrice must be >= 0",
+          })
         );
       }
     }
   });
 
-// ─── Factory ─────────────────────────────────────────────────────────────────
+// ── Factory ──────────────────────────────────────────────────────────────────
 
 export function createEventStore(config: { snapshotEvery: number }): {
   append(
@@ -189,44 +185,34 @@ export function createEventStore(config: { snapshotEvery: number }): {
   takeSnapshot(aggregateId: string): Snapshot;
   getEventCount(aggregateId: string): number;
 } {
-  // Validate config at creation time
-  const configExit = Effect.runSyncExit(validateConfig(config.snapshotEvery));
-  if (Exit.isFailure(configExit)) {
-    const raw = Cause.squash(configExit.cause);
-    const msg = raw instanceof Error ? raw.message : (raw as any).reason ?? String(raw);
-    throw new EventStoreError(msg);
+  if (config.snapshotEvery < 1) {
+    throw new EventStoreError("snapshotEvery must be >= 1");
   }
 
-  const { snapshotEvery } = config;
+  const eventsByAggregate = new Map<string, DomainEvent[]>();
+  const snapshotByAggregate = new Map<string, Snapshot>();
 
-  // Internal storage
-  const eventStore = new Map<string, DomainEvent[]>();
-  const snapshotStore = new Map<string, Snapshot>();
-
-  function getEventsInternal(aggregateId: string, afterVersion?: number): DomainEvent[] {
-    const events = eventStore.get(aggregateId) ?? [];
-    if (afterVersion === undefined || afterVersion === null) return events;
-    return events.filter((e) => e.version > afterVersion);
+  function ensureAggregate(aggregateId: string): void {
+    if (!eventsByAggregate.has(aggregateId)) {
+      eventsByAggregate.set(aggregateId, []);
+    }
   }
 
-  function computeState(aggregateId: string): CartState {
-    const snapshot = snapshotStore.get(aggregateId) ?? null;
-    const base = snapshot ? { ...snapshot.state, items: snapshot.state.items.map((i) => ({ ...i })) } : emptyState(aggregateId);
-    const afterVersion = snapshot ? snapshot.atVersion : undefined;
-    const events = getEventsInternal(aggregateId, afterVersion);
-    return replayEvents(base, events);
-  }
+  function computeCurrentState(aggregateId: string): CartState {
+    const events = eventsByAggregate.get(aggregateId) ?? [];
+    const snapshot = snapshotByAggregate.get(aggregateId) ?? null;
 
-  function takeSnapshotInternal(aggregateId: string, timestamp?: number): Snapshot {
-    const state = computeState(aggregateId);
-    const snap: Snapshot = {
-      aggregateId,
-      state,
-      atVersion: state.lastVersion,
-      takenAt: timestamp ?? Date.now(),
-    };
-    snapshotStore.set(aggregateId, snap);
-    return snap;
+    if (snapshot) {
+      const subsequent = events.filter((e) => e.version > snapshot.atVersion);
+      // Deep-clone snapshot state items to avoid mutation
+      const base: CartState = {
+        ...snapshot.state,
+        items: snapshot.state.items.map((i) => ({ ...i })),
+      };
+      return replayEvents(base, subsequent);
+    }
+
+    return replayEvents(emptyState(aggregateId), events);
   }
 
   return {
@@ -237,25 +223,20 @@ export function createEventStore(config: { snapshotEvery: number }): {
       timestamp: number
     ): number {
       // Validate
-      const idExit = Effect.runSyncExit(validateAggregateId(aggregateId));
-      if (Exit.isFailure(idExit)) {
-        const raw = Cause.squash(idExit.cause);
-        const msg = raw instanceof Error ? raw.message : (raw as any).reason ?? String(raw);
+      const exit = Effect.runSyncExit(
+        validateAppend(aggregateId, type, payload)
+      );
+      if (Exit.isFailure(exit)) {
+        const raw = Cause.squash(exit.cause);
+        const msg =
+          raw instanceof Error
+            ? raw.message
+            : (raw as any).reason ?? String(raw);
         throw new EventStoreError(msg);
       }
 
-      const payloadExit = Effect.runSyncExit(validatePayload(type, payload));
-      if (Exit.isFailure(payloadExit)) {
-        const raw = Cause.squash(payloadExit.cause);
-        const msg = raw instanceof Error ? raw.message : (raw as any).reason ?? String(raw);
-        throw new EventStoreError(msg);
-      }
-
-      if (!eventStore.has(aggregateId)) {
-        eventStore.set(aggregateId, []);
-      }
-
-      const events = eventStore.get(aggregateId)!;
+      ensureAggregate(aggregateId);
+      const events = eventsByAggregate.get(aggregateId)!;
       const version = events.length + 1;
 
       const event: DomainEvent = {
@@ -265,38 +246,67 @@ export function createEventStore(config: { snapshotEvery: number }): {
         version,
         timestamp,
       };
-
       events.push(event);
 
       // Auto-snapshot
-      if (version % snapshotEvery === 0) {
-        takeSnapshotInternal(aggregateId, timestamp);
+      if (version % config.snapshotEvery === 0) {
+        const state = computeCurrentState(aggregateId);
+        const snap: Snapshot = {
+          aggregateId,
+          state: { ...state, items: state.items.map((i) => ({ ...i })) },
+          atVersion: version,
+          takenAt: timestamp,
+        };
+        snapshotByAggregate.set(aggregateId, snap);
       }
 
       return version;
     },
 
     getState(aggregateId: string): CartState {
-      if (!eventStore.has(aggregateId) && !snapshotStore.has(aggregateId)) {
+      if (!aggregateId || aggregateId.trim() === "") {
+        throw new EventStoreError("aggregateId must be non-empty");
+      }
+      if (!eventsByAggregate.has(aggregateId)) {
         return emptyState(aggregateId);
       }
-      return computeState(aggregateId);
+      return computeCurrentState(aggregateId);
     },
 
     getEvents(aggregateId: string, afterVersion?: number): DomainEvent[] {
-      return getEventsInternal(aggregateId, afterVersion);
+      const events = eventsByAggregate.get(aggregateId) ?? [];
+      if (afterVersion === undefined) {
+        return [...events];
+      }
+      return events.filter((e) => e.version > afterVersion);
     },
 
     getSnapshot(aggregateId: string): Snapshot | null {
-      return snapshotStore.get(aggregateId) ?? null;
+      return snapshotByAggregate.get(aggregateId) ?? null;
     },
 
     takeSnapshot(aggregateId: string): Snapshot {
-      return takeSnapshotInternal(aggregateId);
+      if (!aggregateId || aggregateId.trim() === "") {
+        throw new EventStoreError("aggregateId must be non-empty");
+      }
+      ensureAggregate(aggregateId);
+      const state = computeCurrentState(aggregateId);
+      const events = eventsByAggregate.get(aggregateId)!;
+      const atVersion = events.length > 0 ? events[events.length - 1].version : 0;
+      const takenAt = events.length > 0 ? events[events.length - 1].timestamp : Date.now();
+
+      const snap: Snapshot = {
+        aggregateId,
+        state: { ...state, items: state.items.map((i) => ({ ...i })) },
+        atVersion,
+        takenAt,
+      };
+      snapshotByAggregate.set(aggregateId, snap);
+      return snap;
     },
 
     getEventCount(aggregateId: string): number {
-      return (eventStore.get(aggregateId) ?? []).length;
+      return (eventsByAggregate.get(aggregateId) ?? []).length;
     },
   };
 }

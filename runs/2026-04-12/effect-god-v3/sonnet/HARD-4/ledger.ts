@@ -70,238 +70,212 @@ export function createLedger(config: {
     throw new LedgerError("staleRateThresholdMs must be > 0");
   }
 
-  const accounts = new Map<string, Account>();
-  const journalEntries: JournalEntry[] = [];
-  // key: "FROM:TO", value: latest ExchangeRate
-  const rates = new Map<string, ExchangeRate>();
+  const RC = config.reportingCurrency;
+  const accountsMap = new Map<string, Account>();
+  const ratesMap = new Map<string, ExchangeRate>();
+  const balances = new Map<string, number>();
+  const accountEntryMap = new Map<string, JournalEntry[]>();
 
   function round4(n: number): number {
     return Number(n.toFixed(4));
   }
 
-  function rateKey(from: string, to: string): string {
-    return `${from}:${to}`;
+  function getRateInternal(from: string, to: string): ExchangeRate | null {
+    if (from === to) return null;
+    const direct = ratesMap.get(`${from}:${to}`);
+    if (direct) return direct;
+    const inv = ratesMap.get(`${to}:${from}`);
+    if (inv) {
+      return { from, to, rate: 1 / inv.rate, timestamp: inv.timestamp };
+    }
+    return null;
   }
 
-  /**
-   * Returns the best available rate from `from` to `to`:
-   * - Checks direct rate first
-   * - Falls back to inverse of the reverse rate
-   * - Returns null if neither exists
-   * - For same currency, returns synthetic rate of 1
-   */
-  function getLatestRate(from: string, to: string): ExchangeRate | null {
-    if (from === to) {
-      return { from, to, rate: 1, timestamp: Number.MAX_SAFE_INTEGER };
+  function isStale(rateTimestamp: number, refTimestamp: number): boolean {
+    return refTimestamp - rateTimestamp > config.staleRateThresholdMs;
+  }
+
+  function postEntryInternal(entry: Omit<JournalEntry, "id">): string {
+    if (entry.lines.length < 2) {
+      throw new LedgerError("Journal entry must have at least 2 lines");
     }
 
-    const direct = rates.get(rateKey(from, to));
-    const inverseBase = rates.get(rateKey(to, from));
-
-    const inverse: ExchangeRate | null = inverseBase
-      ? { from, to, rate: 1 / inverseBase.rate, timestamp: inverseBase.timestamp }
-      : null;
-
-    if (!direct && !inverse) return null;
-    if (!direct) return inverse!;
-    if (!inverse) return direct;
-
-    // Both exist — prefer the one with the later timestamp
-    return direct.timestamp >= inverseBase!.timestamp ? direct : inverse;
-  }
-
-  function isStale(rate: ExchangeRate, entryTimestamp: number): boolean {
-    return entryTimestamp - rate.timestamp > config.staleRateThresholdMs;
-  }
-
-  /**
-   * Converts `amount` in `currency` to the reporting currency.
-   * Throws LedgerError if no rate found or if rate is stale (when throwOnStale=true).
-   */
-  function toReporting(
-    amount: number,
-    currency: string,
-    entryTimestamp: number,
-    throwOnStale: boolean
-  ): number {
-    if (currency === config.reportingCurrency) return amount;
-
-    const rate = getLatestRate(currency, config.reportingCurrency);
-    if (!rate) {
-      throw new LedgerError(
-        `No exchange rate available for ${currency} -> ${config.reportingCurrency}`
-      );
-    }
-    if (throwOnStale && isStale(rate, entryTimestamp)) {
-      throw new LedgerError(
-        `Exchange rate for ${currency} -> ${config.reportingCurrency} is stale`
-      );
-    }
-    return round4(amount * rate.rate);
-  }
-
-  const ledger = {
-    createAccount(account: Account): void {
-      if (!account.id) throw new LedgerError("Account ID must be non-empty");
-      if (!account.currency) throw new LedgerError("Currency code must be non-empty");
-      if (accounts.has(account.id)) {
-        throw new LedgerError(`Account '${account.id}' already exists`);
+    for (const line of entry.lines) {
+      if (!accountsMap.has(line.accountId)) {
+        throw new LedgerError(`Account ${line.accountId} does not exist`);
       }
-      accounts.set(account.id, { ...account });
+    }
+
+    // Balance check: sum of all lines converted to reporting currency must ≈ 0
+    let sum = 0;
+    for (const line of entry.lines) {
+      if (line.currency === RC) {
+        sum += line.amount;
+      } else {
+        const rate = getRateInternal(line.currency, RC);
+        if (!rate) {
+          throw new LedgerError(
+            `No exchange rate for ${line.currency} -> ${RC}`
+          );
+        }
+        if (isStale(rate.timestamp, entry.timestamp)) {
+          throw new LedgerError(
+            `Exchange rate ${line.currency} -> ${RC} is stale`
+          );
+        }
+        sum += round4(line.amount * rate.rate);
+      }
+    }
+
+    if (Math.abs(round4(sum)) > 0.01) {
+      throw new LedgerError(
+        `Journal entry is not balanced (reporting sum: ${sum})`
+      );
+    }
+
+    const id = crypto.randomUUID();
+    const fullEntry: JournalEntry = {
+      id,
+      description: entry.description,
+      timestamp: entry.timestamp,
+      lines: entry.lines.map((l) => ({ ...l })),
+    };
+
+    for (const line of entry.lines) {
+      const prev = balances.get(line.accountId) ?? 0;
+      balances.set(line.accountId, round4(prev + line.amount));
+      accountEntryMap.get(line.accountId)!.push(fullEntry);
+    }
+
+    return id;
+  }
+
+  return {
+    createAccount(account: Account): void {
+      if (!account.id || account.id.trim() === "") {
+        throw new LedgerError("Account ID must be non-empty");
+      }
+      if (!account.currency || account.currency.trim() === "") {
+        throw new LedgerError("Currency must be non-empty");
+      }
+      if (accountsMap.has(account.id)) {
+        throw new LedgerError(`Account ${account.id} already exists`);
+      }
+      accountsMap.set(account.id, { ...account });
+      balances.set(account.id, 0);
+      accountEntryMap.set(account.id, []);
     },
 
     setRate(rate: ExchangeRate): void {
-      if (rate.rate <= 0) throw new LedgerError("Exchange rate must be > 0");
-      if (!rate.from || !rate.to) throw new LedgerError("Currency codes must be non-empty");
-
-      const key = rateKey(rate.from, rate.to);
-      const existing = rates.get(key);
-      // Only update if new rate is at least as recent
+      if (rate.rate <= 0) {
+        throw new LedgerError("Exchange rate must be > 0");
+      }
+      const key = `${rate.from}:${rate.to}`;
+      const existing = ratesMap.get(key);
       if (!existing || rate.timestamp >= existing.timestamp) {
-        rates.set(key, { ...rate });
+        ratesMap.set(key, { ...rate });
       }
     },
 
     getRate(from: string, to: string): ExchangeRate | null {
-      if (from === to) {
-        return { from, to, rate: 1, timestamp: Date.now() };
-      }
-      return getLatestRate(from, to);
+      if (from === to) return null;
+      return getRateInternal(from, to);
     },
 
     postEntry(entry: Omit<JournalEntry, "id">): string {
-      if (entry.lines.length < 2) {
-        throw new LedgerError("Journal entry must have at least 2 lines");
-      }
-
-      // Validate all accounts exist
-      for (const line of entry.lines) {
-        if (!accounts.has(line.accountId)) {
-          throw new LedgerError(`Account '${line.accountId}' does not exist`);
-        }
-      }
-
-      // Balance check: all lines converted to reporting currency must sum to zero
-      let sum = 0;
-      for (const line of entry.lines) {
-        sum += toReporting(line.amount, line.currency, entry.timestamp, true);
-      }
-
-      const roundedSum = round4(sum);
-      if (Math.abs(roundedSum) > 0.0001) {
-        throw new LedgerError(
-          `Journal entry is not balanced: reporting-currency sum = ${roundedSum}`
-        );
-      }
-
-      const id = crypto.randomUUID();
-      journalEntries.push({
-        id,
-        description: entry.description,
-        timestamp: entry.timestamp,
-        lines: entry.lines.map((l) => ({ ...l })),
-      });
-      return id;
+      return postEntryInternal(entry);
     },
 
     getBalance(accountId: string): number {
-      if (!accounts.has(accountId)) {
-        throw new LedgerError(`Account '${accountId}' does not exist`);
+      if (!accountsMap.has(accountId)) {
+        throw new LedgerError(`Account ${accountId} does not exist`);
       }
-      let balance = 0;
-      for (const entry of journalEntries) {
-        for (const line of entry.lines) {
-          if (line.accountId === accountId) {
-            balance += line.amount;
-          }
-        }
-      }
-      return round4(balance);
+      return balances.get(accountId) ?? 0;
     },
 
     getBalanceIn(accountId: string, currency: string, atTime: number): number {
-      if (!accounts.has(accountId)) {
-        throw new LedgerError(`Account '${accountId}' does not exist`);
+      if (!accountsMap.has(accountId)) {
+        throw new LedgerError(`Account ${accountId} does not exist`);
       }
-      const account = accounts.get(accountId)!;
-      const balance = ledger.getBalance(accountId);
+      const account = accountsMap.get(accountId)!;
+      const balance = balances.get(accountId) ?? 0;
 
       if (account.currency === currency) return balance;
 
-      const rate = getLatestRate(account.currency, currency);
+      const rate = getRateInternal(account.currency, currency);
       if (!rate) {
         throw new LedgerError(
-          `No exchange rate available for ${account.currency} -> ${currency}`
+          `No exchange rate for ${account.currency} -> ${currency}`
         );
       }
-      if (isStale(rate, atTime)) {
+      if (isStale(rate.timestamp, atTime)) {
         throw new LedgerError(
-          `Exchange rate for ${account.currency} -> ${currency} is stale`
+          `Exchange rate ${account.currency} -> ${currency} is stale`
         );
       }
       return round4(balance * rate.rate);
     },
 
     balanceSheet(atTime: number): BalanceSheet {
-      const assetItems: { accountId: string; balance: number; currency: string }[] = [];
-      const liabilityItems: { accountId: string; balance: number; currency: string }[] = [];
-      const equityItems: { accountId: string; balance: number; currency: string }[] = [];
+      const assetsList: { accountId: string; balance: number; currency: string }[] = [];
+      const liabilitiesList: { accountId: string; balance: number; currency: string }[] = [];
+      const equityList: { accountId: string; balance: number; currency: string }[] = [];
 
-      // Raw sums in reporting currency (natural signs preserved)
-      let rawAssets = 0;
-      let rawLiabilities = 0;
-      let rawEquity = 0;
-      let hasStaleOrMissing = false;
+      let totalAssetsSum = 0;
+      let totalLiabilitiesSum = 0;
+      let totalEquitySum = 0;
+      let hasIssue = false;
 
-      for (const account of accounts.values()) {
-        const balance = ledger.getBalance(account.id);
-        const item = { accountId: account.id, balance, currency: account.currency };
+      for (const [accountId, account] of accountsMap) {
+        const type = account.type;
+        if (type !== "asset" && type !== "liability" && type !== "equity") continue;
 
-        let converted: number;
-        if (account.currency === config.reportingCurrency) {
-          converted = balance;
+        const balance = balances.get(accountId) ?? 0;
+        const item = { accountId, balance, currency: account.currency };
+
+        let inReporting: number;
+        if (account.currency === RC) {
+          inReporting = balance;
         } else {
-          const rate = getLatestRate(account.currency, config.reportingCurrency);
+          const rate = getRateInternal(account.currency, RC);
           if (!rate) {
-            hasStaleOrMissing = true;
-            converted = 0;
+            hasIssue = true;
+            inReporting = 0;
           } else {
-            if (isStale(rate, atTime)) {
-              hasStaleOrMissing = true;
+            inReporting = round4(balance * rate.rate);
+            if (isStale(rate.timestamp, atTime)) {
+              hasIssue = true;
             }
-            converted = round4(balance * rate.rate);
           }
         }
 
-        if (account.type === "asset") {
-          assetItems.push(item);
-          rawAssets += converted;
-        } else if (account.type === "liability") {
-          liabilityItems.push(item);
-          rawLiabilities += converted;
+        if (type === "asset") {
+          assetsList.push(item);
+          totalAssetsSum += inReporting;
+        } else if (type === "liability") {
+          liabilitiesList.push(item);
+          totalLiabilitiesSum += inReporting;
         } else {
-          // equity, revenue, expense — all affect owners' equity
-          equityItems.push(item);
-          rawEquity += converted;
+          equityList.push(item);
+          totalEquitySum += inReporting;
         }
       }
 
-      // Assets have natural positive balances.
-      // Liabilities and equity have natural negative balances (credits).
-      // Negate so that balance sheet totals are positive and satisfy:
-      //   totalAssets = totalLiabilities + totalEquity
-      const totalAssets = round4(rawAssets);
-      const totalLiabilities = round4(-rawLiabilities);
-      const totalEquity = round4(-rawEquity);
+      const totalAssets = round4(totalAssetsSum);
+      // Liabilities and equity have negative raw balances (credits increase them).
+      // Negate for conventional display as positive figures in the balance sheet.
+      const totalLiabilities = round4(-totalLiabilitiesSum);
+      const totalEquity = round4(-totalEquitySum);
 
+      // Accounting equation: Assets = Liabilities + Equity (all positive)
       const isBalanced =
-        !hasStaleOrMissing &&
-        Math.abs(totalAssets - (totalLiabilities + totalEquity)) <= 0.01;
+        !hasIssue &&
+        Math.abs(totalAssets - (totalLiabilities + totalEquity)) < 0.01;
 
       return {
-        assets: assetItems,
-        liabilities: liabilityItems,
-        equity: equityItems,
+        assets: assetsList,
+        liabilities: liabilitiesList,
+        equity: equityList,
         totalAssets,
         totalLiabilities,
         totalEquity,
@@ -310,10 +284,10 @@ export function createLedger(config: {
     },
 
     getEntries(accountId: string): JournalEntry[] {
-      if (!accounts.has(accountId)) {
-        throw new LedgerError(`Account '${accountId}' does not exist`);
+      if (!accountsMap.has(accountId)) {
+        throw new LedgerError(`Account ${accountId} does not exist`);
       }
-      return journalEntries.filter((e) => e.lines.some((l) => l.accountId === accountId));
+      return [...(accountEntryMap.get(accountId) ?? [])];
     },
 
     settle(
@@ -322,63 +296,65 @@ export function createLedger(config: {
       amount: number,
       timestamp: number
     ): string {
-      if (amount <= 0) throw new LedgerError("Settlement amount must be > 0");
-
-      const liabilityAcc = accounts.get(liabilityAccountId);
-      const assetAcc = accounts.get(assetAccountId);
-
-      if (!liabilityAcc) {
-        throw new LedgerError(`Account '${liabilityAccountId}' does not exist`);
+      if (amount <= 0) {
+        throw new LedgerError("Settlement amount must be > 0");
       }
-      if (!assetAcc) {
-        throw new LedgerError(`Account '${assetAccountId}' does not exist`);
+      if (!accountsMap.has(liabilityAccountId)) {
+        throw new LedgerError(`Account ${liabilityAccountId} does not exist`);
       }
-      if (liabilityAcc.type !== "liability") {
+      if (!accountsMap.has(assetAccountId)) {
+        throw new LedgerError(`Account ${assetAccountId} does not exist`);
+      }
+
+      const liabilityAcct = accountsMap.get(liabilityAccountId)!;
+      const assetAcct = accountsMap.get(assetAccountId)!;
+
+      if (liabilityAcct.type !== "liability") {
         throw new LedgerError(
-          `Account '${liabilityAccountId}' is not a liability account (type: ${liabilityAcc.type})`
+          `Account ${liabilityAccountId} is not a liability account`
         );
       }
-      if (assetAcc.type !== "asset") {
+      if (assetAcct.type !== "asset") {
         throw new LedgerError(
-          `Account '${assetAccountId}' is not an asset account (type: ${assetAcc.type})`
+          `Account ${assetAccountId} is not an asset account`
         );
       }
 
-      let lines: JournalLine[];
+      let assetCreditAmount: number;
 
-      if (liabilityAcc.currency === assetAcc.currency) {
-        // Same currency — debit liability, credit asset by equal amounts
-        lines = [
-          { accountId: liabilityAccountId, amount: amount, currency: liabilityAcc.currency },
-          { accountId: assetAccountId, amount: -amount, currency: assetAcc.currency },
-        ];
+      if (liabilityAcct.currency === assetAcct.currency) {
+        assetCreditAmount = amount;
       } else {
-        // Different currencies — convert liability amount to asset currency
-        const rate = getLatestRate(liabilityAcc.currency, assetAcc.currency);
+        const rate = getRateInternal(liabilityAcct.currency, assetAcct.currency);
         if (!rate) {
           throw new LedgerError(
-            `No exchange rate for ${liabilityAcc.currency} -> ${assetAcc.currency}`
+            `No exchange rate for ${liabilityAcct.currency} -> ${assetAcct.currency}`
           );
         }
-        if (isStale(rate, timestamp)) {
+        if (isStale(rate.timestamp, timestamp)) {
           throw new LedgerError(
-            `Exchange rate for ${liabilityAcc.currency} -> ${assetAcc.currency} is stale`
+            `Exchange rate ${liabilityAcct.currency} -> ${assetAcct.currency} is stale`
           );
         }
-        const convertedAmount = round4(amount * rate.rate);
-        lines = [
-          { accountId: liabilityAccountId, amount: amount, currency: liabilityAcc.currency },
-          { accountId: assetAccountId, amount: -convertedAmount, currency: assetAcc.currency },
-        ];
+        assetCreditAmount = round4(amount * rate.rate);
       }
 
-      return ledger.postEntry({
+      return postEntryInternal({
         description: `Settlement: ${liabilityAccountId} -> ${assetAccountId}`,
         timestamp,
-        lines,
+        lines: [
+          {
+            accountId: liabilityAccountId,
+            amount: amount,
+            currency: liabilityAcct.currency,
+          },
+          {
+            accountId: assetAccountId,
+            amount: -assetCreditAmount,
+            currency: assetAcct.currency,
+          },
+        ],
       });
     },
   };
-
-  return ledger;
 }

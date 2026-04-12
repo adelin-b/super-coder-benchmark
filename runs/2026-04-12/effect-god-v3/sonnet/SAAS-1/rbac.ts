@@ -1,6 +1,10 @@
-import { Effect, Data, Exit, Cause } from "effect";
+import { Effect, Data } from "effect";
 
-// ── Public interfaces ──────────────────────────────────────────────────────────
+// ─── Internal Tagged Errors ───────────────────────────────────────────────────
+
+class RBACError extends Data.TaggedError("RBACError")<{ reason: string }> {}
+
+// ─── Interfaces (re-exported for consumers) ───────────────────────────────────
 
 export interface Role {
   name: string;
@@ -26,40 +30,40 @@ export interface RBACSystem {
   getUserPermissions(userId: string): string[];
 }
 
-// ── Internal tagged errors ─────────────────────────────────────────────────────
-
-class UserNotFound extends Data.TaggedError("UserNotFound")<{ userId: string }> {}
-class ResourceNotFound extends Data.TaggedError("ResourceNotFound")<{ resourceName: string }> {}
-
-// ── Core logic (Effect-based internals) ───────────────────────────────────────
+// ─── Internal Logic (Effect-based) ───────────────────────────────────────────
 
 /**
- * Collect all permissions for a single role, following inheritance transitively.
- * Cycle detection: maintain a `visited` set per traversal path; if a role name
- * is already in `visited`, return an empty set (skip it — do NOT recurse).
+ * Collects all effective permissions for a role by traversing the inheritance
+ * graph. Uses a `visited` set to prevent infinite loops on circular hierarchies.
  */
 function collectRolePermissions(
   roleName: string,
-  roleMap: Map<string, Role>,
+  roles: Map<string, Role>,
   visited: Set<string>
 ): Set<string> {
-  // Cycle guard — prevents infinite loops
-  if (visited.has(roleName)) return new Set<string>();
+  if (visited.has(roleName)) {
+    // Cycle detected — stop traversal for this branch
+    return new Set<string>();
+  }
+  visited.add(roleName);
 
-  const role = roleMap.get(roleName);
-  if (!role) return new Set<string>();
+  const role = roles.get(roleName);
+  if (!role) {
+    return new Set<string>();
+  }
 
-  // Mark BEFORE recursing to detect back-edges
-  const nextVisited = new Set(visited);
-  nextVisited.add(roleName);
-
-  // Start with this role's direct permissions (never treat [] as wildcard)
+  // Start with this role's own permissions (empty array = no permissions, NOT wildcard)
   const perms = new Set<string>(role.permissions);
 
-  // Recursively add inherited permissions
+  // Recursively collect from inherited roles
   if (role.inherits && role.inherits.length > 0) {
-    for (const parent of role.inherits) {
-      const parentPerms = collectRolePermissions(parent, roleMap, nextVisited);
+    for (const parentName of role.inherits) {
+      // Each traversal branch gets its own copy of visited to allow diamond inheritance
+      const parentPerms = collectRolePermissions(
+        parentName,
+        roles,
+        new Set(visited)
+      );
       for (const p of parentPerms) {
         perms.add(p);
       }
@@ -69,100 +73,126 @@ function collectRolePermissions(
   return perms;
 }
 
-/**
- * Effect that resolves all permissions for a user across all their roles.
- * Returns an empty array for an unknown user (not an error — callers rely on []).
- */
-function buildUserPermissionsEffect(
+const getUserPermissionsEffect = (
   userId: string,
-  userMap: Map<string, User>,
-  roleMap: Map<string, Role>
-): Effect.Effect<string[], UserNotFound> {
-  return Effect.gen(function* () {
-    const user = userMap.get(userId);
-    if (!user) yield* Effect.fail(new UserNotFound({ userId }));
-    const u = user!;
-
-    if (u.roles.length === 0) return [];
+  users: Map<string, User>,
+  roles: Map<string, Role>
+): Effect.Effect<string[], RBACError> =>
+  Effect.gen(function* () {
+    const user = users.get(userId);
+    if (!user) {
+      yield* Effect.fail(new RBACError({ reason: `User not found: ${userId}` }));
+    }
+    // TypeScript narrowing after fail
+    const resolvedUser = user!;
 
     const allPerms = new Set<string>();
-    for (const roleName of u.roles) {
-      const rolePerms = collectRolePermissions(roleName, roleMap, new Set());
+
+    for (const roleName of resolvedUser.roles) {
+      const visited = new Set<string>();
+      const rolePerms = collectRolePermissions(roleName, roles, visited);
       for (const p of rolePerms) {
         allPerms.add(p);
       }
     }
-    return Array.from(allPerms);
-  });
-}
 
-/**
- * Effect that checks whether a user can access a resource.
- * AND logic: every required permission must be present.
- */
-function checkAccessEffect(
+    return Array.from(allPerms).sort();
+  });
+
+const checkAccessEffect = (
   userId: string,
   resourceName: string,
-  userMap: Map<string, User>,
-  roleMap: Map<string, Role>,
-  resourceMap: Map<string, Resource>
-): Effect.Effect<boolean, UserNotFound | ResourceNotFound> {
-  return Effect.gen(function* () {
-    const resource = resourceMap.get(resourceName);
-    if (!resource) yield* Effect.fail(new ResourceNotFound({ resourceName }));
-    const res = resource!;
+  users: Map<string, User>,
+  roles: Map<string, Role>,
+  resources: Map<string, Resource>
+): Effect.Effect<boolean, RBACError> =>
+  Effect.gen(function* () {
+    const resource = resources.get(resourceName);
+    if (!resource) {
+      yield* Effect.fail(
+        new RBACError({ reason: `Resource not found: ${resourceName}` })
+      );
+    }
+    const resolvedResource = resource!;
 
-    // Resource with no required permissions is universally accessible
-    if (res.requiredPermissions.length === 0) return true;
+    // If the resource has no required permissions, everyone can access it
+    if (resolvedResource.requiredPermissions.length === 0) {
+      return true;
+    }
 
-    const user = userMap.get(userId);
-    if (!user) yield* Effect.fail(new UserNotFound({ userId }));
+    const userPerms = yield* getUserPermissionsEffect(userId, users, roles);
+    const permSet = new Set(userPerms);
 
-    const perms = yield* buildUserPermissionsEffect(userId, userMap, roleMap);
-    const permSet = new Set(perms);
+    // AND logic: ALL required permissions must be present
+    for (const req of resolvedResource.requiredPermissions) {
+      if (!permSet.has(req)) {
+        return false;
+      }
+    }
 
-    return res.requiredPermissions.every((p) => permSet.has(p));
+    return true;
   });
-}
 
-// ── Factory ────────────────────────────────────────────────────────────────────
+// ─── Public Factory ───────────────────────────────────────────────────────────
 
 export function createRBAC(): RBACSystem {
-  const roleMap = new Map<string, Role>();
-  const userMap = new Map<string, User>();
-  const resourceMap = new Map<string, Resource>();
+  const roles = new Map<string, Role>();
+  const users = new Map<string, User>();
+  const resources = new Map<string, Resource>();
 
   return {
     addRole(role: Role): void {
-      roleMap.set(role.name, role);
+      if (!role || typeof role.name !== "string") {
+        throw new Error("Role must have a valid name");
+      }
+      roles.set(role.name, {
+        name: role.name,
+        permissions: Array.isArray(role.permissions) ? [...role.permissions] : [],
+        inherits: Array.isArray(role.inherits) ? [...role.inherits] : undefined,
+      });
     },
 
     addUser(user: User): void {
-      userMap.set(user.id, user);
+      if (!user || typeof user.id !== "string") {
+        throw new Error("User must have a valid id");
+      }
+      users.set(user.id, {
+        id: user.id,
+        roles: Array.isArray(user.roles) ? [...user.roles] : [],
+      });
     },
 
     addResource(resource: Resource): void {
-      resourceMap.set(resource.name, resource);
+      if (!resource || typeof resource.name !== "string") {
+        throw new Error("Resource must have a valid name");
+      }
+      resources.set(resource.name, {
+        name: resource.name,
+        requiredPermissions: Array.isArray(resource.requiredPermissions)
+          ? [...resource.requiredPermissions]
+          : [],
+      });
     },
 
-    getUserPermissions(userId: string): string[] {
+    checkAccess(userId: string, resourceName: string): boolean {
+      const { Exit, Cause } = require("effect");
       const exit = Effect.runSyncExit(
-        buildUserPermissionsEffect(userId, userMap, roleMap)
+        checkAccessEffect(userId, resourceName, users, roles, resources)
       );
       if (Exit.isFailure(exit)) {
-        // Unknown user → no permissions (invariant: no roles = no permissions)
-        return [];
+        // Unknown user or resource → no access
+        return false;
       }
       return exit.value;
     },
 
-    checkAccess(userId: string, resourceName: string): boolean {
+    getUserPermissions(userId: string): string[] {
+      const { Exit } = require("effect");
       const exit = Effect.runSyncExit(
-        checkAccessEffect(userId, resourceName, userMap, roleMap, resourceMap)
+        getUserPermissionsEffect(userId, users, roles)
       );
       if (Exit.isFailure(exit)) {
-        // Unknown user or resource → deny access
-        return false;
+        return [];
       }
       return exit.value;
     },

@@ -10,7 +10,7 @@ export function binarySearch(arr: number[], target: number): number {
 
     if (arr[mid] === target) {
       result = mid;
-      hi = mid - 1; // left-bias: continue searching left for first occurrence
+      hi = mid - 1; // left-bias: keep searching left for first occurrence
     } else if (arr[mid] < target) {
       lo = mid + 1;
     } else {

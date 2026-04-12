@@ -1,3 +1,6 @@
+import { Effect, Data } from "effect";
+import { Exit, Cause } from "effect";
+
 export interface Policy {
   windowMax: number;
   windowMs: number;
@@ -20,172 +23,174 @@ export class RateLimitError extends Error {
   }
 }
 
+class ValidationError extends Data.TaggedError("ValidationError")<{ reason: string }> {}
+
 interface KeyState {
-  tokens: number;
-  lastRefillMs: number | null;
+  bucketTokens: number;
+  lastRefillMs: number;
   windowLog: number[];
+}
+
+function validatePolicy(policy: Policy): Effect.Effect<void, ValidationError> {
+  return Effect.gen(function* () {
+    if (policy.windowMax < 1) {
+      yield* Effect.fail(new ValidationError({ reason: "windowMax must be >= 1" }));
+    }
+    if (policy.windowMs <= 0) {
+      yield* Effect.fail(new ValidationError({ reason: "windowMs must be > 0" }));
+    }
+    if (policy.burstCapacity < 1) {
+      yield* Effect.fail(new ValidationError({ reason: "burstCapacity must be >= 1" }));
+    }
+    if (policy.refillPerSec <= 0) {
+      yield* Effect.fail(new ValidationError({ reason: "refillPerSec must be > 0" }));
+    }
+  });
+}
+
+function createInitialState(policy: Policy, nowMs: number): KeyState {
+  return {
+    bucketTokens: policy.burstCapacity,
+    lastRefillMs: nowMs,
+    windowLog: [],
+  };
+}
+
+function refillBucket(state: KeyState, policy: Policy, nowMs: number): number {
+  const elapsed = Math.max(0, nowMs - state.lastRefillMs) / 1000;
+  const refilled = elapsed * policy.refillPerSec;
+  return Math.min(policy.burstCapacity, state.bucketTokens + refilled);
+}
+
+function pruneWindow(log: number[], windowMs: number, nowMs: number): number[] {
+  const cutoff = nowMs - windowMs;
+  return log.filter((t) => t > cutoff);
 }
 
 export function createSlidingWindowLimiter(policy: Policy): {
   check(key: string, nowMs: number): RateLimitResult;
   reset(key: string): void;
-  inspect(
-    key: string,
-    nowMs: number
-  ): {
+  inspect(key: string, nowMs: number): {
     bucketTokens: number;
     windowRequestCount: number;
     oldestRequestMs: number | null;
   };
 } {
-  if (policy.windowMax < 1)
-    throw new RateLimitError("windowMax must be >= 1");
-  if (policy.windowMs <= 0)
-    throw new RateLimitError("windowMs must be > 0");
-  if (policy.burstCapacity < 1)
-    throw new RateLimitError("burstCapacity must be >= 1");
-  if (policy.refillPerSec <= 0)
-    throw new RateLimitError("refillPerSec must be > 0");
-
-  const store = new Map<string, KeyState>();
-
-  function getOrCreate(key: string): KeyState {
-    if (!store.has(key)) {
-      store.set(key, {
-        tokens: policy.burstCapacity,
-        lastRefillMs: null,
-        windowLog: [],
-      });
-    }
-    return store.get(key)!;
+  // Validate policy upfront
+  const validationExit = Effect.runSyncExit(validatePolicy(policy));
+  if (Exit.isFailure(validationExit)) {
+    const raw = Cause.squash(validationExit.cause);
+    const msg = raw instanceof Error ? raw.message : (raw as any).reason ?? String(raw);
+    throw new RateLimitError(msg);
   }
 
-  /** Clamp nowMs to prevent clock skew from going backwards */
-  function clampNow(state: KeyState, nowMs: number): number {
-    if (state.lastRefillMs === null) return nowMs;
-    return Math.max(nowMs, state.lastRefillMs);
+  const stateMap = new Map<string, KeyState>();
+  // Track the last seen time per key to handle clock skew
+  const lastSeenMs = new Map<string, number>();
+
+  function getOrCreateState(key: string, nowMs: number): { state: KeyState; effectiveNow: number } {
+    const lastSeen = lastSeenMs.get(key);
+    // Clamp to last seen time if clock goes backwards
+    const effectiveNow = lastSeen !== undefined ? Math.max(lastSeen, nowMs) : nowMs;
+
+    if (!stateMap.has(key)) {
+      const state = createInitialState(policy, effectiveNow);
+      stateMap.set(key, state);
+    }
+
+    return { state: stateMap.get(key)!, effectiveNow };
   }
 
-  /** Refill tokens based on elapsed time; mutates state */
-  function refill(state: KeyState, effectiveNow: number): void {
-    if (state.lastRefillMs === null) {
-      state.lastRefillMs = effectiveNow;
-      state.tokens = policy.burstCapacity;
-      return;
-    }
-    const elapsed = (effectiveNow - state.lastRefillMs) / 1000;
-    if (elapsed > 0) {
-      state.tokens = Math.min(
-        policy.burstCapacity,
-        state.tokens + elapsed * policy.refillPerSec
-      );
-    }
+  function check(key: string, nowMs: number): RateLimitResult {
+    const { state, effectiveNow } = getOrCreateState(key, nowMs);
+
+    // Update last seen
+    lastSeenMs.set(key, effectiveNow);
+
+    // Refill tokens based on elapsed time
+    const newTokens = refillBucket(state, policy, effectiveNow);
+    state.bucketTokens = newTokens;
     state.lastRefillMs = effectiveNow;
-  }
 
-  /** Remove window log entries that have fallen outside the window; mutates state */
-  function pruneWindow(state: KeyState, effectiveNow: number): void {
-    const cutoff = effectiveNow - policy.windowMs;
-    let i = 0;
-    while (i < state.windowLog.length && state.windowLog[i] <= cutoff) {
-      i++;
+    // Prune old window entries
+    state.windowLog = pruneWindow(state.windowLog, policy.windowMs, effectiveNow);
+
+    const bucketAllowed = state.bucketTokens >= 1;
+    const windowCount = state.windowLog.length;
+    const windowAllowed = windowCount < policy.windowMax;
+
+    if (bucketAllowed && windowAllowed) {
+      // Consume token and record timestamp
+      state.bucketTokens = state.bucketTokens - 1;
+      state.windowLog.push(effectiveNow);
+
+      return {
+        allowed: true,
+        tokensRemaining: Math.max(0, Math.min(policy.burstCapacity, state.bucketTokens)),
+        windowRemaining: Math.max(0, policy.windowMax - state.windowLog.length),
+        retryAfterMs: 0,
+      };
     }
-    if (i > 0) state.windowLog.splice(0, i);
+
+    // Denied — compute retryAfterMs
+    let bucketWaitMs = 0;
+    if (!bucketAllowed) {
+      // Time until we have 1 token
+      const tokensNeeded = 1 - state.bucketTokens;
+      bucketWaitMs = Math.ceil((tokensNeeded / policy.refillPerSec) * 1000);
+    }
+
+    let windowWaitMs = 0;
+    if (!windowAllowed) {
+      // Time until oldest entry expires
+      const oldest = state.windowLog[0]; // already pruned, smallest first
+      if (oldest !== undefined) {
+        const expiresAt = oldest + policy.windowMs;
+        windowWaitMs = Math.max(0, expiresAt - effectiveNow);
+        if (windowWaitMs === 0) windowWaitMs = 1; // ensure > 0 if truly denied
+      }
+    }
+
+    const retryAfterMs = Math.max(bucketWaitMs, windowWaitMs);
+
+    return {
+      allowed: false,
+      tokensRemaining: Math.max(0, Math.min(policy.burstCapacity, state.bucketTokens)),
+      windowRemaining: Math.max(0, policy.windowMax - windowCount),
+      retryAfterMs: retryAfterMs > 0 ? retryAfterMs : 1,
+    };
   }
 
-  return {
-    check(key: string, nowMs: number): RateLimitResult {
-      const state = getOrCreate(key);
-      const effectiveNow = clampNow(state, nowMs);
+  function reset(key: string): void {
+    stateMap.delete(key);
+    lastSeenMs.delete(key);
+  }
 
-      refill(state, effectiveNow);
-      pruneWindow(state, effectiveNow);
-
-      const windowCount = state.windowLog.length;
-      const bucketOk = state.tokens >= 1;
-      const windowOk = windowCount < policy.windowMax;
-
-      if (bucketOk && windowOk) {
-        state.tokens -= 1;
-        state.windowLog.push(effectiveNow);
-        return {
-          allowed: true,
-          tokensRemaining: state.tokens,
-          windowRemaining: policy.windowMax - state.windowLog.length,
-          retryAfterMs: 0,
-        };
-      }
-
-      // Compute retryAfterMs — take the maximum of all applicable wait times
-      let retryAfterMs = 0;
-
-      if (!bucketOk) {
-        // Time until token bucket reaches 1 token
-        const tokensNeeded = 1 - state.tokens;
-        const waitMs = (tokensNeeded / policy.refillPerSec) * 1000;
-        retryAfterMs = Math.max(retryAfterMs, waitMs);
-      }
-
-      if (!windowOk) {
-        // Oldest entry expires at oldest + windowMs; after pruning, oldest is strictly > cutoff
-        const oldest = state.windowLog[0];
-        const waitMs = oldest + policy.windowMs - effectiveNow;
-        retryAfterMs = Math.max(retryAfterMs, waitMs);
-      }
-
-      // Guarantee invariant 4: retryAfterMs > 0 when denied
-      if (retryAfterMs <= 0) retryAfterMs = 1;
-
+  function inspect(key: string, nowMs: number): {
+    bucketTokens: number;
+    windowRequestCount: number;
+    oldestRequestMs: number | null;
+  } {
+    if (!stateMap.has(key)) {
       return {
-        allowed: false,
-        tokensRemaining: state.tokens,
-        windowRemaining: Math.max(0, policy.windowMax - windowCount),
-        retryAfterMs,
+        bucketTokens: policy.burstCapacity,
+        windowRequestCount: 0,
+        oldestRequestMs: null,
       };
-    },
+    }
 
-    reset(key: string): void {
-      store.delete(key);
-    },
+    const { state, effectiveNow } = getOrCreateState(key, nowMs);
 
-    inspect(
-      key: string,
-      nowMs: number
-    ): {
-      bucketTokens: number;
-      windowRequestCount: number;
-      oldestRequestMs: number | null;
-    } {
-      if (!store.has(key)) {
-        return {
-          bucketTokens: policy.burstCapacity,
-          windowRequestCount: 0,
-          oldestRequestMs: null,
-        };
-      }
+    // Compute current tokens after refill (without mutating state)
+    const currentTokens = refillBucket(state, policy, effectiveNow);
+    const prunedLog = pruneWindow(state.windowLog, policy.windowMs, effectiveNow);
 
-      const state = store.get(key)!;
-      const effectiveNow = clampNow(state, nowMs);
+    return {
+      bucketTokens: Math.max(0, Math.min(policy.burstCapacity, currentTokens)),
+      windowRequestCount: prunedLog.length,
+      oldestRequestMs: prunedLog.length > 0 ? prunedLog[0] : null,
+    };
+  }
 
-      // Compute tokens without mutating
-      let bucketTokens = state.tokens;
-      if (state.lastRefillMs !== null && effectiveNow > state.lastRefillMs) {
-        const elapsed = (effectiveNow - state.lastRefillMs) / 1000;
-        bucketTokens = Math.min(
-          policy.burstCapacity,
-          bucketTokens + elapsed * policy.refillPerSec
-        );
-      }
-
-      // Compute window entries without mutating
-      const cutoff = effectiveNow - policy.windowMs;
-      const windowEntries = state.windowLog.filter((t) => t > cutoff);
-
-      return {
-        bucketTokens,
-        windowRequestCount: windowEntries.length,
-        oldestRequestMs: windowEntries.length > 0 ? windowEntries[0] : null,
-      };
-    },
-  };
+  return { check, reset, inspect };
 }

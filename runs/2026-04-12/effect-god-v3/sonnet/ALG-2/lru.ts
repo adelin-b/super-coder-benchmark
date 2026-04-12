@@ -1,6 +1,6 @@
 import { Effect, Data } from "effect";
 
-// ─── Internal types ───────────────────────────────────────────────────────────
+// ─── Internal doubly-linked list node ───────────────────────────────────────
 
 interface Node<K, V> {
   key: K;
@@ -9,51 +9,65 @@ interface Node<K, V> {
   next: Node<K, V> | null;
 }
 
-class CapacityError extends Data.TaggedError("CapacityError")<{
-  reason: string;
-}> {}
-
-// ─── Doubly-linked list helpers ───────────────────────────────────────────────
-
 function makeNode<K, V>(key: K, value: V): Node<K, V> {
   return { key, value, prev: null, next: null };
 }
 
+// ─── Internal Effect-based logic ─────────────────────────────────────────────
+
+class CapacityError extends Data.TaggedError("CapacityError")<{
+  reason: string;
+}> {}
+
 // ─── Public error class ───────────────────────────────────────────────────────
 
-export class LRUError extends Error {
+export class LRUCacheError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = "LRUError";
-    Object.setPrototypeOf(this, LRUError.prototype);
+    this.name = "LRUCacheError";
+    Object.setPrototypeOf(this, LRUCacheError.prototype);
   }
 }
 
 // ─── LRUCache class ───────────────────────────────────────────────────────────
 
-export class LRUCache<K = number, V = number> {
-  private readonly capacity: number;
-  private readonly map: Map<K, Node<K, V>>;
-  /** Sentinel head (MRU side) */
-  private readonly head: Node<K, V>;
-  /** Sentinel tail (LRU side) */
-  private readonly tail: Node<K, V>;
+export class LRUCache<K = string, V = unknown> {
+  private capacity: number;
+  private map: Map<K, Node<K, V>>;
+  // Sentinel head (MRU end) and tail (LRU end)
+  private head: Node<K, V>;
+  private tail: Node<K, V>;
 
   constructor(capacity: number) {
-    if (capacity <= 0) throw new LRUError("Capacity must be a positive integer");
+    const exit = Effect.runSyncExit(
+      Effect.gen(function* () {
+        if (capacity <= 0)
+          yield* Effect.fail(
+            new CapacityError({ reason: "Capacity must be greater than 0" })
+          );
+        return capacity;
+      })
+    );
 
-    this.capacity = capacity;
+    if (exit._tag === "Failure") {
+      const raw = exit.cause;
+      const msg =
+        raw._tag === "Fail" && raw.error instanceof Error
+          ? raw.error.message
+          : (raw as any)?.error?.reason ?? "Invalid capacity";
+      throw new LRUCacheError(msg);
+    }
+
+    this.capacity = exit.value;
     this.map = new Map();
-
-    // Sentinels – key/value are never accessed externally
-    this.head = { key: null as unknown as K, value: null as unknown as V, prev: null, next: null };
-    this.tail = { key: null as unknown as K, value: null as unknown as V, prev: null, next: null };
+    // Sentinels simplify edge cases
+    this.head = makeNode<K, V>(null as unknown as K, null as unknown as V);
+    this.tail = makeNode<K, V>(null as unknown as K, null as unknown as V);
     this.head.next = this.tail;
     this.tail.prev = this.head;
   }
 
-  // ── O(1) get ──────────────────────────────────────────────────────────────
-
+  // O(1) get — returns undefined on miss
   get(key: K): V | undefined {
     const node = this.map.get(key);
     if (node === undefined) return undefined;
@@ -61,11 +75,9 @@ export class LRUCache<K = number, V = number> {
     return node.value;
   }
 
-  // ── O(1) put ──────────────────────────────────────────────────────────────
-
+  // O(1) put
   put(key: K, value: V): void {
     const existing = this.map.get(key);
-
     if (existing !== undefined) {
       existing.value = value;
       this.moveToFront(existing);
@@ -83,34 +95,33 @@ export class LRUCache<K = number, V = number> {
     }
   }
 
-  // ── size ──────────────────────────────────────────────────────────────────
-
+  // Number of entries currently in the cache
   size(): number {
     return this.map.size;
   }
 
-  // ── has ───────────────────────────────────────────────────────────────────
-
-  has(key: K): boolean {
-    return this.map.has(key);
-  }
-
-  // ── clear ─────────────────────────────────────────────────────────────────
-
+  // Remove all entries
   clear(): void {
     this.map.clear();
     this.head.next = this.tail;
     this.tail.prev = this.head;
   }
 
-  // ── Private helpers ───────────────────────────────────────────────────────
-
-  private insertAtFront(node: Node<K, V>): void {
-    node.prev = this.head;
-    node.next = this.head.next;
-    this.head.next!.prev = node;
-    this.head.next = node;
+  // Check whether a key exists (without updating recency)
+  has(key: K): boolean {
+    return this.map.has(key);
   }
+
+  // Delete a specific key; returns true if it existed
+  delete(key: K): boolean {
+    const node = this.map.get(key);
+    if (node === undefined) return false;
+    this.removeNode(node);
+    this.map.delete(key);
+    return true;
+  }
+
+  // ── Private helpers ──────────────────────────────────────────────────────
 
   private removeNode(node: Node<K, V>): void {
     node.prev!.next = node.next;
@@ -119,48 +130,23 @@ export class LRUCache<K = number, V = number> {
     node.next = null;
   }
 
+  private insertAtFront(node: Node<K, V>): void {
+    node.next = this.head.next;
+    node.prev = this.head;
+    this.head.next!.prev = node;
+    this.head.next = node;
+  }
+
   private moveToFront(node: Node<K, V>): void {
     this.removeNode(node);
     this.insertAtFront(node);
   }
 }
 
-// ─── Factory function ─────────────────────────────────────────────────────────
+// ─── Factory helper (alternative construction style) ─────────────────────────
 
-export function createLRUCache<K = number, V = number>(
+export function createLRUCache<K = string, V = unknown>(
   capacity: number
 ): LRUCache<K, V> {
   return new LRUCache<K, V>(capacity);
-}
-
-// ─── Effect-based internal helpers (used for batch operations) ────────────────
-
-const runBatchGet = <K, V>(
-  cache: LRUCache<K, V>,
-  keys: K[]
-): Effect.Effect<Array<V | undefined>, never> =>
-  Effect.sync(() => keys.map((k) => cache.get(k)));
-
-const runBatchPut = <K, V>(
-  cache: LRUCache<K, V>,
-  entries: Array<[K, V]>
-): Effect.Effect<void, never> =>
-  Effect.sync(() => {
-    for (const [k, v] of entries) cache.put(k, v);
-  });
-
-// ─── Exported batch helpers ───────────────────────────────────────────────────
-
-export function batchGet<K, V>(
-  cache: LRUCache<K, V>,
-  keys: K[]
-): Array<V | undefined> {
-  return Effect.runSync(runBatchGet(cache, keys));
-}
-
-export function batchPut<K, V>(
-  cache: LRUCache<K, V>,
-  entries: Array<[K, V]>
-): void {
-  Effect.runSync(runBatchPut(cache, entries));
 }
