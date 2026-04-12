@@ -68,6 +68,19 @@ export const TASK_FILE_MAP: Record<string, string | string[]> = {
   "MULTIFILE-1": ["types", "registry", "loader", "executor", "index"],
   "MULTIFILE-2": ["events", "handlers", "store", "saga"],
   "MULTIFILE-3": ["lexer", "parser", "analyzer", "emitter"],
+  "EXERCISM-1": "forth",
+  "EXERCISM-2": "react",
+  "EXERCISM-3": "zipper",
+  "WEB-TS-1": "setter-types",
+  "WEB-TS-2": "setter-union",
+  "WEB-TS-3": "form-schema",
+  "WEB-TS-4": "visible-setter",
+  "WEB-TS-5": "custom-render",
+  "WEB-TS-6": "render-props",
+  "WEB-TS-7": "ctx-value",
+  "WEB-TS-8": "editor-ref",
+  "WEB-GAME-1": "flappy-physics",
+  "WEB-GAME-2": "snake-logic",
 };
 
 /** Verdict JSON output by the runner */
