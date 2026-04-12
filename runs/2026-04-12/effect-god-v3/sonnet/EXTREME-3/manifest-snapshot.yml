@@ -1,0 +1,12 @@
+name: effect-god
+version: 3
+model_default: sonnet
+max_turns: 1
+tools: []
+context_bundle:
+  - context-bundles/effect-quickstart/errors.md
+  - context-bundles/effect-quickstart/generators.md
+  - context-bundles/effect-quickstart/common-pitfalls.md
+  - context-bundles/fastcheck-core/arbitraries.md
+system_prompt_file: system-prompt.md
+changelog: "v3: Autoresearch-improved from v2. Key fixes: Object.setPrototypeOf for instanceof, explicit error re-wrapping (no raw TaggedError leaks), empty-array distinction (initialize vs reconstruct). HARD-2: 8%→100%. Baseline 43.3%→45.0% on failing tasks."
