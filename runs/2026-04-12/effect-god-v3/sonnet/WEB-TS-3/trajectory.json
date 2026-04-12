@@ -1,0 +1,208 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/Users/adelinb/Documents/Projects/super-coder-benchmark",
+    "session_id": "c300d1f9-620a-477a-8b48-79951baadfc4",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "NotebookEdit",
+      "Read",
+      "RemoteTrigger",
+      "SendMessage",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TeamCreate",
+      "TeamDelete",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write"
+    ],
+    "mcp_servers": [],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "abd67d0d-c3e2-46c4-be71-fbe6c05e5649",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01Gs3xx5wsAcuZHfWkhfhSjG",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "Let me analyze the spec carefully to understand what needs to be implemented.\n\nFirst, I need to understand the pre-provided types mentioned: `SetterValueType`, `InputSetter`, `NumberSetter`, `CheckboxSetter`, `ArraySetter`, `ObjectSetter`, and `ValueSetter`.\n\nSince these are \"pre-provided\" in the file, I need to define them as well (since I'm creating the file from scratch). Let me reason about what these types should be based on the context:\n\n1. `SetterValueType` - likely a union of primitive types that form fields can hold: `string | number | boolean | string[] | object` or similar\n\n\n2. `InputSetter` - for text input fields (string values)\n3. `NumberSetter` - for number fields\n4. `CheckboxSetter` - for boolean/checkbox fields\n5. `ArraySetter` - for array fields\n6. `ObjectSetter` - for object fields\n7. `ValueSetter<T>` - maps a type T to its corresponding setter type\n\nThe `ValueSetter<T>` type needs to take a type T that extends an object with `SetterValueType` values and map each property to its appropriate setter based on the value type, so strings map to `InputSetter`, numbers to `NumberSetter`, booleans to `CheckboxSetter`, and so on.\n\nDefining the setter types... Writing TypeScript types...\n\nI'm reconsidering how `ValueSetter` maps form value types to their setter counterparts—if the schema specifies `{a: string}`, then `ValueSetter` should produce `{a: InputSetter}`. I need to think through what `SetterValueType` should actually encompass based on the setter types mentioned in the spec, probably at least string, number, boolean, and potentially collections, though I should keep it reasonable without over-engineering.\n\nNow I'm focusing on the core interfaces the spec requires: `ExpressionEvent`, `Expression`, `SetterMaybeExpression`, and `FormSchema`, making sure the pre-provided types work with the `FormSchema<{a: string}>` example.\n\nDefining the type system...",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1673,
+        "cache_read_input_tokens": 14096,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1673
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "c300d1f9-620a-477a-8b48-79951baadfc4",
+    "uuid": "be348bcf-ba74-4e78-8c8f-69fad7e0dd73"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01Gs3xx5wsAcuZHfWkhfhSjG",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nimport { Effect, Data, Exit, Cause } from \"effect\";\n\n// ─── Pre-provided types ───────────────────────────────────────────────────────\n\nexport type SetterValueType =\n  | string\n  | number\n  | boolean\n  | string[]\n  | { [key: string]: SetterValueType };\n\nexport interface InputSetter {\n  type: \"input\";\n  defaultValue?: string;\n  label?: string;\n}\n\nexport interface NumberSetter {\n  type: \"number\";\n  defaultValue?: number;\n  label?: string;\n}\n\nexport interface CheckboxSetter {\n  type: \"checkbox\";\n  defaultValue?: boolean;\n  label?: string;\n}\n\nexport interface ArraySetter {\n  type: \"array\";\n  defaultValue?: string[];\n  label?: string;\n}\n\nexport interface ObjectSetter {\n  type: \"object\";\n  defaultValue?: { [key: string]: SetterValueType };\n  label?: string;\n}\n\ntype ToSetter<V extends SetterValueType> = V extends string\n  ? InputSetter\n  : V extends number\n  ? NumberSetter\n  : V extends boolean\n  ? CheckboxSetter\n  : V extends string[]\n  ? ArraySetter\n  : V extends { [key: string]: SetterValueType }\n  ? ObjectSetter\n  : never;\n\nexport type ValueSetter<T extends { [key: string]: SetterValueType }> = {\n  [K in keyof T]: ToSetter<T[K]>;\n};\n\n// ─── New exported types ───────────────────────────────────────────────────────\n\n/**\n * ExpressionEvent<SetterValue, FormValue>\n *\n * Both generic parameters are required (no defaults) — omitting either is a\n * compile-time error due to the constraints on each parameter.\n */\nexport interface ExpressionEvent<\n  SetterValue extends SetterValueType,\n  FormValue extends { [key: string]: SetterValueType }\n> {\n  value: SetterValue;\n  formValue: FormValue;\n}\n\n/**\n * Expression<SetterValue, FormValue, ExpressionValue>\n *\n * Represents a deferred/computed field value backed by a callback that\n * receives a fully-typed ExpressionEvent context.\n */\nexport interface Expression<\n  SetterValue extends SetterValueType,\n  FormValue extends { [key: string]: SetterValueType },\n  ExpressionValue\n> {\n  type: \"expression\";\n  value: (ctx: ExpressionEvent<SetterValue, FormValue>) => ExpressionValue;\n}\n\n/**\n * SetterMaybeExpression<SetterValue, FormValue, ExpressionValue>\n *\n * A field value that can be either a raw ExpressionValue or an Expression\n * object that computes it from form context.\n */\nexport type SetterMaybeExpression<\n  SetterValue extends SetterValueType,\n  FormValue extends { [key: string]: SetterValueType },\n  ExpressionValue\n> =\n  | Expression<SetterValue, FormValue, ExpressionValue>\n  | ExpressionValue;\n\n/**\n * FormSchema<T>\n *\n * Root schema for a form whose value shape is T.  The `fields` property is a\n * ValueSetter<T>, which maps every key of T to the correct setter variant\n * (e.g. string → InputSetter, number → NumberSetter, etc.).\n */\nexport interface FormSchema<T extends { [key: string]: SetterValueType }> {\n  fields: ValueSetter<T>;\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1673,
+        "cache_read_input_tokens": 14096,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1673
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "c300d1f9-620a-477a-8b48-79951baadfc4",
+    "uuid": "c9949eb6-11e0-4fce-a3c3-bbed38a4a8a3"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed",
+      "resetsAt": 1776045600,
+      "rateLimitType": "five_hour",
+      "overageStatus": "rejected",
+      "overageDisabledReason": "org_level_disabled",
+      "isUsingOverage": false
+    },
+    "uuid": "689d1603-a526-4434-a3e9-40c16c5d3fb4",
+    "session_id": "c300d1f9-620a-477a-8b48-79951baadfc4"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 23732,
+    "duration_api_ms": 23711,
+    "num_turns": 1,
+    "result": "```typescript\nimport { Effect, Data, Exit, Cause } from \"effect\";\n\n// ─── Pre-provided types ───────────────────────────────────────────────────────\n\nexport type SetterValueType =\n  | string\n  | number\n  | boolean\n  | string[]\n  | { [key: string]: SetterValueType };\n\nexport interface InputSetter {\n  type: \"input\";\n  defaultValue?: string;\n  label?: string;\n}\n\nexport interface NumberSetter {\n  type: \"number\";\n  defaultValue?: number;\n  label?: string;\n}\n\nexport interface CheckboxSetter {\n  type: \"checkbox\";\n  defaultValue?: boolean;\n  label?: string;\n}\n\nexport interface ArraySetter {\n  type: \"array\";\n  defaultValue?: string[];\n  label?: string;\n}\n\nexport interface ObjectSetter {\n  type: \"object\";\n  defaultValue?: { [key: string]: SetterValueType };\n  label?: string;\n}\n\ntype ToSetter<V extends SetterValueType> = V extends string\n  ? InputSetter\n  : V extends number\n  ? NumberSetter\n  : V extends boolean\n  ? CheckboxSetter\n  : V extends string[]\n  ? ArraySetter\n  : V extends { [key: string]: SetterValueType }\n  ? ObjectSetter\n  : never;\n\nexport type ValueSetter<T extends { [key: string]: SetterValueType }> = {\n  [K in keyof T]: ToSetter<T[K]>;\n};\n\n// ─── New exported types ───────────────────────────────────────────────────────\n\n/**\n * ExpressionEvent<SetterValue, FormValue>\n *\n * Both generic parameters are required (no defaults) — omitting either is a\n * compile-time error due to the constraints on each parameter.\n */\nexport interface ExpressionEvent<\n  SetterValue extends SetterValueType,\n  FormValue extends { [key: string]: SetterValueType }\n> {\n  value: SetterValue;\n  formValue: FormValue;\n}\n\n/**\n * Expression<SetterValue, FormValue, ExpressionValue>\n *\n * Represents a deferred/computed field value backed by a callback that\n * receives a fully-typed ExpressionEvent context.\n */\nexport interface Expression<\n  SetterValue extends SetterValueType,\n  FormValue extends { [key: string]: SetterValueType },\n  ExpressionValue\n> {\n  type: \"expression\";\n  value: (ctx: ExpressionEvent<SetterValue, FormValue>) => ExpressionValue;\n}\n\n/**\n * SetterMaybeExpression<SetterValue, FormValue, ExpressionValue>\n *\n * A field value that can be either a raw ExpressionValue or an Expression\n * object that computes it from form context.\n */\nexport type SetterMaybeExpression<\n  SetterValue extends SetterValueType,\n  FormValue extends { [key: string]: SetterValueType },\n  ExpressionValue\n> =\n  | Expression<SetterValue, FormValue, ExpressionValue>\n  | ExpressionValue;\n\n/**\n * FormSchema<T>\n *\n * Root schema for a form whose value shape is T.  The `fields` property is a\n * ValueSetter<T>, which maps every key of T to the correct setter variant\n * (e.g. string → InputSetter, number → NumberSetter, etc.).\n */\nexport interface FormSchema<T extends { [key: string]: SetterValueType }> {\n  fields: ValueSetter<T>;\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "c300d1f9-620a-477a-8b48-79951baadfc4",
+    "total_cost_usd": 0.04338855,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 1673,
+      "cache_read_input_tokens": 14096,
+      "output_tokens": 2192,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1673,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 2192,
+        "cacheReadInputTokens": 14096,
+        "cacheCreationInputTokens": 1673,
+        "webSearchRequests": 0,
+        "costUSD": 0.04338855,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "b4f950ae-bd0c-4cb3-b303-31bb690bfdd4"
+  }
+]

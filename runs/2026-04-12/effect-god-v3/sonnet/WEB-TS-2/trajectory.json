@@ -1,0 +1,173 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/Users/adelinb/Documents/Projects/super-coder-benchmark",
+    "session_id": "dccdbb34-634e-4d9b-9c9b-a8f4ab9aff1f",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "NotebookEdit",
+      "Read",
+      "RemoteTrigger",
+      "SendMessage",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TeamCreate",
+      "TeamDelete",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write"
+    ],
+    "mcp_servers": [],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "cba0c805-d211-4b0e-82d9-473209862774",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01N9G3J5s9hDU7ovaJPfuqCd",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nexport type SetterValueType =\n  | string | number | boolean\n  | SetterValueType[]\n  | { [key: string]: SetterValueType }\n\nexport interface InputSetter { type: 'input'; value?: string }\nexport interface NumberSetter { type: 'number'; value?: number }\nexport interface CheckboxSetter { type: 'checkbox'; value?: boolean }\n\nexport interface ArraySetter<V extends SetterValueType[] = SetterValueType[]> {\n  type: 'array'\n  item: ValueSetter<V[number]>\n  value?: V\n}\n\nexport interface ObjectSetter<V extends { [key: string]: SetterValueType } = { [key: string]: SetterValueType }> {\n  type: 'object'\n  properties: { [K in keyof V]: ValueSetter<V[K]> }\n  value?: V\n}\n\nexport interface CustomSetter<ValueType = SetterValueType> {\n  type: 'custom'\n  customType: string\n  value?: ValueType\n}\n\nexport type ValueSetter<T extends SetterValueType> =\n  T extends string ? InputSetter | CustomSetter<string> :\n  T extends number ? NumberSetter | CustomSetter<number> :\n  T extends boolean ? CheckboxSetter | CustomSetter<boolean> :\n  T extends SetterValueType[] ? ArraySetter<T> | CustomSetter<T> :\n  T extends { [key: string]: SetterValueType } ? ObjectSetter<T> | CustomSetter<T> :\n  never\n\nexport type Setter<ValueType extends SetterValueType = SetterValueType> =\n  ValueType extends SetterValueType ? ValueSetter<ValueType> : never\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1936,
+        "cache_read_input_tokens": 14096,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1936
+        },
+        "output_tokens": 1,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "dccdbb34-634e-4d9b-9c9b-a8f4ab9aff1f",
+    "uuid": "40a6c5e8-7022-4286-9e02-b3cddf832450"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed",
+      "resetsAt": 1776045600,
+      "rateLimitType": "five_hour",
+      "overageStatus": "rejected",
+      "overageDisabledReason": "org_level_disabled",
+      "isUsingOverage": false
+    },
+    "uuid": "14593d88-a909-4a28-8337-41e499d55b5a",
+    "session_id": "dccdbb34-634e-4d9b-9c9b-a8f4ab9aff1f"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 4607,
+    "duration_api_ms": 4584,
+    "num_turns": 1,
+    "result": "```typescript\nexport type SetterValueType =\n  | string | number | boolean\n  | SetterValueType[]\n  | { [key: string]: SetterValueType }\n\nexport interface InputSetter { type: 'input'; value?: string }\nexport interface NumberSetter { type: 'number'; value?: number }\nexport interface CheckboxSetter { type: 'checkbox'; value?: boolean }\n\nexport interface ArraySetter<V extends SetterValueType[] = SetterValueType[]> {\n  type: 'array'\n  item: ValueSetter<V[number]>\n  value?: V\n}\n\nexport interface ObjectSetter<V extends { [key: string]: SetterValueType } = { [key: string]: SetterValueType }> {\n  type: 'object'\n  properties: { [K in keyof V]: ValueSetter<V[K]> }\n  value?: V\n}\n\nexport interface CustomSetter<ValueType = SetterValueType> {\n  type: 'custom'\n  customType: string\n  value?: ValueType\n}\n\nexport type ValueSetter<T extends SetterValueType> =\n  T extends string ? InputSetter | CustomSetter<string> :\n  T extends number ? NumberSetter | CustomSetter<number> :\n  T extends boolean ? CheckboxSetter | CustomSetter<boolean> :\n  T extends SetterValueType[] ? ArraySetter<T> | CustomSetter<T> :\n  T extends { [key: string]: SetterValueType } ? ObjectSetter<T> | CustomSetter<T> :\n  never\n\nexport type Setter<ValueType extends SetterValueType = SetterValueType> =\n  ValueType extends SetterValueType ? ValueSetter<ValueType> : never\n```",
+    "stop_reason": "end_turn",
+    "session_id": "dccdbb34-634e-4d9b-9c9b-a8f4ab9aff1f",
+    "total_cost_usd": 0.0177798,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 1936,
+      "cache_read_input_tokens": 14096,
+      "output_tokens": 419,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1936,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 419,
+        "cacheReadInputTokens": 14096,
+        "cacheCreationInputTokens": 1936,
+        "webSearchRequests": 0,
+        "costUSD": 0.0177798,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "82e8c752-cab3-45ec-beb9-f415211efa1c"
+  }
+]
