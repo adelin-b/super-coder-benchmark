@@ -1,7 +1,7 @@
 name: effect-god
 version: 4
 model_default: sonnet
-max_turns: 10
+max_turns: 30
 tools: ["Read", "Bash", "Write", "Glob", "Grep"]
 context_bundle:
   - context-bundles/effect-quickstart/errors.md
