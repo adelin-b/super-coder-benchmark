@@ -1,0 +1,124 @@
+{
+  "agent": "effect-god/v3",
+  "model": "sonnet-4.6",
+  "date": "2026-04-12",
+  "note": "n=1 per task, variance not measured",
+  "L2": {
+    "BL-1": {
+      "passed": 18,
+      "total": 21,
+      "rate": 0.857
+    },
+    "BL-2": {
+      "passed": 9,
+      "total": 10,
+      "rate": 0.9
+    },
+    "BL-3": {
+      "passed": 7,
+      "total": 8,
+      "rate": 0.875
+    },
+    "BL-4": {
+      "passed": 2,
+      "total": 6,
+      "rate": 0.333
+    },
+    "BL-5": {
+      "passed": 0,
+      "total": 7,
+      "rate": 0.0
+    },
+    "ALG-1": {
+      "passed": 16,
+      "total": 16,
+      "rate": 1.0
+    },
+    "ALG-2": {
+      "passed": 7,
+      "total": 7,
+      "rate": 1.0
+    },
+    "ALG-3": {
+      "passed": 0,
+      "total": 7,
+      "rate": 0.0
+    },
+    "SAAS-1": {
+      "passed": 13,
+      "total": 13,
+      "rate": 1.0
+    },
+    "SAAS-2": {
+      "passed": 0,
+      "total": 7,
+      "rate": 0.0
+    },
+    "SAAS-3": {
+      "passed": 1,
+      "total": 8,
+      "rate": 0.125
+    }
+  },
+  "HARD": {
+    "HARD-1": {
+      "passed": 22,
+      "total": 22,
+      "rate": 1.0
+    },
+    "HARD-2": {
+      "passed": 25,
+      "total": 25,
+      "rate": 1.0
+    },
+    "HARD-3": {
+      "passed": 17,
+      "total": 20,
+      "rate": 0.85
+    },
+    "HARD-4": {
+      "passed": 20,
+      "total": 20,
+      "rate": 1.0
+    },
+    "HARD-5": {
+      "passed": 26,
+      "total": 27,
+      "rate": 0.963
+    }
+  },
+  "EXTREME": {
+    "EXTREME-1": {
+      "passed": 45,
+      "total": 45,
+      "rate": 1.0
+    },
+    "EXTREME-2": {
+      "passed": 51,
+      "total": 52,
+      "rate": 0.981
+    },
+    "EXTREME-3": {
+      "passed": 0,
+      "total": 0,
+      "rate": 0.0,
+      "note": "compile failure"
+    },
+    "EXTREME-4": {
+      "passed": 54,
+      "total": 55,
+      "rate": 0.982
+    },
+    "EXTREME-5": {
+      "passed": 52,
+      "total": 52,
+      "rate": 1.0
+    }
+  },
+  "summary": {
+    "L2": "73/110 = 66.4%",
+    "HARD": "110/114 = 96.5%",
+    "EXTREME": "202/204 = 99.0% (excl EXTREME-3)",
+    "EXTREME_with_E3": "202/251 = 80.5%"
+  }
+}
