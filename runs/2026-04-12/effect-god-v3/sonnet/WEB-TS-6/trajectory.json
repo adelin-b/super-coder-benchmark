@@ -1,0 +1,208 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/Users/adelinb/Documents/Projects/super-coder-benchmark",
+    "session_id": "7176db22-01fb-4069-89b2-c4d2bcbb39f7",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "NotebookEdit",
+      "Read",
+      "RemoteTrigger",
+      "SendMessage",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TeamCreate",
+      "TeamDelete",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write"
+    ],
+    "mcp_servers": [],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "be92e34b-4f04-4fb1-8da3-7f1fd6aab62a",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_016KR7gJQJQrGxoDVb9aHbxz",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "Let me analyze the spec carefully. I need to implement a TypeScript module `render-props.ts` that has a type-inferred props system for custom setters.\n\nLet me think about what's needed:\n\n1. `SetterValueType` - some basic type\n2. Basic setters\n3. `CustomSetterRender` - a type/class for custom setter renderers\n4. `ArraySetter`, `ObjectSetter`, `ValueSetter`, `FormSchema`\n5. `CustomSetter` with an optional `props` property inferred from the `CustomSetterRender` definition\n\nThe key constraint is:\n- `props` must be typed as `Omit<Parameters<RenderDef['render']>[0], 'value' | 'onChange'>`\n\n\n- I need to define a generic `CustomSetterRender` type that captures both a value type and the shape of additional props, then have `CustomSetter` reference a registered render definition by its `customType` string and extract the correct props type at compile time.\n\nThe challenge is making TypeScript infer which render definition to use based on the `customType` string alone, which requires either a registry pattern where the consumer passes the render definition as a type parameter, or a discriminated union approach where all possible renders are known upfront. Defining the setter types... Defining the type hierarchy...\n\nNow I'm thinking through how the generic constraint works—if someone defines a `CustomSetterRender` with specific value and props types, the `CustomSetter` type should extract just the custom props and exclude the standard `value` and `onChange` fields, so the type system properly validates what gets passed in.\n\nI'm also considering whether helper functions would make this easier to use—something to create a custom setter render with proper typing, and maybe another to instantiate a custom setter with those props. I'm working through the type definitions for a custom setter system, focusing on how to properly combine the custom props with the injected value and onChange handler so that the Omit operation correctly extracts just the custom props.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1594,
+        "cache_read_input_tokens": 14096,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1594
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "7176db22-01fb-4069-89b2-c4d2bcbb39f7",
+    "uuid": "ccad9076-6f0b-4113-a325-cceb4f7d5e93"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_016KR7gJQJQrGxoDVb9aHbxz",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nimport { Effect, Data } from \"effect\";\n\n// ─── Core value type ──────────────────────────────────────────────────────────\n\nexport type SetterValueType =\n  | string\n  | number\n  | boolean\n  | null\n  | undefined\n  | object\n  | any[];\n\n// ─── CustomSetterRender ───────────────────────────────────────────────────────\n\n/**\n * Describes how a custom setter is rendered.\n *\n * V  – the value type the setter edits\n * P  – additional (user-defined) props beyond the framework-injected ones\n *\n * The `render` function receives ALL props merged together:\n *   { value: V; onChange: (v: V) => void } & P\n *\n * `props` on CustomSetter is then Omit<…, 'value' | 'onChange'> = P\n */\nexport interface CustomSetterRender<V = any, P extends object = object> {\n  customType: string;\n  render: (props: { value: V; onChange: (value: V) => void } & P) => any;\n}\n\n// ─── Setter primitives ────────────────────────────────────────────────────────\n\nexport interface ValueSetter {\n  type: \"input\" | \"select\" | \"checkbox\" | \"number\" | \"textarea\";\n  defaultValue?: SetterValueType;\n}\n\n/**\n * CustomSetter is generic over the matching CustomSetterRender definition (R).\n * The optional `props` is automatically inferred as the render-parameter type\n * minus the framework-injected `value` and `onChange` fields.\n */\nexport interface CustomSetter<\n  R extends CustomSetterRender<any, any> = CustomSetterRender<any, any>\n> {\n  type: \"custom\";\n  customType: R[\"customType\"];\n  props?: Omit<Parameters<R[\"render\"]>[0], \"value\" | \"onChange\">;\n}\n\nexport interface ArraySetter {\n  type: \"array\";\n  itemSetter: Setter;\n}\n\nexport interface ObjectSetter {\n  type: \"object\";\n  properties: Record<string, Setter>;\n}\n\n// ─── Union of all setter types ────────────────────────────────────────────────\n\nexport type Setter =\n  | ValueSetter\n  | ArraySetter\n  | ObjectSetter\n  | CustomSetter<CustomSetterRender<any, any>>;\n\n// ─── FormSchema ───────────────────────────────────────────────────────────────\n\nexport type FormSchema = Record<string, Setter>;\n\n// ─── Factory helpers ──────────────────────────────────────────────────────────\n\n/**\n * Creates a typed CustomSetterRender definition.\n *\n * @example\n * const MyRender = createCustomSetterRender<string, { label: string }>(\n *   'myCustomType',\n *   ({ value, onChange, label }) => { … }\n * );\n */\nexport function createCustomSetterRender<V, P extends object = object>(\n  customType: string,\n  render: (props: { value: V; onChange: (value: V) => void } & P) => any\n): CustomSetterRender<V, P> {\n  return { customType, render };\n}\n\n/**\n * Creates a typed CustomSetter for a given CustomSetterRender.\n * The `props` parameter is automatically typed as Omit<render-params, 'value' | 'onChange'>.\n *\n * @example\n * const setter = createCustomSetter(MyRender, { label: 'hello' });\n */\nexport function createCustomSetter<R extends CustomSetterRender<any, any>>(\n  renderDef: R,\n  props?: Omit<Parameters<R[\"render\"]>[0], \"value\" | \"onChange\">\n): CustomSetter<R> {\n  return {\n    type: \"custom\",\n    customType: renderDef.customType,\n    ...(props !== undefined ? { props } : {}),\n  } as CustomSetter<R>;\n}\n\n// ─── Internal Effect-based helpers (not exported in public API) ───────────────\n\nclass SchemaValidationError extends Data.TaggedError(\"SchemaValidationError\")<{\n  reason: string;\n}> {}\n\nconst validateSetterInternal = (\n  setter: Setter\n): Effect.Effect<true, SchemaValidationError> =>\n  Effect.gen(function* () {\n    if (setter.type === \"array\") {\n      yield* validateSetterInternal(setter.itemSetter);\n    } else if (setter.type === \"object\") {\n      for (const child of Object.values(setter.properties)) {\n        yield* validateSetterInternal(child);\n      }\n    }\n    return true as const;\n  });\n\n/**\n * Validates a FormSchema at runtime (structural check only).\n * Throws a plain Error on failure.\n */\nexport function validateFormSchema(schema: FormSchema): true {\n  const program = Effect.gen(function* () {\n    for (const setter of Object.values(schema)) {\n      yield* validateSetterInternal(setter);\n    }\n    return true as const;\n  });\n\n  const exit = Effect.runSyncExit(program);\n  if (exit._tag === \"Failure\") {\n    const raw = exit.cause;\n    const msg =\n      \"_tag\" in (raw as any)\n        ? ((raw as any).error?.reason ?? \"Schema validation failed\")\n        : \"Schema validation failed\";\n    throw new Error(msg);\n  }\n  return exit.value;\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1594,
+        "cache_read_input_tokens": 14096,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1594
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "7176db22-01fb-4069-89b2-c4d2bcbb39f7",
+    "uuid": "d86015b4-633a-4807-b28d-3c0327b4bba6"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed",
+      "resetsAt": 1776045600,
+      "rateLimitType": "five_hour",
+      "overageStatus": "rejected",
+      "overageDisabledReason": "org_level_disabled",
+      "isUsingOverage": false
+    },
+    "uuid": "447b8c01-e9f0-449a-b837-48010a07210f",
+    "session_id": "7176db22-01fb-4069-89b2-c4d2bcbb39f7"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 38547,
+    "duration_api_ms": 38523,
+    "num_turns": 1,
+    "result": "```typescript\nimport { Effect, Data } from \"effect\";\n\n// ─── Core value type ──────────────────────────────────────────────────────────\n\nexport type SetterValueType =\n  | string\n  | number\n  | boolean\n  | null\n  | undefined\n  | object\n  | any[];\n\n// ─── CustomSetterRender ───────────────────────────────────────────────────────\n\n/**\n * Describes how a custom setter is rendered.\n *\n * V  – the value type the setter edits\n * P  – additional (user-defined) props beyond the framework-injected ones\n *\n * The `render` function receives ALL props merged together:\n *   { value: V; onChange: (v: V) => void } & P\n *\n * `props` on CustomSetter is then Omit<…, 'value' | 'onChange'> = P\n */\nexport interface CustomSetterRender<V = any, P extends object = object> {\n  customType: string;\n  render: (props: { value: V; onChange: (value: V) => void } & P) => any;\n}\n\n// ─── Setter primitives ────────────────────────────────────────────────────────\n\nexport interface ValueSetter {\n  type: \"input\" | \"select\" | \"checkbox\" | \"number\" | \"textarea\";\n  defaultValue?: SetterValueType;\n}\n\n/**\n * CustomSetter is generic over the matching CustomSetterRender definition (R).\n * The optional `props` is automatically inferred as the render-parameter type\n * minus the framework-injected `value` and `onChange` fields.\n */\nexport interface CustomSetter<\n  R extends CustomSetterRender<any, any> = CustomSetterRender<any, any>\n> {\n  type: \"custom\";\n  customType: R[\"customType\"];\n  props?: Omit<Parameters<R[\"render\"]>[0], \"value\" | \"onChange\">;\n}\n\nexport interface ArraySetter {\n  type: \"array\";\n  itemSetter: Setter;\n}\n\nexport interface ObjectSetter {\n  type: \"object\";\n  properties: Record<string, Setter>;\n}\n\n// ─── Union of all setter types ────────────────────────────────────────────────\n\nexport type Setter =\n  | ValueSetter\n  | ArraySetter\n  | ObjectSetter\n  | CustomSetter<CustomSetterRender<any, any>>;\n\n// ─── FormSchema ───────────────────────────────────────────────────────────────\n\nexport type FormSchema = Record<string, Setter>;\n\n// ─── Factory helpers ──────────────────────────────────────────────────────────\n\n/**\n * Creates a typed CustomSetterRender definition.\n *\n * @example\n * const MyRender = createCustomSetterRender<string, { label: string }>(\n *   'myCustomType',\n *   ({ value, onChange, label }) => { … }\n * );\n */\nexport function createCustomSetterRender<V, P extends object = object>(\n  customType: string,\n  render: (props: { value: V; onChange: (value: V) => void } & P) => any\n): CustomSetterRender<V, P> {\n  return { customType, render };\n}\n\n/**\n * Creates a typed CustomSetter for a given CustomSetterRender.\n * The `props` parameter is automatically typed as Omit<render-params, 'value' | 'onChange'>.\n *\n * @example\n * const setter = createCustomSetter(MyRender, { label: 'hello' });\n */\nexport function createCustomSetter<R extends CustomSetterRender<any, any>>(\n  renderDef: R,\n  props?: Omit<Parameters<R[\"render\"]>[0], \"value\" | \"onChange\">\n): CustomSetter<R> {\n  return {\n    type: \"custom\",\n    customType: renderDef.customType,\n    ...(props !== undefined ? { props } : {}),\n  } as CustomSetter<R>;\n}\n\n// ─── Internal Effect-based helpers (not exported in public API) ───────────────\n\nclass SchemaValidationError extends Data.TaggedError(\"SchemaValidationError\")<{\n  reason: string;\n}> {}\n\nconst validateSetterInternal = (\n  setter: Setter\n): Effect.Effect<true, SchemaValidationError> =>\n  Effect.gen(function* () {\n    if (setter.type === \"array\") {\n      yield* validateSetterInternal(setter.itemSetter);\n    } else if (setter.type === \"object\") {\n      for (const child of Object.values(setter.properties)) {\n        yield* validateSetterInternal(child);\n      }\n    }\n    return true as const;\n  });\n\n/**\n * Validates a FormSchema at runtime (structural check only).\n * Throws a plain Error on failure.\n */\nexport function validateFormSchema(schema: FormSchema): true {\n  const program = Effect.gen(function* () {\n    for (const setter of Object.values(schema)) {\n      yield* validateSetterInternal(setter);\n    }\n    return true as const;\n  });\n\n  const exit = Effect.runSyncExit(program);\n  if (exit._tag === \"Failure\") {\n    const raw = exit.cause;\n    const msg =\n      \"_tag\" in (raw as any)\n        ? ((raw as any).error?.reason ?? \"Schema validation failed\")\n        : \"Schema validation failed\";\n    throw new Error(msg);\n  }\n  return exit.value;\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "7176db22-01fb-4069-89b2-c4d2bcbb39f7",
+    "total_cost_usd": 0.0593973,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 1594,
+      "cache_read_input_tokens": 14096,
+      "output_tokens": 3279,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1594,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 3279,
+        "cacheReadInputTokens": 14096,
+        "cacheCreationInputTokens": 1594,
+        "webSearchRequests": 0,
+        "costUSD": 0.0593973,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "8f56a021-658e-4268-a82d-8a98807e38fd"
+  }
+]

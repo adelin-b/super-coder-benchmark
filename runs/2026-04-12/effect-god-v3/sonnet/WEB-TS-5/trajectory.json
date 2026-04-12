@@ -1,0 +1,208 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/Users/adelinb/Documents/Projects/super-coder-benchmark",
+    "session_id": "a9cbfbcb-b303-4bc4-a1b3-0bee9ddc4011",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "NotebookEdit",
+      "Read",
+      "RemoteTrigger",
+      "SendMessage",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TeamCreate",
+      "TeamDelete",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write"
+    ],
+    "mcp_servers": [],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "85f7e886-18bd-47df-a2ba-f562ac263910",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_013x8GSfaDRfb4HJJcyepNbi",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "Let me analyze the spec carefully to implement the `custom-render.ts` file.\n\nThe spec mentions:\n1. Pre-provided types: `SetterValueType`, basic setter interfaces with `FormValue` generics, `ValueSetter`, `Expression` types, and React's `FC` type alias\n2. `CustomSetterRender<ValueType, Props>` - type with `render` property that is a React FC\n3. `CustomSetter<ValueType, ..., CustomSetterRenderDef, CustomType>` - setter with type: 'custom'\n4. Update `FormSchema<T, CustomSetterRenderDef>` - with second generic\n\n\n5. I need to infer the structure of these pre-provided types since they're not shown, likely including a union type for form values, basic setter interfaces, and type utilities for expressions and value setters.\n\nDefining the type system... I'm defining the core type system for the form schema, including value setters, custom setter renders, and the structure for custom setters that can handle different value types and optional props. I'm realizing I need to think through what the test cases should actually look like to validate this type system properly. The key constraint is that `customType` must be a valid key within `CustomSetterRenderDef`, so I need to verify that using an invalid custom type fails to compile while valid ones succeed. I'm seeing the structure now — `CustomSetter` needs to define an object with a `type` field set to `'custom'`, a `customType` that's constrained to the keys of the render definitions, and an optional `value` field. For `FormSchema`, the `customSetterRenderDefinitions` parameter should enforce that its shape matches whatever `CustomSetterRenderDef` generic is passed in, so the render definitions are properly typed and validated against the custom setter configurations. Defining the type system for form setters... Writing the type definitions... I'm realizing the `CustomSetter` type signature needs clarification—specifically what the second type parameter should be. Looking at how `CustomSetterRenderDef` maps custom type keys to their render definitions, I need to figure out whether `CustomSetter` takes additional props as a separate parameter or if it's structured differently. Let me trace through what makes sense: `CustomSetterRender` pairs a value type with custom props for rendering, and `CustomSetter` should reference a specific custom type key from the definition map.\n\nDefining the interface... Defining the setter type hierarchy...\n\nNow I'm realizing I need to be more careful about what's already provided versus what I need to implement. The spec mentions that SetterValueType, basic setter interfaces, ValueSetter, Expression types, and React's FC are already available, so I should build on those foundations rather than recreating them from scratch.\n\nLooking at what needs to be exported, the spec is clear about three main things: CustomSetterRender, CustomSetter with its generic parameters, and the updated FormSchema. I should make sure to export all the foundational types as well since they'll be needed for the implementation to work properly.\n\nWriting the complete TypeScript implementation... Defining the FormSchema interface that ties everything together with the generic CustomSetterRenderDef parameter, allowing fields to use any of the setter types while maintaining type safety across the entire form structure. I'm deciding whether `AdditionalProps` should default to `{}` or `unknown` — since it's used in `AnySetterType` as `CustomSetter<ValueType, unknown, CustomSetterRenderDef>`, I'll stick with `unknown`. The `customSetterRenderDefinitions` property type looks correct as-is, matching the shape of `CustomSetterRenderDef` properly. I think the implementation is solid and ready to finalize.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1760,
+        "cache_read_input_tokens": 14096,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1760
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "a9cbfbcb-b303-4bc4-a1b3-0bee9ddc4011",
+    "uuid": "74c74537-7f7a-4223-bbc9-c559edfbfb7a"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_013x8GSfaDRfb4HJJcyepNbi",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\n// Pre-provided: React FC type alias\nexport type FC<P = {}> = (props: P) => any;\n\n// Pre-provided: SetterValueType\nexport type SetterValueType =\n  | string\n  | number\n  | boolean\n  | object\n  | null\n  | undefined;\n\n// Pre-provided: Expression\nexport type Expression<T> = { __isExpression: true; expression: string } | T;\n\n// Pre-provided: FormValue\nexport type FormValue<T> = T | Expression<T>;\n\n// Pre-provided: ValueSetter\nexport interface ValueSetter<ValueType> {\n  type: \"value\";\n  value?: FormValue<ValueType>;\n}\n\n// ─── CustomSetterRender ───────────────────────────────────────────────────────\n\n/**\n * Describes how a custom setter renders itself.\n * `render` is an FC whose props = Props & { value, onChange }.\n */\nexport type CustomSetterRender<ValueType, Props = {}> = {\n  render: FC<\n    Props & {\n      value: ValueType;\n      onChange: (value: ValueType) => void;\n    }\n  >;\n};\n\n// ─── CustomSetter ─────────────────────────────────────────────────────────────\n\n/**\n * A setter whose type is 'custom'. The `customType` field is constrained to\n * the keys present in `CustomSetterRenderDef`, making invalid keys a\n * compile-time error.\n */\nexport interface CustomSetter<\n  ValueType,\n  AdditionalProps,\n  CustomSetterRenderDef,\n  CustomType extends keyof CustomSetterRenderDef = keyof CustomSetterRenderDef\n> {\n  type: \"custom\";\n  customType: CustomType;\n  value?: ValueType;\n}\n\n// ─── ObjectSetter (recursive) ─────────────────────────────────────────────────\n\n/**\n * A setter that nests a sub-schema over a structured object value.\n * Threads `CustomSetterRenderDef` through so nested custom setters are\n * equally constrained.\n */\nexport interface ObjectSetter<ValueType, CustomSetterRenderDef = {}> {\n  type: \"object\";\n  fields?: {\n    [K in keyof ValueType]?: AnySetter<ValueType[K], CustomSetterRenderDef>;\n  };\n}\n\n// ─── AnySetter union ──────────────────────────────────────────────────────────\n\nexport type AnySetter<ValueType, CustomSetterRenderDef = {}> =\n  | ValueSetter<ValueType>\n  | CustomSetter<ValueType, unknown, CustomSetterRenderDef>\n  | ObjectSetter<ValueType, CustomSetterRenderDef>;\n\n// ─── FormSchema ───────────────────────────────────────────────────────────────\n\n/**\n * Top-level form schema.\n *\n * @typeParam T                    Shape of the form's data model.\n * @typeParam CustomSetterRenderDef  Map of custom-type names → CustomSetterRender\n *                                   instances.  Defaults to `{}` (no custom setters).\n *\n * `customSetterRenderDefinitions` must satisfy the exact shape of\n * `CustomSetterRenderDef`.  Any `CustomSetter` nested inside the schema's\n * `fields` (including recursively inside `ObjectSetter`) has its `customType`\n * constrained to `keyof CustomSetterRenderDef`.\n */\nexport interface FormSchema<T, CustomSetterRenderDef = {}> {\n  /** Registry that maps each custom-type name to its render definition. */\n  customSetterRenderDefinitions?: CustomSetterRenderDef;\n\n  /** Field-level setter definitions, threaded with the render-def constraint. */\n  fields?: {\n    [K in keyof T]?: AnySetter<T[K], CustomSetterRenderDef>;\n  };\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1760,
+        "cache_read_input_tokens": 14096,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1760
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "a9cbfbcb-b303-4bc4-a1b3-0bee9ddc4011",
+    "uuid": "4026c2b1-5248-4b37-8cf1-567bc6e650db"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed",
+      "resetsAt": 1776045600,
+      "rateLimitType": "five_hour",
+      "overageStatus": "rejected",
+      "overageDisabledReason": "org_level_disabled",
+      "isUsingOverage": false
+    },
+    "uuid": "a76d0ed3-c17b-470c-9cbb-23373bd14dc5",
+    "session_id": "a9cbfbcb-b303-4bc4-a1b3-0bee9ddc4011"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 64113,
+    "duration_api_ms": 64089,
+    "num_turns": 1,
+    "result": "```typescript\n// Pre-provided: React FC type alias\nexport type FC<P = {}> = (props: P) => any;\n\n// Pre-provided: SetterValueType\nexport type SetterValueType =\n  | string\n  | number\n  | boolean\n  | object\n  | null\n  | undefined;\n\n// Pre-provided: Expression\nexport type Expression<T> = { __isExpression: true; expression: string } | T;\n\n// Pre-provided: FormValue\nexport type FormValue<T> = T | Expression<T>;\n\n// Pre-provided: ValueSetter\nexport interface ValueSetter<ValueType> {\n  type: \"value\";\n  value?: FormValue<ValueType>;\n}\n\n// ─── CustomSetterRender ───────────────────────────────────────────────────────\n\n/**\n * Describes how a custom setter renders itself.\n * `render` is an FC whose props = Props & { value, onChange }.\n */\nexport type CustomSetterRender<ValueType, Props = {}> = {\n  render: FC<\n    Props & {\n      value: ValueType;\n      onChange: (value: ValueType) => void;\n    }\n  >;\n};\n\n// ─── CustomSetter ─────────────────────────────────────────────────────────────\n\n/**\n * A setter whose type is 'custom'. The `customType` field is constrained to\n * the keys present in `CustomSetterRenderDef`, making invalid keys a\n * compile-time error.\n */\nexport interface CustomSetter<\n  ValueType,\n  AdditionalProps,\n  CustomSetterRenderDef,\n  CustomType extends keyof CustomSetterRenderDef = keyof CustomSetterRenderDef\n> {\n  type: \"custom\";\n  customType: CustomType;\n  value?: ValueType;\n}\n\n// ─── ObjectSetter (recursive) ─────────────────────────────────────────────────\n\n/**\n * A setter that nests a sub-schema over a structured object value.\n * Threads `CustomSetterRenderDef` through so nested custom setters are\n * equally constrained.\n */\nexport interface ObjectSetter<ValueType, CustomSetterRenderDef = {}> {\n  type: \"object\";\n  fields?: {\n    [K in keyof ValueType]?: AnySetter<ValueType[K], CustomSetterRenderDef>;\n  };\n}\n\n// ─── AnySetter union ──────────────────────────────────────────────────────────\n\nexport type AnySetter<ValueType, CustomSetterRenderDef = {}> =\n  | ValueSetter<ValueType>\n  | CustomSetter<ValueType, unknown, CustomSetterRenderDef>\n  | ObjectSetter<ValueType, CustomSetterRenderDef>;\n\n// ─── FormSchema ───────────────────────────────────────────────────────────────\n\n/**\n * Top-level form schema.\n *\n * @typeParam T                    Shape of the form's data model.\n * @typeParam CustomSetterRenderDef  Map of custom-type names → CustomSetterRender\n *                                   instances.  Defaults to `{}` (no custom setters).\n *\n * `customSetterRenderDefinitions` must satisfy the exact shape of\n * `CustomSetterRenderDef`.  Any `CustomSetter` nested inside the schema's\n * `fields` (including recursively inside `ObjectSetter`) has its `customType`\n * constrained to `keyof CustomSetterRenderDef`.\n */\nexport interface FormSchema<T, CustomSetterRenderDef = {}> {\n  /** Registry that maps each custom-type name to its render definition. */\n  customSetterRenderDefinitions?: CustomSetterRenderDef;\n\n  /** Field-level setter definitions, threaded with the render-def constraint. */\n  fields?: {\n    [K in keyof T]?: AnySetter<T[K], CustomSetterRenderDef>;\n  };\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "a9cbfbcb-b303-4bc4-a1b3-0bee9ddc4011",
+    "total_cost_usd": 0.1052148,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 1760,
+      "cache_read_input_tokens": 14096,
+      "output_tokens": 6292,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1760,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 6292,
+        "cacheReadInputTokens": 14096,
+        "cacheCreationInputTokens": 1760,
+        "webSearchRequests": 0,
+        "costUSD": 0.1052148,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "8ce1a221-77c6-495c-a77e-f4b5144a46f9"
+  }
+]

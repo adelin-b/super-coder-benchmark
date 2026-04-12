@@ -1,0 +1,208 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/Users/adelinb/Documents/Projects/super-coder-benchmark",
+    "session_id": "d875b71d-fb02-4bb7-851c-2250df613712",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "NotebookEdit",
+      "Read",
+      "RemoteTrigger",
+      "SendMessage",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TeamCreate",
+      "TeamDelete",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write"
+    ],
+    "mcp_servers": [],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "a63a7629-97f8-42d2-9af4-2b75e590f2dd",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01KKcvNsCgybARYhipxb8QRf",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "Let me analyze the spec carefully to understand what needs to be implemented.\n\nThe spec asks for a `ctx-value.ts` file that implements a context-aware `ctxValue` system for expression callbacks in a form schema.\n\nKey requirements:\n1. Add `ctxValue` property to `ExpressionEvent` with a generic `CtxValue` type parameter\n2. Add `CtxValue` generic to all setter types\n3. In `ArraySetter`, the item setter's `CtxValue` should be `Value[number]`\n\n\n4. Outside `ArraySetter`, `CtxValue` defaults to `FormValue`\n5. Works recursively\n\nNow I'm mapping out the core types I need to define—the setter value types, the expression event structure with context awareness, and how these compose together across different setter configurations.\n\nDefining the type structure... Defining setter types for different input kinds... Defining the setter types... Defining the type system for setters...\n\nI'm realizing I need to be careful about how these types compose. The spec mentions `SetterValueType` as pre-provided, but since I'm building the whole implementation, I should define it myself. The core pattern is that `ExpressionEvent` carries both the current value and the broader context value, `Expression` is a function that receives that event, and `SetterMaybeExpression` unions the raw value with the expression function. Now I need to think through how `Setter` itself discriminates on the value type to pick the right setter variant.\n\nFor a form schema system, I'd expect setters for strings, numbers, booleans, objects, and arrays, where array setters recursively define setters for their elements. Let me map out the basic setter types and how they thread the context value through.\n\nWriting setter interfaces... Defining setter interfaces for different field types... Finishing the type definition for the Setter union and FormSchema, then reconsidering the implementation approach since I need to build everything from scratch with proper type constraints rather than relying on pre-provided types. I'm also thinking through what the test cases should validate—particularly how ctxValue gets narrowed inside ArraySetter items and how nested arrays maintain correct type relationships. wrong type must cause a compilation error\n\nThis is mostly a type-level test, so I need to make sure the types are correct at compile time.\n\nLet me think about the `Setter` conditional type more carefully. The issue is that `string | number | boolean` aren't the only types. What about arrays that might be `string[]` or `number[]`?\n\nFor `Value extends unknown[]`, TypeScript will match `string[]`, `number[]`, `Record<string,unknown>[]`, etc.\n\nOne potential issue: when `Value` is `string`, TypeScript conditional type `string extends unknown[]` is false, so it goes to the string branch. That's correct.\n\nAnother consideration: the spec mentions `FormSchema` threading `FormValue` through. So `FormSchema<MyForm>` means all setters at the top level have `CtxValue = MyForm`. But within an `ArraySetter`, the items have `CtxValue = elementType`.\n\nI think my implementation is mostly correct. Let me refine it by walking through some concrete examples. For a `FormSchema<{ name: string, items: string[] }>`, the `name` field should be `InputSetter<FormValue> | SelectSetter<FormValue>`, while `items` should be `ArraySetter<string[], FormValue>`. Inside that array, each item gets `Setter<string, string>`, which means expression callbacks receive `ExpressionEvent<string, string>` with the correct context value. This looks right, and the same logic should hold for nested objects inside arrays. I'm seeing the recursive case work correctly with `ctxValue` as `number`. Now I need to write out the final implementation, making sure to export everything needed. I'm uncertain about `SetterValueType` — it should probably be a union of all the value types setters can handle — and I need to clarify whether `FormValue` is just a type alias for the form's value type or something more concrete.\n\nWriting the implementation...",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1603,
+        "cache_read_input_tokens": 14096,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1603
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "d875b71d-fb02-4bb7-851c-2250df613712",
+    "uuid": "75542ef6-197e-421f-b160-9ee7900dcc07"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01KKcvNsCgybARYhipxb8QRf",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\n// ─── Pre-provided foundations ────────────────────────────────────────────────\n\n/** Union of all primitive/composite value types a setter can carry. */\nexport type SetterValueType =\n  | string\n  | number\n  | boolean\n  | unknown[]\n  | Record<string, unknown>;\n\n/**\n * The default \"context value\" type when a setter lives outside any ArraySetter.\n * Represents the entire form's data shape.\n */\nexport type FormValue = Record<string, unknown>;\n\n// ─── Expression primitives ───────────────────────────────────────────────────\n\n/**\n * The event object passed into every expression callback.\n *\n * @typeParam Value    – the field's own value type\n * @typeParam CtxValue – the array-item type when inside an ArraySetter,\n *                       or FormValue when at the top level\n */\nexport interface ExpressionEvent<Value, CtxValue = FormValue> {\n  value: Value;\n  ctxValue: CtxValue;\n}\n\n/** A callback that derives `Value` from the expression event. */\nexport type Expression<Value, CtxValue = FormValue> = (\n  event: ExpressionEvent<Value, CtxValue>\n) => Value;\n\n/** A field may be a static value **or** a dynamic expression. */\nexport type SetterMaybeExpression<Value, CtxValue = FormValue> =\n  | Value\n  | Expression<Value, CtxValue>;\n\n// ─── Basic setters ───────────────────────────────────────────────────────────\n\nexport interface InputSetter<CtxValue = FormValue> {\n  type: \"input\";\n  value?: SetterMaybeExpression<string, CtxValue>;\n  label?: SetterMaybeExpression<string, CtxValue>;\n  disabled?: SetterMaybeExpression<boolean, CtxValue>;\n  hidden?: SetterMaybeExpression<boolean, CtxValue>;\n}\n\nexport interface SelectSetter<CtxValue = FormValue> {\n  type: \"select\";\n  options: string[];\n  value?: SetterMaybeExpression<string, CtxValue>;\n  label?: SetterMaybeExpression<string, CtxValue>;\n  disabled?: SetterMaybeExpression<boolean, CtxValue>;\n  hidden?: SetterMaybeExpression<boolean, CtxValue>;\n}\n\nexport interface NumberSetter<CtxValue = FormValue> {\n  type: \"number\";\n  value?: SetterMaybeExpression<number, CtxValue>;\n  label?: SetterMaybeExpression<string, CtxValue>;\n  disabled?: SetterMaybeExpression<boolean, CtxValue>;\n  hidden?: SetterMaybeExpression<boolean, CtxValue>;\n}\n\nexport interface BooleanSetter<CtxValue = FormValue> {\n  type: \"boolean\";\n  value?: SetterMaybeExpression<boolean, CtxValue>;\n  label?: SetterMaybeExpression<string, CtxValue>;\n  disabled?: SetterMaybeExpression<boolean, CtxValue>;\n  hidden?: SetterMaybeExpression<boolean, CtxValue>;\n}\n\n// ─── Composite setters ───────────────────────────────────────────────────────\n\n/**\n * Setter for an object-shaped value.\n * Each property setter inherits the same `CtxValue` as the parent.\n */\nexport interface ObjectSetter<\n  Value extends Record<string, unknown>,\n  CtxValue = FormValue\n> {\n  type: \"object\";\n  properties: {\n    [K in keyof Value]: Setter<Value[K], CtxValue>;\n  };\n  label?: SetterMaybeExpression<string, CtxValue>;\n  disabled?: SetterMaybeExpression<boolean, CtxValue>;\n  hidden?: SetterMaybeExpression<boolean, CtxValue>;\n}\n\n/**\n * Setter for an array-shaped value.\n *\n * The `item` setter's `CtxValue` is set to `Value[number]` (the element type),\n * so that expression callbacks inside the item see the current array element\n * as `ctxValue`.\n */\nexport interface ArraySetter<Value extends unknown[], CtxValue = FormValue> {\n  type: \"array\";\n  /** Item setter – CtxValue is narrowed to the array's element type. */\n  item: Setter<Value[number], Value[number]>;\n  label?: SetterMaybeExpression<string, CtxValue>;\n  disabled?: SetterMaybeExpression<boolean, CtxValue>;\n  hidden?: SetterMaybeExpression<boolean, CtxValue>;\n}\n\n// ─── Setter dispatch ─────────────────────────────────────────────────────────\n\n/**\n * Maps a `Value` type to the appropriate setter interface,\n * threading `CtxValue` through to every expression.\n *\n * Resolution order:\n *   unknown[]              → ArraySetter  (checked before Record to avoid overlap)\n *   string                 → InputSetter | SelectSetter\n *   number                 → NumberSetter\n *   boolean                → BooleanSetter\n *   Record<string,unknown> → ObjectSetter\n */\nexport type Setter<Value, CtxValue = FormValue> = Value extends unknown[]\n  ? ArraySetter<Value, CtxValue>\n  : Value extends string\n  ? InputSetter<CtxValue> | SelectSetter<CtxValue>\n  : Value extends number\n  ? NumberSetter<CtxValue>\n  : Value extends boolean\n  ? BooleanSetter<CtxValue>\n  : Value extends Record<string, unknown>\n  ? ObjectSetter<Value, CtxValue>\n  : never;\n\n// ─── FormSchema ───────────────────────────────────────────────────────────────\n\n/**\n * Top-level schema for the whole form.\n * Every setter at this level receives `CtxValue = FV` (the full form value),\n * meaning `ctxValue` in expression callbacks equals the form's data shape.\n *\n * Inside an `ArraySetter`, that guarantee is overridden – the item's\n * `CtxValue` becomes the array's element type (see `ArraySetter.item`).\n */\nexport type FormSchema<FV extends Record<string, unknown> = FormValue> = {\n  [K in keyof FV]: Setter<FV[K], FV>;\n};\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1603,
+        "cache_read_input_tokens": 14096,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1603
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "d875b71d-fb02-4bb7-851c-2250df613712",
+    "uuid": "99190a91-04a3-45e3-95e7-cea8689d9e14"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed",
+      "resetsAt": 1776045600,
+      "rateLimitType": "five_hour",
+      "overageStatus": "rejected",
+      "overageDisabledReason": "org_level_disabled",
+      "isUsingOverage": false
+    },
+    "uuid": "aa0dc58d-9c6f-4bbd-9260-c20ef767e9bd",
+    "session_id": "d875b71d-fb02-4bb7-851c-2250df613712"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 58074,
+    "duration_api_ms": 58055,
+    "num_turns": 1,
+    "result": "```typescript\n// ─── Pre-provided foundations ────────────────────────────────────────────────\n\n/** Union of all primitive/composite value types a setter can carry. */\nexport type SetterValueType =\n  | string\n  | number\n  | boolean\n  | unknown[]\n  | Record<string, unknown>;\n\n/**\n * The default \"context value\" type when a setter lives outside any ArraySetter.\n * Represents the entire form's data shape.\n */\nexport type FormValue = Record<string, unknown>;\n\n// ─── Expression primitives ───────────────────────────────────────────────────\n\n/**\n * The event object passed into every expression callback.\n *\n * @typeParam Value    – the field's own value type\n * @typeParam CtxValue – the array-item type when inside an ArraySetter,\n *                       or FormValue when at the top level\n */\nexport interface ExpressionEvent<Value, CtxValue = FormValue> {\n  value: Value;\n  ctxValue: CtxValue;\n}\n\n/** A callback that derives `Value` from the expression event. */\nexport type Expression<Value, CtxValue = FormValue> = (\n  event: ExpressionEvent<Value, CtxValue>\n) => Value;\n\n/** A field may be a static value **or** a dynamic expression. */\nexport type SetterMaybeExpression<Value, CtxValue = FormValue> =\n  | Value\n  | Expression<Value, CtxValue>;\n\n// ─── Basic setters ───────────────────────────────────────────────────────────\n\nexport interface InputSetter<CtxValue = FormValue> {\n  type: \"input\";\n  value?: SetterMaybeExpression<string, CtxValue>;\n  label?: SetterMaybeExpression<string, CtxValue>;\n  disabled?: SetterMaybeExpression<boolean, CtxValue>;\n  hidden?: SetterMaybeExpression<boolean, CtxValue>;\n}\n\nexport interface SelectSetter<CtxValue = FormValue> {\n  type: \"select\";\n  options: string[];\n  value?: SetterMaybeExpression<string, CtxValue>;\n  label?: SetterMaybeExpression<string, CtxValue>;\n  disabled?: SetterMaybeExpression<boolean, CtxValue>;\n  hidden?: SetterMaybeExpression<boolean, CtxValue>;\n}\n\nexport interface NumberSetter<CtxValue = FormValue> {\n  type: \"number\";\n  value?: SetterMaybeExpression<number, CtxValue>;\n  label?: SetterMaybeExpression<string, CtxValue>;\n  disabled?: SetterMaybeExpression<boolean, CtxValue>;\n  hidden?: SetterMaybeExpression<boolean, CtxValue>;\n}\n\nexport interface BooleanSetter<CtxValue = FormValue> {\n  type: \"boolean\";\n  value?: SetterMaybeExpression<boolean, CtxValue>;\n  label?: SetterMaybeExpression<string, CtxValue>;\n  disabled?: SetterMaybeExpression<boolean, CtxValue>;\n  hidden?: SetterMaybeExpression<boolean, CtxValue>;\n}\n\n// ─── Composite setters ───────────────────────────────────────────────────────\n\n/**\n * Setter for an object-shaped value.\n * Each property setter inherits the same `CtxValue` as the parent.\n */\nexport interface ObjectSetter<\n  Value extends Record<string, unknown>,\n  CtxValue = FormValue\n> {\n  type: \"object\";\n  properties: {\n    [K in keyof Value]: Setter<Value[K], CtxValue>;\n  };\n  label?: SetterMaybeExpression<string, CtxValue>;\n  disabled?: SetterMaybeExpression<boolean, CtxValue>;\n  hidden?: SetterMaybeExpression<boolean, CtxValue>;\n}\n\n/**\n * Setter for an array-shaped value.\n *\n * The `item` setter's `CtxValue` is set to `Value[number]` (the element type),\n * so that expression callbacks inside the item see the current array element\n * as `ctxValue`.\n */\nexport interface ArraySetter<Value extends unknown[], CtxValue = FormValue> {\n  type: \"array\";\n  /** Item setter – CtxValue is narrowed to the array's element type. */\n  item: Setter<Value[number], Value[number]>;\n  label?: SetterMaybeExpression<string, CtxValue>;\n  disabled?: SetterMaybeExpression<boolean, CtxValue>;\n  hidden?: SetterMaybeExpression<boolean, CtxValue>;\n}\n\n// ─── Setter dispatch ─────────────────────────────────────────────────────────\n\n/**\n * Maps a `Value` type to the appropriate setter interface,\n * threading `CtxValue` through to every expression.\n *\n * Resolution order:\n *   unknown[]              → ArraySetter  (checked before Record to avoid overlap)\n *   string                 → InputSetter | SelectSetter\n *   number                 → NumberSetter\n *   boolean                → BooleanSetter\n *   Record<string,unknown> → ObjectSetter\n */\nexport type Setter<Value, CtxValue = FormValue> = Value extends unknown[]\n  ? ArraySetter<Value, CtxValue>\n  : Value extends string\n  ? InputSetter<CtxValue> | SelectSetter<CtxValue>\n  : Value extends number\n  ? NumberSetter<CtxValue>\n  : Value extends boolean\n  ? BooleanSetter<CtxValue>\n  : Value extends Record<string, unknown>\n  ? ObjectSetter<Value, CtxValue>\n  : never;\n\n// ─── FormSchema ───────────────────────────────────────────────────────────────\n\n/**\n * Top-level schema for the whole form.\n * Every setter at this level receives `CtxValue = FV` (the full form value),\n * meaning `ctxValue` in expression callbacks equals the form's data shape.\n *\n * Inside an `ArraySetter`, that guarantee is overridden – the item's\n * `CtxValue` becomes the array's element type (see `ArraySetter.item`).\n */\nexport type FormSchema<FV extends Record<string, unknown> = FormValue> = {\n  [K in keyof FV]: Setter<FV[K], FV>;\n};\n```",
+    "stop_reason": "end_turn",
+    "session_id": "d875b71d-fb02-4bb7-851c-2250df613712",
+    "total_cost_usd": 0.09750105,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 1603,
+      "cache_read_input_tokens": 14096,
+      "output_tokens": 5817,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1603,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 5817,
+        "cacheReadInputTokens": 14096,
+        "cacheCreationInputTokens": 1603,
+        "webSearchRequests": 0,
+        "costUSD": 0.09750105,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "dbdf1656-3083-4f00-bb94-ab745dbd2ee6"
+  }
+]

@@ -1,0 +1,173 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/Users/adelinb/Documents/Projects/super-coder-benchmark",
+    "session_id": "705881c4-f93c-48c6-96ee-162fff4d8ce6",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "NotebookEdit",
+      "Read",
+      "RemoteTrigger",
+      "SendMessage",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TeamCreate",
+      "TeamDelete",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write"
+    ],
+    "mcp_servers": [],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "db44cfa7-6bc9-4594-99d5-611d6c15ecba",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01TNwcPcYTA6Hkb6iZodWmsS",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nexport interface Bird {\n  x: number;\n  y: number;\n  width: number;\n  height: number;\n  velocity: number;\n}\n\nexport interface Pipe {\n  x: number;\n  topHeight: number;\n  bottomY: number;\n  width: number;\n  passed: boolean;\n}\n\nexport interface GameConfig {\n  gravity: number;\n  jumpVelocity: number;\n  maxFallSpeed: number;\n  canvasWidth: number;\n  canvasHeight: number;\n  floorY: number;\n}\n\nexport function applyPhysics(bird: Bird, config: GameConfig): Bird {\n  const newVelocity = Math.min(bird.velocity + config.gravity, config.maxFallSpeed);\n  const newY = Math.max(0, bird.y + newVelocity);\n  return { ...bird, velocity: newVelocity, y: newY };\n}\n\nexport function applyJump(bird: Bird, config: GameConfig): Bird {\n  return { ...bird, velocity: config.jumpVelocity };\n}\n\nexport function getBirdRotation(bird: Bird): number {\n  const minVel = -6;\n  const maxVel = 6;\n  const minRot = -35;\n  const maxRot = 35;\n\n  if (bird.velocity <= minVel) return minRot;\n  if (bird.velocity >= maxVel) return maxRot;\n\n  const t = (bird.velocity - minVel) / (maxVel - minVel);\n  return minRot + t * (maxRot - minRot);\n}\n\nexport function collidesWithFloor(bird: Bird, config: GameConfig): boolean {\n  return bird.y + bird.height >= config.floorY;\n}\n\nexport function collidesWithPipe(bird: Bird, pipe: Pipe): boolean {\n  const birdLeft = bird.x;\n  const birdRight = bird.x + bird.width;\n  const birdTop = bird.y;\n  const birdBottom = bird.y + bird.height;\n\n  const pipeLeft = pipe.x;\n  const pipeRight = pipe.x + pipe.width;\n\n  // Check horizontal overlap\n  if (birdRight <= pipeLeft || birdLeft >= pipeRight) return false;\n\n  // Check top pipe collision: (pipeLeft, 0) to (pipeRight, topHeight)\n  if (birdTop < pipe.topHeight) return true;\n\n  // Check bottom pipe collision: (pipeLeft, bottomY) to (pipeRight, canvasHeight)\n  if (birdBottom > pipe.bottomY) return true;\n\n  return false;\n}\n\nexport function hasPassed(bird: Bird, pipe: Pipe): boolean {\n  return bird.x > pipe.x + pipe.width;\n}\n\nexport function generatePipe(\n  x: number,\n  config: { minGap: number; maxGap: number; minGapTop: number; maxGapTop: number; pipeWidth: number },\n  random: number,\n): Pipe {\n  const gapSize = config.minGap + random * (config.maxGap - config.minGap);\n  const gapTop = config.minGapTop + random * (config.maxGapTop - config.minGapTop);\n  return {\n    x,\n    topHeight: gapTop,\n    bottomY: gapTop + gapSize,\n    width: config.pipeWidth,\n    passed: false,\n  };\n}\n\nexport function gameTick(\n  bird: Bird,\n  pipes: Pipe[],\n  score: number,\n  config: GameConfig,\n): { bird: Bird; pipes: Pipe[]; score: number; gameOver: boolean } {\n  const newBird = applyPhysics(bird, config);\n\n  let newScore = score;\n  let gameOver = false;\n\n  const newPipes = pipes.map((pipe) => {\n    if (collidesWithPipe(newBird, pipe)) {\n      gameOver = true;\n    }\n\n    if (!pipe.passed && hasPassed(newBird, pipe)) {\n      newScore += 1;\n      return { ...pipe, passed: true };\n    }\n\n    return pipe;\n  });\n\n  if (collidesWithFloor(newBird, config)) {\n    gameOver = true;\n  }\n\n  return { bird: newBird, pipes: newPipes, score: newScore, gameOver };\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 2250,
+        "cache_read_input_tokens": 14096,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 2250
+        },
+        "output_tokens": 1,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "705881c4-f93c-48c6-96ee-162fff4d8ce6",
+    "uuid": "efb69860-401b-4014-9aa6-a1ab919cb331"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed",
+      "resetsAt": 1776045600,
+      "rateLimitType": "five_hour",
+      "overageStatus": "rejected",
+      "overageDisabledReason": "org_level_disabled",
+      "isUsingOverage": false
+    },
+    "uuid": "dd1bd3c4-85a3-43c7-931c-e3cc5ae52acf",
+    "session_id": "705881c4-f93c-48c6-96ee-162fff4d8ce6"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 12182,
+    "duration_api_ms": 12161,
+    "num_turns": 1,
+    "result": "```typescript\nexport interface Bird {\n  x: number;\n  y: number;\n  width: number;\n  height: number;\n  velocity: number;\n}\n\nexport interface Pipe {\n  x: number;\n  topHeight: number;\n  bottomY: number;\n  width: number;\n  passed: boolean;\n}\n\nexport interface GameConfig {\n  gravity: number;\n  jumpVelocity: number;\n  maxFallSpeed: number;\n  canvasWidth: number;\n  canvasHeight: number;\n  floorY: number;\n}\n\nexport function applyPhysics(bird: Bird, config: GameConfig): Bird {\n  const newVelocity = Math.min(bird.velocity + config.gravity, config.maxFallSpeed);\n  const newY = Math.max(0, bird.y + newVelocity);\n  return { ...bird, velocity: newVelocity, y: newY };\n}\n\nexport function applyJump(bird: Bird, config: GameConfig): Bird {\n  return { ...bird, velocity: config.jumpVelocity };\n}\n\nexport function getBirdRotation(bird: Bird): number {\n  const minVel = -6;\n  const maxVel = 6;\n  const minRot = -35;\n  const maxRot = 35;\n\n  if (bird.velocity <= minVel) return minRot;\n  if (bird.velocity >= maxVel) return maxRot;\n\n  const t = (bird.velocity - minVel) / (maxVel - minVel);\n  return minRot + t * (maxRot - minRot);\n}\n\nexport function collidesWithFloor(bird: Bird, config: GameConfig): boolean {\n  return bird.y + bird.height >= config.floorY;\n}\n\nexport function collidesWithPipe(bird: Bird, pipe: Pipe): boolean {\n  const birdLeft = bird.x;\n  const birdRight = bird.x + bird.width;\n  const birdTop = bird.y;\n  const birdBottom = bird.y + bird.height;\n\n  const pipeLeft = pipe.x;\n  const pipeRight = pipe.x + pipe.width;\n\n  // Check horizontal overlap\n  if (birdRight <= pipeLeft || birdLeft >= pipeRight) return false;\n\n  // Check top pipe collision: (pipeLeft, 0) to (pipeRight, topHeight)\n  if (birdTop < pipe.topHeight) return true;\n\n  // Check bottom pipe collision: (pipeLeft, bottomY) to (pipeRight, canvasHeight)\n  if (birdBottom > pipe.bottomY) return true;\n\n  return false;\n}\n\nexport function hasPassed(bird: Bird, pipe: Pipe): boolean {\n  return bird.x > pipe.x + pipe.width;\n}\n\nexport function generatePipe(\n  x: number,\n  config: { minGap: number; maxGap: number; minGapTop: number; maxGapTop: number; pipeWidth: number },\n  random: number,\n): Pipe {\n  const gapSize = config.minGap + random * (config.maxGap - config.minGap);\n  const gapTop = config.minGapTop + random * (config.maxGapTop - config.minGapTop);\n  return {\n    x,\n    topHeight: gapTop,\n    bottomY: gapTop + gapSize,\n    width: config.pipeWidth,\n    passed: false,\n  };\n}\n\nexport function gameTick(\n  bird: Bird,\n  pipes: Pipe[],\n  score: number,\n  config: GameConfig,\n): { bird: Bird; pipes: Pipe[]; score: number; gameOver: boolean } {\n  const newBird = applyPhysics(bird, config);\n\n  let newScore = score;\n  let gameOver = false;\n\n  const newPipes = pipes.map((pipe) => {\n    if (collidesWithPipe(newBird, pipe)) {\n      gameOver = true;\n    }\n\n    if (!pipe.passed && hasPassed(newBird, pipe)) {\n      newScore += 1;\n      return { ...pipe, passed: true };\n    }\n\n    return pipe;\n  });\n\n  if (collidesWithFloor(newBird, config)) {\n    gameOver = true;\n  }\n\n  return { bird: newBird, pipes: newPipes, score: newScore, gameOver };\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "705881c4-f93c-48c6-96ee-162fff4d8ce6",
+    "total_cost_usd": 0.0292173,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 2250,
+      "cache_read_input_tokens": 14096,
+      "output_tokens": 1103,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 2250,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 1103,
+        "cacheReadInputTokens": 14096,
+        "cacheCreationInputTokens": 2250,
+        "webSearchRequests": 0,
+        "costUSD": 0.0292173,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "cb710897-811c-4d8f-ae00-6f90461d2a52"
+  }
+]

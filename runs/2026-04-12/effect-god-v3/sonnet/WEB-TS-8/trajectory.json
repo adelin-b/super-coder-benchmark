@@ -1,0 +1,208 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/Users/adelinb/Documents/Projects/super-coder-benchmark",
+    "session_id": "20a4933e-90f2-4371-b3ce-170c6655fcfb",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "NotebookEdit",
+      "Read",
+      "RemoteTrigger",
+      "SendMessage",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TeamCreate",
+      "TeamDelete",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write"
+    ],
+    "mcp_servers": [],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "f4c46818-f5bb-452e-a82a-0b2efd495845",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01BCEZKPRjYg7J1npk9jWGBy",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "Let me analyze the spec carefully. I need to implement an `EditorRef<T>` interface with a `setSetterValueByPath` method that is type-safe for nested path access.\n\nThe key requirements are:\n1. `path` is an array of property keys\n2. `value` must match the type at the end of the path\n3. Single-level paths must work\n4. Multi-level paths are bonus\n\nThe pre-provided type is `SetterValueType`. I need to figure out what this is - likely something like a recursive type for nested objects.\n\nLet me think about the type-level programming here:\n\n\nFor `setSetterValueByPath<P>(path, value)`, the `path` parameter should be constrained to valid nested keys of T, and the `value` must correspond to whatever type exists at the end of that path. Since `SetterValueType` is pre-provided, it's probably a union of primitive types plus a recursive object structure, so I need to create a recursive type that can traverse the object structure and extract the correct type at any given path.\n\nI'm building a `ValueAtPath` type that takes a type and a path array, then recursively walks through the keys to find what type sits at the end of that path—if the path is invalid at any point, it returns `never`.\n\nNow I need to define `ValidPath` recursively so it generates all possible valid paths through the object structure, allowing both single-level paths like `['object']` and nested paths like `['object', 'age']`. The tricky part is making sure that when I call `setSetterValueByPath(['object'], { age: 12 })`, TypeScript knows that the value must match the exact shape of what's at that path, so passing `{ age: \"12\" }` would correctly fail type checking. I'm defining the recursive type that extracts values at a given path, handling both single-level and nested cases. Since the spec provides `SetterValueType` as a pre-defined type, I need to include that in my implementation. I'm reconsidering whether my `ValidPath` approach is overcomplicating things—a simpler solution might work better for the core use cases.\n\nDefining the type system... Refining the type definition to be more precise about what constitutes a valid object type, since strings technically satisfy `object` but would give us unwanted string methods in the key union. I'm restructuring the recursive type to check for actual object properties rather than relying on the broader object check. Completing the type definitions...\n\nNow I'm verifying this against the test cases to make sure the type constraints work correctly—the first case should accept an object with a number age property, while the second should reject a string value since the type expects a number.\n\nThe remaining cases check that string paths only accept string values and reject numbers, which all check out.\n\nI'm also considering whether `SetterValueType` needs to handle arrays or other structures, but the spec keeps it simple, so I'll stick with that. One thing to watch for is potential infinite recursion in the `ValidPaths` type, though since each path element consumes a key and `SetterValueType` doesn't allow infinite nesting, we should stay within reasonable bounds.\n\nAdding a depth limit...",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1684,
+        "cache_read_input_tokens": 14096,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1684
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "20a4933e-90f2-4371-b3ce-170c6655fcfb",
+    "uuid": "f966ad98-8299-47f8-add8-1e8039c673af"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01BCEZKPRjYg7J1npk9jWGBy",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nexport type SetterValueType =\n  | string\n  | number\n  | boolean\n  | null\n  | { [key: string]: SetterValueType }\n\n// Depth limiter to prevent infinite recursion\ntype Prev = [never, 0, 1, 2, 3, 4, 5, 6, 7, 8]\n\n// All valid tuple paths into T (single and multi-level)\ntype ValidPaths<T, D extends number = 7> =\n  [D] extends [never]\n    ? never\n    : T extends { [key: string]: SetterValueType }\n      ? {\n          [K in keyof T & string]:\n            | [K]\n            | [K, ...ValidPaths<T[K], Prev[D]>]\n        }[keyof T & string]\n      : never\n\n// Resolve the value type at the end of a path tuple\ntype PathValue<T, P extends any[]> =\n  P extends [infer Head, ...infer Tail]\n    ? Head extends keyof T\n      ? Tail extends []\n        ? T[Head]\n        : PathValue<T[Head], Tail>\n      : never\n    : never\n\nexport interface EditorRef<T extends { [key: string]: SetterValueType }> {\n  setSetterValueByPath<P extends ValidPaths<T>>(\n    path: P,\n    value: PathValue<T, P>\n  ): void\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1684,
+        "cache_read_input_tokens": 14096,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1684
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "20a4933e-90f2-4371-b3ce-170c6655fcfb",
+    "uuid": "5280a349-b099-457c-b368-32ce429b492c"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed",
+      "resetsAt": 1776045600,
+      "rateLimitType": "five_hour",
+      "overageStatus": "rejected",
+      "overageDisabledReason": "org_level_disabled",
+      "isUsingOverage": false
+    },
+    "uuid": "8d074a25-2e5c-4657-b93b-46e48dcf6356",
+    "session_id": "20a4933e-90f2-4371-b3ce-170c6655fcfb"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 36428,
+    "duration_api_ms": 36405,
+    "num_turns": 1,
+    "result": "```typescript\nexport type SetterValueType =\n  | string\n  | number\n  | boolean\n  | null\n  | { [key: string]: SetterValueType }\n\n// Depth limiter to prevent infinite recursion\ntype Prev = [never, 0, 1, 2, 3, 4, 5, 6, 7, 8]\n\n// All valid tuple paths into T (single and multi-level)\ntype ValidPaths<T, D extends number = 7> =\n  [D] extends [never]\n    ? never\n    : T extends { [key: string]: SetterValueType }\n      ? {\n          [K in keyof T & string]:\n            | [K]\n            | [K, ...ValidPaths<T[K], Prev[D]>]\n        }[keyof T & string]\n      : never\n\n// Resolve the value type at the end of a path tuple\ntype PathValue<T, P extends any[]> =\n  P extends [infer Head, ...infer Tail]\n    ? Head extends keyof T\n      ? Tail extends []\n        ? T[Head]\n        : PathValue<T[Head], Tail>\n      : never\n    : never\n\nexport interface EditorRef<T extends { [key: string]: SetterValueType }> {\n  setSetterValueByPath<P extends ValidPaths<T>>(\n    path: P,\n    value: PathValue<T, P>\n  ): void\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "20a4933e-90f2-4371-b3ce-170c6655fcfb",
+    "total_cost_usd": 0.0558348,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 1684,
+      "cache_read_input_tokens": 14096,
+      "output_tokens": 3019,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1684,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 3019,
+        "cacheReadInputTokens": 14096,
+        "cacheCreationInputTokens": 1684,
+        "webSearchRequests": 0,
+        "costUSD": 0.0558348,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "6f8d120f-9ae4-4387-83ca-67c471d8d153"
+  }
+]
