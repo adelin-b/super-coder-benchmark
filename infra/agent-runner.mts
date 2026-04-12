@@ -46,6 +46,8 @@ const { values: args } = parseArgs({
     agent: { type: "string" },
     task: { type: "string" },
     model: { type: "string" },
+    ollama: { type: "string" },  // e.g. --ollama gemma4:26b
+    "ollama-url": { type: "string", default: "http://localhost:11434" },
     "dry-run": { type: "boolean", default: false },
     help: { type: "boolean", default: false },
   },
@@ -57,15 +59,17 @@ if (args.help) {
   process.exit(0);
 }
 
-if (!args.agent || !args.task || !args.model) {
-  console.error("ERROR: --agent, --task, and --model are required. Use --help for usage.");
+if (!args.agent || !args.task || (!args.model && !args.ollama)) {
+  console.error("ERROR: --agent, --task, and (--model or --ollama) are required. Use --help for usage.");
   process.exit(1);
 }
 
 const ROOT = process.cwd();
 const agentDir = resolve(ROOT, args.agent);
 const taskId = args.task;
-const modelArg = args.model as "haiku" | "sonnet" | "opus";
+const modelArg = (args.model ?? "ollama") as "haiku" | "sonnet" | "opus" | "ollama";
+const ollamaModel = args.ollama;
+const ollamaUrl = args["ollama-url"]!;
 const dryRun = args["dry-run"] ?? false;
 
 // ---------------------------------------------------------------------------
@@ -259,9 +263,6 @@ async function main(): Promise<void> {
     return;
   }
 
-  // Dynamic import of the Agent SDK (only when not dry-run)
-  const { query } = await import("@anthropic-ai/claude-agent-sdk");
-
   const start = Date.now();
   let assistantText = "";
   let tokensIn: number | undefined;
@@ -269,44 +270,64 @@ async function main(): Promise<void> {
   let errored: string | undefined;
   const trajectory: any[] = [];
 
-  try {
-    const q = query({
-      prompt: userPrompt,
-      options: {
-        model: modelArg,
-        allowedTools: manifest.tools,
-        disallowedTools: [],
-        mcpServers: {},
-        settingSources: [],
+  if (ollamaModel) {
+    // --------------- Ollama provider ---------------
+    try {
+      const { ollamaGenerate } = await import("./ollama-provider.js");
+      const result = await ollamaGenerate(
+        { baseUrl: ollamaUrl, model: ollamaModel, temperature: 0.2, numCtx: 32768 },
         systemPrompt,
-        permissionMode: "default",
-        ...(manifest.max_turns > 1 ? { maxTurns: manifest.max_turns } : {}),
-      },
-    });
+        userPrompt,
+      );
+      assistantText = result.text;
+      tokensIn = result.tokensIn;
+      tokensOut = result.tokensOut;
+    } catch (e: any) {
+      errored = e?.message ?? String(e);
+    }
+  } else {
+    // --------------- Claude Agent SDK provider ---------------
+    const { query } = await import("@anthropic-ai/claude-agent-sdk");
 
-    for await (const msg of q as any) {
-      trajectory.push(msg);
+    try {
+      const q = query({
+        prompt: userPrompt,
+        options: {
+          model: modelArg,
+          allowedTools: manifest.tools,
+          disallowedTools: [],
+          mcpServers: {},
+          settingSources: [],
+          systemPrompt,
+          permissionMode: "default",
+          ...(manifest.max_turns > 1 ? { maxTurns: manifest.max_turns } : {}),
+        },
+      });
 
-      if (msg.type === "assistant" && msg.message?.content) {
-        for (const block of msg.message.content as Array<any>) {
-          if (block.type === "text" && typeof block.text === "string") {
-            assistantText += block.text;
+      for await (const msg of q as any) {
+        trajectory.push(msg);
+
+        if (msg.type === "assistant" && msg.message?.content) {
+          for (const block of msg.message.content as Array<any>) {
+            if (block.type === "text" && typeof block.text === "string") {
+              assistantText += block.text;
+            }
+          }
+        }
+        if (msg.type === "result") {
+          const usage = msg.usage;
+          if (usage) {
+            tokensIn = usage.input_tokens;
+            tokensOut = usage.output_tokens;
+          }
+          if (msg.is_error) {
+            errored = errored ?? `result error subtype=${msg.subtype}`;
           }
         }
       }
-      if (msg.type === "result") {
-        const usage = msg.usage;
-        if (usage) {
-          tokensIn = usage.input_tokens;
-          tokensOut = usage.output_tokens;
-        }
-        if (msg.is_error) {
-          errored = errored ?? `result error subtype=${msg.subtype}`;
-        }
-      }
+    } catch (e: any) {
+      errored = e?.message ?? String(e);
     }
-  } catch (e: any) {
-    errored = e?.message ?? String(e);
   }
 
   const durationMs = Date.now() - start;
