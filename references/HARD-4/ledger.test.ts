@@ -307,4 +307,190 @@ describe('HARD-4: Multi-Currency Double-Entry Ledger', () => {
     expect(bs.totalAssets).toBe(1700);
     expect(bs.isBalanced).toBe(true);
   });
+
+  // --- Hard edge cases ---
+
+  it('cross-currency settlement converts amount using latest rate', () => {
+    const ledger = createLedger({ reportingCurrency: 'USD', staleRateThresholdMs: 60000 });
+    ledger.createAccount({ id: 'cash_usd', name: 'USD Cash', type: 'asset', currency: 'USD' });
+    ledger.createAccount({ id: 'loan_eur', name: 'EUR Loan', type: 'liability', currency: 'EUR' });
+    ledger.setRate({ from: 'EUR', to: 'USD', rate: 1.1, timestamp: 900 });
+
+    // Fund the accounts
+    ledger.createAccount({ id: 'eq', name: 'Equity', type: 'equity', currency: 'USD' });
+    ledger.postEntry({
+      description: 'Fund cash',
+      timestamp: 1000,
+      lines: [
+        { accountId: 'cash_usd', amount: 1000, currency: 'USD' },
+        { accountId: 'eq', amount: -1000, currency: 'USD' },
+      ],
+    });
+    ledger.createAccount({ id: 'eq_eur', name: 'Equity EUR', type: 'equity', currency: 'EUR' });
+    ledger.postEntry({
+      description: 'Take loan',
+      timestamp: 1000,
+      lines: [
+        { accountId: 'loan_eur', amount: -500, currency: 'EUR' },
+        { accountId: 'eq_eur', amount: 500, currency: 'EUR' },
+      ],
+    });
+
+    // Settle 100 EUR of loan with USD cash
+    const settleId = ledger.settle('loan_eur', 'cash_usd', 100, 1000);
+    expect(settleId).toBeTruthy();
+    // Loan: -500 + 100 = -400 EUR
+    expect(ledger.getBalance('loan_eur')).toBe(-400);
+    // Cash: 1000 - (100 * 1.1) = 1000 - 110 = 890 USD
+    expect(ledger.getBalance('cash_usd')).toBeCloseTo(890, 2);
+  });
+
+  it('settle with stale cross-currency rate throws LedgerError', () => {
+    const ledger = createLedger({ reportingCurrency: 'USD', staleRateThresholdMs: 5000 });
+    ledger.createAccount({ id: 'loan_eur', name: 'EUR Loan', type: 'liability', currency: 'EUR' });
+    ledger.createAccount({ id: 'cash_usd', name: 'USD Cash', type: 'asset', currency: 'USD' });
+    ledger.setRate({ from: 'EUR', to: 'USD', rate: 1.1, timestamp: 1000 });
+    // At timestamp 7000, rate is stale (7000 - 1000 = 6000 > 5000)
+    expect(() => ledger.settle('loan_eur', 'cash_usd', 50, 7000)).toThrow(LedgerError);
+  });
+
+  it('inverse rate is used for balance conversion when only forward rate is set', () => {
+    const ledger = createLedger({ reportingCurrency: 'USD', staleRateThresholdMs: 60000 });
+    ledger.createAccount({ id: 'a', name: 'A', type: 'asset', currency: 'USD' });
+    ledger.createAccount({ id: 'eq', name: 'Eq', type: 'equity', currency: 'USD' });
+    // Only set USD->EUR, not EUR->USD
+    ledger.setRate({ from: 'USD', to: 'EUR', rate: 0.9, timestamp: 1000 });
+
+    ledger.postEntry({
+      description: 'Init',
+      timestamp: 1000,
+      lines: [
+        { accountId: 'a', amount: 100, currency: 'USD' },
+        { accountId: 'eq', amount: -100, currency: 'USD' },
+      ],
+    });
+
+    // Convert USD balance to EUR using inverse rate: 100 * 0.9 = 90 EUR
+    const balEur = ledger.getBalanceIn('a', 'EUR', 1000);
+    expect(balEur).toBeCloseTo(90, 2);
+  });
+
+  it('getBalanceIn same currency returns native balance without rate lookup', () => {
+    const ledger = createLedger({ reportingCurrency: 'USD', staleRateThresholdMs: 60000 });
+    ledger.createAccount({ id: 'a', name: 'A', type: 'asset', currency: 'USD' });
+    ledger.createAccount({ id: 'eq', name: 'Eq', type: 'equity', currency: 'USD' });
+    ledger.postEntry({
+      description: 'Init',
+      timestamp: 1000,
+      lines: [
+        { accountId: 'a', amount: 250, currency: 'USD' },
+        { accountId: 'eq', amount: -250, currency: 'USD' },
+      ],
+    });
+    // No rate needed — same currency
+    const bal = ledger.getBalanceIn('a', 'USD', 1000);
+    expect(bal).toBe(250);
+  });
+
+  it('balance sheet with mixed currencies converts all to reporting currency', () => {
+    const ledger = createLedger({ reportingCurrency: 'USD', staleRateThresholdMs: 60000 });
+    ledger.createAccount({ id: 'cash_usd', name: 'USD Cash', type: 'asset', currency: 'USD' });
+    ledger.createAccount({ id: 'cash_eur', name: 'EUR Cash', type: 'asset', currency: 'EUR' });
+    ledger.createAccount({ id: 'eq', name: 'Equity', type: 'equity', currency: 'USD' });
+    ledger.setRate({ from: 'EUR', to: 'USD', rate: 1.25, timestamp: 900 });
+
+    // Invest 1000 USD
+    ledger.postEntry({
+      description: 'Invest',
+      timestamp: 1000,
+      lines: [
+        { accountId: 'cash_usd', amount: 1000, currency: 'USD' },
+        { accountId: 'eq', amount: -1000, currency: 'USD' },
+      ],
+    });
+    // Buy 400 EUR with 500 USD (400 * 1.25 = 500)
+    ledger.postEntry({
+      description: 'Buy EUR',
+      timestamp: 1000,
+      lines: [
+        { accountId: 'cash_eur', amount: 400, currency: 'EUR' },
+        { accountId: 'cash_usd', amount: -500, currency: 'USD' },
+      ],
+    });
+
+    const bs = ledger.balanceSheet(1000);
+    // USD cash: 500, EUR cash: 400*1.25=500 → total assets = 1000
+    expect(bs.totalAssets).toBeCloseTo(1000, 1);
+    expect(bs.isBalanced).toBe(true);
+  });
+
+  it('rate update replaces previous rate for same currency pair', () => {
+    const ledger = createLedger({ reportingCurrency: 'USD', staleRateThresholdMs: 60000 });
+    ledger.createAccount({ id: 'a', name: 'A', type: 'asset', currency: 'EUR' });
+    ledger.createAccount({ id: 'eq', name: 'Eq', type: 'equity', currency: 'EUR' });
+    ledger.setRate({ from: 'EUR', to: 'USD', rate: 1.0, timestamp: 1000 });
+    ledger.setRate({ from: 'EUR', to: 'USD', rate: 1.5, timestamp: 2000 }); // update
+
+    ledger.postEntry({
+      description: 'Init',
+      timestamp: 2000,
+      lines: [
+        { accountId: 'a', amount: 100, currency: 'EUR' },
+        { accountId: 'eq', amount: -100, currency: 'EUR' },
+      ],
+    });
+
+    // Should use the latest rate (1.5), not the old one (1.0)
+    const bal = ledger.getBalanceIn('a', 'USD', 2000);
+    expect(bal).toBeCloseTo(150, 2);
+  });
+
+  it('entry with 3+ lines must still balance to zero', () => {
+    const ledger = setupBasicLedger();
+    // Three-line entry: cash +200, revenue -150, equity -50
+    ledger.postEntry({
+      description: 'Complex',
+      timestamp: 1000,
+      lines: [
+        { accountId: 'cash', amount: 200, currency: 'USD' },
+        { accountId: 'revenue', amount: -150, currency: 'USD' },
+        { accountId: 'equity', amount: -50, currency: 'USD' },
+      ],
+    });
+    expect(ledger.getBalance('cash')).toBe(200);
+    expect(ledger.getBalance('revenue')).toBe(-150);
+    expect(ledger.getBalance('equity')).toBe(-50);
+  });
+
+  it('unbalanced 3-line entry is rejected', () => {
+    const ledger = setupBasicLedger();
+    expect(() => ledger.postEntry({
+      description: 'Bad 3-line',
+      timestamp: 1000,
+      lines: [
+        { accountId: 'cash', amount: 200, currency: 'USD' },
+        { accountId: 'revenue', amount: -100, currency: 'USD' },
+        { accountId: 'equity', amount: -50, currency: 'USD' },
+      ],
+    })).toThrow(LedgerError);
+  });
+
+  it('staleRateThresholdMs boundary: rate at exactly threshold is NOT stale', () => {
+    // Threshold is 5000ms. Rate at 2000, entry at 7000 → age = 5000 = threshold.
+    // Spec says "older than" (strictly greater than threshold) → NOT stale.
+    const ledger = createLedger({ reportingCurrency: 'USD', staleRateThresholdMs: 5000 });
+    ledger.createAccount({ id: 'a', name: 'A', type: 'asset', currency: 'EUR' });
+    ledger.createAccount({ id: 'b', name: 'B', type: 'equity', currency: 'EUR' });
+    ledger.setRate({ from: 'EUR', to: 'USD', rate: 1.1, timestamp: 2000 });
+
+    // Entry at time 7000, age = 7000-2000 = 5000 = threshold → should be allowed
+    expect(() => ledger.postEntry({
+      description: 'At boundary',
+      timestamp: 7000,
+      lines: [
+        { accountId: 'a', amount: 100, currency: 'EUR' },
+        { accountId: 'b', amount: -100, currency: 'EUR' },
+      ],
+    })).not.toThrow();
+  });
 });

@@ -257,4 +257,104 @@ describe('HARD-2: Event Sourcing with Snapshotting', () => {
     expect(snap!.atVersion).toBe(4);
     expect(snap!.state.totalAmount).toBe(115);
   });
+
+  // --- Hard edge cases ---
+
+  it('QuantityChanged to negative removes item', () => {
+    // Spec says "If quantity <= 0, remove the item" — negative must also remove.
+    const store = createEventStore({ snapshotEvery: 100 });
+    store.append('c1', 'ItemAdded', { sku: 'A', quantity: 3, unitPrice: 10 }, 100);
+    store.append('c1', 'QuantityChanged', { sku: 'A', quantity: -1 }, 200);
+    const state = store.getState('c1');
+    expect(state.items).toHaveLength(0);
+    expect(state.totalAmount).toBe(0);
+  });
+
+  it('Cleared followed by re-adding same SKU starts fresh', () => {
+    // After clear, adding the same SKU should NOT inherit old quantity or price.
+    const store = createEventStore({ snapshotEvery: 100 });
+    store.append('c1', 'ItemAdded', { sku: 'A', quantity: 10, unitPrice: 99 }, 100);
+    store.append('c1', 'Cleared', {}, 200);
+    store.append('c1', 'ItemAdded', { sku: 'A', quantity: 2, unitPrice: 5 }, 300);
+    const state = store.getState('c1');
+    expect(state.items).toHaveLength(1);
+    expect(state.items[0].quantity).toBe(2);
+    expect(state.items[0].unitPrice).toBe(5);
+    expect(state.totalAmount).toBe(10);
+  });
+
+  it('snapshot taken across a Cleared event replays correctly', () => {
+    // Snapshot at v2 captures items. Then Cleared at v3, add at v4 triggers snap v4.
+    // Replaying from v4 snapshot should have only the new item.
+    const store = createEventStore({ snapshotEvery: 2 });
+    store.append('c1', 'ItemAdded', { sku: 'A', quantity: 1, unitPrice: 10 }, 100);
+    store.append('c1', 'ItemAdded', { sku: 'B', quantity: 1, unitPrice: 20 }, 200); // snap v2
+    store.append('c1', 'Cleared', {}, 300);
+    store.append('c1', 'ItemAdded', { sku: 'C', quantity: 3, unitPrice: 7 }, 400); // snap v4
+
+    const state = store.getState('c1');
+    expect(state.items).toHaveLength(1);
+    expect(state.items[0].sku).toBe('C');
+    expect(state.totalAmount).toBe(21);
+    expect(state.eventCount).toBe(4);
+
+    const snap = store.getSnapshot('c1');
+    expect(snap!.atVersion).toBe(4);
+    expect(snap!.state.items).toHaveLength(1);
+  });
+
+  it('totalAmount is recalculated correctly after PriceUpdated on multi-item cart', () => {
+    // Common bug: only recalculating the changed item's contribution,
+    // not the full total.
+    const store = createEventStore({ snapshotEvery: 100 });
+    store.append('c1', 'ItemAdded', { sku: 'A', quantity: 2, unitPrice: 10 }, 100); // 20
+    store.append('c1', 'ItemAdded', { sku: 'B', quantity: 3, unitPrice: 5 }, 200);  // 15
+    store.append('c1', 'ItemAdded', { sku: 'C', quantity: 1, unitPrice: 100 }, 300); // 100
+    store.append('c1', 'PriceUpdated', { sku: 'B', unitPrice: 20 }, 400); // B: 3*20=60
+    const state = store.getState('c1');
+    expect(state.totalAmount).toBe(180); // 20 + 60 + 100
+  });
+
+  it('snapshotEvery=1 snapshots after every single event', () => {
+    const store = createEventStore({ snapshotEvery: 1 });
+    store.append('c1', 'ItemAdded', { sku: 'A', quantity: 1, unitPrice: 10 }, 100);
+    expect(store.getSnapshot('c1')!.atVersion).toBe(1);
+    store.append('c1', 'ItemAdded', { sku: 'B', quantity: 2, unitPrice: 5 }, 200);
+    expect(store.getSnapshot('c1')!.atVersion).toBe(2);
+    // State should still be correct
+    const state = store.getState('c1');
+    expect(state.totalAmount).toBe(20);
+    expect(state.eventCount).toBe(2);
+  });
+
+  it('manual takeSnapshot does not interfere with auto-snapshot schedule', () => {
+    const store = createEventStore({ snapshotEvery: 3 });
+    store.append('c1', 'ItemAdded', { sku: 'A', quantity: 1, unitPrice: 10 }, 100); // v1
+    store.takeSnapshot('c1'); // manual snap at v1
+    expect(store.getSnapshot('c1')!.atVersion).toBe(1);
+    store.append('c1', 'ItemAdded', { sku: 'B', quantity: 1, unitPrice: 20 }, 200); // v2
+    store.append('c1', 'ItemAdded', { sku: 'C', quantity: 1, unitPrice: 30 }, 300); // v3 — auto snap
+    expect(store.getSnapshot('c1')!.atVersion).toBe(3);
+    // State must be correct
+    const state = store.getState('c1');
+    expect(state.totalAmount).toBe(60);
+    expect(state.eventCount).toBe(3);
+  });
+
+  it('PriceUpdated to 0 keeps item with zero-value contribution', () => {
+    // Spec says unitPrice >= 0 is valid. Price 0 should keep the item.
+    const store = createEventStore({ snapshotEvery: 100 });
+    store.append('c1', 'ItemAdded', { sku: 'A', quantity: 5, unitPrice: 10 }, 100);
+    store.append('c1', 'PriceUpdated', { sku: 'A', unitPrice: 0 }, 200);
+    const state = store.getState('c1');
+    expect(state.items).toHaveLength(1);
+    expect(state.items[0].unitPrice).toBe(0);
+    expect(state.totalAmount).toBe(0);
+  });
+
+  it('getEvents returns empty array for non-existent aggregate', () => {
+    const store = createEventStore({ snapshotEvery: 5 });
+    const events = store.getEvents('nonexistent');
+    expect(events).toHaveLength(0);
+  });
 });

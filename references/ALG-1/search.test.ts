@@ -92,4 +92,63 @@ describe('ALG-1: Binary Search Reference', () => {
       expect(idx).toBeLessThan(arr.length);
     }
   });
+
+  // --- Hard edge cases ---
+
+  it('returns first occurrence when duplicates span the entire array', () => {
+    // AI often gets midpoint-biased: the first occurrence is index 0 but
+    // a naive binary search lands on the middle and returns it.
+    expect(binarySearch([7, 7, 7, 7, 7, 7, 7], 7)).toBe(0);
+  });
+
+  it('returns first occurrence when duplicate block starts at index 0', () => {
+    // Duplicates at the very start — left-bias must reach index 0.
+    expect(binarySearch([3, 3, 3, 5, 6, 7], 3)).toBe(0);
+  });
+
+  it('returns first occurrence when duplicate block ends at last index', () => {
+    // Duplicates at the very end — must still find the *first* of them.
+    expect(binarySearch([1, 2, 4, 4, 4, 4], 4)).toBe(2);
+  });
+
+  it('handles adjacent pairs of duplicates correctly', () => {
+    // Multiple duplicate groups; must return first of each group.
+    const arr = [1, 1, 2, 2, 3, 3, 4, 4];
+    expect(binarySearch(arr, 1)).toBe(0);
+    expect(binarySearch(arr, 2)).toBe(2);
+    expect(binarySearch(arr, 3)).toBe(4);
+    expect(binarySearch(arr, 4)).toBe(6);
+  });
+
+  it('finds target that is exactly the midpoint value in even-length array', () => {
+    // Even-length array where Math.floor midpoint calculation matters.
+    const arr = [10, 20, 30, 40];
+    expect(binarySearch(arr, 20)).toBe(1);
+    expect(binarySearch(arr, 30)).toBe(2);
+  });
+
+  it('handles negative numbers and zero', () => {
+    const arr = [-10, -5, -3, 0, 2, 7];
+    expect(binarySearch(arr, -10)).toBe(0);
+    expect(binarySearch(arr, 0)).toBe(3);
+    expect(binarySearch(arr, -4)).toBe(-1);
+    expect(binarySearch(arr, 7)).toBe(5);
+  });
+
+  it('handles three elements — target in each position and missing', () => {
+    // Three-element arrays hit a different branch pattern than two-element.
+    expect(binarySearch([1, 2, 3], 1)).toBe(0);
+    expect(binarySearch([1, 2, 3], 2)).toBe(1);
+    expect(binarySearch([1, 2, 3], 3)).toBe(2);
+    expect(binarySearch([1, 2, 3], 0)).toBe(-1);
+    expect(binarySearch([1, 2, 3], 4)).toBe(-1);
+  });
+
+  it('first occurrence with power-of-two-minus-one length array of duplicates', () => {
+    // Length 15 (2^4 - 1) — a "perfect" binary tree shape.
+    // Target appears starting at index 7, which is the exact midpoint.
+    const arr = [1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5, 5, 5];
+    expect(binarySearch(arr, 5)).toBe(7);
+    expect(binarySearch(arr, 1)).toBe(0);
+  });
 });
