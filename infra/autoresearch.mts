@@ -226,10 +226,16 @@ function runVitest(testFilePath: string): TestResult {
 }
 
 function parseVitestOutput(output: string): TestResult {
-  const passMatch = output.match(/(\d+)\s+passed/);
-  const failMatch = output.match(/(\d+)\s+failed/);
-  const passed = passMatch ? parseInt(passMatch[1], 10) : 0;
-  const failed = failMatch ? parseInt(failMatch[1], 10) : 0;
+  // Match the "Tests" summary line specifically (not "Test Files" line).
+  const testsLine = output.match(/^\s*Tests\s+(.+)$/m);
+  let passed = 0;
+  let failed = 0;
+  if (testsLine) {
+    const passMatch = testsLine[1].match(/(\d+)\s+passed/);
+    const failMatch = testsLine[1].match(/(\d+)\s+failed/);
+    passed = passMatch ? parseInt(passMatch[1], 10) : 0;
+    failed = failMatch ? parseInt(failMatch[1], 10) : 0;
+  }
   return { passed, total: passed + failed, rawOutput: output };
 }
 

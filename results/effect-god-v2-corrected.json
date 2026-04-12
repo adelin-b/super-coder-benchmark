@@ -1,0 +1,98 @@
+[
+  {
+    "task": "BL-1",
+    "passed": 18,
+    "total": 21,
+    "rate": 0.8571428571428571
+  },
+  {
+    "task": "BL-2",
+    "passed": 8,
+    "total": 10,
+    "rate": 0.8
+  },
+  {
+    "task": "BL-3",
+    "passed": 7,
+    "total": 8,
+    "rate": 0.875
+  },
+  {
+    "task": "BL-4",
+    "passed": 2,
+    "total": 6,
+    "rate": 0.3333333333333333
+  },
+  {
+    "task": "BL-5",
+    "passed": 0,
+    "total": 0,
+    "rate": 0
+  },
+  {
+    "task": "ALG-1",
+    "passed": 16,
+    "total": 16,
+    "rate": 1.0
+  },
+  {
+    "task": "ALG-2",
+    "passed": 7,
+    "total": 7,
+    "rate": 1.0
+  },
+  {
+    "task": "ALG-3",
+    "passed": 0,
+    "total": 0,
+    "rate": 0
+  },
+  {
+    "task": "SAAS-1",
+    "passed": 12,
+    "total": 13,
+    "rate": 0.9230769230769231
+  },
+  {
+    "task": "SAAS-2",
+    "passed": 0,
+    "total": 0,
+    "rate": 0
+  },
+  {
+    "task": "SAAS-3",
+    "passed": 1,
+    "total": 8,
+    "rate": 0.125
+  },
+  {
+    "task": "HARD-1",
+    "passed": 22,
+    "total": 22,
+    "rate": 1.0
+  },
+  {
+    "task": "HARD-2",
+    "passed": 2,
+    "total": 25,
+    "rate": 0.08
+  },
+  {
+    "task": "HARD-3",
+    "passed": 15,
+    "total": 20,
+    "rate": 0.75
+  },
+  {
+    "task": "HARD-4",
+    "passed": 19,
+    "total": 20,
+    "rate": 0.95
+  },
+  {
+    "task": "HARD-5",
+    "passed": 26,
+    "total": 27,
+    "rate": 0.9629629629629629
+  }
+]
