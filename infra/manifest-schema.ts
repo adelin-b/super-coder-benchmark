@@ -60,6 +60,11 @@ export const TASK_FILE_MAP: Record<string, string> = {
   "NIGHTMARE-1": "rect-union",
   "NIGHTMARE-2": "bill-splitter",
   "NIGHTMARE-3": "spreadsheet",
+  "TRAP-1": "dedup",
+  "TRAP-2": "brackets",
+  "TRAP-3": "optimizer",
+  "TRAP-4": "sort-engine",
+  "TRAP-5": "pathfinder",
 };
 
 /** Verdict JSON output by the runner */

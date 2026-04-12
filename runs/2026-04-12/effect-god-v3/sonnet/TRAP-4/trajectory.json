@@ -1,0 +1,173 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/Users/adelinb/Documents/Projects/super-coder-benchmark",
+    "session_id": "f3426ebc-5929-43a4-a05e-266f972562d2",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "NotebookEdit",
+      "Read",
+      "RemoteTrigger",
+      "SendMessage",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TeamCreate",
+      "TeamDelete",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write"
+    ],
+    "mcp_servers": [],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "c4da11f7-2eb4-463b-ab4c-51e255c23ccc",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01HrsfoW5kymyTs1s2JkDAAf",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nimport { Effect, Data } from \"effect\";\n\n// ── Internal tagged errors ──────────────────────────────────────────────────\n\nclass NoKeysError extends Data.TaggedError(\"NoKeysError\")<{}> {}\nclass EmptyFieldError extends Data.TaggedError(\"EmptyFieldError\")<{}> {}\n\n// ── Public API types ────────────────────────────────────────────────────────\n\nexport interface SortKey {\n  field: string;\n  direction: \"ascending\" | \"descending\";\n  invertComparison?: boolean;\n  nulls?: \"first\" | \"last\";\n  caseSensitive?: boolean;\n}\n\nexport interface SortConfig {\n  keys: SortKey[];\n}\n\nexport interface Item {\n  [key: string]: unknown;\n}\n\n// ── Internal helpers ────────────────────────────────────────────────────────\n\nfunction isNullish(v: unknown): v is null | undefined {\n  return v === null || v === undefined;\n}\n\nfunction rawCompare(a: unknown, b: unknown, caseSensitive: boolean): number {\n  const ta = typeof a;\n  const tb = typeof b;\n\n  if (ta !== tb) {\n    // compare by type name string: \"boolean\" < \"number\" < \"string\"\n    return ta < tb ? -1 : 1;\n  }\n\n  if (ta === \"string\") {\n    const sa = caseSensitive ? (a as string) : (a as string).toLowerCase();\n    const sb = caseSensitive ? (b as string) : (b as string).toLowerCase();\n    return sa.localeCompare(sb);\n  }\n\n  if (ta === \"number\") {\n    const na = a as number;\n    const nb = b as number;\n    return na < nb ? -1 : na > nb ? 1 : 0;\n  }\n\n  if (ta === \"boolean\") {\n    const ba = a as boolean;\n    const bb = b as boolean;\n    return ba === bb ? 0 : ba ? 1 : -1;\n  }\n\n  // Fallback: compare string representations\n  const sa = String(a);\n  const sb = String(b);\n  return sa < sb ? -1 : sa > sb ? 1 : 0;\n}\n\nfunction compareByKey(key: SortKey, a: Item, b: Item): number {\n  const av = a[key.field];\n  const bv = b[key.field];\n\n  const nullPlacement = key.nulls ?? \"last\";\n  const aNull = isNullish(av);\n  const bNull = isNullish(bv);\n\n  // Step 2: Null handling — absolute, unaffected by direction/inversion\n  if (aNull && bNull) return 0;\n  if (aNull) return nullPlacement === \"first\" ? -1 : 1;\n  if (bNull) return nullPlacement === \"first\" ? 1 : -1;\n\n  // Step 3: Raw comparison\n  let cmp = rawCompare(av, bv, key.caseSensitive ?? true);\n\n  // Step 4: Apply inversion\n  if (key.invertComparison) cmp = -cmp;\n\n  // Step 5: Apply direction\n  if (key.direction === \"descending\") cmp = -cmp;\n\n  return cmp;\n}\n\n// ── Internal Effect logic ───────────────────────────────────────────────────\n\nconst validateConfig = (\n  config: SortConfig\n): Effect.Effect<SortConfig, NoKeysError | EmptyFieldError> =>\n  Effect.gen(function* () {\n    if (!config.keys || config.keys.length === 0) {\n      yield* Effect.fail(new NoKeysError({}));\n    }\n    for (const key of config.keys) {\n      if (!key.field || key.field.length === 0) {\n        yield* Effect.fail(new EmptyFieldError({}));\n      }\n    }\n    return config;\n  });\n\n// ── Public factory ──────────────────────────────────────────────────────────\n\nexport function createSortEngine(config: SortConfig): {\n  sort(items: Item[]): Item[];\n  compare(a: Item, b: Item): number;\n} {\n  // Validate eagerly at construction time\n  const exit = Effect.runSyncExit(validateConfig(config));\n\n  if (exit._tag === \"Failure\") {\n    const raw = exit.cause;\n    // Extract the tagged error\n    if (raw._tag === \"Fail\") {\n      const err = (raw as any).error;\n      if (err._tag === \"NoKeysError\") throw new Error(\"No sort keys provided\");\n      if (err._tag === \"EmptyFieldError\") throw new Error(\"Empty field name\");\n    }\n    throw new Error(\"Invalid sort configuration\");\n  }\n\n  const keys = config.keys;\n\n  function compare(a: Item, b: Item): number {\n    for (const key of keys) {\n      const cmp = compareByKey(key, a, b);\n      if (cmp !== 0) return cmp;\n    }\n    return 0;\n  }\n\n  function sort(items: Item[]): Item[] {\n    // Stable sort: tag with original index, sort, strip tag\n    const indexed = items.map((item, idx) => ({ item, idx }));\n    indexed.sort((x, y) => {\n      const cmp = compare(x.item, y.item);\n      return cmp !== 0 ? cmp : x.idx - y.idx;\n    });\n    return indexed.map((x) => x.item);\n  }\n\n  return { sort, compare };\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 2292,
+        "cache_read_input_tokens": 14096,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 2292
+        },
+        "output_tokens": 1,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "f3426ebc-5929-43a4-a05e-266f972562d2",
+    "uuid": "0b454635-e02b-4d01-8423-4d96ff6f67e7"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed",
+      "resetsAt": 1776027600,
+      "rateLimitType": "five_hour",
+      "overageStatus": "rejected",
+      "overageDisabledReason": "org_level_disabled",
+      "isUsingOverage": false
+    },
+    "uuid": "6aba24d9-aed8-43d5-a97b-f08ce9c5b88b",
+    "session_id": "f3426ebc-5929-43a4-a05e-266f972562d2"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 22721,
+    "duration_api_ms": 22703,
+    "num_turns": 1,
+    "result": "```typescript\nimport { Effect, Data } from \"effect\";\n\n// ── Internal tagged errors ──────────────────────────────────────────────────\n\nclass NoKeysError extends Data.TaggedError(\"NoKeysError\")<{}> {}\nclass EmptyFieldError extends Data.TaggedError(\"EmptyFieldError\")<{}> {}\n\n// ── Public API types ────────────────────────────────────────────────────────\n\nexport interface SortKey {\n  field: string;\n  direction: \"ascending\" | \"descending\";\n  invertComparison?: boolean;\n  nulls?: \"first\" | \"last\";\n  caseSensitive?: boolean;\n}\n\nexport interface SortConfig {\n  keys: SortKey[];\n}\n\nexport interface Item {\n  [key: string]: unknown;\n}\n\n// ── Internal helpers ────────────────────────────────────────────────────────\n\nfunction isNullish(v: unknown): v is null | undefined {\n  return v === null || v === undefined;\n}\n\nfunction rawCompare(a: unknown, b: unknown, caseSensitive: boolean): number {\n  const ta = typeof a;\n  const tb = typeof b;\n\n  if (ta !== tb) {\n    // compare by type name string: \"boolean\" < \"number\" < \"string\"\n    return ta < tb ? -1 : 1;\n  }\n\n  if (ta === \"string\") {\n    const sa = caseSensitive ? (a as string) : (a as string).toLowerCase();\n    const sb = caseSensitive ? (b as string) : (b as string).toLowerCase();\n    return sa.localeCompare(sb);\n  }\n\n  if (ta === \"number\") {\n    const na = a as number;\n    const nb = b as number;\n    return na < nb ? -1 : na > nb ? 1 : 0;\n  }\n\n  if (ta === \"boolean\") {\n    const ba = a as boolean;\n    const bb = b as boolean;\n    return ba === bb ? 0 : ba ? 1 : -1;\n  }\n\n  // Fallback: compare string representations\n  const sa = String(a);\n  const sb = String(b);\n  return sa < sb ? -1 : sa > sb ? 1 : 0;\n}\n\nfunction compareByKey(key: SortKey, a: Item, b: Item): number {\n  const av = a[key.field];\n  const bv = b[key.field];\n\n  const nullPlacement = key.nulls ?? \"last\";\n  const aNull = isNullish(av);\n  const bNull = isNullish(bv);\n\n  // Step 2: Null handling — absolute, unaffected by direction/inversion\n  if (aNull && bNull) return 0;\n  if (aNull) return nullPlacement === \"first\" ? -1 : 1;\n  if (bNull) return nullPlacement === \"first\" ? 1 : -1;\n\n  // Step 3: Raw comparison\n  let cmp = rawCompare(av, bv, key.caseSensitive ?? true);\n\n  // Step 4: Apply inversion\n  if (key.invertComparison) cmp = -cmp;\n\n  // Step 5: Apply direction\n  if (key.direction === \"descending\") cmp = -cmp;\n\n  return cmp;\n}\n\n// ── Internal Effect logic ───────────────────────────────────────────────────\n\nconst validateConfig = (\n  config: SortConfig\n): Effect.Effect<SortConfig, NoKeysError | EmptyFieldError> =>\n  Effect.gen(function* () {\n    if (!config.keys || config.keys.length === 0) {\n      yield* Effect.fail(new NoKeysError({}));\n    }\n    for (const key of config.keys) {\n      if (!key.field || key.field.length === 0) {\n        yield* Effect.fail(new EmptyFieldError({}));\n      }\n    }\n    return config;\n  });\n\n// ── Public factory ──────────────────────────────────────────────────────────\n\nexport function createSortEngine(config: SortConfig): {\n  sort(items: Item[]): Item[];\n  compare(a: Item, b: Item): number;\n} {\n  // Validate eagerly at construction time\n  const exit = Effect.runSyncExit(validateConfig(config));\n\n  if (exit._tag === \"Failure\") {\n    const raw = exit.cause;\n    // Extract the tagged error\n    if (raw._tag === \"Fail\") {\n      const err = (raw as any).error;\n      if (err._tag === \"NoKeysError\") throw new Error(\"No sort keys provided\");\n      if (err._tag === \"EmptyFieldError\") throw new Error(\"Empty field name\");\n    }\n    throw new Error(\"Invalid sort configuration\");\n  }\n\n  const keys = config.keys;\n\n  function compare(a: Item, b: Item): number {\n    for (const key of keys) {\n      const cmp = compareByKey(key, a, b);\n      if (cmp !== 0) return cmp;\n    }\n    return 0;\n  }\n\n  function sort(items: Item[]): Item[] {\n    // Stable sort: tag with original index, sort, strip tag\n    const indexed = items.map((item, idx) => ({ item, idx }));\n    indexed.sort((x, y) => {\n      const cmp = compare(x.item, y.item);\n      return cmp !== 0 ? cmp : x.idx - y.idx;\n    });\n    return indexed.map((x) => x.item);\n  }\n\n  return { sort, compare };\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "f3426ebc-5929-43a4-a05e-266f972562d2",
+    "total_cost_usd": 0.0337848,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 2292,
+      "cache_read_input_tokens": 14096,
+      "output_tokens": 1397,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 2292,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 1397,
+        "cacheReadInputTokens": 14096,
+        "cacheCreationInputTokens": 2292,
+        "webSearchRequests": 0,
+        "costUSD": 0.0337848,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "2a1b9e8a-43d4-4367-acf6-92c76d8b1f9a"
+  }
+]
