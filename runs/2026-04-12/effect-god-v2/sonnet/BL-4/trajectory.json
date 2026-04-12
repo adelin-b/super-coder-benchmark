@@ -1,0 +1,405 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/Users/adelinb/Documents/Projects/super-coder-benchmark",
+    "session_id": "097c076d-20c2-43ea-984a-c1d5f27c6b6f",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "SendMessage",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TeamCreate",
+      "TeamDelete",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Apollo_io__apollo_accounts_create",
+      "mcp__claude_ai_Apollo_io__apollo_accounts_update",
+      "mcp__claude_ai_Apollo_io__apollo_contacts_create",
+      "mcp__claude_ai_Apollo_io__apollo_contacts_search",
+      "mcp__claude_ai_Apollo_io__apollo_contacts_update",
+      "mcp__claude_ai_Apollo_io__apollo_email_accounts_index",
+      "mcp__claude_ai_Apollo_io__apollo_emailer_campaigns_add_contact_ids",
+      "mcp__claude_ai_Apollo_io__apollo_emailer_campaigns_remove_or_stop_contact_ids",
+      "mcp__claude_ai_Apollo_io__apollo_emailer_campaigns_search",
+      "mcp__claude_ai_Apollo_io__apollo_mixed_companies_search",
+      "mcp__claude_ai_Apollo_io__apollo_mixed_people_api_search",
+      "mcp__claude_ai_Apollo_io__apollo_organizations_bulk_enrich",
+      "mcp__claude_ai_Apollo_io__apollo_organizations_enrich",
+      "mcp__claude_ai_Apollo_io__apollo_organizations_job_postings",
+      "mcp__claude_ai_Apollo_io__apollo_people_bulk_match",
+      "mcp__claude_ai_Apollo_io__apollo_people_match",
+      "mcp__claude_ai_Apollo_io__apollo_users_api_profile",
+      "mcp__claude_ai_Canva__cancel-editing-transaction",
+      "mcp__claude_ai_Canva__comment-on-design",
+      "mcp__claude_ai_Canva__commit-editing-transaction",
+      "mcp__claude_ai_Canva__create-design-from-candidate",
+      "mcp__claude_ai_Canva__create-folder",
+      "mcp__claude_ai_Canva__export-design",
+      "mcp__claude_ai_Canva__generate-design",
+      "mcp__claude_ai_Canva__generate-design-structured",
+      "mcp__claude_ai_Canva__get-assets",
+      "mcp__claude_ai_Canva__get-design",
+      "mcp__claude_ai_Canva__get-design-content",
+      "mcp__claude_ai_Canva__get-design-pages",
+      "mcp__claude_ai_Canva__get-design-thumbnail",
+      "mcp__claude_ai_Canva__get-export-formats",
+      "mcp__claude_ai_Canva__get-presenter-notes",
+      "mcp__claude_ai_Canva__import-design-from-url",
+      "mcp__claude_ai_Canva__list-brand-kits",
+      "mcp__claude_ai_Canva__list-comments",
+      "mcp__claude_ai_Canva__list-folder-items",
+      "mcp__claude_ai_Canva__list-replies",
+      "mcp__claude_ai_Canva__merge-designs",
+      "mcp__claude_ai_Canva__move-item-to-folder",
+      "mcp__claude_ai_Canva__perform-editing-operations",
+      "mcp__claude_ai_Canva__reply-to-comment",
+      "mcp__claude_ai_Canva__request-outline-review",
+      "mcp__claude_ai_Canva__resize-design",
+      "mcp__claude_ai_Canva__resolve-shortlink",
+      "mcp__claude_ai_Canva__search-designs",
+      "mcp__claude_ai_Canva__search-folders",
+      "mcp__claude_ai_Canva__start-editing-transaction",
+      "mcp__claude_ai_Canva__upload-asset-from-url",
+      "mcp__claude_ai_Context7__query-docs",
+      "mcp__claude_ai_Context7__resolve-library-id",
+      "mcp__claude_ai_DirectBooker__hotel-details",
+      "mcp__claude_ai_DirectBooker__hotel-search",
+      "mcp__claude_ai_Excalidraw__create_view",
+      "mcp__claude_ai_Excalidraw__export_to_excalidraw",
+      "mcp__claude_ai_Excalidraw__read_checkpoint",
+      "mcp__claude_ai_Excalidraw__read_me",
+      "mcp__claude_ai_Excalidraw__save_checkpoint",
+      "mcp__claude_ai_Gmail__gmail_create_draft",
+      "mcp__claude_ai_Gmail__gmail_get_profile",
+      "mcp__claude_ai_Gmail__gmail_list_drafts",
+      "mcp__claude_ai_Gmail__gmail_list_labels",
+      "mcp__claude_ai_Gmail__gmail_read_message",
+      "mcp__claude_ai_Gmail__gmail_read_thread",
+      "mcp__claude_ai_Gmail__gmail_search_messages",
+      "mcp__claude_ai_Google_Calendar__gcal_create_event",
+      "mcp__claude_ai_Google_Calendar__gcal_delete_event",
+      "mcp__claude_ai_Google_Calendar__gcal_find_meeting_times",
+      "mcp__claude_ai_Google_Calendar__gcal_find_my_free_time",
+      "mcp__claude_ai_Google_Calendar__gcal_get_event",
+      "mcp__claude_ai_Google_Calendar__gcal_list_calendars",
+      "mcp__claude_ai_Google_Calendar__gcal_list_events",
+      "mcp__claude_ai_Google_Calendar__gcal_respond_to_event",
+      "mcp__claude_ai_Google_Calendar__gcal_update_event",
+      "mcp__claude_ai_Hugging_Face__authenticate",
+      "mcp__claude_ai_Lumin__cancel_signature_request_on_lumin_by_id",
+      "mcp__claude_ai_Lumin__get_lumin_user_information",
+      "mcp__claude_ai_Lumin__get_signature_request_on_lumin_by_id",
+      "mcp__claude_ai_Lumin__get_workspace_list_of_user_on_lumin",
+      "mcp__claude_ai_Lumin__lumin_markdown2pdf",
+      "mcp__claude_ai_Lumin__send_signature_request_on_lumin",
+      "mcp__claude_ai_Lumin__upload_file_to_lumin",
+      "mcp__claude_ai_n8n__authenticate",
+      "mcp__claude_ai_Notion__notion-create-comment",
+      "mcp__claude_ai_Notion__notion-create-database",
+      "mcp__claude_ai_Notion__notion-create-pages",
+      "mcp__claude_ai_Notion__notion-create-view",
+      "mcp__claude_ai_Notion__notion-duplicate-page",
+      "mcp__claude_ai_Notion__notion-fetch",
+      "mcp__claude_ai_Notion__notion-get-comments",
+      "mcp__claude_ai_Notion__notion-get-teams",
+      "mcp__claude_ai_Notion__notion-get-users",
+      "mcp__claude_ai_Notion__notion-move-pages",
+      "mcp__claude_ai_Notion__notion-query-database-view",
+      "mcp__claude_ai_Notion__notion-query-meeting-notes",
+      "mcp__claude_ai_Notion__notion-search",
+      "mcp__claude_ai_Notion__notion-update-data-source",
+      "mcp__claude_ai_Notion__notion-update-page",
+      "mcp__claude_ai_Notion__notion-update-view",
+      "mcp__claude_ai_PayPal__authenticate",
+      "mcp__claude_ai_PostHog__authenticate",
+      "mcp__claude_ai_Sentry__authenticate",
+      "mcp__claude_ai_Slack__slack_create_canvas",
+      "mcp__claude_ai_Slack__slack_read_canvas",
+      "mcp__claude_ai_Slack__slack_read_channel",
+      "mcp__claude_ai_Slack__slack_read_thread",
+      "mcp__claude_ai_Slack__slack_read_user_profile",
+      "mcp__claude_ai_Slack__slack_schedule_message",
+      "mcp__claude_ai_Slack__slack_search_channels",
+      "mcp__claude_ai_Slack__slack_search_public",
+      "mcp__claude_ai_Slack__slack_search_public_and_private",
+      "mcp__claude_ai_Slack__slack_search_users",
+      "mcp__claude_ai_Slack__slack_send_message",
+      "mcp__claude_ai_Slack__slack_send_message_draft",
+      "mcp__claude_ai_Slack__slack_update_canvas",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Excalidraw",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Slack",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Mermaid Chart",
+        "status": "pending"
+      },
+      {
+        "name": "claude.ai Sentry",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai PayPal",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai DirectBooker",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Lumin",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai PostHog",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai n8n",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Apollo.io",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Context7",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "connected"
+      }
+    ],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Google_Calendar__schedule_meeting",
+      "mcp__claude_ai_Google_Calendar__quick_meeting_today",
+      "mcp__claude_ai_Google_Calendar__recurring_1on1",
+      "mcp__claude_ai_Google_Calendar__team_meeting_scheduler",
+      "mcp__claude_ai_Google_Calendar__analyze_availability"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "0ee9833d-5a6e-4b55-a239-5e7ef5dec3fa",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_018nW1isSGRUBBCbJrdoW9Zu",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "The user wants me to implement a `prorate.ts` module. However, the spec is incomplete - it just says \"Split a charge across time periods proportionally (e.g., monthly billing with mid-month changes).\" without specific details about the interface.\n\nSince I need to infer from the spec, let me think about what a typical proration calculator would need:\n\n1. A function to calculate prorated amounts\n2. Types for periods and charges\n3. Error handling for invalid inputs\n\nWithout a test file to reference, I need to design a reasonable API. Let me think about common proration scenarios:\n\n- `prorate(totalCharge, startDate, endDate, changeDate)` - basic proration\n\n\n- Or a more complex API with multiple periods\n\nI'll design a comprehensive proration calculator with a custom error class, types for period charges and results, and both a general prorate function plus a monthly-specific variant. I'm defining the core interfaces to handle charges across date ranges...\n\nDefining the result structure... Defining the type structure for prorated charges...\n\nI'm setting up the core interfaces for a proration system—a DateRange to define billing periods, PeriodCharge to represent amounts tied to those ranges, and ProrationSegment to break down how charges are split across sub-periods when changes occur mid-billing-cycle. The ProrationResult aggregates these segments with a total, and I'm creating a custom error class for handling edge cases. The main functions will be a generic prorate method that takes a billing period and array of charges, plus a convenience method for monthly prorations that handles year and month parameters directly.\n\nI need to account for several error conditions: dates that are out of order, negative amounts, change dates outside the billing period, and invalid date formats. Now I'm writing the implementation with proper error handling and date calculations...\n\nWriting TypeScript implementation... Writing the proration logic... Still writing proration logic... Writing the main export function... Writing the proration logic... I'm reconsidering how to count days for billing purposes—a period from Jan 1 to Jan 31 should be 31 days total, not 30, so I need to add 1 to account for inclusive counting on both ends. Let me verify this logic works for split periods: if someone switches on Jan 15, they'd pay for Jan 1-14 (14 days) at the old rate and Jan 15-31 (17 days) at the new rate.\n\nNow I'm thinking through the rounding strategy for prorated amounts. Since we're splitting charges proportionally across time segments, the total should equal the original charge amount, so I'll just accumulate the amounts without worrying about rounding discrepancies. The implementation looks solid, so I'll clean it up and finalize.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 3945,
+        "cache_read_input_tokens": 13618,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 3945
+        },
+        "output_tokens": 6,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "097c076d-20c2-43ea-984a-c1d5f27c6b6f",
+    "uuid": "dbc05205-400a-4c23-9e7f-8fed9bdd37fd"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_018nW1isSGRUBBCbJrdoW9Zu",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nimport { Effect, Data, Exit, Cause } from \"effect\";\n\n// ── Internal tagged errors ────────────────────────────────────────────────────\n\nclass ProrateInternalError extends Data.TaggedError(\"ProrateInternalError\")<{\n  reason: string;\n}> {}\n\n// ── Public types ──────────────────────────────────────────────────────────────\n\nexport interface DateRange {\n  /** ISO date string \"YYYY-MM-DD\" (inclusive) */\n  start: string;\n  /** ISO date string \"YYYY-MM-DD\" (inclusive) */\n  end: string;\n}\n\nexport interface PeriodCharge {\n  /** The date range this charge covers */\n  range: DateRange;\n  /** Full-period amount (will be prorated to the billing period overlap) */\n  amount: number;\n}\n\nexport interface ProrationSegment {\n  start: string;\n  end: string;\n  days: number;\n  totalDays: number;\n  fraction: number;\n  amount: number;\n}\n\nexport interface ProrationResult {\n  segments: ProrationSegment[];\n  total: number;\n}\n\n// ── Public error ──────────────────────────────────────────────────────────────\n\nexport class ProrationError extends Error {\n  constructor(message: string) {\n    super(message);\n    this.name = \"ProrationError\";\n    Object.setPrototypeOf(this, new.target.prototype);\n  }\n}\n\n// ── Internal helpers ──────────────────────────────────────────────────────────\n\nfunction parseUTC(dateStr: string): Date {\n  const d = new Date(dateStr + \"T00:00:00Z\");\n  return d;\n}\n\nfunction formatUTC(d: Date): string {\n  return d.toISOString().slice(0, 10);\n}\n\nfunction dayCount(start: Date, end: Date): number {\n  // inclusive on both ends\n  return Math.round((end.getTime() - start.getTime()) / 86_400_000) + 1;\n}\n\nfunction addDays(d: Date, n: number): Date {\n  return new Date(d.getTime() + n * 86_400_000);\n}\n\nfunction roundCents(n: number): number {\n  return Math.round(n * 100) / 100;\n}\n\nfunction validateDateStr(s: string, label: string): void {\n  const d = parseUTC(s);\n  if (isNaN(d.getTime())) throw new ProrationError(`Invalid ${label}: \"${s}\"`);\n}\n\n// ── Core Effect logic ─────────────────────────────────────────────────────────\n\nconst prorateEffect = (\n  billingPeriod: DateRange,\n  charges: PeriodCharge[]\n): Effect.Effect<ProrationResult, ProrateInternalError> =>\n  Effect.gen(function* () {\n    const bStart = parseUTC(billingPeriod.start);\n    const bEnd = parseUTC(billingPeriod.end);\n\n    if (bEnd.getTime() <= bStart.getTime()) {\n      yield* Effect.fail(\n        new ProrateInternalError({ reason: \"Billing period end must be after start\" })\n      );\n    }\n\n    const totalDays = dayCount(bStart, bEnd);\n    const segments: ProrationSegment[] = [];\n\n    const sorted = [...charges].sort(\n      (a, b) => parseUTC(a.range.start).getTime() - parseUTC(b.range.start).getTime()\n    );\n\n    for (const charge of sorted) {\n      if (charge.amount < 0) {\n        yield* Effect.fail(\n          new ProrateInternalError({ reason: \"Charge amount cannot be negative\" })\n        );\n      }\n\n      const cStart = parseUTC(charge.range.start);\n      const cEnd = parseUTC(charge.range.end);\n\n      if (cEnd.getTime() < cStart.getTime()) {\n        yield* Effect.fail(\n          new ProrateInternalError({ reason: \"Charge range end must be on or after start\" })\n        );\n      }\n\n      // Intersect charge range with billing period\n      const segStart = cStart < bStart ? bStart : cStart;\n      const segEnd = cEnd > bEnd ? bEnd : cEnd;\n\n      if (segStart.getTime() > segEnd.getTime()) {\n        // No overlap with billing period — skip\n        continue;\n      }\n\n      const days = dayCount(segStart, segEnd);\n      const fraction = days / totalDays;\n      const amount = roundCents(charge.amount * fraction);\n\n      segments.push({\n        start: formatUTC(segStart),\n        end: formatUTC(segEnd),\n        days,\n        totalDays,\n        fraction,\n        amount,\n      });\n    }\n\n    const total = roundCents(segments.reduce((sum, s) => sum + s.amount, 0));\n    return { segments, total };\n  });\n\n// ── Boundary helper ───────────────────────────────────────────────────────────\n\nfunction runProrate(\n  billingPeriod: DateRange,\n  charges: PeriodCharge[]\n): ProrationResult {\n  const exit = Effect.runSyncExit(prorateEffect(billingPeriod, charges));\n  if (Exit.isFailure(exit)) {\n    const err = Cause.squash(exit.cause);\n    throw new ProrationError(err instanceof Error ? err.message : String(err));\n  }\n  return exit.value;\n}\n\n// ── Exported functions ────────────────────────────────────────────────────────\n\n/**\n * Prorate one or more charges against a billing period.\n *\n * Each charge's `amount` represents the full-period price; only the portion\n * that overlaps the `billingPeriod` is billed.  Charges outside the billing\n * period are silently ignored.\n *\n * @throws {ProrationError} on invalid dates, negative amounts, or empty charges.\n */\nexport function prorate(\n  billingPeriod: DateRange,\n  charges: PeriodCharge[]\n): ProrationResult {\n  // Input validation before Effect\n  validateDateStr(billingPeriod.start, \"billing period start\");\n  validateDateStr(billingPeriod.end, \"billing period end\");\n\n  const bStart = parseUTC(billingPeriod.start);\n  const bEnd = parseUTC(billingPeriod.end);\n  if (bEnd.getTime() <= bStart.getTime()) {\n    throw new ProrationError(\"Billing period end must be after start\");\n  }\n\n  if (!charges || charges.length === 0) {\n    throw new ProrationError(\"At least one charge is required\");\n  }\n\n  for (const charge of charges) {\n    validateDateStr(charge.range.start, \"charge range start\");\n    validateDateStr(charge.range.end, \"charge range end\");\n    if (charge.amount < 0) {\n      throw new ProrationError(\"Charge amount cannot be negative\");\n    }\n  }\n\n  return runProrate(billingPeriod, charges);\n}\n\n/**\n * Prorate a monthly billing cycle split at a single change date.\n *\n * @param year       Full calendar year (e.g. 2024)\n * @param month      1–12\n * @param changeDate \"YYYY-MM-DD\" — the first day the new amount applies\n * @param oldAmount  Per-month charge before the change\n * @param newAmount  Per-month charge from changeDate onward\n *\n * @throws {ProrationError} on invalid arguments.\n */\nexport function prorateMonthly(\n  year: number,\n  month: number,\n  changeDate: string,\n  oldAmount: number,\n  newAmount: number\n): ProrationResult {\n  if (!Number.isInteger(month) || month < 1 || month > 12) {\n    throw new ProrationError(\"Month must be an integer between 1 and 12\");\n  }\n  if (oldAmount < 0) throw new ProrationError(\"oldAmount cannot be negative\");\n  if (newAmount < 0) throw new ProrationError(\"newAmount cannot be negative\");\n\n  validateDateStr(changeDate, \"changeDate\");\n\n  const firstDay = new Date(Date.UTC(year, month - 1, 1));\n  const lastDay = new Date(Date.UTC(year, month, 0)); // day 0 of next month = last of this month\n  const changeD = parseUTC(changeDate);\n\n  if (changeD.getTime() < firstDay.getTime() || changeD.getTime() > lastDay.getTime()) {\n    throw new ProrationError(\"changeDate must fall within the specified billing month\");\n  }\n\n  const start = formatUTC(firstDay);\n  const end = formatUTC(lastDay);\n\n  const charges: PeriodCharge[] = [];\n\n  if (changeD.getTime() === firstDay.getTime()) {\n    // Change on first day — only new amount applies\n    charges.push({ range: { start, end }, amount: newAmount });\n  } else {\n    const dayBeforeChange = formatUTC(addDays(changeD, -1));\n    charges.push({ range: { start, end: dayBeforeChange }, amount: oldAmount });\n    charges.push({ range: { start: changeDate, end }, amount: newAmount });\n  }\n\n  return runProrate({ start, end }, charges);\n}\n\n/**\n * Split a DateRange into two non-overlapping ranges at `splitDate`.\n *\n * The first range spans `[period.start, splitDate - 1 day]`.\n * The second range spans `[splitDate, period.end]`.\n *\n * @throws {ProrationError} if splitDate is not strictly inside the period.\n */\nexport function splitPeriod(\n  period: DateRange,\n  splitDate: string\n): [DateRange, DateRange] {\n  validateDateStr(period.start, \"period start\");\n  validateDateStr(period.end, \"period end\");\n  validateDateStr(splitDate, \"splitDate\");\n\n  const pStart = parseUTC(period.start);\n  const pEnd = parseUTC(period.end);\n  const split = parseUTC(splitDate);\n\n  if (pEnd.getTime() < pStart.getTime()) {\n    throw new ProrationError(\"Period end must be on or after period start\");\n  }\n  if (split.getTime() <= pStart.getTime() || split.getTime() > pEnd.getTime()) {\n    throw new ProrationError(\n      \"splitDate must be strictly after period start and on or before period end\"\n    );\n  }\n\n  const dayBeforeSplit = formatUTC(addDays(split, -1));\n\n  return [\n    { start: period.start, end: dayBeforeSplit },\n    { start: splitDate, end: period.end },\n  ];\n}\n\n/**\n * Calculate the prorated daily rate for a given amount and date range.\n *\n * @param amount    Full-period charge\n * @param dateRange The period over which `amount` applies\n * @returns         Amount per day (rounded to 6 decimal places)\n *\n * @throws {ProrationError} on invalid dates or negative amount.\n */\nexport function dailyRate(amount: number, dateRange: DateRange): number {\n  validateDateStr(dateRange.start, \"start\");\n  validateDateStr(dateRange.end, \"end\");\n\n  if (amount < 0) throw new ProrationError(\"Amount cannot be negative\");\n\n  const start = parseUTC(dateRange.start);\n  const end = parseUTC(dateRange.end);\n\n  if (end.getTime() < start.getTime()) {\n    throw new ProrationError(\"Date range end must be on or after start\");\n  }\n\n  const days = dayCount(start, end);\n  return Math.round((amount / days) * 1_000_000) / 1_000_000;\n}\n\n/**\n * Compute how many days of a billing period fall within a given date range.\n *\n * Useful for manual proration calculations.\n *\n * @throws {ProrationError} on invalid dates.\n */\nexport function overlapDays(billingPeriod: DateRange, range: DateRange): number {\n  validateDateStr(billingPeriod.start, \"billing period start\");\n  validateDateStr(billingPeriod.end, \"billing period end\");\n  validateDateStr(range.start, \"range start\");\n  validateDateStr(range.end, \"range end\");\n\n  const bStart = parseUTC(billingPeriod.start);\n  const bEnd = parseUTC(billingPeriod.end);\n  const rStart = parseUTC(range.start);\n  const rEnd = parseUTC(range.end);\n\n  if (bEnd.getTime() < bStart.getTime()) {\n    throw new ProrationError(\"Billing period end must be on or after start\");\n  }\n  if (rEnd.getTime() < rStart.getTime()) {\n    throw new ProrationError(\"Range end must be on or after start\");\n  }\n\n  const overlapStart = rStart < bStart ? bStart : rStart;\n  const overlapEnd = rEnd > bEnd ? bEnd : rEnd;\n\n  if (overlapStart.getTime() > overlapEnd.getTime()) return 0;\n  return dayCount(overlapStart, overlapEnd);\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 3945,
+        "cache_read_input_tokens": 13618,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 3945
+        },
+        "output_tokens": 6,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "097c076d-20c2-43ea-984a-c1d5f27c6b6f",
+    "uuid": "ecd42b1e-7042-4443-98c5-93fb834a1ce5"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed",
+      "resetsAt": 1775995200,
+      "rateLimitType": "five_hour",
+      "overageStatus": "rejected",
+      "overageDisabledReason": "org_level_disabled",
+      "isUsingOverage": false
+    },
+    "uuid": "ba5eb98f-c776-4440-bbb4-7adaa18f222e",
+    "session_id": "097c076d-20c2-43ea-984a-c1d5f27c6b6f"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 81486,
+    "duration_api_ms": 81437,
+    "num_turns": 1,
+    "result": "```typescript\nimport { Effect, Data, Exit, Cause } from \"effect\";\n\n// ── Internal tagged errors ────────────────────────────────────────────────────\n\nclass ProrateInternalError extends Data.TaggedError(\"ProrateInternalError\")<{\n  reason: string;\n}> {}\n\n// ── Public types ──────────────────────────────────────────────────────────────\n\nexport interface DateRange {\n  /** ISO date string \"YYYY-MM-DD\" (inclusive) */\n  start: string;\n  /** ISO date string \"YYYY-MM-DD\" (inclusive) */\n  end: string;\n}\n\nexport interface PeriodCharge {\n  /** The date range this charge covers */\n  range: DateRange;\n  /** Full-period amount (will be prorated to the billing period overlap) */\n  amount: number;\n}\n\nexport interface ProrationSegment {\n  start: string;\n  end: string;\n  days: number;\n  totalDays: number;\n  fraction: number;\n  amount: number;\n}\n\nexport interface ProrationResult {\n  segments: ProrationSegment[];\n  total: number;\n}\n\n// ── Public error ──────────────────────────────────────────────────────────────\n\nexport class ProrationError extends Error {\n  constructor(message: string) {\n    super(message);\n    this.name = \"ProrationError\";\n    Object.setPrototypeOf(this, new.target.prototype);\n  }\n}\n\n// ── Internal helpers ──────────────────────────────────────────────────────────\n\nfunction parseUTC(dateStr: string): Date {\n  const d = new Date(dateStr + \"T00:00:00Z\");\n  return d;\n}\n\nfunction formatUTC(d: Date): string {\n  return d.toISOString().slice(0, 10);\n}\n\nfunction dayCount(start: Date, end: Date): number {\n  // inclusive on both ends\n  return Math.round((end.getTime() - start.getTime()) / 86_400_000) + 1;\n}\n\nfunction addDays(d: Date, n: number): Date {\n  return new Date(d.getTime() + n * 86_400_000);\n}\n\nfunction roundCents(n: number): number {\n  return Math.round(n * 100) / 100;\n}\n\nfunction validateDateStr(s: string, label: string): void {\n  const d = parseUTC(s);\n  if (isNaN(d.getTime())) throw new ProrationError(`Invalid ${label}: \"${s}\"`);\n}\n\n// ── Core Effect logic ─────────────────────────────────────────────────────────\n\nconst prorateEffect = (\n  billingPeriod: DateRange,\n  charges: PeriodCharge[]\n): Effect.Effect<ProrationResult, ProrateInternalError> =>\n  Effect.gen(function* () {\n    const bStart = parseUTC(billingPeriod.start);\n    const bEnd = parseUTC(billingPeriod.end);\n\n    if (bEnd.getTime() <= bStart.getTime()) {\n      yield* Effect.fail(\n        new ProrateInternalError({ reason: \"Billing period end must be after start\" })\n      );\n    }\n\n    const totalDays = dayCount(bStart, bEnd);\n    const segments: ProrationSegment[] = [];\n\n    const sorted = [...charges].sort(\n      (a, b) => parseUTC(a.range.start).getTime() - parseUTC(b.range.start).getTime()\n    );\n\n    for (const charge of sorted) {\n      if (charge.amount < 0) {\n        yield* Effect.fail(\n          new ProrateInternalError({ reason: \"Charge amount cannot be negative\" })\n        );\n      }\n\n      const cStart = parseUTC(charge.range.start);\n      const cEnd = parseUTC(charge.range.end);\n\n      if (cEnd.getTime() < cStart.getTime()) {\n        yield* Effect.fail(\n          new ProrateInternalError({ reason: \"Charge range end must be on or after start\" })\n        );\n      }\n\n      // Intersect charge range with billing period\n      const segStart = cStart < bStart ? bStart : cStart;\n      const segEnd = cEnd > bEnd ? bEnd : cEnd;\n\n      if (segStart.getTime() > segEnd.getTime()) {\n        // No overlap with billing period — skip\n        continue;\n      }\n\n      const days = dayCount(segStart, segEnd);\n      const fraction = days / totalDays;\n      const amount = roundCents(charge.amount * fraction);\n\n      segments.push({\n        start: formatUTC(segStart),\n        end: formatUTC(segEnd),\n        days,\n        totalDays,\n        fraction,\n        amount,\n      });\n    }\n\n    const total = roundCents(segments.reduce((sum, s) => sum + s.amount, 0));\n    return { segments, total };\n  });\n\n// ── Boundary helper ───────────────────────────────────────────────────────────\n\nfunction runProrate(\n  billingPeriod: DateRange,\n  charges: PeriodCharge[]\n): ProrationResult {\n  const exit = Effect.runSyncExit(prorateEffect(billingPeriod, charges));\n  if (Exit.isFailure(exit)) {\n    const err = Cause.squash(exit.cause);\n    throw new ProrationError(err instanceof Error ? err.message : String(err));\n  }\n  return exit.value;\n}\n\n// ── Exported functions ────────────────────────────────────────────────────────\n\n/**\n * Prorate one or more charges against a billing period.\n *\n * Each charge's `amount` represents the full-period price; only the portion\n * that overlaps the `billingPeriod` is billed.  Charges outside the billing\n * period are silently ignored.\n *\n * @throws {ProrationError} on invalid dates, negative amounts, or empty charges.\n */\nexport function prorate(\n  billingPeriod: DateRange,\n  charges: PeriodCharge[]\n): ProrationResult {\n  // Input validation before Effect\n  validateDateStr(billingPeriod.start, \"billing period start\");\n  validateDateStr(billingPeriod.end, \"billing period end\");\n\n  const bStart = parseUTC(billingPeriod.start);\n  const bEnd = parseUTC(billingPeriod.end);\n  if (bEnd.getTime() <= bStart.getTime()) {\n    throw new ProrationError(\"Billing period end must be after start\");\n  }\n\n  if (!charges || charges.length === 0) {\n    throw new ProrationError(\"At least one charge is required\");\n  }\n\n  for (const charge of charges) {\n    validateDateStr(charge.range.start, \"charge range start\");\n    validateDateStr(charge.range.end, \"charge range end\");\n    if (charge.amount < 0) {\n      throw new ProrationError(\"Charge amount cannot be negative\");\n    }\n  }\n\n  return runProrate(billingPeriod, charges);\n}\n\n/**\n * Prorate a monthly billing cycle split at a single change date.\n *\n * @param year       Full calendar year (e.g. 2024)\n * @param month      1–12\n * @param changeDate \"YYYY-MM-DD\" — the first day the new amount applies\n * @param oldAmount  Per-month charge before the change\n * @param newAmount  Per-month charge from changeDate onward\n *\n * @throws {ProrationError} on invalid arguments.\n */\nexport function prorateMonthly(\n  year: number,\n  month: number,\n  changeDate: string,\n  oldAmount: number,\n  newAmount: number\n): ProrationResult {\n  if (!Number.isInteger(month) || month < 1 || month > 12) {\n    throw new ProrationError(\"Month must be an integer between 1 and 12\");\n  }\n  if (oldAmount < 0) throw new ProrationError(\"oldAmount cannot be negative\");\n  if (newAmount < 0) throw new ProrationError(\"newAmount cannot be negative\");\n\n  validateDateStr(changeDate, \"changeDate\");\n\n  const firstDay = new Date(Date.UTC(year, month - 1, 1));\n  const lastDay = new Date(Date.UTC(year, month, 0)); // day 0 of next month = last of this month\n  const changeD = parseUTC(changeDate);\n\n  if (changeD.getTime() < firstDay.getTime() || changeD.getTime() > lastDay.getTime()) {\n    throw new ProrationError(\"changeDate must fall within the specified billing month\");\n  }\n\n  const start = formatUTC(firstDay);\n  const end = formatUTC(lastDay);\n\n  const charges: PeriodCharge[] = [];\n\n  if (changeD.getTime() === firstDay.getTime()) {\n    // Change on first day — only new amount applies\n    charges.push({ range: { start, end }, amount: newAmount });\n  } else {\n    const dayBeforeChange = formatUTC(addDays(changeD, -1));\n    charges.push({ range: { start, end: dayBeforeChange }, amount: oldAmount });\n    charges.push({ range: { start: changeDate, end }, amount: newAmount });\n  }\n\n  return runProrate({ start, end }, charges);\n}\n\n/**\n * Split a DateRange into two non-overlapping ranges at `splitDate`.\n *\n * The first range spans `[period.start, splitDate - 1 day]`.\n * The second range spans `[splitDate, period.end]`.\n *\n * @throws {ProrationError} if splitDate is not strictly inside the period.\n */\nexport function splitPeriod(\n  period: DateRange,\n  splitDate: string\n): [DateRange, DateRange] {\n  validateDateStr(period.start, \"period start\");\n  validateDateStr(period.end, \"period end\");\n  validateDateStr(splitDate, \"splitDate\");\n\n  const pStart = parseUTC(period.start);\n  const pEnd = parseUTC(period.end);\n  const split = parseUTC(splitDate);\n\n  if (pEnd.getTime() < pStart.getTime()) {\n    throw new ProrationError(\"Period end must be on or after period start\");\n  }\n  if (split.getTime() <= pStart.getTime() || split.getTime() > pEnd.getTime()) {\n    throw new ProrationError(\n      \"splitDate must be strictly after period start and on or before period end\"\n    );\n  }\n\n  const dayBeforeSplit = formatUTC(addDays(split, -1));\n\n  return [\n    { start: period.start, end: dayBeforeSplit },\n    { start: splitDate, end: period.end },\n  ];\n}\n\n/**\n * Calculate the prorated daily rate for a given amount and date range.\n *\n * @param amount    Full-period charge\n * @param dateRange The period over which `amount` applies\n * @returns         Amount per day (rounded to 6 decimal places)\n *\n * @throws {ProrationError} on invalid dates or negative amount.\n */\nexport function dailyRate(amount: number, dateRange: DateRange): number {\n  validateDateStr(dateRange.start, \"start\");\n  validateDateStr(dateRange.end, \"end\");\n\n  if (amount < 0) throw new ProrationError(\"Amount cannot be negative\");\n\n  const start = parseUTC(dateRange.start);\n  const end = parseUTC(dateRange.end);\n\n  if (end.getTime() < start.getTime()) {\n    throw new ProrationError(\"Date range end must be on or after start\");\n  }\n\n  const days = dayCount(start, end);\n  return Math.round((amount / days) * 1_000_000) / 1_000_000;\n}\n\n/**\n * Compute how many days of a billing period fall within a given date range.\n *\n * Useful for manual proration calculations.\n *\n * @throws {ProrationError} on invalid dates.\n */\nexport function overlapDays(billingPeriod: DateRange, range: DateRange): number {\n  validateDateStr(billingPeriod.start, \"billing period start\");\n  validateDateStr(billingPeriod.end, \"billing period end\");\n  validateDateStr(range.start, \"range start\");\n  validateDateStr(range.end, \"range end\");\n\n  const bStart = parseUTC(billingPeriod.start);\n  const bEnd = parseUTC(billingPeriod.end);\n  const rStart = parseUTC(range.start);\n  const rEnd = parseUTC(range.end);\n\n  if (bEnd.getTime() < bStart.getTime()) {\n    throw new ProrationError(\"Billing period end must be on or after start\");\n  }\n  if (rEnd.getTime() < rStart.getTime()) {\n    throw new ProrationError(\"Range end must be on or after start\");\n  }\n\n  const overlapStart = rStart < bStart ? bStart : rStart;\n  const overlapEnd = rEnd > bEnd ? bEnd : rEnd;\n\n  if (overlapStart.getTime() > overlapEnd.getTime()) return 0;\n  return dayCount(overlapStart, overlapEnd);\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "097c076d-20c2-43ea-984a-c1d5f27c6b6f",
+    "total_cost_usd": 0.11881515000000001,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 3945,
+      "cache_read_input_tokens": 13618,
+      "output_tokens": 6662,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3945,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 6662,
+        "cacheReadInputTokens": 13618,
+        "cacheCreationInputTokens": 3945,
+        "webSearchRequests": 0,
+        "costUSD": 0.11881515000000001,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "9481e255-c8be-48fb-88d9-0152e90b957f"
+  }
+]

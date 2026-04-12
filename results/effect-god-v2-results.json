@@ -1,0 +1,98 @@
+[
+  {
+    "task": "BL-1",
+    "tests_passed": 18,
+    "tests_total": 19,
+    "pass_rate": 0.9474
+  },
+  {
+    "task": "BL-2",
+    "tests_passed": 8,
+    "tests_total": 9,
+    "pass_rate": 0.8889
+  },
+  {
+    "task": "BL-3",
+    "tests_passed": 7,
+    "tests_total": 8,
+    "pass_rate": 0.875
+  },
+  {
+    "task": "BL-4",
+    "tests_passed": 2,
+    "tests_total": 3,
+    "pass_rate": 0.6667
+  },
+  {
+    "task": "BL-5",
+    "tests_passed": 0,
+    "tests_total": 1,
+    "pass_rate": 0.0
+  },
+  {
+    "task": "ALG-1",
+    "tests_passed": 1,
+    "tests_total": 1,
+    "pass_rate": 1.0
+  },
+  {
+    "task": "ALG-2",
+    "tests_passed": 1,
+    "tests_total": 1,
+    "pass_rate": 1.0
+  },
+  {
+    "task": "ALG-3",
+    "tests_passed": 0,
+    "tests_total": 1,
+    "pass_rate": 0.0
+  },
+  {
+    "task": "SAAS-1",
+    "tests_passed": 12,
+    "tests_total": 13,
+    "pass_rate": 0.9231
+  },
+  {
+    "task": "SAAS-2",
+    "tests_passed": 0,
+    "tests_total": 1,
+    "pass_rate": 0.0
+  },
+  {
+    "task": "SAAS-3",
+    "tests_passed": 1,
+    "tests_total": 2,
+    "pass_rate": 0.5
+  },
+  {
+    "task": "HARD-1",
+    "tests_passed": 1,
+    "tests_total": 1,
+    "pass_rate": 1.0
+  },
+  {
+    "task": "HARD-2",
+    "tests_passed": 2,
+    "tests_total": 3,
+    "pass_rate": 0.6667
+  },
+  {
+    "task": "HARD-3",
+    "tests_passed": 15,
+    "tests_total": 16,
+    "pass_rate": 0.9375
+  },
+  {
+    "task": "HARD-4",
+    "tests_passed": 19,
+    "tests_total": 20,
+    "pass_rate": 0.95
+  },
+  {
+    "task": "HARD-5",
+    "tests_passed": 26,
+    "tests_total": 27,
+    "pass_rate": 0.963
+  }
+]

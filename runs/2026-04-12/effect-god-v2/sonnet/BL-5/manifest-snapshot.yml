@@ -1,0 +1,12 @@
+name: effect-god
+version: 2
+model_default: sonnet
+max_turns: 1
+tools: []
+context_bundle:
+  - context-bundles/effect-quickstart/errors.md
+  - context-bundles/effect-quickstart/generators.md
+  - context-bundles/effect-quickstart/common-pitfalls.md
+  - context-bundles/fastcheck-core/arbitraries.md
+system_prompt_file: system-prompt.md
+changelog: "v2: Complete redesign targeting Sonnet 4.6 (not Haiku). Synthesizes factorial experiment findings: CV interaction (Critique+Validation) is the only proven combo. 7-step pipeline (not 10). Test-first ground truth from ultra-ts (93.3% HARD). runSyncExit+Cause.squash boundary from effect-pbt (83.3%). PBT invariant thinking. All 4 context bundles."

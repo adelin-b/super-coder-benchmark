@@ -1,0 +1,406 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/Users/adelinb/Documents/Projects/super-coder-benchmark",
+    "session_id": "7cff767c-33c8-4245-afa2-0d546d7f0925",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "SendMessage",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TeamCreate",
+      "TeamDelete",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Apollo_io__apollo_accounts_create",
+      "mcp__claude_ai_Apollo_io__apollo_accounts_update",
+      "mcp__claude_ai_Apollo_io__apollo_contacts_create",
+      "mcp__claude_ai_Apollo_io__apollo_contacts_search",
+      "mcp__claude_ai_Apollo_io__apollo_contacts_update",
+      "mcp__claude_ai_Apollo_io__apollo_email_accounts_index",
+      "mcp__claude_ai_Apollo_io__apollo_emailer_campaigns_add_contact_ids",
+      "mcp__claude_ai_Apollo_io__apollo_emailer_campaigns_remove_or_stop_contact_ids",
+      "mcp__claude_ai_Apollo_io__apollo_emailer_campaigns_search",
+      "mcp__claude_ai_Apollo_io__apollo_mixed_companies_search",
+      "mcp__claude_ai_Apollo_io__apollo_mixed_people_api_search",
+      "mcp__claude_ai_Apollo_io__apollo_organizations_bulk_enrich",
+      "mcp__claude_ai_Apollo_io__apollo_organizations_enrich",
+      "mcp__claude_ai_Apollo_io__apollo_organizations_job_postings",
+      "mcp__claude_ai_Apollo_io__apollo_people_bulk_match",
+      "mcp__claude_ai_Apollo_io__apollo_people_match",
+      "mcp__claude_ai_Apollo_io__apollo_users_api_profile",
+      "mcp__claude_ai_Canva__cancel-editing-transaction",
+      "mcp__claude_ai_Canva__comment-on-design",
+      "mcp__claude_ai_Canva__commit-editing-transaction",
+      "mcp__claude_ai_Canva__create-design-from-candidate",
+      "mcp__claude_ai_Canva__create-folder",
+      "mcp__claude_ai_Canva__export-design",
+      "mcp__claude_ai_Canva__generate-design",
+      "mcp__claude_ai_Canva__generate-design-structured",
+      "mcp__claude_ai_Canva__get-assets",
+      "mcp__claude_ai_Canva__get-design",
+      "mcp__claude_ai_Canva__get-design-content",
+      "mcp__claude_ai_Canva__get-design-pages",
+      "mcp__claude_ai_Canva__get-design-thumbnail",
+      "mcp__claude_ai_Canva__get-export-formats",
+      "mcp__claude_ai_Canva__get-presenter-notes",
+      "mcp__claude_ai_Canva__import-design-from-url",
+      "mcp__claude_ai_Canva__list-brand-kits",
+      "mcp__claude_ai_Canva__list-comments",
+      "mcp__claude_ai_Canva__list-folder-items",
+      "mcp__claude_ai_Canva__list-replies",
+      "mcp__claude_ai_Canva__merge-designs",
+      "mcp__claude_ai_Canva__move-item-to-folder",
+      "mcp__claude_ai_Canva__perform-editing-operations",
+      "mcp__claude_ai_Canva__reply-to-comment",
+      "mcp__claude_ai_Canva__request-outline-review",
+      "mcp__claude_ai_Canva__resize-design",
+      "mcp__claude_ai_Canva__resolve-shortlink",
+      "mcp__claude_ai_Canva__search-designs",
+      "mcp__claude_ai_Canva__search-folders",
+      "mcp__claude_ai_Canva__start-editing-transaction",
+      "mcp__claude_ai_Canva__upload-asset-from-url",
+      "mcp__claude_ai_Context7__query-docs",
+      "mcp__claude_ai_Context7__resolve-library-id",
+      "mcp__claude_ai_DirectBooker__hotel-details",
+      "mcp__claude_ai_DirectBooker__hotel-search",
+      "mcp__claude_ai_Excalidraw__create_view",
+      "mcp__claude_ai_Excalidraw__export_to_excalidraw",
+      "mcp__claude_ai_Excalidraw__read_checkpoint",
+      "mcp__claude_ai_Excalidraw__read_me",
+      "mcp__claude_ai_Excalidraw__save_checkpoint",
+      "mcp__claude_ai_Gmail__gmail_create_draft",
+      "mcp__claude_ai_Gmail__gmail_get_profile",
+      "mcp__claude_ai_Gmail__gmail_list_drafts",
+      "mcp__claude_ai_Gmail__gmail_list_labels",
+      "mcp__claude_ai_Gmail__gmail_read_message",
+      "mcp__claude_ai_Gmail__gmail_read_thread",
+      "mcp__claude_ai_Gmail__gmail_search_messages",
+      "mcp__claude_ai_Google_Calendar__gcal_create_event",
+      "mcp__claude_ai_Google_Calendar__gcal_delete_event",
+      "mcp__claude_ai_Google_Calendar__gcal_find_meeting_times",
+      "mcp__claude_ai_Google_Calendar__gcal_find_my_free_time",
+      "mcp__claude_ai_Google_Calendar__gcal_get_event",
+      "mcp__claude_ai_Google_Calendar__gcal_list_calendars",
+      "mcp__claude_ai_Google_Calendar__gcal_list_events",
+      "mcp__claude_ai_Google_Calendar__gcal_respond_to_event",
+      "mcp__claude_ai_Google_Calendar__gcal_update_event",
+      "mcp__claude_ai_Hugging_Face__authenticate",
+      "mcp__claude_ai_Lumin__cancel_signature_request_on_lumin_by_id",
+      "mcp__claude_ai_Lumin__get_lumin_user_information",
+      "mcp__claude_ai_Lumin__get_signature_request_on_lumin_by_id",
+      "mcp__claude_ai_Lumin__get_workspace_list_of_user_on_lumin",
+      "mcp__claude_ai_Lumin__lumin_markdown2pdf",
+      "mcp__claude_ai_Lumin__send_signature_request_on_lumin",
+      "mcp__claude_ai_Lumin__upload_file_to_lumin",
+      "mcp__claude_ai_Mermaid_Chart__validate_and_render_mermaid_diagram",
+      "mcp__claude_ai_n8n__authenticate",
+      "mcp__claude_ai_Notion__notion-create-comment",
+      "mcp__claude_ai_Notion__notion-create-database",
+      "mcp__claude_ai_Notion__notion-create-pages",
+      "mcp__claude_ai_Notion__notion-create-view",
+      "mcp__claude_ai_Notion__notion-duplicate-page",
+      "mcp__claude_ai_Notion__notion-fetch",
+      "mcp__claude_ai_Notion__notion-get-comments",
+      "mcp__claude_ai_Notion__notion-get-teams",
+      "mcp__claude_ai_Notion__notion-get-users",
+      "mcp__claude_ai_Notion__notion-move-pages",
+      "mcp__claude_ai_Notion__notion-query-database-view",
+      "mcp__claude_ai_Notion__notion-query-meeting-notes",
+      "mcp__claude_ai_Notion__notion-search",
+      "mcp__claude_ai_Notion__notion-update-data-source",
+      "mcp__claude_ai_Notion__notion-update-page",
+      "mcp__claude_ai_Notion__notion-update-view",
+      "mcp__claude_ai_PayPal__authenticate",
+      "mcp__claude_ai_PostHog__authenticate",
+      "mcp__claude_ai_Sentry__authenticate",
+      "mcp__claude_ai_Slack__slack_create_canvas",
+      "mcp__claude_ai_Slack__slack_read_canvas",
+      "mcp__claude_ai_Slack__slack_read_channel",
+      "mcp__claude_ai_Slack__slack_read_thread",
+      "mcp__claude_ai_Slack__slack_read_user_profile",
+      "mcp__claude_ai_Slack__slack_schedule_message",
+      "mcp__claude_ai_Slack__slack_search_channels",
+      "mcp__claude_ai_Slack__slack_search_public",
+      "mcp__claude_ai_Slack__slack_search_public_and_private",
+      "mcp__claude_ai_Slack__slack_search_users",
+      "mcp__claude_ai_Slack__slack_send_message",
+      "mcp__claude_ai_Slack__slack_send_message_draft",
+      "mcp__claude_ai_Slack__slack_update_canvas",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Excalidraw",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Slack",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Mermaid Chart",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Sentry",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai PayPal",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai DirectBooker",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Lumin",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai PostHog",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai n8n",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Apollo.io",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Context7",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "connected"
+      }
+    ],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Google_Calendar__schedule_meeting",
+      "mcp__claude_ai_Google_Calendar__quick_meeting_today",
+      "mcp__claude_ai_Google_Calendar__recurring_1on1",
+      "mcp__claude_ai_Google_Calendar__team_meeting_scheduler",
+      "mcp__claude_ai_Google_Calendar__analyze_availability"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "d2076c71-2d6f-4e6a-a1e9-0f5bb2ca2880",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_014Le1z6aZ37zQBuR7WwBgKN",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "Let me implement a topological sort module based on the spec. I need to:\n\n1. Create a topological sort function that works on a DAG\n2. Detect cycles and throw/return an error for cyclic graphs\n3. Export the necessary items\n\nSince there's no test file provided, I'll infer a reasonable API:\n- `topoSort(nodes, edges)` or similar\n- A `CycleError` or similar error class for cycle detection\n- Support for generic node types\n\nLet me design a clean, complete implementation.\n\nKey exports I'll provide:\n- `class CycleError extends Error` - for when a cycle is detected\n\n\n- A flexible `topoSort` function that accepts either an adjacency list or separate nodes and edges, using Kahn's algorithm for cycle detection\n\nDefining the function signature...",
+          "signature": "Eq4LClsIDBgCKkDeR4Pf47Lk8r8l1oSy0RkYbjnMoMluvd+ekP+ML+8XWeeIEk93Fi7G0WqgPYHM62NL63HOSBhWwU/yMt/n2BV/MhFjbGF1ZGUtc29ubmV0LTQtNjgAEgx8hI5SIS+UDA32hqAaDDBbb+E9Cd51CvmL+CIwiPNXjy9dUv5rU8V6zJAeI2BB1mYKmMpb2vm/+oDnqQ7LCzlOPYR73Vpt2MUmDmthKoAKCZCtrIP5BylBBidkbH28CtZiPIDBjjAFZXiL82ap93NIVOPjk3k/Qs80Dbhn+OHeLsTZ1vfysD9yjdFA+l4lyUvzAwStt2ILNdQ2vB/qk2pErucKtRjq2xUuwWr5sdCbkWdmThK/GbdVMc54KKP7kgFFuJlCbBw4Kt9GkH5RLhMDR6Nt2zf6B2UM/DZgKPGD5Ab3aD9cQRbUMXFIftOJkddEhZbkmthwpKp1v1RYUIpvRkzyBFlAAh2/LLAM85RZRpA9J/VH8EOjikEl1CVxShWw/VpddVQ74NTEIHu9R2MKe8ACVBZgSBkQEg8n9kT8D1+5uyJNcII+7o5NKhWlsrEs+9RkC2tvA48kZps3n6EJB4PP7vFEwd5iLVEdw7+2txH+Ni+GykbIOlUU3Nkpl5xaUeBlc14Wt4kCk+JTaxVbCP2GnecuvMGDSnKP7rkHjF5BTtfeY09D/HOU9k7xUuUk3ARybt5JVjhzBbOdcwUo55c7HCMd/sSCtbu1Ldc6Rz2DMh6KgitdujzA1kOlKy2p5aSbN2xPUxnFLZ+pe1/OL8L1fbVfQNaaCt0UkjO45RgyGEuZ+Rj5pt7hGO+kqsunuGmphYMqOhI9xxtG2GhkmDKX7hwbFedOx9erw1qwdFTTUepfaKZjELLVhDRMkdsYXBc314maR108W4jZtzG8BSainMuhH2vLebDHqniABQi9rztkcAEfGQTZsH2LGnfeP2X0PlQGUL+66fWwVqmCmDa9AfVtU7hmv7ikzIWqXLRNcnumozKeJ9EfZxCvLiO+418PZwwV9qICexdjmPUCUyGwrittMm6uJD0za1s+PsFtgaysPOzWrnXw49725Du0XYGsJiwlaDDqHgtzCGB0H6qbqqpaBObH184PqQfxbBu1cnS8wGCArp9YOVM0iSzZSrPjVp+NH1iXbwiqjTkkbyaFd0FDwEf6bPL98uqmeSjdcI4ZgC/dOuwlzndppCmcV/oeN0nnd4gDF7JZMwkYwOFAsJIxTFLtSxFWKR+q5ZUMldTk28XAjylD1GxMxAM0pMuwujEUcn7yptUAmrQTFXSFtxgpxfQq/+cfjcYheZ3jG7f0VtYGKB49NE1i/vh9hCn096b+XD7VQi8Lg6p6zL5yiJ7EtYhYDiOQ6iULeZ0YhD+tt6h3wK7Hu7OUzwhx3ulZQDfgPjXJS5Fy7rWAq7mXq3Ojgl6dPtPL6Dvq/QyGugSsUklOKl7SpjSqn5xpxoltA7MKagi0fL5b80+v49+5AMUHMqA75hCjkQjwIYZPlpSGCpKXb8lgQW0AYahnXSfx97gZTE7IK2Lgmqci1aOJp3Rl6+gY3INnbRDztUdRyYgvhWR8dSlDy+tDsT4v7Yu/HBDNeRyWuJBYJGy+kt569bjvExnZaebww9Zsjm6n5eUnzTpGBIR4LaBOVfDavmFXhnKPpRNSs+ReB4GmYrYmWY2BjJeGnxfnJjIVPqUQgwydKoGmZJCzmGO/KTQL3qtRFsEUau1qAZw5+HCazSl8Vf0l4RXGM15zHDQDK1roDp1oyFhy1TAseQlpmGOes2oeC6E+VQk9mpotjAE8IGLU9yiFbaDJHNnM7tSpfIGl1/wiwVAg6aDqgpTI+9/RJugDHiNbNpLz5H5N9r2xHCSO7lDl0hV+rL8IQYafNnw8acVPi93i7j7INfeVTXXXUFOZnaG6fLAX5NcVh1kYAQ=="
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 3970,
+        "cache_read_input_tokens": 13618,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 3970
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "7cff767c-33c8-4245-afa2-0d546d7f0925",
+    "uuid": "d6679a6a-af8c-4e7d-b50a-a5ddd5b94ef5"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_014Le1z6aZ37zQBuR7WwBgKN",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nimport { Effect, Data } from \"effect\";\n\n// ─── Domain Errors ────────────────────────────────────────────────────────────\n\nexport class CycleError extends Error {\n  readonly cycle: readonly string[];\n  constructor(cycle: readonly string[]) {\n    super(`Cycle detected: ${cycle.join(\" → \")}`);\n    this.name = \"CycleError\";\n    this.cycle = cycle;\n  }\n}\n\n// ─── Types ────────────────────────────────────────────────────────────────────\n\nexport type NodeId = string | number;\n\nexport interface Graph<T extends NodeId = NodeId> {\n  /** All nodes in the graph (including isolated ones) */\n  nodes: T[];\n  /** Directed edges: [from, to] meaning from → to */\n  edges: [T, T][];\n}\n\n// ─── Internal Effect Implementation ──────────────────────────────────────────\n\nclass InternalCycle extends Data.TaggedError(\"InternalCycle\")<{\n  cycle: readonly string[];\n}> {}\n\n/**\n * Kahn's algorithm: repeatedly peel nodes with in-degree 0.\n * If any nodes remain unprocessed → cycle exists.\n */\nconst kahnSort = <T extends NodeId>(\n  graph: Graph<T>\n): Effect.Effect<T[], InternalCycle> =>\n  Effect.gen(function* () {\n    const nodeSet = new Set<T>(graph.nodes);\n\n    // Collect all nodes referenced in edges too\n    for (const [u, v] of graph.edges) {\n      nodeSet.add(u);\n      nodeSet.add(v);\n    }\n\n    const allNodes = Array.from(nodeSet);\n\n    // Build adjacency list and in-degree map\n    const adj = new Map<T, T[]>();\n    const inDegree = new Map<T, number>();\n\n    for (const n of allNodes) {\n      adj.set(n, []);\n      inDegree.set(n, 0);\n    }\n\n    for (const [u, v] of graph.edges) {\n      adj.get(u)!.push(v);\n      inDegree.set(v, (inDegree.get(v) ?? 0) + 1);\n    }\n\n    // Initialize queue with zero in-degree nodes (stable: sort for determinism)\n    const queue: T[] = allNodes\n      .filter((n) => inDegree.get(n) === 0)\n      .sort((a, b) => String(a).localeCompare(String(b)));\n\n    const result: T[] = [];\n\n    while (queue.length > 0) {\n      const node = queue.shift()!;\n      result.push(node);\n\n      const neighbors = adj.get(node) ?? [];\n      // Sort neighbors for deterministic output\n      const sorted = [...neighbors].sort((a, b) =>\n        String(a).localeCompare(String(b))\n      );\n\n      for (const neighbor of sorted) {\n        const newDegree = (inDegree.get(neighbor) ?? 0) - 1;\n        inDegree.set(neighbor, newDegree);\n        if (newDegree === 0) {\n          // Insert in sorted position for determinism\n          const insertAt = queue.findIndex(\n            (q) => String(q).localeCompare(String(neighbor)) > 0\n          );\n          if (insertAt === -1) {\n            queue.push(neighbor);\n          } else {\n            queue.splice(insertAt, 0, neighbor);\n          }\n        }\n      }\n    }\n\n    if (result.length !== allNodes.length) {\n      // Cycle exists — find it via DFS\n      const cycle = findCycle(allNodes, adj);\n      yield* Effect.fail(new InternalCycle({ cycle }));\n    }\n\n    return result;\n  });\n\n/** DFS-based cycle finder — returns cycle as string labels */\nfunction findCycle<T extends NodeId>(\n  allNodes: T[],\n  adj: Map<T, T[]>\n): readonly string[] {\n  const WHITE = 0,\n    GRAY = 1,\n    BLACK = 2;\n  const color = new Map<T, number>();\n  for (const n of allNodes) color.set(n, WHITE);\n\n  const path: T[] = [];\n\n  const dfs = (node: T): T[] | null => {\n    color.set(node, GRAY);\n    path.push(node);\n    for (const neighbor of adj.get(node) ?? []) {\n      if (color.get(neighbor) === GRAY) {\n        // Found cycle — extract it from path\n        const idx = path.indexOf(neighbor);\n        return [...path.slice(idx), neighbor];\n      }\n      if (color.get(neighbor) === WHITE) {\n        const result = dfs(neighbor);\n        if (result) return result;\n      }\n    }\n    path.pop();\n    color.set(node, BLACK);\n    return null;\n  };\n\n  for (const node of allNodes) {\n    if (color.get(node) === WHITE) {\n      const cycle = dfs(node);\n      if (cycle) return cycle.map(String);\n    }\n  }\n\n  return [\"<unknown cycle>\"];\n}\n\n// ─── Public API ───────────────────────────────────────────────────────────────\n\n/**\n * Sort nodes of a DAG topologically.\n * Every edge u → v guarantees u appears before v in the output.\n *\n * @throws {CycleError} if the graph contains a cycle\n */\nexport function topoSort<T extends NodeId>(graph: Graph<T>): T[] {\n  if (graph.nodes.length === 0 && graph.edges.length === 0) return [];\n\n  const exit = Effect.runSyncExit(kahnSort(graph));\n\n  if (exit._tag === \"Failure\") {\n    const { Cause } = require(\"effect\") as typeof import(\"effect\");\n    const err = Cause.squash(exit.cause);\n    if (err instanceof InternalCycle) {\n      throw new CycleError(err.cycle);\n    }\n    if (err instanceof Error) throw err;\n    throw new Error(String(err));\n  }\n\n  return exit.value;\n}\n\n/**\n * Convenience overload: build a Graph from a plain adjacency list object.\n * Keys are node IDs, values are arrays of successor node IDs.\n *\n * @throws {CycleError} if the graph contains a cycle\n */\nexport function topoSortAdjacency(\n  adjacency: Record<string, string[]>\n): string[] {\n  const nodes = Object.keys(adjacency);\n  const edges: [string, string][] = [];\n  for (const [from, tos] of Object.entries(adjacency)) {\n    for (const to of tos) {\n      edges.push([from, to]);\n    }\n  }\n  return topoSort({ nodes, edges });\n}\n\n/**\n * Returns true if the given graph is acyclic (a valid DAG), false otherwise.\n */\nexport function isAcyclic<T extends NodeId>(graph: Graph<T>): boolean {\n  try {\n    topoSort(graph);\n    return true;\n  } catch (e) {\n    if (e instanceof CycleError) return false;\n    throw e;\n  }\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 3970,
+        "cache_read_input_tokens": 13618,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 3970
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "7cff767c-33c8-4245-afa2-0d546d7f0925",
+    "uuid": "cff1cda2-04e6-4407-aab7-3ec2cadfd39d"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed",
+      "resetsAt": 1775995200,
+      "rateLimitType": "five_hour",
+      "overageStatus": "rejected",
+      "overageDisabledReason": "org_level_disabled",
+      "isUsingOverage": false
+    },
+    "uuid": "763bc09a-b887-4bf7-8f7d-0d4249be6fa7",
+    "session_id": "7cff767c-33c8-4245-afa2-0d546d7f0925"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 26565,
+    "duration_api_ms": 26519,
+    "num_turns": 1,
+    "result": "```typescript\nimport { Effect, Data } from \"effect\";\n\n// ─── Domain Errors ────────────────────────────────────────────────────────────\n\nexport class CycleError extends Error {\n  readonly cycle: readonly string[];\n  constructor(cycle: readonly string[]) {\n    super(`Cycle detected: ${cycle.join(\" → \")}`);\n    this.name = \"CycleError\";\n    this.cycle = cycle;\n  }\n}\n\n// ─── Types ────────────────────────────────────────────────────────────────────\n\nexport type NodeId = string | number;\n\nexport interface Graph<T extends NodeId = NodeId> {\n  /** All nodes in the graph (including isolated ones) */\n  nodes: T[];\n  /** Directed edges: [from, to] meaning from → to */\n  edges: [T, T][];\n}\n\n// ─── Internal Effect Implementation ──────────────────────────────────────────\n\nclass InternalCycle extends Data.TaggedError(\"InternalCycle\")<{\n  cycle: readonly string[];\n}> {}\n\n/**\n * Kahn's algorithm: repeatedly peel nodes with in-degree 0.\n * If any nodes remain unprocessed → cycle exists.\n */\nconst kahnSort = <T extends NodeId>(\n  graph: Graph<T>\n): Effect.Effect<T[], InternalCycle> =>\n  Effect.gen(function* () {\n    const nodeSet = new Set<T>(graph.nodes);\n\n    // Collect all nodes referenced in edges too\n    for (const [u, v] of graph.edges) {\n      nodeSet.add(u);\n      nodeSet.add(v);\n    }\n\n    const allNodes = Array.from(nodeSet);\n\n    // Build adjacency list and in-degree map\n    const adj = new Map<T, T[]>();\n    const inDegree = new Map<T, number>();\n\n    for (const n of allNodes) {\n      adj.set(n, []);\n      inDegree.set(n, 0);\n    }\n\n    for (const [u, v] of graph.edges) {\n      adj.get(u)!.push(v);\n      inDegree.set(v, (inDegree.get(v) ?? 0) + 1);\n    }\n\n    // Initialize queue with zero in-degree nodes (stable: sort for determinism)\n    const queue: T[] = allNodes\n      .filter((n) => inDegree.get(n) === 0)\n      .sort((a, b) => String(a).localeCompare(String(b)));\n\n    const result: T[] = [];\n\n    while (queue.length > 0) {\n      const node = queue.shift()!;\n      result.push(node);\n\n      const neighbors = adj.get(node) ?? [];\n      // Sort neighbors for deterministic output\n      const sorted = [...neighbors].sort((a, b) =>\n        String(a).localeCompare(String(b))\n      );\n\n      for (const neighbor of sorted) {\n        const newDegree = (inDegree.get(neighbor) ?? 0) - 1;\n        inDegree.set(neighbor, newDegree);\n        if (newDegree === 0) {\n          // Insert in sorted position for determinism\n          const insertAt = queue.findIndex(\n            (q) => String(q).localeCompare(String(neighbor)) > 0\n          );\n          if (insertAt === -1) {\n            queue.push(neighbor);\n          } else {\n            queue.splice(insertAt, 0, neighbor);\n          }\n        }\n      }\n    }\n\n    if (result.length !== allNodes.length) {\n      // Cycle exists — find it via DFS\n      const cycle = findCycle(allNodes, adj);\n      yield* Effect.fail(new InternalCycle({ cycle }));\n    }\n\n    return result;\n  });\n\n/** DFS-based cycle finder — returns cycle as string labels */\nfunction findCycle<T extends NodeId>(\n  allNodes: T[],\n  adj: Map<T, T[]>\n): readonly string[] {\n  const WHITE = 0,\n    GRAY = 1,\n    BLACK = 2;\n  const color = new Map<T, number>();\n  for (const n of allNodes) color.set(n, WHITE);\n\n  const path: T[] = [];\n\n  const dfs = (node: T): T[] | null => {\n    color.set(node, GRAY);\n    path.push(node);\n    for (const neighbor of adj.get(node) ?? []) {\n      if (color.get(neighbor) === GRAY) {\n        // Found cycle — extract it from path\n        const idx = path.indexOf(neighbor);\n        return [...path.slice(idx), neighbor];\n      }\n      if (color.get(neighbor) === WHITE) {\n        const result = dfs(neighbor);\n        if (result) return result;\n      }\n    }\n    path.pop();\n    color.set(node, BLACK);\n    return null;\n  };\n\n  for (const node of allNodes) {\n    if (color.get(node) === WHITE) {\n      const cycle = dfs(node);\n      if (cycle) return cycle.map(String);\n    }\n  }\n\n  return [\"<unknown cycle>\"];\n}\n\n// ─── Public API ───────────────────────────────────────────────────────────────\n\n/**\n * Sort nodes of a DAG topologically.\n * Every edge u → v guarantees u appears before v in the output.\n *\n * @throws {CycleError} if the graph contains a cycle\n */\nexport function topoSort<T extends NodeId>(graph: Graph<T>): T[] {\n  if (graph.nodes.length === 0 && graph.edges.length === 0) return [];\n\n  const exit = Effect.runSyncExit(kahnSort(graph));\n\n  if (exit._tag === \"Failure\") {\n    const { Cause } = require(\"effect\") as typeof import(\"effect\");\n    const err = Cause.squash(exit.cause);\n    if (err instanceof InternalCycle) {\n      throw new CycleError(err.cycle);\n    }\n    if (err instanceof Error) throw err;\n    throw new Error(String(err));\n  }\n\n  return exit.value;\n}\n\n/**\n * Convenience overload: build a Graph from a plain adjacency list object.\n * Keys are node IDs, values are arrays of successor node IDs.\n *\n * @throws {CycleError} if the graph contains a cycle\n */\nexport function topoSortAdjacency(\n  adjacency: Record<string, string[]>\n): string[] {\n  const nodes = Object.keys(adjacency);\n  const edges: [string, string][] = [];\n  for (const [from, tos] of Object.entries(adjacency)) {\n    for (const to of tos) {\n      edges.push([from, to]);\n    }\n  }\n  return topoSort({ nodes, edges });\n}\n\n/**\n * Returns true if the given graph is acyclic (a valid DAG), false otherwise.\n */\nexport function isAcyclic<T extends NodeId>(graph: Graph<T>): boolean {\n  try {\n    topoSort(graph);\n    return true;\n  } catch (e) {\n    if (e instanceof CycleError) return false;\n    throw e;\n  }\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "7cff767c-33c8-4245-afa2-0d546d7f0925",
+    "total_cost_usd": 0.051933900000000005,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 3970,
+      "cache_read_input_tokens": 13618,
+      "output_tokens": 2197,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 3970,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 2197,
+        "cacheReadInputTokens": 13618,
+        "cacheCreationInputTokens": 3970,
+        "webSearchRequests": 0,
+        "costUSD": 0.051933900000000005,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "ead2b971-9636-4af9-9e11-b51b9f411e58"
+  }
+]

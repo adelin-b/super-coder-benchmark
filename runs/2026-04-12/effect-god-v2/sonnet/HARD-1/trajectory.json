@@ -1,0 +1,405 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/Users/adelinb/Documents/Projects/super-coder-benchmark",
+    "session_id": "f4c0f2a2-706f-427c-8862-9a2586f739e9",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "SendMessage",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TeamCreate",
+      "TeamDelete",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Apollo_io__apollo_accounts_create",
+      "mcp__claude_ai_Apollo_io__apollo_accounts_update",
+      "mcp__claude_ai_Apollo_io__apollo_contacts_create",
+      "mcp__claude_ai_Apollo_io__apollo_contacts_search",
+      "mcp__claude_ai_Apollo_io__apollo_contacts_update",
+      "mcp__claude_ai_Apollo_io__apollo_email_accounts_index",
+      "mcp__claude_ai_Apollo_io__apollo_emailer_campaigns_add_contact_ids",
+      "mcp__claude_ai_Apollo_io__apollo_emailer_campaigns_remove_or_stop_contact_ids",
+      "mcp__claude_ai_Apollo_io__apollo_emailer_campaigns_search",
+      "mcp__claude_ai_Apollo_io__apollo_mixed_companies_search",
+      "mcp__claude_ai_Apollo_io__apollo_mixed_people_api_search",
+      "mcp__claude_ai_Apollo_io__apollo_organizations_bulk_enrich",
+      "mcp__claude_ai_Apollo_io__apollo_organizations_enrich",
+      "mcp__claude_ai_Apollo_io__apollo_organizations_job_postings",
+      "mcp__claude_ai_Apollo_io__apollo_people_bulk_match",
+      "mcp__claude_ai_Apollo_io__apollo_people_match",
+      "mcp__claude_ai_Apollo_io__apollo_users_api_profile",
+      "mcp__claude_ai_Canva__cancel-editing-transaction",
+      "mcp__claude_ai_Canva__comment-on-design",
+      "mcp__claude_ai_Canva__commit-editing-transaction",
+      "mcp__claude_ai_Canva__create-design-from-candidate",
+      "mcp__claude_ai_Canva__create-folder",
+      "mcp__claude_ai_Canva__export-design",
+      "mcp__claude_ai_Canva__generate-design",
+      "mcp__claude_ai_Canva__generate-design-structured",
+      "mcp__claude_ai_Canva__get-assets",
+      "mcp__claude_ai_Canva__get-design",
+      "mcp__claude_ai_Canva__get-design-content",
+      "mcp__claude_ai_Canva__get-design-pages",
+      "mcp__claude_ai_Canva__get-design-thumbnail",
+      "mcp__claude_ai_Canva__get-export-formats",
+      "mcp__claude_ai_Canva__get-presenter-notes",
+      "mcp__claude_ai_Canva__import-design-from-url",
+      "mcp__claude_ai_Canva__list-brand-kits",
+      "mcp__claude_ai_Canva__list-comments",
+      "mcp__claude_ai_Canva__list-folder-items",
+      "mcp__claude_ai_Canva__list-replies",
+      "mcp__claude_ai_Canva__merge-designs",
+      "mcp__claude_ai_Canva__move-item-to-folder",
+      "mcp__claude_ai_Canva__perform-editing-operations",
+      "mcp__claude_ai_Canva__reply-to-comment",
+      "mcp__claude_ai_Canva__request-outline-review",
+      "mcp__claude_ai_Canva__resize-design",
+      "mcp__claude_ai_Canva__resolve-shortlink",
+      "mcp__claude_ai_Canva__search-designs",
+      "mcp__claude_ai_Canva__search-folders",
+      "mcp__claude_ai_Canva__start-editing-transaction",
+      "mcp__claude_ai_Canva__upload-asset-from-url",
+      "mcp__claude_ai_Context7__query-docs",
+      "mcp__claude_ai_Context7__resolve-library-id",
+      "mcp__claude_ai_DirectBooker__hotel-details",
+      "mcp__claude_ai_DirectBooker__hotel-search",
+      "mcp__claude_ai_Excalidraw__create_view",
+      "mcp__claude_ai_Excalidraw__export_to_excalidraw",
+      "mcp__claude_ai_Excalidraw__read_checkpoint",
+      "mcp__claude_ai_Excalidraw__read_me",
+      "mcp__claude_ai_Excalidraw__save_checkpoint",
+      "mcp__claude_ai_Gmail__gmail_create_draft",
+      "mcp__claude_ai_Gmail__gmail_get_profile",
+      "mcp__claude_ai_Gmail__gmail_list_drafts",
+      "mcp__claude_ai_Gmail__gmail_list_labels",
+      "mcp__claude_ai_Gmail__gmail_read_message",
+      "mcp__claude_ai_Gmail__gmail_read_thread",
+      "mcp__claude_ai_Gmail__gmail_search_messages",
+      "mcp__claude_ai_Google_Calendar__gcal_create_event",
+      "mcp__claude_ai_Google_Calendar__gcal_delete_event",
+      "mcp__claude_ai_Google_Calendar__gcal_find_meeting_times",
+      "mcp__claude_ai_Google_Calendar__gcal_find_my_free_time",
+      "mcp__claude_ai_Google_Calendar__gcal_get_event",
+      "mcp__claude_ai_Google_Calendar__gcal_list_calendars",
+      "mcp__claude_ai_Google_Calendar__gcal_list_events",
+      "mcp__claude_ai_Google_Calendar__gcal_respond_to_event",
+      "mcp__claude_ai_Google_Calendar__gcal_update_event",
+      "mcp__claude_ai_Hugging_Face__authenticate",
+      "mcp__claude_ai_Lumin__cancel_signature_request_on_lumin_by_id",
+      "mcp__claude_ai_Lumin__get_lumin_user_information",
+      "mcp__claude_ai_Lumin__get_signature_request_on_lumin_by_id",
+      "mcp__claude_ai_Lumin__get_workspace_list_of_user_on_lumin",
+      "mcp__claude_ai_Lumin__lumin_markdown2pdf",
+      "mcp__claude_ai_Lumin__send_signature_request_on_lumin",
+      "mcp__claude_ai_Lumin__upload_file_to_lumin",
+      "mcp__claude_ai_Mermaid_Chart__validate_and_render_mermaid_diagram",
+      "mcp__claude_ai_n8n__authenticate",
+      "mcp__claude_ai_Notion__notion-create-comment",
+      "mcp__claude_ai_Notion__notion-create-database",
+      "mcp__claude_ai_Notion__notion-create-pages",
+      "mcp__claude_ai_Notion__notion-create-view",
+      "mcp__claude_ai_Notion__notion-duplicate-page",
+      "mcp__claude_ai_Notion__notion-fetch",
+      "mcp__claude_ai_Notion__notion-get-comments",
+      "mcp__claude_ai_Notion__notion-get-teams",
+      "mcp__claude_ai_Notion__notion-get-users",
+      "mcp__claude_ai_Notion__notion-move-pages",
+      "mcp__claude_ai_Notion__notion-query-database-view",
+      "mcp__claude_ai_Notion__notion-query-meeting-notes",
+      "mcp__claude_ai_Notion__notion-search",
+      "mcp__claude_ai_Notion__notion-update-data-source",
+      "mcp__claude_ai_Notion__notion-update-page",
+      "mcp__claude_ai_Notion__notion-update-view",
+      "mcp__claude_ai_PostHog__authenticate",
+      "mcp__claude_ai_Sentry__authenticate",
+      "mcp__claude_ai_Slack__slack_create_canvas",
+      "mcp__claude_ai_Slack__slack_read_canvas",
+      "mcp__claude_ai_Slack__slack_read_channel",
+      "mcp__claude_ai_Slack__slack_read_thread",
+      "mcp__claude_ai_Slack__slack_read_user_profile",
+      "mcp__claude_ai_Slack__slack_schedule_message",
+      "mcp__claude_ai_Slack__slack_search_channels",
+      "mcp__claude_ai_Slack__slack_search_public",
+      "mcp__claude_ai_Slack__slack_search_public_and_private",
+      "mcp__claude_ai_Slack__slack_search_users",
+      "mcp__claude_ai_Slack__slack_send_message",
+      "mcp__claude_ai_Slack__slack_send_message_draft",
+      "mcp__claude_ai_Slack__slack_update_canvas",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Excalidraw",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Slack",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Mermaid Chart",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Sentry",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai PayPal",
+        "status": "failed"
+      },
+      {
+        "name": "claude.ai DirectBooker",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Lumin",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai PostHog",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai n8n",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Apollo.io",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Context7",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "connected"
+      }
+    ],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Google_Calendar__schedule_meeting",
+      "mcp__claude_ai_Google_Calendar__quick_meeting_today",
+      "mcp__claude_ai_Google_Calendar__recurring_1on1",
+      "mcp__claude_ai_Google_Calendar__team_meeting_scheduler",
+      "mcp__claude_ai_Google_Calendar__analyze_availability"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "a74d84ed-c533-48a5-b458-83208c43444b",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_019XcbHPCtXQb6Ly2vqR8FUq",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "Let me analyze the spec carefully and implement the sliding-window rate limiter.\n\nKey points:\n1. Token bucket: starts at burstCapacity, refills at refillPerSec, capped at burstCapacity\n2. Sliding window log: tracks timestamps of allowed requests within [nowMs - windowMs, nowMs]\n3. Both must pass for a request to be allowed\n4. retryAfterMs: max of both wait times if denied by both\n5. Clock skew: clamp to last seen time\n6. Validation: throw RateLimitError on invalid policy\n\nLet me implement this step by step.\n\n\nFor the token bucket, I'll track current tokens and the last refill time, then on each check calculate how many tokens to add based on elapsed time and the refill rate, capping at the burst capacity. For the sliding window, I need to maintain an array of request timestamps and filter out any that fall outside the window—keeping only those strictly greater than nowMs - windowMs.\n\nThe actual rate limit check requires both conditions: the bucket must have at least one token available AND the window count must be below the maximum. If allowed, I consume a token and record the timestamp. If denied, I need to calculate when the request can be retried.\n\nFor the retry calculation, if the bucket denied the request, I compute how long until a token regenerates. If the window denied it, I need to find when the oldest entry expires—an entry at timestamp ts leaves the window when nowMs reaches ts + windowMs, so the retry time is that expiration point minus the current time. I'm working through the exact timing for when an entry expires from the sliding window. An entry at `oldestTs` leaves the window once `nowMs` reaches `oldestTs + windowMs`, so to free up a slot when the window is full, I need to wait until that oldest entry expires—meaning `retryAfterMs = oldestTs + windowMs - nowMs`.\n\nI should also account for clock skew by using `lastSeenMs` if the current time goes backwards. Now I'm setting up the state structure to track tokens in a token bucket, the last refill time, and a log of request timestamps for the sliding window approach.\n\nDefining the TypeScript interfaces... Still writing validation logic...\n\nNow I'm thinking through the state structure I need to track for each rate-limited key—tokens available, the last timestamp we saw, and a log of request timestamps. For the core check function, I need to retrieve or initialize state for a given key, account for time elapsed since the last request to refill tokens back up to the burst capacity limit, and then determine whether the current request should be allowed based on the token count.\n\nThen I need to prune old entries from the timestamp log that fall outside the sliding window, check if we have tokens available and if we're still within the request count limit for the window, and if both conditions pass, consume a token and record the timestamp. For the retry-after calculation, I'm computing how long to wait based on whichever constraint is tighter—either the token refill rate or the sliding window reset time.\n\nActually, I need to reconsider the token update logic. When we refill, we always update the state to reflect the current token count after accounting for elapsed time, whether the request is allowed or not. If allowed, we subtract 1 from that refilled amount; if denied, we keep the refilled value as-is so the next calculation has the correct starting point. For the retry-after when tokens are the bottleneck, I'm calculating how much time needs to pass before we'd have at least 1 token available again.\n\nWhen the window is the constraint instead, I'm looking at the oldest entry in the log and figuring out when that window expires. I should verify that denial always produces a positive retry-after: if the bucket denied us, we know we're short on tokens so the wait time is positive; if the window denied us, the oldest entry must exist and be recent enough that we're still within the window, so the wait until it expires is also positive.\n\nNow I'm setting up the implementation with TypeScript, defining the policy interface, result structure, and custom error classes for validation failures.\n\nDefining the core types... Writing the rate limiter logic... Implementing rate limiting logic... Now I'm calculating the remaining tokens and window slots after the request, then returning the full result object with the allowed status, remaining capacity, and retry timing. I'm also adding helper functions to reset state for a key and inspect the current bucket and window metrics.\n\nFor the inspect function, I'm handling the case where there's no existing state by returning default values, then computing the effective current time accounting for clock skew, refilling tokens based on elapsed time, and filtering the request window to only include recent entries.\n\nNow I'm realizing inspect shouldn't mutate state while check does, so I need to verify that inspect stays read-only. After a reset clears the store, inspect should correctly return the default bucket state since the key won't exist anymore.\n\nLet me trace through some edge cases: when check gets called multiple times with the same timestamp, each call is still a separate request that consumes tokens and logs the entry, even though the refill calculation stays the same. For clock skew where the timestamp moves backwards, I'm clamping to the last seen time so it never goes in reverse. And after reset, the subsequent inspect call will find no state and return defaults as expected.\n\nNow I'm checking the invariants to make sure the implementation is sound: tokens stay within [0, burstCapacity] since we start at capacity, refill caps at capacity, and only subtract when we've verified there's at least 1 token available. The window count stays within [0, windowMax] because we only add to the log when there's room left, and pruning old entries keeps it bounded. If a request is allowed, retryAfterMs is always 0, and I need to verify the remaining invariants hold.\n\nIf a request is denied, retryAfterMs should be positive—either from the token bucket (when we don't have enough tokens, the wait time is positive) or from the window (when the oldest entry is still within the window, the wait until it expires is positive). After a reset, the inspect method correctly returns defaults since the key is deleted. I'm also thinking through the edge case where getOrInit is called directly without a prior check call, but actually only check invokes getOrInit, so inspect will either find nothing or find a key that was created by check.\n\nNow I'm verifying the initialization logic: getOrInit sets lastMs to -Infinity, and on the first check call, effectiveNow is set to nowMs since lastMs is -Infinity. The inspect method handles this edge case by using nowMs when lastMs is -Infinity, so even if inspect is called on a key that never had check called, it's covered.\n\nFor the windowRemaining calculation, after a successful request I push to the log so the remaining count is straightforward. For denied requests, the log length stays the same but could result in a negative value if the window is full, so I'll use Math.max(0, ...) to ensure it never goes below zero.",
+          "signature": "EtCSAQpbCAwYAipAFNYE/YcPyTYkHgmmutG29QpnhtfvgyPM7C6HNzV3+yMuyPKtVJlKTY/vlY+w2N87ciyJh1cYQRfyKXh6cFqOTzIRY2xhdWRlLXNvbm5ldC00LTY4ABIMfsTSAr/P5VAullg4GgyUx5ZDIrshOTOCyMgiMLyeXR9qwEw6T3R1kACi9c73nCHE5gpNbI9zzv32jbwiSRVZqJZqJD4lsEG6gS+o+iqhkQGd9IQ411j6+rsiWF5lYissfktBpB72OHSKt7Bdrd3N2GtpdOe6RGs8S+4jwTxQ5+ecTJV3WD9bisBXGBR+vb0D27Q+tE2sdl99Bw8bh27IXPkDRqiG4AF5z05+LXxWxkocEJR6+/i0YR44HE7zqFYW7B6t73vvNWrpkUoUJqvhQ70H2JZSJXE4BTIkpfwVYue+c7JRq2vIo6H865CkpXcI/MdtdL4zwR28+zndGJUnfvvDNAMtc/BVOmSQVoAiFSMNriEj2Ihyn9t8C6GUEHK1iSgcIuVQyMoQwsT755z1xveCAnH48eH/3GHg3hRWom4rSlTlDPIrLCF5vQ6FSfpg5aPerbWmh1KYAkvDC7rSsKPQ7dBcz+KeJCetd+9U47w0mtWjA7VpkFiqTU1RSI34PTYpnI9fsx8wuUMxF1uxSId82a/3V3BDH7kl2F05XTeQ7iXbbOZXocLSPgPVmtds0ArCqa/76lTExkv+wa6OLMfkTQ9XHliD1PndvVBmI08HUeK09mgyIEEQKaU+J9dbHiMssng1OZxKS72WyeCyoXjP1T66HJMXVqceovgpj8/TOoj6+bmx6rstBg6Djpz8fu56u4k9KQdh/WAtDY/dPfcSO7KQTehiZclOW3+2UUHxN86/yJEza3ovgOPdUC7NWtjQM2NUNNGznarfleVEQhOWDZ/uH8KLVbOlQP/JtxeXdfAE/OYKvoF3x90Nx3VcJGATtPIufsQ+K5vP0iE0R5V4SUNEYhg69l0UBEPQX+ArHURSaquqi0AW9VhlBXeJEl2SFnesrn8TYJT02TgB/7jW+swqUwFvTPekbH1E6AwEUHaMU/sG0YoS2eOlr5w0GGkiTB1qTQgpOw/qei9KaK+Q2/TWfRjRQUa3GCRqyP2lpfw+OOVkTeVPPcBoJUbxQngRUJmfkh+GFh0uhYQa1m/xMirxq9HCEx9rPaUCLDGIV2pOm5szEG2NeiSuEF8vHB82lK9Qma2cHrRmm5wUhx86vowwmufpIVf3F+BM63tz7Dm+P8Ji4vJDCNR2I2FNhn4VkqKoqa6tL0fmw0oSxX8PzhFoO239IvDSEYAgj7IoeKow2eT+wlCNkcdNS3Wx9Km/zDm+bm3IpMgb0luhgm7KELSH7uHvvwmlchsOPIka/+htC9HrcMJWY1cswFHsg3vOHdVup5OEDY4F2yae13dDUzlrIwjZRiH3RndIR8gpovshwd43X8mUnlIAA6yJuioB0T6TmlwncCoZkvgluyWaQA5ujYscLru3Mq1owLmF+qViZZ2fbqvWdeq3PEFoQuAD4lZHUAjAF4jv9xh/as1oCA6B/Y2sxdyMOefww6BklDK8l4dJai7CJld8imZLHMCUVTJMx0sacSsNPMpi1D82UvqkBEnQJ58n3YLY4MNqu00SmN8If9ExOD6YqMu7wj+DfVfkxRZo9mBHE2v2Emcn9j0yiXo1dBdbVzGTqG8GOL7XOH8sV8W36B1fUxtyodloX7s2UOtZeluSETs8St1TpJF/LRRRIyy9xBa4E3vVeY5cmDxs7fctHXNNH6wK9W8LXy2uhsGt1vEQtQdQ5XKEbyCJCbJXDsRo+ILQe7rGhLuu5wYwmYXsSIi5vG1G1zSPlzq6kLr3yL/Qt+A9VgcfgWEd5rsPMoVaAGzUcDPCJSTKgnUEZ0NuegmBPNeYb1n09P4KY0rJRNm8n7Kgvb9lci+OhsF8ulnr10SDUjImXkFrSmN2jFwWAMKoTM3c3CSEvW9KWPIuKSsX/S9JgWIwGOA9l6hDJX2m/pRhdSN3CiLZCe/SobESfh/plkz0DO8ibTO08LihuDHZuvKXZaaOgKbvaw6ozknenpMzOqaiUlALKa5vuxvCxF7Tv7VWSK73TZExHo+8TYz3w4PYKv7O/hl6A6XrG6D/jABmIDKl+J8Bq7rrY231qzMDYRl/aLH1k5W7KzlDST020fNCzdHuNI00IAq3k9LTgta0/XJlkNkth5kt+c7Zd2qqFKF3ntljkgYx6/EtvYC1eqhWO6oyx590ln64c4S+nVo0WA/Y3L8ee0tJ18XSik+8GKyy0QTc5yUikf5f69DzfdwgYTbpqkm5bx2N4f+1mpc24guG4u6Uv7rfqq70FjB9NLS3ArtPM7wUUCqxKG4cLz4gd38ZHoM0CGLaVQeh1wL5h6dIU1vBCMTpFo2A+MUJebaZ4+vPYTCf8OOLou+G8eHYgtuw8dgZ0pjVyNXM7lcBVa38FYg689fPv+qL3CoLHd4iHEWUnVxY9Vr9ibW/YXpHEwYCdUC8uB4b9sK1QHvb1R/kgnchT2R0tbalTdBUg0lVAuPyQgmw/uVSAJZ+4F1sXHTigtMH3zrLSukXSGN0KnxzXQJamaLM7qwjaHmE9bbKHrRwie3X/jV/tp6y4pY9PrvvTX3YzvXK4V6o0t4lVHN37Tlgm3x4TY7SBgGpmZWg5T+zxjH1Wv8CtEVGV1HpLaCtGQWt7XeKbOWkNQOZNdRwgPbORdd8rPbcSTMjHPrLMQ1q/SIBIe4C+7QDzGa8/OBdLontGn9mKg/iyKK0D1elLFHkeiRSWTadQDrGYL/5pgjZ4DzjCeamxFD4hArMT7pBh263SkUii3aWRFv2WvDogiQE770v3QoPAPXp8wvAzQM1qlh5JiKdL6b3N5PUJEMFmn2fsAq/lFHOp72fVG4Sha8k13S9TeYrfVE4j/cCXde46h7Pmky1niwSS5j0EdedZu1HRB9b35Dw89oB2EGfsBzF62IXwT2UcSJyyIGrcy3GmIu/IS0DnQVUftno6iPAp2Y6qEzmHEjQgSmpXc9bQnqgYI1nu+JMob7NE3NkZ4QQhszd9U0BTD+B1mxVCgnes4aj5uOzo+fKReZPa5HIReBZ3h7v7EPHsjHOaKMQ+GjdM8LfoRYlov7l31lMaPUs/QhQWtpuef0RbOpj4bdKPvyfvxh5Cp4oqPcC1+1FoG025tY69OlW7+/MKJI1nZeD+lQrSjuK288HobTtabhAgXE4fQyqK4Bgwchjj+7IeejNONFQXRTrzC9U7Lmm8j7QJnLK7eiSIXop/anCQP35/96GRVkCFg2/e9fpa+TxXVidtu5gCVmOcvXxwl1f2zP/l/jG7UTM4E2hH1Gg1XxxxmkeH5Ub7raMRCjRaUDrWmj2h6Vmf6D9m87UpJ79YcZJOHoIzhk7nzhqC6u32NsIOh0l6kGqV/1TWr05O0hnZlBXirYDDl73hHaceRS0hS5o6w4cEGcHn9Wpnm7/5jPU8jXzJOYmzaAfosX3L+12wkOJ4ddyOK9qo2jMeetq/cWRBCKUZVHSOAtgjbnIqKNowkbyFvAws6Jcs1aL5It8YncgQyagqAR4kd6D1YUvfMDmfwQihZ4l0pIn/GsUDrxZiSaMR1V8fFhtqeabOBCmBrlVjygBwTXNSY0lezBCcH7RAJH8Yy1MehSQq2Z9rTv7U7YXWQILLLQbVOiewlUIBjo1ETXyG5enuLtF4TL6nd+9wVWV1ZqMP9rTKmSWQbWIgS4u8DYOXj/Mc7H60/BjKx1OSzCg3owRVFIkbIVRs3DVi6NLnBFpeP07d+bDgcnzCC5A01/96vDjpCZVhlCCXGTnUZ3+Stx1+dZZSVGxtThygoTh9VbwvyD4/9G7nfUacdS4MIvi52792B55MoIdN7Xlfn8dsiCbMSg3SLG95wrs9EWRGee1H7UXm867qTGZJpZHaW6NWbM7HLXImM10OlCaQOyl0BuxCJMucnvvoUTWhdApeCPQ0rumPB7/rXAIazo0uVRbV8Oy01fdlenoXiWyXkXAxj6+vld4m361/kbr3EG1TLMaNYAmrfp8WplmXJTuH+OjUX95GCSFFBlZ9TTN8j+tx7KFdopyRhVSnJ45PGetRk+CKvU3XaQKt5ltDvWhukYJsmLgYhK9L/PHiPXZiI5vTn1PWSkjoxzYzQDO6MKANY7Zhv7wtq0uRPw4DRpasGk28teXiuCcAKbyNZVL1QplPYyK+vhayh3qfzQecwx/jYcvfzElEz6mnNG36FwHVUAGIkE0bmUvKE0NfiADldHBB/YXwiKvZBLlwuFDnaMFdlDNF+bxx3ycZvJcWCdeS1H8xuCfxnFrOEZiZUtEs1o1DnMGtvA8hYGiU0VDcXbd0L0RrVG7z43QHQAZk5D5OhdchsrbGNsZBQw+XjnS4wayvA5IWubkIso+23/wt0yEpFmQNeHCdx+A7LcEwDtYhIvNzTXFgzpitV/MJvY5VzNSlaUYN71Yc6q38a46KwE+SDvT5erzwgTyEX8atPwhmUUkja3HuU4SJu9xjO5Jt1XSTXELWzQytqlji1LzwltXwCVJ9s9ZP4YJthTxxG/WFOWZkWD8i5Wxfoz9UhaphIDtJRwaDkCl0OX4WmM0Oi/NYezfxRTJdG7qsUyZLwbPTRMNv/3HeiV5eTrMg0rtO56UJpI0lNh4AOAtDkImZGLZj0jGSP/sgYAuUl/Bx4qxlag6Kgg63r2JF0CMjIArzuPdl3NeZI35ypkxoQrKnEUkq+JIqTgExsUhXAkkc5X5Oh5Jqj0cKYnTQUspLhrSL2GmvY0naY2hAqhQW7DlB+WHfEgi+FnW6OgPBJI2qVHUPPRktq0ZkKcNNqAEs2NmOX3UEo1pQ11ermb0SLSF+FYiaDMVV45SBDhjWWUmy5UFMb651Zk53Js+lXu0nfCI2/LSmxnuJ+kGAhnGrpgYz3846CESmLGH2+sC4euV+tnIlQSSn1Hjtg7ljjijcYPBkBdVIXM8eWguw8lJdBHmDS2fYfEimL93G0c4JTtPDcsDihS8X5PBBJg5dsbpUYSNp3EuJDtfJdjB5FyoO59kBbfF7jrvzKSNXpclUtN0Eo2lwZUWCYt4S8Q+u52W/tEXIQWF2KvplmyAb+55GsaJ5MbMnkxtHWqphQDtljkVMcN1OQZE2OacTvcs27ByPIdMD1ElClQUmmrCHyvP0LZ5AUDw9cLwGC/BnIz7cR+U6/hD6b+O6TSFr5qVFgZ9V5OwDTO6RahhYDArGaQwXjddgT2AfLQVH+/K7i8UdyqNB6663rd7tLWIScjKB//ZytPNu7pQJXbBJ4IlI8Uh8CQA/EJl6wdRl4+vwnEJkPdX8hS2U1mwmjoWpPvhef365Ellk5aDupOW2rWRrH2jdz7esS170/ziRK/jztzwBggnmPrzxCPiDy36Y7lVmXFedCU50RbMN1KidoXp2zC+mWl1ncu1pCDT6WYIWAO6slRxBSpngs0PpkbphCqIbgYSxTR2Cqcef+9L89A1irm+xqZSoQbxDxSoUpxCMw6pwal8CEJiNMXz2Dn4rSxJPpdAgY4112oBEcB4GpcjVvq0QmcDU/6TP4PRbG/3hoOEr+cSXlQma/61p7eOtjCYyw2cha4cCHKWN0O4afDQSZKyAE/RzpFIIWja+eqtxi6ggfGsifd1v4p8WcjTjH9WluQZ2tJo9TL9+GxfkDMhdl6wvAV9nSMUCY61s85L+ak9M6l56OXvJayTX86xiYgFdKcJsfsS73hT2LI/P/lJwOHS13JE3Srem/7ppTNVxD54iJXuTYzmRlHZNRa7cqWHyGAOYjg/tuOPrDM5DZaEOsjGhOX2f8rMA2O0pyoW+nD1TODt0vbXamvc7kIaOq/R0FoEeJ3ai0cCtyQULJpWrtc3OWvQ99QzvX5QnLXCdlO8cRnrrFyvkH5kSuRDPaPOpQd3oY5ltKizeqf8x8fd01Bkl5ZsVaB1r5U2kAO+uWmIa+6t9n6qPhQmRpbciGEv4in9iNQ0iGa0bJb2l+ksbRt1blWvWZOVfLEx+z3MBPwu/NgezJyqww1pVqXvQeKoO8tkvlq6m83EHuUIIWJXiDRok16SXmEeyH4/w45rNV5s1yQL7CtCS7ycY5xt+w/ZDm9A5wCIkmqzK6fW+dEYLaLSESZSGaUv8JbLgA0rzP9Vw76SvT9QbBDUZpzrehHID5FZTsa1Iu8TEfmDQ3oe3ZXqduYibJ3oAslJ8ZpRrKVFnTzSIDHtCOZPqVI/p58wWJegCP1wZPRqS9DRFtV2SzC0amGqrwRVEfpwoAnHqoBPvwEOVkpAVULpQTjye7sDzYwsMmMA+X6hYre00C2pjd32urT5lY5oSnyp351QDKY9bLd6XZ8V1yut0HhYZgrcoj0kuw2LXMfL/hIlzHa3yCaISodzFdbFTqDmGoiZeo22hZenIwMxUKcrhySwiozOaihhEqCYCCGADQmDc1L8tcdJyQ8h7gVIQNP1kA8Tpk9/cfURnM+NDgOBYciT+AAhYpiQnlTHbBS1ILzJJ/m+/CNopCGH0TvIyFUw4dd+oikA3xfiMcYgKWJ40tPGPrv05xN4hWnzsNnG88IW2WFA8t/D5xgCs/xKmtIc0nH+mrTtW+QP9P1bEHFg4mvUJi999X8QOyKVzIL/GzLfDjjUZR9peEQ0fEx6Obl+/85hw0PbCmBVG3ksdSaNPL+umMMPW1j1iZl26MStKAMWOFIcAV/tq56QaQnNjZVHioGMzyNopw+cIQRvlCgkANclMPHGPbXH7roZ+O4voI3n1Aob8iize95MjxxLkw1OhlM5/6GZLAty1CLbnMurQZIb+f4sI/O6zYIEYyqbWF/4piBkL6R20glOB1dfZxvHO1Ok3FQE7IsKScqM7KCDn9KI0ZKDLr2YpUenan93tkvoUuqx7hfpTXYKmkopPx1ehlCl2UPram96qOiU0RQPPMZJ4eyqYNOC3XNB6FMy3KrDbABLI5SqoLZ2xpcEmAHOtbOdm9eHoczb5dFjLSptSpJprefqNPbbGqMv1N1QvEZi0E2uITpmODtyeDhc6+dz8eXO/WhL1wxtRhfM6jLcQs5eYUCT+oh78AIaaXhbAdmtrOGaJCoIGzdB3bZSZ4ydR7N8UMzMBlJOEo0BkCxBR/i+zZJqkZwwLaIlAawGc5K+XN9wnUHn7miXOt278S2FAzOFbN5ADjX4o1l4PVaNPgQNjrl9nvsDgCDiKqg5m9zX5vEQmpMABhnhOOB8FQdD6ha37279fmxwtx8mLtuhAkq47KzIUnxikJiK8fFNii6VI/MDr5m7ccK4FuiM4cVX2E8pbGBxDduauBelcgAKIz1WZC4fo+s/zXFKhPCP+ZXDjaY5kMa+ZpJVbdWy8jv0RUuCs19NSwwtV0x0WqSIYaHYcu8GUbrcW7ItWAK6+5cIE/EO9W/G3YvujfsXwjrU5ql8zq6QmfdoDQOt9hVYukrSmCIe0/RAOLJBemL8JFssJvk6b1W0z8fVWF5ym+Ni2V06bi2F9dJYRWNpqBINPoV8SuPe39jAxJcCE0EfxC9CgrwuAkLzVSaMAB9Lbk8gw2KqqYNxXAOLehnnSMWGlRJ51cMm3nrJY6jnKTu5u+mPff1S9Bm0Czabx1ZTh2Yb3fCu5S7HBXih/FlPm89irkwYJFdnYVUDxOnwZ/TOqDDWyF4c4c3ZxSCw/pERWNJY+PbvTdjA26UWsQHMzIzSbK5Zfeft5X3Hy0ZGwwupywYrI7IO8KpRst3zRh+i2sI3dFAS6LQ1vKyYdrjmn0rs5VtjYYbJM4vOYtbhqkh57egTPrimC/UYlDL/3rRqAT2d3yHv0a5WGoJcyO4QqILf2ZhfC1gfFxQq8DuiubE7d5DmqwdHWsO4oRwFJfkz20RW8vhz87Bl4JoH8znBT4FfoCK3pAEeiYvIIggeXmR+h9gG23nDykhnkXc/sZJOiM2V3YsenFwVzzdQ3poDlzztx8qxym1fAoibg0pAZB8bA3NysuRWwiiHnXxr3YOeaWkQ6rXC2bf5w8FYn8rTufoYviq9uzCbcWNwvok7E5/QvQWH8tAigW30tQ06HgpreM0iAcZ6D1cGIXMTYvjrOvvTCok0HPNceSMGDqYaYwqbhYFX33PYEhLGSDVdJdEzxWwZJ2HQTcyK6GM/0gXyX1cv07hFyOVICpMeilIHhvQu4Mua+RiKfiXCF+wYwOI6cyFo4VvAnLnsln0VJYinUuIuxrluA7fSeWhkkx/JS5taqKVgqOeBP4Blt30ZGSpNZ/8EZ4qpK0zATCSFEHX6yAb4+P00RWvZ0t2lrsSA+Kf1i03xqk9UDEEqFDqVuMxXUNJMWnjOEoWjGJhLJcMqA/EXM3Wuuz3nPnzJJ5jRTs/A4mi2ObHMdG5o9WGXha1oM8k2qlpQCpV0MQrUkJ0ood5rbyz3f+JMjwTa2krfOA+ELEDgHiML1opLQM0cO5wzvLOKWkuMzWEIIdnrTYD0uK04O5Mb+lKMkNkkCtN8PS/3RJlcvMMMJzwSg6ZwfArF4xMWiUJmHSglyzddRkYgWYdXLobjqLoHIVHgM59bQFpPy3eUfCrl3OoRHgez8WlkwGz59S3q9QAQeQea8G31S2ebh25vJNz9xJZ/sDVlnyinHHaecRA1rkE3kiXd5+U18pps+2v77aEVysp0OlhtNwC134yoR3Envh/MMp5ayUK6yx4jGS8KEGcpfKPTN39ZGLPCH+S7VnAQPaldXh7TcegCUFLOv6nemlD+JC8SYjQ+uIN9OpAEOgbvguNAha3X2B4rnRHx0FZguqbN4L7d+nNauWNorCbeqbVEf6W8oDJ0BNah73JjLZP48sbe7fklZPvPmlGWVfvD9oUH1fce5J/YGoxsojU+ymloxlvH718IcZHRcFezseXthzOXn3KeT3WH/mdWQpijb7troB5Zfy7G0srugeuE8o/w4DMYxB3PXZx0SfcfrcvOLOzlmw6K4JbYqJ7/kZCbmKZvZcTMMDRqINpMJNmUcx1nQu1ROeIxT9yqfpx6cAhs7MjcpulvdLIiesinmXWBtToqHkipTE8XuoyXC7CHyohoS6Qv3Db1JAsPyK4kQnCizvF2x7kPkHXGhG0bzwl/Ji7AGCFk4CbkUvzyYDRRO7/GA4wJI1xh7Sy7vB4Is/uxzql3jMA4IbPgf60IvynMq3LktqiBsTsOyOzMrz33a3n/Febxt1xqGR+rJu39qlDZRyzwefCbnVkvbTb9PR6b15wREN/Ijnng5FAEJvInnb5/xvRNJAa0FzYtcvSqz1I3sRHYSbVPGwQKm49vit5CarEycPZDMSKGygBhMmWFna1SkFund98Ts9ZD4xVrBNtaUJgTJiK1SZlSLBHyC8bbr9w58JUdHV+bP4ROroJ7Nqx//4JYMA1z8TaB7bCgAlO0lCR6/uXG43RO/1qVgrcyCon+2IVgOEkYmV/GcMy1V9RugMIZbAyArunvupzIdL4mQiNBcoM3pIMJfxQG/6iSkM+RySJ06bsED8q/3PL8aUVIcIQJMy9UuJPsGo5hQu/YrYFygIAC/NzOT7vEOBd96Is4qRIXR/5SiftK9DmU1JD9SaxUEFtNL3FGCfKA54LrqblvNbdCSS7x4SAxYlFuRGhWnpsbE/Guwz+jCeeHEuNAk56Ke7Vm44lhSGQr3KIza2FpraqHuObgWeTNdC06igNI3bAMMILWKt5Ex5PUdvXgpBuz+VbvbSR8xItfsV73u20Wzcea8R3pfezF2rT+A8W5p0qxhqUQAXRGQPmR5uasbljzPtV0aybiYkvLnNn5uzZfUEfaoQrIU6aypPTOIkF8ReejlgG4zP0P1z6Vs+RV5v48L9T6GEjIzFjije+/GqhoBcf/fV3NQBHFst5eA3nEM7POeaajEBTaVY9oXMLX3l2Zi1q2FRZUFGHpZzwQC27qOSpXBYe6Vf6WNQHfNLX02ZWeasNM2Ch8y1e2l2fnVknZ848ZbG6GKO/uhWVCetaMrTzjen608tLdfHEubpjBTTSN4lw094ikji61qVjOukawgnf3HNXNYH2IHEoY/xATutTPQFe7wd5BzSvupbvNCTpjRZzvyDS6+Lfy4fzKWuTkQuXtnfD8FJlk7ZudOrbFQfdqC1SNbErKDcv39baaKOdOUZ9y413TBQVDMAOPt+WtISiUcAoQAXx/zTGp0r5QSH2fJCT07TzBnhC2YPxc9aoIx3QuRXm4YsbYIBAjQ2LSflbGsApOXWYZQ8aE4yjCAr/ni/WK14AU0qAdKccR8FwEKLVaQfugcP+yXOyLW9lDso1MghGjP3P9Ai7zbGtGm6XPt4DBRbzUuXeX/pwgWE62/cyj8SIeGl3mhfZP6pVhniHXg4iBImBRp3+qEtNQfT8inXZ+SdI+ZR8wyF/TP80TguyMvOuESvuEowxL92CFpbYp5enyPH4sMi3CXndfcwwYg3itgaqRyyVYEnD0g15LKBz8leTSlIGRcytYD+9I51LLMHJ6vSgNwxzOY/s+mZNL98AOH95LqMiMSWP68RG8q4FIYhlxp2Kl/rWBwVEl4nfQCwDPEqM27Cz8s7RWu2u1SSzfUHbGwwip8X3ITkU1V25BhZd+KkEuMfKQCvfalk9R7n4pQaHXN4vM7TzKFeV4sAezz5thlJMijg1lunKISX9UvmwQJg+V0Allfm3C+jygWrMenCJVsODvBVX6NQK/AqdZEbQaiAS+acelzOYEmQIo7TEGeIX5NMjZzRFwtjG++qVWOp2MzBcSXhmykfjSjQdnLuHpMsqLXL7AU+AgjP6wT0wLRPqQhhT+dJwjkGvLeiT+D1x9t3Yxs61W4AKzIMz3J3fYH+B8fwxFrCeFwjFWQ+EHbMsw4nhCXMPMKtS9ZQaWo3AKeXXVXNuYUirPAaFQS7L4yGPZi9a6Nd1IMAE8ep5dTjy3830ivmm2ro55Zyc0NvabSEqFOuXsGjKRGcXms5vuvUW8h6s3UzdpJ7BlL0jlr8GP81AJtzJpduEqiVSrAwqfySmLie28oCIKZJ4hRPL2NFSSx/3UEqKuqFSby/r0OKxoy3nLDq52cwnN8nD4uw+SZ5YLCsILkuunHQYiTWxF54lzQ65rumUkND7aEPwex27GPQn6/EKHzoBpVNIX2Gti88pirFuuFpNMQAeHh0wlV8bfuNaESIe1PqqFZVS50G5vIqdYqfczVtfeYE1/tiQ11w7W5yaLELHSrqa7//Zgo53rr7Ja2srPTNYavPcUFMVduxndQRDB8z3TMCecczQAAZtSc2HvfFzu18cSK/jnxiXwNHU0XGMhVuCzliMi4c9IVH/Qa1BV1XrRm/NRTmnmt28q9fuA3I5HekF9GWlUI3CNGxnH9cl8xxtMQ88KeGbUdp9S1OGnJ5N/x943LOr/GxThLzMDRm9D0CJGIjgOmQ9Sye/fMYR2zH/ek0ylIwAKuVf54VlkKJOFkjZkMW+UZY56eY/A9rqKPWMBLPI2CuWzxlb9jhUQmaN/2I9LE0CJTzBCRfA4X7ybLD/Lb/aOmMmSIHus61tdagmlsmx2LUjZBR8/P4oY0HF1aZM2YODObif/fipkRKZiR6sxINTjJq+kjMWhcJWcNA44ex635x5RKuV/eWlQO5HSGGPw16vyDfBrCPpoOZvbasQQUYlEAnYoDZ0Qk2S7GNR2nq9fasga32lOuX2ZVTsCh45ZTNO2lfIRKs7U/WHN/6S7NU7rgk9GcqFW8au1PZsUyoc3/an/WCJ8ua5rlWk2zQ+jJuLAyNRlYGIK0xiaCaUUZAhWsi8C1Z1cqPHHFjBDfLglEowNIBX46YT1YWsNHxGvjxbbSqQ4rDr1B1oTV817X0mPJePl7uqnIB8PLQp1B4FcBVLgvYtUFVdsmNshe1pSdTo3KasKjOjx+lbcKqMvIkLWPPoCizCxrd7GKvwKpTqGDE4aYWJnTs77XDtm6TXm7tijqakdAiiw/wah1oMJPrnvaTDlCjC9oaS5wtLd3IPFc0Xr1dYySZ/mXEQjoKPYrT4NUdreUAC0SwCZgfdWZ9yBaps5p7d/dhewPVsdHlXe990gVCyJE9yW+5/iZ4S86wI9YCvn7Pxm0fkWIrO2PKe9MxaNW1B50QbahDGmVD1ekel4kfh0GrE3Js1aF/SugjDsuuULmymXd2ynMJ4XDYqnXBYmXOOL293X7YkPhAe8ZD2AW0P5QIlHqra6XisN5DxRH2JMaBo7eZnex/38hMnz/xCm73oj9tXJoDZKjkAeFaezsI27f0KATTEcdpougFQiKIH/BcMaVbeAQBDe/Coft7eBPyH+3dyd6TLI21+VNMhimxfMPm5VMTKFDwQTeykND5C0OEGt6v8bcJxPzssu6o4xlJ7ltxpMTx1yKhqQxudshNJeZ89A8wdRcK2erPWaDipQHU3ztPFCyDXDe2zEyi+zIwjHDTTzfLyDCxnXH1yZ2eDI5gBr/70hJbPGBN/IX96npBz3BuGNWgdhs3wulxvu2rmpF+0rV8Ty7Oq8Cl3stoqHJR7FJAtS86Hvcnq6OncqGx8c2szqYFuPYdcFF+Ts/M+l/goKzoP7DG07laV85lBVk0w3aWzs09gxSniINj8bQcd6nbSBTpXeJ4OzaLatEhzBS2fb6G26torDUT+noiHPev6jJYreOel3KZS8Er/n7uFJIhFpdsN9njoC52hhlSgNlpC74zbVb09hnNd9Tqn38eck7nZ46RKotJoK204wUF7DudgkM1HQzWgCI2wOe00k5/B/fsGsnOwqz5jtuDFf8FMZJwwDnOcfyVzQFdKkr1L/azwWmR0vDabwkpe7d9fmSbvi4JI32dQqLzDGCwUrzgmH2bAB8t2EgoOkDy19OPtNDy2gIt0LHdMoQyezoB52SBUSgVEU5MhZRTy/VjLb1kOepsdDway9yK6EYHU0Zcjb0874nCwnyOcuihjytsi/GERip7H1ov5rKf3OljvD3XSF519GKmMnZ8Ht7MGhTHNiAAqpKi2+8pyjLvXqe/T8AR4KqvG7psXxzFhlxkvitI++P452YOtkkJpY8+c0WppiRxswhRsi9yv4FivRf71xL18M2H/BRqp1RVhJ6WGDlTblYEQYkH5XmUAjJ2gGpiw3ceHA7//D4kJ7OPtvxV4UjYGKOnrFZfDiYmc5pE/Wr4PRttPOxOC3+6IymTApL7r5/qLOsDGsqAZvF4G3tutzPCKQvd+2Dh47uCtD1I070b3s67FlIjDJeQkkzn20M9T8dIJropf9so3xRc3LkNxFq7b51MRvC6Zd9mUwQG7geGOl7wGjO4fLs6Yx0w4a/lBrUfyo/4DCaiNimOkxSC7O1ccTKC1NufE+d7Rybu7U548vk4L/DeYc8JVLgSPpvsGBRf60Y9ErLL/CWvCQ/0BL9uDr0rYYwHshGv4S8v1OvORU5i3KtZ380kzdgtMn0A3M3A6mKTfE26CDN5jZSFnGH1T08YgNyrqND/L35dIXAJk5r3O8qR+G4anPrRLyd1TPAnMtmPTtc6l9uKSexdBfb4IT3hzrFlx5AHYq/aiKOU9G3z8dxehQmuksiXUJxLOQRYsp48WZAdnvlqmyvJ6bvjZEVz8ZVf+3mLKvyGQmKfHtUREwtfvzzQRjgWAODBjwMRv0xuShI0A0/gxMJOATuzMG+UTBI0BqwuWozbuTtzUf4EZCQ2k4dWClvPWi5o6Fb95kEfzmo3ZgKdP+9kNfl6LpYjznVKg87P2DUNbPkVMBnaXhJsGnIjJOX8q3tobDmvzdC0xTKRWGH7klHJqTLuDpAFBhneZYX56ltB8fVyN4W97Q+lyT3OBslnNb6wi03R9y/Vv2Rfe5qtLBaVuaAFdf+P71OTzJ3DlGScw5eBzMUIDbb4srWt/flfg0A0/FRPxyr5Xj9so7HXMAWCSIJvc8lN9tOM2yIRRo8Ba4fEDa726hz5U6zC6zBBrN6VthEDtCLgWQY5cs5Lu3CKa/CXRQffUoZzuKCzcs/fvtEalUisPsACabX+dAC+nWTq7xDebBds38mf//jtzrHzDtpWp12SWFn72A1JJTQNaUau3MG9sGfaxjrVuoKhngnjOY3vxvAcNLZiWTgdfjEQy8FOgrVHsZPZdkMRkqqnx8XLcJiJUjFlMjhigLISD+M6XW32kEX8n5hHtHjU6bqLjdcrHJG2Dyy71x+idK/qVICFexLv13MiMuUReN3HDcyNar8NsOFNtogcgMKbvawDySGKk7mSAgXQt8F+oErz0RcZXIlq9h6ojGWcM8v0w2zLNJJ4bUBbjGqjd9rgmmLdUFE3QsB5CundKNP789ERw1y3bX50MegHZ87N9DfOCbkfBwCHhgDGehx6RKxxcNVsmhwLVrqbT5JFv/P0ikiUEirih+cBhzJT5FL0jhSLybCOwfvZ6uTDlPL+FFzmmudr3AWwfVx1D4y/vNMO/tLRER9riYykYX8NFzcCJpPhx/l9Mvm+fCMHOCCyXBZPDWU+UXfZyOiuAbgY3mhss3tS9NF/HKwyj7/hYZgV2gFt6A+8eQtx+QMwWMIhZfgiBatZ+ptzO1ZCZjr4al0qv4cuj+XmWU+NWlldW7py/lB8NplQ71uPWELbYahmX5W2F4ecZf7GxYuIhADZNnbIihs+6hmfeM8YSmIzC8cKxKDiL6bAvgaJax6NLyNgH4ubbgnlnaf6PzdptEoO/HEkVK27GLaX4M5DGZxvs7yzkHUfPyBEHTZGbpSqbZICqlasC/WhYuFRT3gIyB4OKt+AX//a8td4u8T9d0fPXEFr6Ag66ni3P72w2QLEzeppyxyb4DRhu3yM9jybzGAlDxet/xckp11LENc5YG8OO7vFCDBABZh+BnJXWCBh5onOc0ct9CCPRinqAbCys0KD8ithLPGLpT4zd34hvU1vATjzI0hkmbLpJ6n49khAwbxXaYKoVdDKdL1A6iGKN/XCT/RVpGvKz3VyltPUe154tbd9Izo/VPMfuRqPbRNIBByGyzrkqyF7L06UTBzbpJxIfPjVjF8odq4eKkANNURCgl2PEqysNvBSXSRDzwZW+3cuRAHgCvj9I6PmXiTG2BWASlKUirG+sSgK+GUF5fd9/f2y2EGdOkX2AwTFuuGsHo4+ZIxVreA9QSodybVD2rXgrCXBv5C4tl6dicOriR2n2AHPzE8m7E7y7bLPYF3g46qreOFAkXJ3YX5+sX8Zt2HiPHY5fC3OqGr0jrKSiwoetkerChhTyvwtjzEWBE4OrWmM0/las5Z62OuKobNN2XW6D0jIEqckh9IRlChbqjrEhogJB5kFCIaz3YLWaNoztLwqPm5VPh0pV+qGkJdLVa9uXaw4vsDIcZs/XTy42C+dS0obXqPjyOg4PxYpLPs0lpa0w0FuRbA9zwybQyOatG2itQIA8qaUQ/wpvV0MptAAxyj/MIzE4LmWcbYuEy5F6XYQOJDoBiLbwWSZqJaUcxvfaoP89//Wjqe6AHDm+L7HX4W7WWnUI7+CI6lCcq7GrsRa3A3L1+k/eEF+s0Ruzl58QrQlwp05WjUL9aGW4crU4YcWoKwptXUbd7bEGje/bqRMio6qre21emKqxz4pHennZ8W/WYwM2KHre8m7SpzGueuLkT41iD09XQd4e9Db2R4Fcb362j9ZFjqObgjE9+pbGfjmNI91ogG8imudVK+8t0mtTreUA6IVDBCEDujp8mANf5vV5Hj3JIfa/p6oGb1bIkG7PY3od6b7ttngssLGYLpBHT47jIkX1UcXaylqCIA3DUKNfG9m43OKECdn8ZnOnSsZ+326aqXpF3R8Fce1p2iFV9nx5Uk9JwTehZTS6/ntFasJGX5xo7Kd1KfZmD22jg4S4X85dAZr8A8nG7TEWeuvzIPS8sAA+nlri1jCceZc+1xDtr1lxpJW6OP8ohHNi1CXrKZO195nqxB5vH6N8lg0ms42to+vkPbIEWaJVACOUmzBDmmgoW3t/RvbjZKsm2RvoLkUf9X284VKQyKbLHKujGbJLZjeeGdUFzYyWrO/IJ58VXEOaDFTN/nqnA7jxLTMAN5cHhrp3q1bndg+dpbOAG/YlQ2Ci2XjSb6M+/eQvM/HNFOURPnE9WOM8XGAJlurAdb16VHTbLgosYG8aMDhCAWm3TNeSKLINRPio0SDfu4IPi1aoHVDZR45sFCS8ThIR+KiOBBMN6KGNwEsWF2rLBLpo2wFsDBcuz0Hne9p6yjdsShygFTECqng3Fs0xD6yq5j0qLb3Ph1cMxlXtXIQrBkw3t19tZm3u9cJTHN/CEMEAp8C9BROEVDa8HA3YGeBMcuTZQ76RL8IexIJ2/g8ovkimZ63q6WP8iGyEpueVNNWOfi97YVuKbKf7uNDh3eOpnzQ5vyunuA+ojGkSZx/mGrZHQaIKNM23h4VChniEB8T/z7Deh9ev1cswLoKB9L1vj9nDWA+FiqY30uIhznC7kvF3JqTDbdWJeAlcMXFBKdzCagW6eN9SQEVKH28I4pnobnGiMnbAd4ZDES2hM1t3hCNZiecezVgcxb1umxc8DsrOvEJIrHzxmCMlU59toJ27Cr0zW3FkDlfTgi0HcaQoN/1H4ARTaz3f35GRc7y9aKf5o4wFLVajFHxBGiFkW8S9Ij7cBPXMqWU3vumxVzXzOSxsq0zJOPQd0Q1t6CVtwhPMHyVdyLiwFoUjpfDu+/hLiyADQpkFFB8WZZN11578v7N/qeqgVBoZu2X3Zo8KOTauEcQ8LD95VReOVijzR9uRYzcv40Il5YNTVU/o7HDWMZQ49l7Ve6VDEE6Sg6kxi0yRQJivsYDUHHf6l4Kv3uDvMz1uKCbjgXlDqj64NHiKhszYu+zH1uPBuW7/ZHMECkNIaomrSez08wnzQnBXo9rXui/JT/U4M7rChtOBNh48068PjOSq0rPiBiUj+2ZS+Y0QB5i7+CgMWMcd0cPqLebusxQbP14n1H/huHG6dGmQ9mMXiubCK41Y5Kank2BvFLEXU6C3iGb90O/eviYsExfG/8imZ0ESBO7MW4J1GdCLwVmrcdpiF7PkEHRcAMJVIi9X6YRTwkdwPsOPbMTvdEos9dE3mP7XGngplh4Y08jNee6Pad6epWKpoJsnWChs6kC0QXMiJr1oqA9Qw7UQ9tWUZl9WQdLlFZtWV8ZxHpTmAhFCeUpDrHf8UR5Cfhnr+Qjy/21yRizQsuQ1LWRN5+AVoiOo44FJyA1CYAuInuuBpxI/piGhpWRiFcO7J2M1e2o80356rqE/z+QpdbmacOWpuxvDwKE7vMk7UJJNGJ2hS2WAUd/dHa7yN/yU8Y6wgY1iTXMFsJjQLC2MAyLPSPylOXNRfiJplqwzvjfXZXN9/yqsbs1Bt/k/AtUl/DfzcTA+MzKo1xsA10azvFSlT5q+mmQ14fjuPsR+QQ5UokrVyLA8I8dcXB5PhGJvOPwKKD71I+JOYr9lxOnv46qgg285ydcsYvYtSO6onaYTyMfmrmYKmwku1VUAT8BHQjHH6dG32aPtXtosbDOaUAh3mkMoO0U7UUbqAzpr6gxXehkvPquhT8xtRKBhQBzYu5/+Y/rr9YpNvWNbz9hreMdkpBETCudoa2ppOeFIyiRofQeX2SaC6bRcjcK8R0SGNb5sOYoqvWM5vHodM4AK1qDTnOWr99lVG4haMz52VpP9PqfkHOCRiqiRGgoc1/BPQB7jtOG4VkWY2Y5HZ4zEVZMieclyIZ0NmZIDAlCE2Kl+fb9LOid5z+0kUBJ4eYob2GX744hSRLlNJKHREnADgISgoK5wPKOhGa7AgUIuNDiN2gJ9gK7NhzZMy2VYfLFtaRnA4YDp53rZyFougau7JMyes98dRQEr4yXjFN/No6NiP3UDX7ZhR/rlU92h4aYgQgVB5Im5c8aqBBOXbaf5ohmnQFMMAMqhCYYa9hA85LgJGkvMWLweLoZ11sgoSzuLd6nnHmG7dewgej/xWoh7FgU91RfK3QdhWi5gc0s5Ndm2bSCr2mZbC+HqZoE0UU4VuntcH47+qDEb7zU0xjd2Z/oE5A5c87EKehtMKnM3CWF7HIcDMgCVPYNPrudyPtASRd5ouXYhqnEfnm1AkM1bbhdIISPX9r/L6zN2C6V35aQAiI3XAE51bmH1kTWTQ0/SVr+oXgBE9vo8JzcWzj+QW5DRCsJDZiuLEJBV7JcvHSeRUTcmLX3pAJLHGnTIc60uL3uFCR0iCDqw+8FrwEZwhYE1JXBKe1BqPUgWdHDwU94mnDyKg3bcq8seMPpoBeZh6GjsiICPx5vIbGbxaIS46Hky1sh0wWi+6zethwGeYqjWa+cWoRUG7Fh40DgwSn5o2U/5c5OKCIqM5uJztIv2idwF4CWNK77DeDIvX8ebSj9FCD7AXsLC5Z1wFjq+W0G252pia26Zrm/pIRzYHTEn0YFPafaMbLlqanyOZ/7GOKeLDXczT4+L+jTZkI61h1ZQcmIMKuhMgpakcIUx2iAE1+3RjNcUHkOv5KiWDo7zmWSXZAg8VTRJMf9+uXsAGZ62x4bB3muWaDsBzK3uRhE5xZcYxYOnJMJ0Jql3Dk0wCJ6uSUmgpXXYuXJ+7j+gi5U2xHj6qFuyCV7dX4qkJhJ7BpzY6dZPVdSME0IJtUP+AlUc1Zon12bd4XHJV2kqxaJRDIR0VZkuM9O++63cQRdTNwRKwBypODtz/MC5PyZFNyKmjnxE9VNWwZkxuZHrG/MkkSUN+jy4h/YsYnzh6ba+plS7ZYUmmgqY4KnJurCE3D/AnzJ+4wdMJ464tG3YuswzQ3JONjh75nDwA/xIUGNSFXjWoZRsMvFg2koh3TKCGwZmai/bFtg9amIeXBiaY9NkLhYek03OGBd1fSFzsoCqRpA44/6QIfwuEpbrXwJ18/oc77lw5QXjv8K1kRY6mRtOThmU5WEGkIQ1mal5ZCBB9lrPA8MvdE+N2twXPbK5fMf7OwCVXeP/6xHCq7miSAEtrpXvd7ITghmv1tfnm9bRFmQDSlKy/WFF1nQxiLv3D1KzLH9K/B5lxvYFz7XCgL2r10pb3kCkEIbpF1mfETjNaSnFl7FjM55U807xXFL6JZCPXlK5AKyFhT3qkaXxI6zSJvYEgCicQ2+tomxpMceOntELtJpUecew2RBcAOJzFn5oanTBjvbsnewVCmdCVPEMX9GJKYyCc3YVB7ZyhxKGYuJGNZblRf6hHuoP8l6y0YnTZ/y7I+Csz5qojsYkvwZ/Xs5iK5+tL6/pPyZ+cNRlq4Ua39REIEqH3KwkMi0LM0eRK/ai42qOIPS10uDNLtTFOyf1PuwhYGe/tR8XSVA/ljutWsA2vbdzIk1ELh0Jg6rRBHjP44xH76DjFnI21bzUiRFHtdoYEDwKdYHOXBnpHXsz8UqW03faNP+BlvttCsqpMv0C7rKV2TRoYOCUVzl3wO1uvhyLvBxldAc/y2PD6MiVmygMmEtxnN04uJQCbvg+Y6dltu85EijqP9QHTJBXr5KAtpq6hMdjV/Y5f6CdTjK39uTmESt4amoBCqClDhsA6GeaX3T7h8DsslxwnERAKvI8HYJhqDoX10bti+q+/qzS2Ec+yUJSo/wT50PJRxV1Vybkf7M1nO6RWTifa7pmEuHJ/apnrJbHv3EpFLAWDW4MbS78phV7nC46fo1JxFBZANcaUN9rQ8a4oLGjYEtsu8GslQ8wdbefdobiFdSJwK+6IkRdO8GjKJ4blUDL48JMxua+VZINJcIPrjX60tWiVYIDDCv0CObvXpUHRUP/NGZNRSl5/6ONNbDZvB51AjI1uFdEdFEXBbROg2DAdkUy9eLu0Ensks1qfPa3pTx+aacBaHs3hDo26FUWP7OuUsaSXb3AOVGVC1zu8uHy+NIdE0q5W5coYtiGjOCVMUUPfOwMF0AnDJxDnW7/VknI7LpwiGivkMEfHMgbP99Dg3WvHsaa8WXXLxXswCkZa8u1R06HEZ0jWztyMpkbuL4glaQUjG78zBb7uVL5AUfCecyX5xd2YQ5UBa972IX9jb/Zkf7OAidRuWlhW+vG19+DDZ/PgAa+c2Q+YOI7+dMPi37BhPtVS6OXsCyGXq620I15JNYdOM0ebq798zNIbpwEVjwRXXA/avkvDKKuskS4JpXzQEEjv79MRHJxG1VE8Q+Fknpbic7jDYcOKfnezsrdjQyf4hqtqIEsQs6n7Lho7pKeYsvTFKpWoBscJk2KML/MfKiaOSViN/fCPEnAsuJyW3PRMDoo7SyPJCTG9et70jnFEXmF3LHjWgFgXIDWSBopImU3JiQ//0glyNvZWlYGAAngibVXkS2vZa+uX3mabCzY/8EiTM2DyDi+XxxfeLc+MfBh085Rce1hvmsjey7YS4F2JMtLtyDnVFKOYMK6N/7igNmTJGJnL/96cTTyfr4ya7HXArCsqug5HHb4y+9Q0ZdU42sHVgKuY/Zv9Yb25qUq5ujnMcuwSeMiDvHik8fPo10uoQf9sYzIhO505kd4kbqfLFbHrlQqU7LJWewUFEb/D+MGR2mbx/POcYifOKzrxnOjq9s2gcJBkkUuYrEZ+UIsix2+5m6nczT2kGQcO4mltU8V+ETe2w3VsbANMrUxKyW4ceD0gSU9xNrEkS+y3cDsb5EJqvguI/H7/TExN0DBB+jF8xYRAHx838bcAxunjLFkbCdclHmGgyFCeurDZqiiwcZInana8yAA18LnazhYs4914YAakYHNNKMN6tdk7Sj3Ax90sKeAHhyFfVPet3mKioDrXrW68vgCKSzwTXbhZQL6mERwJPEGDe9mc/9giROTOfz2qZmSCJs1/44B8LKY1jlH0rQcTvHEZ8COsYCSiStbgZ4fcIjlF/kTYBrzI0MFXfO6JzLTSHmCRCNqAJ6g9K2vsVwklCXngzxbaB+9qXj7xnC4DbttszWEtKtXqZocElfUb6mjgj2+obSrxTPVeOS7VTcj84WmJE8AerMb+AWJuGh2Xd0dM3EV54kEM7YjLyHLeWpa3V3AupLPRDIHZkJhXSHHVnlhrwIOMkJr8sw30V3zFWjE6LyaOzOpHh8pEE/B6N6+VWAHu0K1U1ixgyqlOFQpcjnJaoDHPDCvoQWqX2PufJwXVUx9ldZyV+rBulwuDxdXGus3+P/ABNn7xCb9TOHX9tWmaqShQdT3ichd+qs597KxZHOHdkFdkSAyuBArL3MT95GkJ/YBzLUsAlrkLZBynVHifqJiWbjMVgjujwpYAfPjrExOxCbRJsy0JAHxRehjGoBJKSK0OYo07bfF4G8ULmGREF3blp2q+nrLvU7rrr85Rhxnbpmy51OJXPe4O50633Y5KFcdAFopb2ObkZRZ2yO9En9s3khFVgnGAZZb+1Wp8OROCebGAIcNxGxIHZ6R+A7pChMHoOm/rHg/dELiV78fM2nbmYiDJiefc3mvZ6UO70q/B207uYAjg1Xg3wyj2Q3w1V4mHO+a58Bnbs9IwP2RedipO1T2wM8wmbdVqZvbfwVPzN0gVI5JzAzi8tET9QgnpStcmExw515dgxBfbKCzvisgdwakVnABGUNVWuQgIhZvVfDzz2UyP7GxyU7KOOVbd4EcJspA0eNKszinK/3J2dCV7puKsy4zuwhkBNEpi7hvGy3k01b0JnDF4hodmT7QpbS6g3NSajRnfrOQZ+08UiOSgCwyg6Aaca42+0qau7aGfgm/06f0AEb69s5V+5VQFI4VMkNKdLrHWQ6BM9YYzmdJbOphUrnzGevRCY+A/6IcGF6Z17b7Wwl0HxWOD9tVJYv3R/x6T1ygxEWbjxNE4AvZZN8XIsG2I20dwRE8WpDKaxK/tCUu3xvnGadP9jQ7SgZuSewx+M2kRIde1dM6n4JcKAx0KA21dk02glF15pHtC+TzYuo5bexyfJS9dA19atajsGeUyNmqAl516n1faEtKr6YV9/j9gS1dA2ZC5hnWda44ZCtV6HcgzRLVP/4mCSumHmT3QQBhFF4ZYZstpq6qVfiC634Z8UPp2ZolfCpJDOOPQeA6U2XSjSxrmPU2SY0h43IGHU79YFdrae5xugfWzZC4jCVHuCGmq2/J456dfa4GnlR3YjUR9mEUSVD+LyOTpU1AORjARR0NhDV4z1oYFLfWJHkYjf8Lj+bIVSzzieefp/ltCr473oCdiWc0sg4Z1oAJ+bUQlt/lktIlpN/KUCHJx8i88xcE3MwfmT+srvmsp/MFvYQOFnNQYk4jcGKinw26vX+T8xXgiAPRw4NCAtiUNQEtZODEwR294Gg5O99pGoMIYAKWEhL+Ni/2ObOzcAn+gtHjPL87Zx9VRuGvbmBI0olQYk9fsnbZTr0Wv1wheqrOQPPiKpf4k0513zaSAWu30fjV1jWUGtAdUnEjOqf15zJoD2W8ljJ/rNocdOSYi5/YKUiL7kn+bj7p3nCfvMRAUVK3Hr0rhrKPLDnoD8UW56QYPA6HVXdUjXjmJJVTbrZsQ3vx7UjN0JAHPakCU3yPvGU9HSMSfE2/IkxwGkH+O+IXTTBoTCsmVs8Jkje6QK9Li1KK7Q5hUIi0NLLmaaa1zEjCkcyenT8HhtF9zzNnp3g4K5y29xzo0vO9R03v+yNnW/o+O7iFPdm2v6W6XmeyjfAdXR6Uce7PBP1oHIEqH9ZYOfbvY2yS3uJUse8NfoCIyGxcNo+X+WZVK9hqkjurK1+RfIZlS849/vd5MbBnpHJGAAU6EiFQjiVu0p1HFrxPxbPp8BAHfy6zMgcBVUEq60RLEryVs/jE596o2hywZbdinFR/FeFKh23bCjM68xl9BghNBIE3YTT1HJvXAGr+q+ySS7DGJ7/NJYOWVBHFQAPmD3Jcr8B9Fq+ib6l/H/K6nqyVIz04DRxQlJsYf6e/UHqthWoUdbuKKMhxKhCU1pTDHZeATZlRhe2NEnUdnlEbzSTTmsW29wgoHJeWQK7WCOfsl+CXbWIg1y3u+xcYRhXG4gdybtm9KEuYzDxto+k3xHc5p7iZCpYpgCJC0KG/ZMmc1x0Wx21m48SxQfvbz8AUxBCpbZnhvjBknwa2ynjD6cmaVN8A2Ev2KIq6G9uhld32F6sm/D6Uttlq5tB5g9d5aA5zoroWWU6lQTnPz7t3EZk4ihEs9NjzceyvQM1mejM6E5gAjpkkFQ5WGPQkIcNl8G4CbEiBcHt5bI4ozApVVvkXQB6+EeBVUkcATDXOCC6ljQagtRQgoHHBpvKNJitfardItzk2gNCrMaVQucXMZML3dn1fFPb30iJa/W5BQ4TVyWGCaynyO6AzH+VU+aPBKhFA2K+ApszCCML14rhLMiztQJ8ie5HfG55IfiX5AF67sSPAJ9azNci4DvIeNqRfGaLr4na8sByPIBvkEnDnzkdVrwnhDV8MprxL5O3UOYBJh195/eMaAG8pyhjYwNfIbHtNIC1YmfBWMulcturYiHPeL1F8wrbbvhofz4qAttBfKFOROU3LUCbpxdKPX5hFlIJaaJBKMRtXuxhX0G642bl7BTptwKRdFZWaRdVHqrzwjzZ9OepxGWYxV15nfaAEYHWTE3/zqzUFTTIAH5CxQ5fV5ZAZc1uvb25pzLHz6hMmz4zB79eAM3r91jthY+N3ViQqRwDcD1Kqbr8OVzYH316u8LlRKf77iuevvDMMd4/b3MKtdT4USRX1CZZo2oRm9VQW6C1XudRmrCyPtfE4OUb8iaaLiTqXkMWQ3IWptRXdeUe7UiVaECFROjJQCK2i8riXIehEG3nKnLfg4tVFbCTKwkKPaEpVMyEv+dkrUR1tmVYbag/0+wtJXiH8P2FrumS2b0yx4eJ1tWd8o4s6LRnmFoRP/RbgaZG8cHzrVrbo1NMZRFYYkEW9B7OYw5aDlnSa8pmfz3rqkRrdeurI0ovvCAzpHpgEJRIM+RS/rgJRet9eiSBlp7fk9XftpVxA6IDQRBjg7CAuDl5NYzNms2xodyQhyaqSUt4ICT8/d1CBZIx/V+9wXs1HCwALtW3YNxrSxqnk0Ighkef1zhfQtlmBUJIa13u08viewX28aREfbrKb5/Ti1wVG8ttvEj3JH2+H/y6qtt0k5jQFK1LfAeWjy+VY5NTk0vUiHp6Yvnv/072un2LNQqjp3hcIO1RX8651JYOZWQiM4ISQs+KtPZV4BNhC62+1kL0MbEG+tfaangUAq+mf7DlV5zDt/hv6eecIUkaE7y2bZyqoqalkUJn8eaGgArLnVfrkuJwFy5Kz9HwzGbszaeX/+5wNIxJp1C4mKlTJDg+htZZlzWtFEvOCKsap5Is0mBjsoD4Q0oN2lYY2YGZhiaPQujVdezJO8CuC9jXlZS7Jk0IYyPttye0DTwwbqbGR58ttCwrh09VGP9EKT/AHTQJGYByujIfANpfDE/9iGCt+1Nzy29RvLvUWlwT3a0acMh6/O72bPq7EuIvzzo7GVo3uhCM2R28ucxR9CISWOUaVHWhETd2iFTxTfs448JJGhUlp3N7C+bGKUTJm+Dia6OHusHo+h2S7ES1TpkIIUmDPT7ghhKwT1rbggM9xVSR5FZym/2jP4jNbBuNOM5WYN//UEl6PeeF1t+u6b4xj3TjCtlKRqwcDcnesXYudGxfRt8pmzYQ6dFYBl2CLwgjeVOtBUcn3kNILsfGBZK+0lbdjonDB0pbAkTWVJzBbOQF8mDMU17bmIzmzq5twQ3VO7Uks04KvS9xeN1Lj5uoRYHVK45tqwDuBDnlSO2WDtaeu01LjWV1eEsHggM7kKBJ7qsGckK1HvJ2cYShzPDkRyZPMycszQ6NzSsLDhwIPYISofgZib+HFEaTih+XnVQXx+9hFT2jmEfdNR4QpIaaaJJ5d07O2BeFxm8b4Lr5OSQ2/wYYQ9tC/FZCLCd5Rhn+CrRKoNGfbbjSvS/oxBsrC+db0Qu1McLzNiMuVVIzTFKTP7PD1BAra3TeSc1HiKu7XE13JmwytvKqWRi6zYSWlOG8YOe8qRpJEZh1sIdI2pCXOwP8TPicNOT/hjORtHEGR3eOkWEcUrCQCpD40vJtyySuL6c/hOhFhyEeeJbnG28BqVx36xB7/N3Pyg/f0d9xgB"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 4951,
+        "cache_read_input_tokens": 13618,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 4951
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "f4c0f2a2-706f-427c-8862-9a2586f739e9",
+    "uuid": "7a280adb-a2b8-45ca-bd92-033b92956c64"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_019XcbHPCtXQb6Ly2vqR8FUq",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nimport { Effect, Data, Exit, Cause } from \"effect\";\n\nexport interface Policy {\n  /** Max requests in the sliding window */\n  windowMax: number;\n  /** Sliding window duration in milliseconds */\n  windowMs: number;\n  /** Token bucket capacity for bursts */\n  burstCapacity: number;\n  /** Token bucket refill rate (tokens per second) */\n  refillPerSec: number;\n}\n\nexport interface RateLimitResult {\n  allowed: boolean;\n  /** Tokens remaining in the bucket after this request */\n  tokensRemaining: number;\n  /** Requests remaining in the current window */\n  windowRemaining: number;\n  /** Milliseconds until next token is available (0 if allowed) */\n  retryAfterMs: number;\n}\n\nexport class RateLimitError extends Error {\n  constructor(msg: string) {\n    super(msg);\n    this.name = \"RateLimitError\";\n  }\n}\n\n// ── Internal Effect layer ────────────────────────────────────────────────────\n\nclass PolicyValidationError extends Data.TaggedError(\"PolicyValidationError\")<{\n  reason: string;\n}> {}\n\nconst validatePolicyEffect = (\n  policy: Policy\n): Effect.Effect<void, PolicyValidationError> =>\n  Effect.gen(function* () {\n    if (policy.windowMax < 1)\n      yield* Effect.fail(\n        new PolicyValidationError({ reason: \"windowMax must be >= 1\" })\n      );\n    if (policy.windowMs <= 0)\n      yield* Effect.fail(\n        new PolicyValidationError({ reason: \"windowMs must be > 0\" })\n      );\n    if (policy.burstCapacity < 1)\n      yield* Effect.fail(\n        new PolicyValidationError({ reason: \"burstCapacity must be >= 1\" })\n      );\n    if (policy.refillPerSec <= 0)\n      yield* Effect.fail(\n        new PolicyValidationError({ reason: \"refillPerSec must be > 0\" })\n      );\n  });\n\n// ── Per-key mutable state ────────────────────────────────────────────────────\n\ninterface KeyState {\n  /** Current token count */\n  tokens: number;\n  /** Last effective timestamp seen for this key (–Infinity before first use) */\n  lastMs: number;\n  /** Sorted log of timestamps for allowed requests (within the window) */\n  log: number[];\n}\n\n// ── Public factory ───────────────────────────────────────────────────────────\n\nexport function createSlidingWindowLimiter(policy: Policy): {\n  check(key: string, nowMs: number): RateLimitResult;\n  reset(key: string): void;\n  inspect(\n    key: string,\n    nowMs: number\n  ): {\n    bucketTokens: number;\n    windowRequestCount: number;\n    oldestRequestMs: number | null;\n  };\n} {\n  // Validate at construction time, converting Effect failure → RateLimitError\n  const validationExit = Effect.runSyncExit(validatePolicyEffect(policy));\n  if (Exit.isFailure(validationExit)) {\n    const raw = Cause.squash(validationExit.cause);\n    throw new RateLimitError(raw instanceof Error ? raw.message : String(raw));\n  }\n\n  const store = new Map<string, KeyState>();\n\n  // ── Helpers ────────────────────────────────────────────────────────────────\n\n  function getOrInit(key: string): KeyState {\n    let state = store.get(key);\n    if (!state) {\n      state = {\n        tokens: policy.burstCapacity,\n        lastMs: -Infinity,\n        log: [],\n      };\n      store.set(key, state);\n    }\n    return state;\n  }\n\n  /**\n   * Compute the effective \"now\", refill tokens in place, prune the log in\n   * place, and return the effective timestamp.\n   * Does NOT consume a token or append to the log.\n   */\n  function refreshState(state: KeyState, nowMs: number): number {\n    // Clock-skew guard: never go backwards\n    const effectiveNow =\n      state.lastMs === -Infinity ? nowMs : Math.max(nowMs, state.lastMs);\n\n    // Token bucket refill\n    if (state.lastMs === -Infinity) {\n      // First-ever access: tokens already at burstCapacity\n    } else {\n      const elapsedSec = (effectiveNow - state.lastMs) / 1000;\n      const refilled = state.tokens + elapsedSec * policy.refillPerSec;\n      state.tokens = Math.min(refilled, policy.burstCapacity);\n    }\n    state.lastMs = effectiveNow;\n\n    // Prune log: keep only timestamps strictly inside the window\n    // Window: (effectiveNow − windowMs, effectiveNow]  →  ts > cutoff\n    const cutoff = effectiveNow - policy.windowMs;\n    let pruneCount = 0;\n    while (pruneCount < state.log.length && state.log[pruneCount] <= cutoff) {\n      pruneCount++;\n    }\n    if (pruneCount > 0) state.log.splice(0, pruneCount);\n\n    return effectiveNow;\n  }\n\n  // ── check ──────────────────────────────────────────────────────────────────\n\n  function check(key: string, nowMs: number): RateLimitResult {\n    const state = getOrInit(key);\n    const effectiveNow = refreshState(state, nowMs);\n\n    const bucketOk = state.tokens >= 1;\n    const windowOk = state.log.length < policy.windowMax;\n    const allowed = bucketOk && windowOk;\n\n    if (allowed) {\n      state.tokens -= 1;\n      state.log.push(effectiveNow);\n    }\n\n    // retryAfterMs ────────────────────────────────────────────────────────────\n    let retryAfterMs = 0;\n\n    if (!allowed) {\n      let maxWait = 0;\n\n      if (!bucketOk) {\n        // How long until tokens refill to ≥ 1?\n        const tokensNeeded = 1 - state.tokens; // > 0\n        const tokenWaitMs = (tokensNeeded / policy.refillPerSec) * 1000;\n        if (tokenWaitMs > maxWait) maxWait = tokenWaitMs;\n      }\n\n      if (!windowOk) {\n        // Oldest entry in the (already-pruned) log expires at log[0] + windowMs\n        // We need log[0] + windowMs > effectiveNow (guaranteed by pruning)\n        const windowWaitMs = state.log[0] + policy.windowMs - effectiveNow;\n        if (windowWaitMs > maxWait) maxWait = windowWaitMs;\n      }\n\n      retryAfterMs = maxWait;\n    }\n\n    return {\n      allowed,\n      tokensRemaining: state.tokens,\n      windowRemaining: Math.max(0, policy.windowMax - state.log.length),\n      retryAfterMs,\n    };\n  }\n\n  // ── reset ──────────────────────────────────────────────────────────────────\n\n  function reset(key: string): void {\n    store.delete(key);\n  }\n\n  // ── inspect ────────────────────────────────────────────────────────────────\n\n  function inspect(\n    key: string,\n    nowMs: number\n  ): {\n    bucketTokens: number;\n    windowRequestCount: number;\n    oldestRequestMs: number | null;\n  } {\n    // Key never seen or was reset → pristine defaults\n    if (!store.has(key)) {\n      return {\n        bucketTokens: policy.burstCapacity,\n        windowRequestCount: 0,\n        oldestRequestMs: null,\n      };\n    }\n\n    const state = store.get(key)!;\n\n    // Compute values without mutating store state\n    const effectiveNow =\n      state.lastMs === -Infinity ? nowMs : Math.max(nowMs, state.lastMs);\n\n    // Projected token count after elapsed refill (read-only)\n    let currentTokens: number;\n    if (state.lastMs === -Infinity) {\n      currentTokens = state.tokens;\n    } else {\n      const elapsedSec = (effectiveNow - state.lastMs) / 1000;\n      currentTokens = Math.min(\n        state.tokens + elapsedSec * policy.refillPerSec,\n        policy.burstCapacity\n      );\n    }\n\n    // Projected window entries (read-only filter)\n    const cutoff = effectiveNow - policy.windowMs;\n    const windowEntries = state.log.filter((ts) => ts > cutoff);\n\n    return {\n      bucketTokens: currentTokens,\n      windowRequestCount: windowEntries.length,\n      oldestRequestMs: windowEntries.length > 0 ? windowEntries[0] : null,\n    };\n  }\n\n  return { check, reset, inspect };\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 4951,
+        "cache_read_input_tokens": 13618,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 4951
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "f4c0f2a2-706f-427c-8862-9a2586f739e9",
+    "uuid": "3298f5e5-4ed6-4765-99be-4a7396ba00f9"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed",
+      "resetsAt": 1775995200,
+      "rateLimitType": "five_hour",
+      "overageStatus": "rejected",
+      "overageDisabledReason": "org_level_disabled",
+      "isUsingOverage": false
+    },
+    "uuid": "8bfec95c-71ec-4525-990b-ec507e87df7c",
+    "session_id": "f4c0f2a2-706f-427c-8862-9a2586f739e9"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 95103,
+    "duration_api_ms": 95077,
+    "num_turns": 1,
+    "result": "```typescript\nimport { Effect, Data, Exit, Cause } from \"effect\";\n\nexport interface Policy {\n  /** Max requests in the sliding window */\n  windowMax: number;\n  /** Sliding window duration in milliseconds */\n  windowMs: number;\n  /** Token bucket capacity for bursts */\n  burstCapacity: number;\n  /** Token bucket refill rate (tokens per second) */\n  refillPerSec: number;\n}\n\nexport interface RateLimitResult {\n  allowed: boolean;\n  /** Tokens remaining in the bucket after this request */\n  tokensRemaining: number;\n  /** Requests remaining in the current window */\n  windowRemaining: number;\n  /** Milliseconds until next token is available (0 if allowed) */\n  retryAfterMs: number;\n}\n\nexport class RateLimitError extends Error {\n  constructor(msg: string) {\n    super(msg);\n    this.name = \"RateLimitError\";\n  }\n}\n\n// ── Internal Effect layer ────────────────────────────────────────────────────\n\nclass PolicyValidationError extends Data.TaggedError(\"PolicyValidationError\")<{\n  reason: string;\n}> {}\n\nconst validatePolicyEffect = (\n  policy: Policy\n): Effect.Effect<void, PolicyValidationError> =>\n  Effect.gen(function* () {\n    if (policy.windowMax < 1)\n      yield* Effect.fail(\n        new PolicyValidationError({ reason: \"windowMax must be >= 1\" })\n      );\n    if (policy.windowMs <= 0)\n      yield* Effect.fail(\n        new PolicyValidationError({ reason: \"windowMs must be > 0\" })\n      );\n    if (policy.burstCapacity < 1)\n      yield* Effect.fail(\n        new PolicyValidationError({ reason: \"burstCapacity must be >= 1\" })\n      );\n    if (policy.refillPerSec <= 0)\n      yield* Effect.fail(\n        new PolicyValidationError({ reason: \"refillPerSec must be > 0\" })\n      );\n  });\n\n// ── Per-key mutable state ────────────────────────────────────────────────────\n\ninterface KeyState {\n  /** Current token count */\n  tokens: number;\n  /** Last effective timestamp seen for this key (–Infinity before first use) */\n  lastMs: number;\n  /** Sorted log of timestamps for allowed requests (within the window) */\n  log: number[];\n}\n\n// ── Public factory ───────────────────────────────────────────────────────────\n\nexport function createSlidingWindowLimiter(policy: Policy): {\n  check(key: string, nowMs: number): RateLimitResult;\n  reset(key: string): void;\n  inspect(\n    key: string,\n    nowMs: number\n  ): {\n    bucketTokens: number;\n    windowRequestCount: number;\n    oldestRequestMs: number | null;\n  };\n} {\n  // Validate at construction time, converting Effect failure → RateLimitError\n  const validationExit = Effect.runSyncExit(validatePolicyEffect(policy));\n  if (Exit.isFailure(validationExit)) {\n    const raw = Cause.squash(validationExit.cause);\n    throw new RateLimitError(raw instanceof Error ? raw.message : String(raw));\n  }\n\n  const store = new Map<string, KeyState>();\n\n  // ── Helpers ────────────────────────────────────────────────────────────────\n\n  function getOrInit(key: string): KeyState {\n    let state = store.get(key);\n    if (!state) {\n      state = {\n        tokens: policy.burstCapacity,\n        lastMs: -Infinity,\n        log: [],\n      };\n      store.set(key, state);\n    }\n    return state;\n  }\n\n  /**\n   * Compute the effective \"now\", refill tokens in place, prune the log in\n   * place, and return the effective timestamp.\n   * Does NOT consume a token or append to the log.\n   */\n  function refreshState(state: KeyState, nowMs: number): number {\n    // Clock-skew guard: never go backwards\n    const effectiveNow =\n      state.lastMs === -Infinity ? nowMs : Math.max(nowMs, state.lastMs);\n\n    // Token bucket refill\n    if (state.lastMs === -Infinity) {\n      // First-ever access: tokens already at burstCapacity\n    } else {\n      const elapsedSec = (effectiveNow - state.lastMs) / 1000;\n      const refilled = state.tokens + elapsedSec * policy.refillPerSec;\n      state.tokens = Math.min(refilled, policy.burstCapacity);\n    }\n    state.lastMs = effectiveNow;\n\n    // Prune log: keep only timestamps strictly inside the window\n    // Window: (effectiveNow − windowMs, effectiveNow]  →  ts > cutoff\n    const cutoff = effectiveNow - policy.windowMs;\n    let pruneCount = 0;\n    while (pruneCount < state.log.length && state.log[pruneCount] <= cutoff) {\n      pruneCount++;\n    }\n    if (pruneCount > 0) state.log.splice(0, pruneCount);\n\n    return effectiveNow;\n  }\n\n  // ── check ──────────────────────────────────────────────────────────────────\n\n  function check(key: string, nowMs: number): RateLimitResult {\n    const state = getOrInit(key);\n    const effectiveNow = refreshState(state, nowMs);\n\n    const bucketOk = state.tokens >= 1;\n    const windowOk = state.log.length < policy.windowMax;\n    const allowed = bucketOk && windowOk;\n\n    if (allowed) {\n      state.tokens -= 1;\n      state.log.push(effectiveNow);\n    }\n\n    // retryAfterMs ────────────────────────────────────────────────────────────\n    let retryAfterMs = 0;\n\n    if (!allowed) {\n      let maxWait = 0;\n\n      if (!bucketOk) {\n        // How long until tokens refill to ≥ 1?\n        const tokensNeeded = 1 - state.tokens; // > 0\n        const tokenWaitMs = (tokensNeeded / policy.refillPerSec) * 1000;\n        if (tokenWaitMs > maxWait) maxWait = tokenWaitMs;\n      }\n\n      if (!windowOk) {\n        // Oldest entry in the (already-pruned) log expires at log[0] + windowMs\n        // We need log[0] + windowMs > effectiveNow (guaranteed by pruning)\n        const windowWaitMs = state.log[0] + policy.windowMs - effectiveNow;\n        if (windowWaitMs > maxWait) maxWait = windowWaitMs;\n      }\n\n      retryAfterMs = maxWait;\n    }\n\n    return {\n      allowed,\n      tokensRemaining: state.tokens,\n      windowRemaining: Math.max(0, policy.windowMax - state.log.length),\n      retryAfterMs,\n    };\n  }\n\n  // ── reset ──────────────────────────────────────────────────────────────────\n\n  function reset(key: string): void {\n    store.delete(key);\n  }\n\n  // ── inspect ────────────────────────────────────────────────────────────────\n\n  function inspect(\n    key: string,\n    nowMs: number\n  ): {\n    bucketTokens: number;\n    windowRequestCount: number;\n    oldestRequestMs: number | null;\n  } {\n    // Key never seen or was reset → pristine defaults\n    if (!store.has(key)) {\n      return {\n        bucketTokens: policy.burstCapacity,\n        windowRequestCount: 0,\n        oldestRequestMs: null,\n      };\n    }\n\n    const state = store.get(key)!;\n\n    // Compute values without mutating store state\n    const effectiveNow =\n      state.lastMs === -Infinity ? nowMs : Math.max(nowMs, state.lastMs);\n\n    // Projected token count after elapsed refill (read-only)\n    let currentTokens: number;\n    if (state.lastMs === -Infinity) {\n      currentTokens = state.tokens;\n    } else {\n      const elapsedSec = (effectiveNow - state.lastMs) / 1000;\n      currentTokens = Math.min(\n        state.tokens + elapsedSec * policy.refillPerSec,\n        policy.burstCapacity\n      );\n    }\n\n    // Projected window entries (read-only filter)\n    const cutoff = effectiveNow - policy.windowMs;\n    const windowEntries = state.log.filter((ts) => ts > cutoff);\n\n    return {\n      bucketTokens: currentTokens,\n      windowRequestCount: windowEntries.length,\n      oldestRequestMs: windowEntries.length > 0 ? windowEntries[0] : null,\n    };\n  }\n\n  return { check, reset, inspect };\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "f4c0f2a2-706f-427c-8862-9a2586f739e9",
+    "total_cost_usd": 0.14159265000000001,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 4951,
+      "cache_read_input_tokens": 13618,
+      "output_tokens": 7929,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 4951,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 7929,
+        "cacheReadInputTokens": 13618,
+        "cacheCreationInputTokens": 4951,
+        "webSearchRequests": 0,
+        "costUSD": 0.14159265000000001,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "c7bb3c5b-9555-4944-b67a-303d5bc54e2a"
+  }
+]
