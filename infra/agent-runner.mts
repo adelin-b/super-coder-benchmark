@@ -131,6 +131,26 @@ function extractCode(text: string): string {
   return text.trim();
 }
 
+/**
+ * Extract multiple named files from agent response.
+ * Expects format: ```typescript // filename.ts\n<code>\n```
+ */
+function extractFiles(text: string, fileNames: string[]): Map<string, string> {
+  const result = new Map<string, string>();
+  for (const name of fileNames) {
+    // Match: ```typescript // name.ts  or  ```ts // name.ts
+    const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const pattern = new RegExp(
+      `\`\`\`(?:typescript|ts)\\s*(?://|/\\*)\\s*${escaped}\\.ts[\\s*/]*\\n([\\s\\S]*?)\`\`\``,
+    );
+    const m = text.match(pattern);
+    if (m) {
+      result.set(name, m[1].trim());
+    }
+  }
+  return result;
+}
+
 // ---------------------------------------------------------------------------
 // Vitest runner
 // ---------------------------------------------------------------------------
@@ -181,12 +201,16 @@ function parseVitestOutput(output: string): TestResult {
 async function main(): Promise<void> {
   const manifest = loadManifest(agentDir);
   const systemPrompt = buildSystemPrompt(manifest, agentDir);
-  const fileName = TASK_FILE_MAP[taskId];
+  const fileSpec = TASK_FILE_MAP[taskId];
 
-  if (!fileName) {
+  if (!fileSpec) {
     console.error(`ERROR: Unknown task ID "${taskId}". Known: ${Object.keys(TASK_FILE_MAP).join(", ")}`);
     process.exit(1);
   }
+
+  const isMultiFile = Array.isArray(fileSpec);
+  const fileNames = isMultiFile ? fileSpec : [fileSpec];
+  const fileName = isMultiFile ? fileSpec[0] : fileSpec; // primary file for backward compat
 
   const specPath = join(ROOT, "references", taskId, "spec.md");
   if (!existsSync(specPath)) {
@@ -195,11 +219,23 @@ async function main(): Promise<void> {
   }
 
   const spec = readFileSync(specPath, "utf8");
-  const userPrompt =
-    `Implement the following TypeScript module exactly as specified. ` +
-    `The file name is \`${fileName}.ts\`. Export everything the spec says to export. ` +
-    `Do not write tests. Reply with ONLY the TypeScript code inside a single fenced \`\`\`typescript block.\n\n` +
-    `## Spec\n\n${spec}`;
+  let userPrompt: string;
+  if (isMultiFile) {
+    const fileList = fileNames.map(f => `\`${f}.ts\``).join(", ");
+    userPrompt =
+      `Implement the following TypeScript modules exactly as specified. ` +
+      `You must produce these files: ${fileList}. ` +
+      `Files must import from each other using relative paths with .js extensions. ` +
+      `Output each file in a separate fenced \`\`\`typescript // filename.ts block. ` +
+      `Do not write tests.\n\n` +
+      `## Spec\n\n${spec}`;
+  } else {
+    userPrompt =
+      `Implement the following TypeScript module exactly as specified. ` +
+      `The file name is \`${fileName}.ts\`. Export everything the spec says to export. ` +
+      `Do not write tests. Reply with ONLY the TypeScript code inside a single fenced \`\`\`typescript block.\n\n` +
+      `## Spec\n\n${spec}`;
+  }
 
   // Date-based output directory — include version and model to avoid collisions
   const dateStr = new Date().toISOString().slice(0, 10);
@@ -293,9 +329,24 @@ async function main(): Promise<void> {
   }
 
   // Extract code and save outputs
-  const code = extractCode(assistantText);
   mkdirSync(outDir, { recursive: true });
-  writeFileSync(join(outDir, `${fileName}.ts`), code, "utf8");
+
+  if (isMultiFile) {
+    // Multi-file: extract named blocks
+    const files = extractFiles(assistantText, fileNames);
+    for (const [name, code] of files) {
+      writeFileSync(join(outDir, `${name}.ts`), code, "utf8");
+    }
+    if (files.size === 0) {
+      // Fallback: try single extraction for agents that ignore multi-file instructions
+      const code = extractCode(assistantText);
+      writeFileSync(join(outDir, `${fileName}.ts`), code, "utf8");
+    }
+  } else {
+    const code = extractCode(assistantText);
+    writeFileSync(join(outDir, `${fileName}.ts`), code, "utf8");
+  }
+
   writeFileSync(
     join(outDir, "trajectory.json"),
     JSON.stringify(trajectory, null, 2),
@@ -307,20 +358,41 @@ async function main(): Promise<void> {
     "utf8",
   );
 
-  // Copy test file alongside code
-  const testSrc = join(ROOT, "references", taskId, `${fileName}.test.ts`);
-  const testDst = join(outDir, `${fileName}.test.ts`);
-  if (existsSync(testSrc)) {
-    copyFileSync(testSrc, testDst);
+  // Copy test files alongside code
+  const refDir = join(ROOT, "references", taskId);
+  if (isMultiFile) {
+    // Copy ALL test files from reference directory
+    const refFiles = existsSync(refDir)
+      ? execSync(`ls "${refDir}"`, { encoding: "utf8" }).trim().split("\n")
+      : [];
+    for (const f of refFiles) {
+      if (f.endsWith(".test.ts")) {
+        copyFileSync(join(refDir, f), join(outDir, f));
+      }
+    }
+    // Also copy any existing source files needed for regression tasks (e.g., provided base code)
   } else {
-    process.stderr.write(`WARN: test file not found: ${testSrc}\n`);
+    const testSrc = join(refDir, `${fileName}.test.ts`);
+    const testDst = join(outDir, `${fileName}.test.ts`);
+    if (existsSync(testSrc)) {
+      copyFileSync(testSrc, testDst);
+    } else {
+      process.stderr.write(`WARN: test file not found: ${testSrc}\n`);
+    }
   }
 
   // Run vitest
   let testResult: TestResult = { passed: 0, total: 0, rawOutput: "" };
-  if (existsSync(testDst)) {
-    process.stderr.write(`Running vitest on ${testDst}...\n`);
-    testResult = runVitest(testDst);
+  if (isMultiFile) {
+    // Run vitest on the entire output directory
+    process.stderr.write(`Running vitest on ${outDir}...\n`);
+    testResult = runVitest(outDir);
+  } else {
+    const testDst = join(outDir, `${fileName}.test.ts`);
+    if (existsSync(testDst)) {
+      process.stderr.write(`Running vitest on ${testDst}...\n`);
+      testResult = runVitest(testDst);
+    }
   }
 
   const passRate = testResult.total > 0 ? testResult.passed / testResult.total : 0;

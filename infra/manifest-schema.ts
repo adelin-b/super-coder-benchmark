@@ -34,8 +34,8 @@ export interface AgentManifest {
   changelog: string;
 }
 
-/** Task ID to implementation file name mapping */
-export const TASK_FILE_MAP: Record<string, string> = {
+/** Task ID to implementation file name mapping. Array = multi-file task. */
+export const TASK_FILE_MAP: Record<string, string | string[]> = {
   "BL-1": "pricing",
   "BL-2": "invoice",
   "BL-3": "converter",
@@ -65,6 +65,9 @@ export const TASK_FILE_MAP: Record<string, string> = {
   "TRAP-3": "optimizer",
   "TRAP-4": "sort-engine",
   "TRAP-5": "pathfinder",
+  "MULTIFILE-1": ["types", "registry", "loader", "executor", "index"],
+  "MULTIFILE-2": ["events", "handlers", "store", "saga"],
+  "MULTIFILE-3": ["lexer", "parser", "analyzer", "emitter"],
 };
 
 /** Verdict JSON output by the runner */
