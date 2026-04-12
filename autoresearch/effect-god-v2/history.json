@@ -1,0 +1,98 @@
+{
+  "agent": "effect-god-v2",
+  "model": "sonnet",
+  "tasks": [
+    "BL-4",
+    "BL-5",
+    "ALG-3",
+    "SAAS-2",
+    "SAAS-3",
+    "HARD-2"
+  ],
+  "startedAt": "2026-04-12T07:53:12.758Z",
+  "iterations": [
+    {
+      "iteration": 0,
+      "promptHash": "940eca8325bd",
+      "scoresPerTask": {
+        "BL-4": {
+          "passed": 0,
+          "total": 6,
+          "rate": 0
+        },
+        "BL-5": {
+          "passed": 0,
+          "total": 7,
+          "rate": 0
+        },
+        "ALG-3": {
+          "passed": 0,
+          "total": 7,
+          "rate": 0
+        },
+        "SAAS-2": {
+          "passed": 0,
+          "total": 7,
+          "rate": 0
+        },
+        "SAAS-3": {
+          "passed": 1,
+          "total": 8,
+          "rate": 0.125
+        },
+        "HARD-2": {
+          "passed": 25,
+          "total": 25,
+          "rate": 1
+        }
+      },
+      "avgScore": 0.43333333333333335,
+      "totalPassed": 26,
+      "totalTests": 60,
+      "improved": true
+    },
+    {
+      "iteration": 1,
+      "promptHash": "bdd34376df70",
+      "scoresPerTask": {
+        "BL-4": {
+          "passed": 0,
+          "total": 6,
+          "rate": 0
+        },
+        "BL-5": {
+          "passed": 1,
+          "total": 7,
+          "rate": 0.14285714285714285
+        },
+        "ALG-3": {
+          "passed": 0,
+          "total": 7,
+          "rate": 0
+        },
+        "SAAS-2": {
+          "passed": 0,
+          "total": 7,
+          "rate": 0
+        },
+        "SAAS-3": {
+          "passed": 1,
+          "total": 8,
+          "rate": 0.125
+        },
+        "HARD-2": {
+          "passed": 25,
+          "total": 25,
+          "rate": 1
+        }
+      },
+      "avgScore": 0.45,
+      "totalPassed": 27,
+      "totalTests": 60,
+      "improved": true,
+      "durationMs": 535287
+    }
+  ],
+  "bestIteration": 1,
+  "bestScore": 0.45
+}

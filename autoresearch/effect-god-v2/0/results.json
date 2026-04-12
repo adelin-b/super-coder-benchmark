@@ -1,0 +1,80 @@
+[
+  {
+    "task": "BL-4",
+    "agent": "effect-god",
+    "model": "sonnet",
+    "generated": true,
+    "tests_passed": 0,
+    "tests_total": 6,
+    "pass_rate": 0,
+    "tokens_in": 2,
+    "tokens_out": 4157,
+    "duration_ms": 55156,
+    "verdict": "fail"
+  },
+  {
+    "task": "BL-5",
+    "agent": "effect-god",
+    "model": "sonnet",
+    "generated": true,
+    "tests_passed": 0,
+    "tests_total": 7,
+    "pass_rate": 0,
+    "tokens_in": 2,
+    "tokens_out": 3011,
+    "duration_ms": 38498,
+    "verdict": "fail"
+  },
+  {
+    "task": "ALG-3",
+    "agent": "effect-god",
+    "model": "sonnet",
+    "generated": true,
+    "tests_passed": 0,
+    "tests_total": 7,
+    "pass_rate": 0,
+    "tokens_in": 2,
+    "tokens_out": 2353,
+    "duration_ms": 36122,
+    "verdict": "fail"
+  },
+  {
+    "task": "SAAS-2",
+    "agent": "effect-god",
+    "model": "sonnet",
+    "generated": true,
+    "tests_passed": 0,
+    "tests_total": 7,
+    "pass_rate": 0,
+    "tokens_in": 2,
+    "tokens_out": 5360,
+    "duration_ms": 60870,
+    "verdict": "fail"
+  },
+  {
+    "task": "SAAS-3",
+    "agent": "effect-god",
+    "model": "sonnet",
+    "generated": true,
+    "tests_passed": 1,
+    "tests_total": 8,
+    "pass_rate": 0.125,
+    "tokens_in": 2,
+    "tokens_out": 2741,
+    "duration_ms": 35177,
+    "verdict": "fail"
+  },
+  {
+    "task": "HARD-2",
+    "agent": "effect-god",
+    "model": "sonnet",
+    "generated": true,
+    "tests_passed": 25,
+    "tests_total": 25,
+    "pass_rate": 1,
+    "tokens_in": 2,
+    "tokens_out": 2707,
+    "duration_ms": 32361,
+    "verdict": "pass"
+  }
+]
