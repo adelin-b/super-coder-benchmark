@@ -1,0 +1,406 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/Users/adelinb/Documents/Projects/super-coder-benchmark",
+    "session_id": "b16bf284-3e27-4b11-8d96-17384006b61c",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "SendMessage",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TeamCreate",
+      "TeamDelete",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Apollo_io__apollo_accounts_create",
+      "mcp__claude_ai_Apollo_io__apollo_accounts_update",
+      "mcp__claude_ai_Apollo_io__apollo_contacts_create",
+      "mcp__claude_ai_Apollo_io__apollo_contacts_search",
+      "mcp__claude_ai_Apollo_io__apollo_contacts_update",
+      "mcp__claude_ai_Apollo_io__apollo_email_accounts_index",
+      "mcp__claude_ai_Apollo_io__apollo_emailer_campaigns_add_contact_ids",
+      "mcp__claude_ai_Apollo_io__apollo_emailer_campaigns_remove_or_stop_contact_ids",
+      "mcp__claude_ai_Apollo_io__apollo_emailer_campaigns_search",
+      "mcp__claude_ai_Apollo_io__apollo_mixed_companies_search",
+      "mcp__claude_ai_Apollo_io__apollo_mixed_people_api_search",
+      "mcp__claude_ai_Apollo_io__apollo_organizations_bulk_enrich",
+      "mcp__claude_ai_Apollo_io__apollo_organizations_enrich",
+      "mcp__claude_ai_Apollo_io__apollo_organizations_job_postings",
+      "mcp__claude_ai_Apollo_io__apollo_people_bulk_match",
+      "mcp__claude_ai_Apollo_io__apollo_people_match",
+      "mcp__claude_ai_Apollo_io__apollo_users_api_profile",
+      "mcp__claude_ai_Canva__cancel-editing-transaction",
+      "mcp__claude_ai_Canva__comment-on-design",
+      "mcp__claude_ai_Canva__commit-editing-transaction",
+      "mcp__claude_ai_Canva__create-design-from-candidate",
+      "mcp__claude_ai_Canva__create-folder",
+      "mcp__claude_ai_Canva__export-design",
+      "mcp__claude_ai_Canva__generate-design",
+      "mcp__claude_ai_Canva__generate-design-structured",
+      "mcp__claude_ai_Canva__get-assets",
+      "mcp__claude_ai_Canva__get-design",
+      "mcp__claude_ai_Canva__get-design-content",
+      "mcp__claude_ai_Canva__get-design-pages",
+      "mcp__claude_ai_Canva__get-design-thumbnail",
+      "mcp__claude_ai_Canva__get-export-formats",
+      "mcp__claude_ai_Canva__get-presenter-notes",
+      "mcp__claude_ai_Canva__import-design-from-url",
+      "mcp__claude_ai_Canva__list-brand-kits",
+      "mcp__claude_ai_Canva__list-comments",
+      "mcp__claude_ai_Canva__list-folder-items",
+      "mcp__claude_ai_Canva__list-replies",
+      "mcp__claude_ai_Canva__merge-designs",
+      "mcp__claude_ai_Canva__move-item-to-folder",
+      "mcp__claude_ai_Canva__perform-editing-operations",
+      "mcp__claude_ai_Canva__reply-to-comment",
+      "mcp__claude_ai_Canva__request-outline-review",
+      "mcp__claude_ai_Canva__resize-design",
+      "mcp__claude_ai_Canva__resolve-shortlink",
+      "mcp__claude_ai_Canva__search-designs",
+      "mcp__claude_ai_Canva__search-folders",
+      "mcp__claude_ai_Canva__start-editing-transaction",
+      "mcp__claude_ai_Canva__upload-asset-from-url",
+      "mcp__claude_ai_Context7__query-docs",
+      "mcp__claude_ai_Context7__resolve-library-id",
+      "mcp__claude_ai_DirectBooker__hotel-details",
+      "mcp__claude_ai_DirectBooker__hotel-search",
+      "mcp__claude_ai_Excalidraw__create_view",
+      "mcp__claude_ai_Excalidraw__export_to_excalidraw",
+      "mcp__claude_ai_Excalidraw__read_checkpoint",
+      "mcp__claude_ai_Excalidraw__read_me",
+      "mcp__claude_ai_Excalidraw__save_checkpoint",
+      "mcp__claude_ai_Gmail__gmail_create_draft",
+      "mcp__claude_ai_Gmail__gmail_get_profile",
+      "mcp__claude_ai_Gmail__gmail_list_drafts",
+      "mcp__claude_ai_Gmail__gmail_list_labels",
+      "mcp__claude_ai_Gmail__gmail_read_message",
+      "mcp__claude_ai_Gmail__gmail_read_thread",
+      "mcp__claude_ai_Gmail__gmail_search_messages",
+      "mcp__claude_ai_Google_Calendar__gcal_create_event",
+      "mcp__claude_ai_Google_Calendar__gcal_delete_event",
+      "mcp__claude_ai_Google_Calendar__gcal_find_meeting_times",
+      "mcp__claude_ai_Google_Calendar__gcal_find_my_free_time",
+      "mcp__claude_ai_Google_Calendar__gcal_get_event",
+      "mcp__claude_ai_Google_Calendar__gcal_list_calendars",
+      "mcp__claude_ai_Google_Calendar__gcal_list_events",
+      "mcp__claude_ai_Google_Calendar__gcal_respond_to_event",
+      "mcp__claude_ai_Google_Calendar__gcal_update_event",
+      "mcp__claude_ai_Hugging_Face__authenticate",
+      "mcp__claude_ai_Lumin__cancel_signature_request_on_lumin_by_id",
+      "mcp__claude_ai_Lumin__get_lumin_user_information",
+      "mcp__claude_ai_Lumin__get_signature_request_on_lumin_by_id",
+      "mcp__claude_ai_Lumin__get_workspace_list_of_user_on_lumin",
+      "mcp__claude_ai_Lumin__lumin_markdown2pdf",
+      "mcp__claude_ai_Lumin__send_signature_request_on_lumin",
+      "mcp__claude_ai_Lumin__upload_file_to_lumin",
+      "mcp__claude_ai_Mermaid_Chart__validate_and_render_mermaid_diagram",
+      "mcp__claude_ai_n8n__authenticate",
+      "mcp__claude_ai_Notion__notion-create-comment",
+      "mcp__claude_ai_Notion__notion-create-database",
+      "mcp__claude_ai_Notion__notion-create-pages",
+      "mcp__claude_ai_Notion__notion-create-view",
+      "mcp__claude_ai_Notion__notion-duplicate-page",
+      "mcp__claude_ai_Notion__notion-fetch",
+      "mcp__claude_ai_Notion__notion-get-comments",
+      "mcp__claude_ai_Notion__notion-get-teams",
+      "mcp__claude_ai_Notion__notion-get-users",
+      "mcp__claude_ai_Notion__notion-move-pages",
+      "mcp__claude_ai_Notion__notion-query-database-view",
+      "mcp__claude_ai_Notion__notion-query-meeting-notes",
+      "mcp__claude_ai_Notion__notion-search",
+      "mcp__claude_ai_Notion__notion-update-data-source",
+      "mcp__claude_ai_Notion__notion-update-page",
+      "mcp__claude_ai_Notion__notion-update-view",
+      "mcp__claude_ai_PayPal__authenticate",
+      "mcp__claude_ai_PostHog__authenticate",
+      "mcp__claude_ai_Sentry__authenticate",
+      "mcp__claude_ai_Slack__slack_create_canvas",
+      "mcp__claude_ai_Slack__slack_read_canvas",
+      "mcp__claude_ai_Slack__slack_read_channel",
+      "mcp__claude_ai_Slack__slack_read_thread",
+      "mcp__claude_ai_Slack__slack_read_user_profile",
+      "mcp__claude_ai_Slack__slack_schedule_message",
+      "mcp__claude_ai_Slack__slack_search_channels",
+      "mcp__claude_ai_Slack__slack_search_public",
+      "mcp__claude_ai_Slack__slack_search_public_and_private",
+      "mcp__claude_ai_Slack__slack_search_users",
+      "mcp__claude_ai_Slack__slack_send_message",
+      "mcp__claude_ai_Slack__slack_send_message_draft",
+      "mcp__claude_ai_Slack__slack_update_canvas",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Excalidraw",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Slack",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Mermaid Chart",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Sentry",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai PayPal",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai DirectBooker",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Lumin",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai PostHog",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai n8n",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Apollo.io",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Context7",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "connected"
+      }
+    ],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Google_Calendar__schedule_meeting",
+      "mcp__claude_ai_Google_Calendar__quick_meeting_today",
+      "mcp__claude_ai_Google_Calendar__recurring_1on1",
+      "mcp__claude_ai_Google_Calendar__team_meeting_scheduler",
+      "mcp__claude_ai_Google_Calendar__analyze_availability"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "c3096f77-c7d7-41ad-984a-cb1298e63d89",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_011rQBLgmSzJtVQE9P6BgXL7",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "Let me analyze the spec carefully. The spec is quite brief - \"Reserve stock, release, check availability, handle concurrent-style operations.\" I need to infer the interface from what's typical for an inventory reservation system.\n\nSince there are no test files provided, I need to create a reasonable implementation. Let me think about what an inventory reservation system typically needs:\n\n1. **createInventory(items)** - factory function to create inventory system\n2. **reserve(itemId, quantity)** - reserve stock\n3. **release(reservationId)** - release a reservation\n4. **confirm(reservationId)** - confirm a reservation (deducts from stock)\n\n\n5. **getAvailable(itemId)** - check available quantity\n6. **InsufficientStockError** - error class for when stock is insufficient\n\nThe system prompt gives me a key hint about the confirm-reduces-stock pattern: when `confirm(id)` is called on a reservation, it permanently deducts the reserved quantity from total stock, and after that `getAvailable` reflects both the deduction and removal of the reservation. I'm defining the core types and interface structure for this system...\n\nDefining the TypeScript interface...\n\nNow I'm thinking through the key invariants that need to hold: conservation of stock (total equals available plus reserved plus confirmed deductions), bounds preservation (available can never go negative), and reservation uniqueness (each ID maps to exactly one reservation). I'll implement this using Effect TS internally to handle the state management and error cases.\n\nSetting up the error types... Defining the inventory factory function that validates the initial items and sets up the internal state tracking for stock levels and pending reservations.\n\nNow I'm implementing helper functions to check available stock by subtracting pending reservations from total stock, and to handle the reservation logic with proper error handling for missing items or insufficient inventory. Writing the reservation management logic... Writing the public API methods... I'm mapping out the core API surface for this inventory system—the factory function, error classes, and the main methods like reserve, release, confirm, and getAvailable that manage stock and reservations.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 18212,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "b16bf284-3e27-4b11-8d96-17384006b61c",
+    "uuid": "a189f783-4e59-4e82-94ed-5e79af83d06a"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_011rQBLgmSzJtVQE9P6BgXL7",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nimport { Effect, Data, Exit, Cause } from \"effect\";\nimport crypto from \"crypto\";\n\n// ─── Internal Tagged Errors ────────────────────────────────────────────────────\n\nclass InternalInsufficientStock extends Data.TaggedError(\"InternalInsufficientStock\")<{\n  itemId: string;\n  requested: number;\n  available: number;\n}> {}\n\nclass InternalReservationNotFound extends Data.TaggedError(\"InternalReservationNotFound\")<{\n  reservationId: string;\n}> {}\n\nclass InternalItemNotFound extends Data.TaggedError(\"InternalItemNotFound\")<{\n  itemId: string;\n}> {}\n\nclass InternalInvalidOperation extends Data.TaggedError(\"InternalInvalidOperation\")<{\n  reason: string;\n}> {}\n\n// ─── Public Error Classes ─────────────────────────────────────────────────────\n\nexport class InsufficientStockError extends Error {\n  readonly itemId: string;\n  readonly requested: number;\n  readonly available: number;\n\n  constructor(itemId: string, requested: number, available: number) {\n    super(\n      `Insufficient stock for item \"${itemId}\": requested ${requested}, available ${available}`\n    );\n    this.name = \"InsufficientStockError\";\n    this.itemId = itemId;\n    this.requested = requested;\n    this.available = available;\n    Object.setPrototypeOf(this, InsufficientStockError.prototype);\n  }\n}\n\nexport class ReservationNotFoundError extends Error {\n  readonly reservationId: string;\n\n  constructor(reservationId: string) {\n    super(`Reservation not found: \"${reservationId}\"`);\n    this.name = \"ReservationNotFoundError\";\n    this.reservationId = reservationId;\n    Object.setPrototypeOf(this, ReservationNotFoundError.prototype);\n  }\n}\n\nexport class ItemNotFoundError extends Error {\n  readonly itemId: string;\n\n  constructor(itemId: string) {\n    super(`Item not found: \"${itemId}\"`);\n    this.name = \"ItemNotFoundError\";\n    this.itemId = itemId;\n    Object.setPrototypeOf(this, ItemNotFoundError.prototype);\n  }\n}\n\nexport class InvalidOperationError extends Error {\n  constructor(reason: string) {\n    super(reason);\n    this.name = \"InvalidOperationError\";\n    Object.setPrototypeOf(this, InvalidOperationError.prototype);\n  }\n}\n\n// ─── Public Types ─────────────────────────────────────────────────────────────\n\nexport interface InventoryItem {\n  id: string;\n  quantity: number;\n}\n\nexport type ReservationStatus = \"pending\" | \"confirmed\" | \"released\";\n\nexport interface Reservation {\n  id: string;\n  itemId: string;\n  quantity: number;\n  status: ReservationStatus;\n}\n\nexport interface Inventory {\n  reserve(itemId: string, quantity: number): string;\n  release(reservationId: string): void;\n  confirm(reservationId: string): void;\n  getAvailable(itemId: string): number;\n  getReservation(reservationId: string): Reservation;\n  getTotalStock(itemId: string): number;\n  listReservations(itemId?: string): Reservation[];\n}\n\n// ─── Internal State ───────────────────────────────────────────────────────────\n\ninterface ItemState {\n  id: string;\n  totalStock: number; // decremented on confirm\n  pendingReservations: Map<string, number>; // reservationId -> quantity\n}\n\n// ─── Effect Helpers ───────────────────────────────────────────────────────────\n\ntype InternalError =\n  | InternalInsufficientStock\n  | InternalReservationNotFound\n  | InternalItemNotFound\n  | InternalInvalidOperation;\n\nfunction getItemState(\n  itemStates: Map<string, ItemState>,\n  itemId: string\n): Effect.Effect<ItemState, InternalItemNotFound> {\n  return Effect.gen(function* () {\n    const state = itemStates.get(itemId);\n    if (!state) yield* Effect.fail(new InternalItemNotFound({ itemId }));\n    return state!;\n  });\n}\n\nfunction computeAvailable(state: ItemState): number {\n  const pendingTotal = Array.from(state.pendingReservations.values()).reduce(\n    (sum, q) => sum + q,\n    0\n  );\n  return state.totalStock - pendingTotal;\n}\n\n// ─── Factory ──────────────────────────────────────────────────────────────────\n\nexport function createInventory(items: InventoryItem[]): Inventory {\n  // Validate initialization\n  if (!Array.isArray(items) || items.length === 0) {\n    throw new Error(\"Inventory must be initialized with at least one item\");\n  }\n\n  for (const item of items) {\n    if (item.quantity < 0) {\n      throw new Error(\n        `Item quantity cannot be negative for item \"${item.id}\"`\n      );\n    }\n  }\n\n  // Mutable internal state\n  const itemStates = new Map<string, ItemState>();\n  const reservations = new Map<string, Reservation>();\n\n  for (const item of items) {\n    itemStates.set(item.id, {\n      id: item.id,\n      totalStock: item.quantity,\n      pendingReservations: new Map(),\n    });\n  }\n\n  // ── Internal Effects ──────────────────────────────────────────────────────\n\n  const getAvailableEffect = (\n    itemId: string\n  ): Effect.Effect<number, InternalItemNotFound> =>\n    Effect.gen(function* () {\n      const state = yield* getItemState(itemStates, itemId);\n      return computeAvailable(state);\n    });\n\n  const reserveEffect = (\n    itemId: string,\n    quantity: number\n  ): Effect.Effect<string, InternalItemNotFound | InternalInsufficientStock> =>\n    Effect.gen(function* () {\n      const state = yield* getItemState(itemStates, itemId);\n      const available = computeAvailable(state);\n\n      if (available < quantity) {\n        yield* Effect.fail(\n          new InternalInsufficientStock({ itemId, requested: quantity, available })\n        );\n      }\n\n      const reservationId = crypto.randomUUID();\n      state.pendingReservations.set(reservationId, quantity);\n\n      const reservation: Reservation = {\n        id: reservationId,\n        itemId,\n        quantity,\n        status: \"pending\",\n      };\n      reservations.set(reservationId, reservation);\n\n      return reservationId;\n    });\n\n  const releaseEffect = (\n    reservationId: string\n  ): Effect.Effect<void, InternalReservationNotFound | InternalInvalidOperation> =>\n    Effect.gen(function* () {\n      const reservation = reservations.get(reservationId);\n      if (!reservation) {\n        yield* Effect.fail(new InternalReservationNotFound({ reservationId }));\n      }\n      if (reservation!.status !== \"pending\") {\n        yield* Effect.fail(\n          new InternalInvalidOperation({\n            reason: `Cannot release reservation \"${reservationId}\" with status \"${reservation!.status}\"`,\n          })\n        );\n      }\n\n      const state = itemStates.get(reservation!.itemId)!;\n      state.pendingReservations.delete(reservationId);\n      reservation!.status = \"released\";\n    });\n\n  const confirmEffect = (\n    reservationId: string\n  ): Effect.Effect<void, InternalReservationNotFound | InternalInvalidOperation> =>\n    Effect.gen(function* () {\n      const reservation = reservations.get(reservationId);\n      if (!reservation) {\n        yield* Effect.fail(new InternalReservationNotFound({ reservationId }));\n      }\n      if (reservation!.status !== \"pending\") {\n        yield* Effect.fail(\n          new InternalInvalidOperation({\n            reason: `Cannot confirm reservation \"${reservationId}\" with status \"${reservation!.status}\"`,\n          })\n        );\n      }\n\n      const state = itemStates.get(reservation!.itemId)!;\n      // Remove from pending and permanently deduct from total stock\n      state.pendingReservations.delete(reservationId);\n      state.totalStock -= reservation!.quantity;\n      reservation!.status = \"confirmed\";\n    });\n\n  // ── Boundary Helpers ──────────────────────────────────────────────────────\n\n  function runOrThrow<A>(effect: Effect.Effect<A, InternalError>): A {\n    const exit = Effect.runSyncExit(effect);\n    if (Exit.isSuccess(exit)) return exit.value;\n\n    const raw = Cause.squash(exit.cause);\n    const tag = (raw as any)._tag as string | undefined;\n\n    if (tag === \"InternalInsufficientStock\") {\n      const e = raw as InternalInsufficientStock;\n      throw new InsufficientStockError(e.itemId, e.requested, e.available);\n    }\n    if (tag === \"InternalItemNotFound\") {\n      const e = raw as InternalItemNotFound;\n      throw new ItemNotFoundError(e.itemId);\n    }\n    if (tag === \"InternalReservationNotFound\") {\n      const e = raw as InternalReservationNotFound;\n      throw new ReservationNotFoundError(e.reservationId);\n    }\n    if (tag === \"InternalInvalidOperation\") {\n      const e = raw as InternalInvalidOperation;\n      throw new InvalidOperationError(e.reason);\n    }\n\n    throw new Error(raw instanceof Error ? raw.message : String(raw));\n  }\n\n  // ── Public Interface ──────────────────────────────────────────────────────\n\n  return {\n    reserve(itemId: string, quantity: number): string {\n      if (typeof quantity !== \"number\" || quantity <= 0) {\n        throw new Error(\"Quantity must be a positive number\");\n      }\n      return runOrThrow(reserveEffect(itemId, quantity));\n    },\n\n    release(reservationId: string): void {\n      if (!reservationId) throw new ReservationNotFoundError(reservationId);\n      runOrThrow(releaseEffect(reservationId));\n    },\n\n    confirm(reservationId: string): void {\n      if (!reservationId) throw new ReservationNotFoundError(reservationId);\n      runOrThrow(confirmEffect(reservationId));\n    },\n\n    getAvailable(itemId: string): number {\n      return runOrThrow(getAvailableEffect(itemId));\n    },\n\n    getReservation(reservationId: string): Reservation {\n      const reservation = reservations.get(reservationId);\n      if (!reservation) throw new ReservationNotFoundError(reservationId);\n      return { ...reservation };\n    },\n\n    getTotalStock(itemId: string): number {\n      const state = itemStates.get(itemId);\n      if (!state) throw new ItemNotFoundError(itemId);\n      return state.totalStock;\n    },\n\n    listReservations(itemId?: string): Reservation[] {\n      const all = Array.from(reservations.values()).map((r) => ({ ...r }));\n      if (itemId !== undefined) {\n        return all.filter((r) => r.itemId === itemId);\n      }\n      return all;\n    },\n  };\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 18212,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "b16bf284-3e27-4b11-8d96-17384006b61c",
+    "uuid": "dc55b4ce-0cbb-4ce1-984f-6675e0d6d72b"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed",
+      "resetsAt": 1775995200,
+      "rateLimitType": "five_hour",
+      "overageStatus": "rejected",
+      "overageDisabledReason": "org_level_disabled",
+      "isUsingOverage": false
+    },
+    "uuid": "6db3767b-354b-412a-9243-0c5f065508ca",
+    "session_id": "b16bf284-3e27-4b11-8d96-17384006b61c"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 52960,
+    "duration_api_ms": 52929,
+    "num_turns": 1,
+    "result": "```typescript\nimport { Effect, Data, Exit, Cause } from \"effect\";\nimport crypto from \"crypto\";\n\n// ─── Internal Tagged Errors ────────────────────────────────────────────────────\n\nclass InternalInsufficientStock extends Data.TaggedError(\"InternalInsufficientStock\")<{\n  itemId: string;\n  requested: number;\n  available: number;\n}> {}\n\nclass InternalReservationNotFound extends Data.TaggedError(\"InternalReservationNotFound\")<{\n  reservationId: string;\n}> {}\n\nclass InternalItemNotFound extends Data.TaggedError(\"InternalItemNotFound\")<{\n  itemId: string;\n}> {}\n\nclass InternalInvalidOperation extends Data.TaggedError(\"InternalInvalidOperation\")<{\n  reason: string;\n}> {}\n\n// ─── Public Error Classes ─────────────────────────────────────────────────────\n\nexport class InsufficientStockError extends Error {\n  readonly itemId: string;\n  readonly requested: number;\n  readonly available: number;\n\n  constructor(itemId: string, requested: number, available: number) {\n    super(\n      `Insufficient stock for item \"${itemId}\": requested ${requested}, available ${available}`\n    );\n    this.name = \"InsufficientStockError\";\n    this.itemId = itemId;\n    this.requested = requested;\n    this.available = available;\n    Object.setPrototypeOf(this, InsufficientStockError.prototype);\n  }\n}\n\nexport class ReservationNotFoundError extends Error {\n  readonly reservationId: string;\n\n  constructor(reservationId: string) {\n    super(`Reservation not found: \"${reservationId}\"`);\n    this.name = \"ReservationNotFoundError\";\n    this.reservationId = reservationId;\n    Object.setPrototypeOf(this, ReservationNotFoundError.prototype);\n  }\n}\n\nexport class ItemNotFoundError extends Error {\n  readonly itemId: string;\n\n  constructor(itemId: string) {\n    super(`Item not found: \"${itemId}\"`);\n    this.name = \"ItemNotFoundError\";\n    this.itemId = itemId;\n    Object.setPrototypeOf(this, ItemNotFoundError.prototype);\n  }\n}\n\nexport class InvalidOperationError extends Error {\n  constructor(reason: string) {\n    super(reason);\n    this.name = \"InvalidOperationError\";\n    Object.setPrototypeOf(this, InvalidOperationError.prototype);\n  }\n}\n\n// ─── Public Types ─────────────────────────────────────────────────────────────\n\nexport interface InventoryItem {\n  id: string;\n  quantity: number;\n}\n\nexport type ReservationStatus = \"pending\" | \"confirmed\" | \"released\";\n\nexport interface Reservation {\n  id: string;\n  itemId: string;\n  quantity: number;\n  status: ReservationStatus;\n}\n\nexport interface Inventory {\n  reserve(itemId: string, quantity: number): string;\n  release(reservationId: string): void;\n  confirm(reservationId: string): void;\n  getAvailable(itemId: string): number;\n  getReservation(reservationId: string): Reservation;\n  getTotalStock(itemId: string): number;\n  listReservations(itemId?: string): Reservation[];\n}\n\n// ─── Internal State ───────────────────────────────────────────────────────────\n\ninterface ItemState {\n  id: string;\n  totalStock: number; // decremented on confirm\n  pendingReservations: Map<string, number>; // reservationId -> quantity\n}\n\n// ─── Effect Helpers ───────────────────────────────────────────────────────────\n\ntype InternalError =\n  | InternalInsufficientStock\n  | InternalReservationNotFound\n  | InternalItemNotFound\n  | InternalInvalidOperation;\n\nfunction getItemState(\n  itemStates: Map<string, ItemState>,\n  itemId: string\n): Effect.Effect<ItemState, InternalItemNotFound> {\n  return Effect.gen(function* () {\n    const state = itemStates.get(itemId);\n    if (!state) yield* Effect.fail(new InternalItemNotFound({ itemId }));\n    return state!;\n  });\n}\n\nfunction computeAvailable(state: ItemState): number {\n  const pendingTotal = Array.from(state.pendingReservations.values()).reduce(\n    (sum, q) => sum + q,\n    0\n  );\n  return state.totalStock - pendingTotal;\n}\n\n// ─── Factory ──────────────────────────────────────────────────────────────────\n\nexport function createInventory(items: InventoryItem[]): Inventory {\n  // Validate initialization\n  if (!Array.isArray(items) || items.length === 0) {\n    throw new Error(\"Inventory must be initialized with at least one item\");\n  }\n\n  for (const item of items) {\n    if (item.quantity < 0) {\n      throw new Error(\n        `Item quantity cannot be negative for item \"${item.id}\"`\n      );\n    }\n  }\n\n  // Mutable internal state\n  const itemStates = new Map<string, ItemState>();\n  const reservations = new Map<string, Reservation>();\n\n  for (const item of items) {\n    itemStates.set(item.id, {\n      id: item.id,\n      totalStock: item.quantity,\n      pendingReservations: new Map(),\n    });\n  }\n\n  // ── Internal Effects ──────────────────────────────────────────────────────\n\n  const getAvailableEffect = (\n    itemId: string\n  ): Effect.Effect<number, InternalItemNotFound> =>\n    Effect.gen(function* () {\n      const state = yield* getItemState(itemStates, itemId);\n      return computeAvailable(state);\n    });\n\n  const reserveEffect = (\n    itemId: string,\n    quantity: number\n  ): Effect.Effect<string, InternalItemNotFound | InternalInsufficientStock> =>\n    Effect.gen(function* () {\n      const state = yield* getItemState(itemStates, itemId);\n      const available = computeAvailable(state);\n\n      if (available < quantity) {\n        yield* Effect.fail(\n          new InternalInsufficientStock({ itemId, requested: quantity, available })\n        );\n      }\n\n      const reservationId = crypto.randomUUID();\n      state.pendingReservations.set(reservationId, quantity);\n\n      const reservation: Reservation = {\n        id: reservationId,\n        itemId,\n        quantity,\n        status: \"pending\",\n      };\n      reservations.set(reservationId, reservation);\n\n      return reservationId;\n    });\n\n  const releaseEffect = (\n    reservationId: string\n  ): Effect.Effect<void, InternalReservationNotFound | InternalInvalidOperation> =>\n    Effect.gen(function* () {\n      const reservation = reservations.get(reservationId);\n      if (!reservation) {\n        yield* Effect.fail(new InternalReservationNotFound({ reservationId }));\n      }\n      if (reservation!.status !== \"pending\") {\n        yield* Effect.fail(\n          new InternalInvalidOperation({\n            reason: `Cannot release reservation \"${reservationId}\" with status \"${reservation!.status}\"`,\n          })\n        );\n      }\n\n      const state = itemStates.get(reservation!.itemId)!;\n      state.pendingReservations.delete(reservationId);\n      reservation!.status = \"released\";\n    });\n\n  const confirmEffect = (\n    reservationId: string\n  ): Effect.Effect<void, InternalReservationNotFound | InternalInvalidOperation> =>\n    Effect.gen(function* () {\n      const reservation = reservations.get(reservationId);\n      if (!reservation) {\n        yield* Effect.fail(new InternalReservationNotFound({ reservationId }));\n      }\n      if (reservation!.status !== \"pending\") {\n        yield* Effect.fail(\n          new InternalInvalidOperation({\n            reason: `Cannot confirm reservation \"${reservationId}\" with status \"${reservation!.status}\"`,\n          })\n        );\n      }\n\n      const state = itemStates.get(reservation!.itemId)!;\n      // Remove from pending and permanently deduct from total stock\n      state.pendingReservations.delete(reservationId);\n      state.totalStock -= reservation!.quantity;\n      reservation!.status = \"confirmed\";\n    });\n\n  // ── Boundary Helpers ──────────────────────────────────────────────────────\n\n  function runOrThrow<A>(effect: Effect.Effect<A, InternalError>): A {\n    const exit = Effect.runSyncExit(effect);\n    if (Exit.isSuccess(exit)) return exit.value;\n\n    const raw = Cause.squash(exit.cause);\n    const tag = (raw as any)._tag as string | undefined;\n\n    if (tag === \"InternalInsufficientStock\") {\n      const e = raw as InternalInsufficientStock;\n      throw new InsufficientStockError(e.itemId, e.requested, e.available);\n    }\n    if (tag === \"InternalItemNotFound\") {\n      const e = raw as InternalItemNotFound;\n      throw new ItemNotFoundError(e.itemId);\n    }\n    if (tag === \"InternalReservationNotFound\") {\n      const e = raw as InternalReservationNotFound;\n      throw new ReservationNotFoundError(e.reservationId);\n    }\n    if (tag === \"InternalInvalidOperation\") {\n      const e = raw as InternalInvalidOperation;\n      throw new InvalidOperationError(e.reason);\n    }\n\n    throw new Error(raw instanceof Error ? raw.message : String(raw));\n  }\n\n  // ── Public Interface ──────────────────────────────────────────────────────\n\n  return {\n    reserve(itemId: string, quantity: number): string {\n      if (typeof quantity !== \"number\" || quantity <= 0) {\n        throw new Error(\"Quantity must be a positive number\");\n      }\n      return runOrThrow(reserveEffect(itemId, quantity));\n    },\n\n    release(reservationId: string): void {\n      if (!reservationId) throw new ReservationNotFoundError(reservationId);\n      runOrThrow(releaseEffect(reservationId));\n    },\n\n    confirm(reservationId: string): void {\n      if (!reservationId) throw new ReservationNotFoundError(reservationId);\n      runOrThrow(confirmEffect(reservationId));\n    },\n\n    getAvailable(itemId: string): number {\n      return runOrThrow(getAvailableEffect(itemId));\n    },\n\n    getReservation(reservationId: string): Reservation {\n      const reservation = reservations.get(reservationId);\n      if (!reservation) throw new ReservationNotFoundError(reservationId);\n      return { ...reservation };\n    },\n\n    getTotalStock(itemId: string): number {\n      const state = itemStates.get(itemId);\n      if (!state) throw new ItemNotFoundError(itemId);\n      return state.totalStock;\n    },\n\n    listReservations(itemId?: string): Reservation[] {\n      const all = Array.from(reservations.values()).map((r) => ({ ...r }));\n      if (itemId !== undefined) {\n        return all.filter((r) => r.itemId === itemId);\n      }\n      return all;\n    },\n  };\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "b16bf284-3e27-4b11-8d96-17384006b61c",
+    "total_cost_usd": 0.08906460000000001,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 18212,
+      "output_tokens": 5573,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 5573,
+        "cacheReadInputTokens": 18212,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.08906460000000001,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "1c53a3b0-0d21-46b4-a98a-b9eee39d01d0"
+  }
+]

@@ -1,0 +1,406 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/Users/adelinb/Documents/Projects/super-coder-benchmark",
+    "session_id": "eedc078b-6eb5-47c0-9b35-fdc60dfa1382",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "ListMcpResourcesTool",
+      "NotebookEdit",
+      "Read",
+      "ReadMcpResourceTool",
+      "RemoteTrigger",
+      "SendMessage",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TeamCreate",
+      "TeamDelete",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "mcp__claude_ai_Apollo_io__apollo_accounts_create",
+      "mcp__claude_ai_Apollo_io__apollo_accounts_update",
+      "mcp__claude_ai_Apollo_io__apollo_contacts_create",
+      "mcp__claude_ai_Apollo_io__apollo_contacts_search",
+      "mcp__claude_ai_Apollo_io__apollo_contacts_update",
+      "mcp__claude_ai_Apollo_io__apollo_email_accounts_index",
+      "mcp__claude_ai_Apollo_io__apollo_emailer_campaigns_add_contact_ids",
+      "mcp__claude_ai_Apollo_io__apollo_emailer_campaigns_remove_or_stop_contact_ids",
+      "mcp__claude_ai_Apollo_io__apollo_emailer_campaigns_search",
+      "mcp__claude_ai_Apollo_io__apollo_mixed_companies_search",
+      "mcp__claude_ai_Apollo_io__apollo_mixed_people_api_search",
+      "mcp__claude_ai_Apollo_io__apollo_organizations_bulk_enrich",
+      "mcp__claude_ai_Apollo_io__apollo_organizations_enrich",
+      "mcp__claude_ai_Apollo_io__apollo_organizations_job_postings",
+      "mcp__claude_ai_Apollo_io__apollo_people_bulk_match",
+      "mcp__claude_ai_Apollo_io__apollo_people_match",
+      "mcp__claude_ai_Apollo_io__apollo_users_api_profile",
+      "mcp__claude_ai_Canva__cancel-editing-transaction",
+      "mcp__claude_ai_Canva__comment-on-design",
+      "mcp__claude_ai_Canva__commit-editing-transaction",
+      "mcp__claude_ai_Canva__create-design-from-candidate",
+      "mcp__claude_ai_Canva__create-folder",
+      "mcp__claude_ai_Canva__export-design",
+      "mcp__claude_ai_Canva__generate-design",
+      "mcp__claude_ai_Canva__generate-design-structured",
+      "mcp__claude_ai_Canva__get-assets",
+      "mcp__claude_ai_Canva__get-design",
+      "mcp__claude_ai_Canva__get-design-content",
+      "mcp__claude_ai_Canva__get-design-pages",
+      "mcp__claude_ai_Canva__get-design-thumbnail",
+      "mcp__claude_ai_Canva__get-export-formats",
+      "mcp__claude_ai_Canva__get-presenter-notes",
+      "mcp__claude_ai_Canva__import-design-from-url",
+      "mcp__claude_ai_Canva__list-brand-kits",
+      "mcp__claude_ai_Canva__list-comments",
+      "mcp__claude_ai_Canva__list-folder-items",
+      "mcp__claude_ai_Canva__list-replies",
+      "mcp__claude_ai_Canva__merge-designs",
+      "mcp__claude_ai_Canva__move-item-to-folder",
+      "mcp__claude_ai_Canva__perform-editing-operations",
+      "mcp__claude_ai_Canva__reply-to-comment",
+      "mcp__claude_ai_Canva__request-outline-review",
+      "mcp__claude_ai_Canva__resize-design",
+      "mcp__claude_ai_Canva__resolve-shortlink",
+      "mcp__claude_ai_Canva__search-designs",
+      "mcp__claude_ai_Canva__search-folders",
+      "mcp__claude_ai_Canva__start-editing-transaction",
+      "mcp__claude_ai_Canva__upload-asset-from-url",
+      "mcp__claude_ai_Context7__query-docs",
+      "mcp__claude_ai_Context7__resolve-library-id",
+      "mcp__claude_ai_DirectBooker__hotel-details",
+      "mcp__claude_ai_DirectBooker__hotel-search",
+      "mcp__claude_ai_Excalidraw__create_view",
+      "mcp__claude_ai_Excalidraw__export_to_excalidraw",
+      "mcp__claude_ai_Excalidraw__read_checkpoint",
+      "mcp__claude_ai_Excalidraw__read_me",
+      "mcp__claude_ai_Excalidraw__save_checkpoint",
+      "mcp__claude_ai_Gmail__gmail_create_draft",
+      "mcp__claude_ai_Gmail__gmail_get_profile",
+      "mcp__claude_ai_Gmail__gmail_list_drafts",
+      "mcp__claude_ai_Gmail__gmail_list_labels",
+      "mcp__claude_ai_Gmail__gmail_read_message",
+      "mcp__claude_ai_Gmail__gmail_read_thread",
+      "mcp__claude_ai_Gmail__gmail_search_messages",
+      "mcp__claude_ai_Google_Calendar__gcal_create_event",
+      "mcp__claude_ai_Google_Calendar__gcal_delete_event",
+      "mcp__claude_ai_Google_Calendar__gcal_find_meeting_times",
+      "mcp__claude_ai_Google_Calendar__gcal_find_my_free_time",
+      "mcp__claude_ai_Google_Calendar__gcal_get_event",
+      "mcp__claude_ai_Google_Calendar__gcal_list_calendars",
+      "mcp__claude_ai_Google_Calendar__gcal_list_events",
+      "mcp__claude_ai_Google_Calendar__gcal_respond_to_event",
+      "mcp__claude_ai_Google_Calendar__gcal_update_event",
+      "mcp__claude_ai_Hugging_Face__authenticate",
+      "mcp__claude_ai_Lumin__cancel_signature_request_on_lumin_by_id",
+      "mcp__claude_ai_Lumin__get_lumin_user_information",
+      "mcp__claude_ai_Lumin__get_signature_request_on_lumin_by_id",
+      "mcp__claude_ai_Lumin__get_workspace_list_of_user_on_lumin",
+      "mcp__claude_ai_Lumin__lumin_markdown2pdf",
+      "mcp__claude_ai_Lumin__send_signature_request_on_lumin",
+      "mcp__claude_ai_Lumin__upload_file_to_lumin",
+      "mcp__claude_ai_Mermaid_Chart__validate_and_render_mermaid_diagram",
+      "mcp__claude_ai_n8n__authenticate",
+      "mcp__claude_ai_Notion__notion-create-comment",
+      "mcp__claude_ai_Notion__notion-create-database",
+      "mcp__claude_ai_Notion__notion-create-pages",
+      "mcp__claude_ai_Notion__notion-create-view",
+      "mcp__claude_ai_Notion__notion-duplicate-page",
+      "mcp__claude_ai_Notion__notion-fetch",
+      "mcp__claude_ai_Notion__notion-get-comments",
+      "mcp__claude_ai_Notion__notion-get-teams",
+      "mcp__claude_ai_Notion__notion-get-users",
+      "mcp__claude_ai_Notion__notion-move-pages",
+      "mcp__claude_ai_Notion__notion-query-database-view",
+      "mcp__claude_ai_Notion__notion-query-meeting-notes",
+      "mcp__claude_ai_Notion__notion-search",
+      "mcp__claude_ai_Notion__notion-update-data-source",
+      "mcp__claude_ai_Notion__notion-update-page",
+      "mcp__claude_ai_Notion__notion-update-view",
+      "mcp__claude_ai_PayPal__authenticate",
+      "mcp__claude_ai_PostHog__authenticate",
+      "mcp__claude_ai_Sentry__authenticate",
+      "mcp__claude_ai_Slack__slack_create_canvas",
+      "mcp__claude_ai_Slack__slack_read_canvas",
+      "mcp__claude_ai_Slack__slack_read_channel",
+      "mcp__claude_ai_Slack__slack_read_thread",
+      "mcp__claude_ai_Slack__slack_read_user_profile",
+      "mcp__claude_ai_Slack__slack_schedule_message",
+      "mcp__claude_ai_Slack__slack_search_channels",
+      "mcp__claude_ai_Slack__slack_search_public",
+      "mcp__claude_ai_Slack__slack_search_public_and_private",
+      "mcp__claude_ai_Slack__slack_search_users",
+      "mcp__claude_ai_Slack__slack_send_message",
+      "mcp__claude_ai_Slack__slack_send_message_draft",
+      "mcp__claude_ai_Slack__slack_update_canvas",
+      "mcp__claude_ai_Three_js_3D_Viewer__learn_threejs",
+      "mcp__claude_ai_Three_js_3D_Viewer__show_threejs_scene",
+      "mcp__claude_ai_Vercel__authenticate"
+    ],
+    "mcp_servers": [
+      {
+        "name": "claude.ai Three.js 3D Viewer",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Excalidraw",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Slack",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Mermaid Chart",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Sentry",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Canva",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai PayPal",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai DirectBooker",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Lumin",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai PostHog",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai n8n",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Apollo.io",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Context7",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Hugging Face",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Notion",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Vercel",
+        "status": "needs-auth"
+      },
+      {
+        "name": "claude.ai Google Calendar",
+        "status": "connected"
+      },
+      {
+        "name": "claude.ai Gmail",
+        "status": "connected"
+      }
+    ],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights",
+      "mcp__claude_ai_Google_Calendar__schedule_meeting",
+      "mcp__claude_ai_Google_Calendar__quick_meeting_today",
+      "mcp__claude_ai_Google_Calendar__recurring_1on1",
+      "mcp__claude_ai_Google_Calendar__team_meeting_scheduler",
+      "mcp__claude_ai_Google_Calendar__analyze_availability"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "a723e1f7-7d51-4e54-92af-a23128e0a736",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_015rR5kgGxC8dMhayKejdWKW",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "Let me analyze what a token bucket rate limiter with per-user limits, burst capacity, and sliding window needs to export. Since I don't have a test file, I'll infer from the spec description what's needed.\n\nA typical token bucket rate limiter would export:\n1. A factory function to create a rate limiter\n2. An error class for rate limit exceeded\n3. Configuration types\n\nLet me think about what the interface should look like:\n\n```typescript\n// Configuration\ninterface RateLimiterConfig {\n  tokensPerInterval: number;  // rate (tokens per second/minute/etc)\n  interval: number;           // in milliseconds\n  burstCapacity: number;      // max tokens that can accumulate\n}\n\n// The rate limiter instance\ninterface RateLimiter {\n  consume(userId: string, tokens?: number): void;  // throws if exceeded\n  check(userId: string, tokens?: number): boolean; // check without consuming\n  getTokens(userId: string): number;               // current token count\n  reset(userId: string): void;                     // reset user's tokens\n}\n\n// Factory\nfunction createRateLimiter(config: RateLimiterConfig): RateLimiter\n\n// Error\nclass RateLimitError extends Error\n```\n\nDefining the core interfaces...\n\nNow I'm thinking about how the sliding window aspect works with the token bucket algorithm. The spec mentions tracking tokens over time, so I need to consider how tokens refill based on elapsed time since the last request.\n\nFor the implementation, I'll use Effect internally but export a clean TypeScript API. The token bucket approach means each user gets a bucket with a maximum capacity, tokens refill at a specified rate per interval, and requests consume tokens. If there aren't enough tokens available, I'll throw an error.\n\nTo handle the sliding window properly, I'll track the last refill time and calculate available tokens based on how much time has passed, accounting for fractional token accumulation.\n\nDefining the interfaces and error class... I'm implementing the rate limiter with Effect, setting up the core methods to manage token consumption, validation, and user state tracking.",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 18218,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "eedc078b-6eb5-47c0-9b35-fdc60dfa1382",
+    "uuid": "44e79c68-1979-4f6a-8051-2816617cdf95"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_015rR5kgGxC8dMhayKejdWKW",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nimport { Effect, Data, Exit, Cause } from \"effect\";\n\n// ─── Public Error ────────────────────────────────────────────────────────────\n\nexport class RateLimitExceededError extends Error {\n  public readonly userId: string;\n  public readonly requested: number;\n  public readonly available: number;\n  public readonly retryAfterMs: number;\n\n  constructor(opts: {\n    userId: string;\n    requested: number;\n    available: number;\n    retryAfterMs: number;\n  }) {\n    super(\n      `Rate limit exceeded for user \"${opts.userId}\": requested ${opts.requested} token(s), only ${opts.available.toFixed(2)} available. Retry after ${opts.retryAfterMs}ms.`\n    );\n    this.name = \"RateLimitExceededError\";\n    this.userId = opts.userId;\n    this.requested = opts.requested;\n    this.available = opts.available;\n    this.retryAfterMs = opts.retryAfterMs;\n    Object.setPrototypeOf(this, RateLimitExceededError.prototype);\n  }\n}\n\n// ─── Config & Public Interface ───────────────────────────────────────────────\n\nexport interface RateLimiterConfig {\n  /** Tokens added per interval */\n  tokensPerInterval: number;\n  /** Interval duration in milliseconds */\n  intervalMs: number;\n  /** Maximum burst capacity (bucket size) */\n  burstCapacity: number;\n}\n\nexport interface UserStats {\n  tokens: number;\n  lastRefillAt: number;\n  totalConsumed: number;\n  totalRequests: number;\n  rejectedRequests: number;\n}\n\nexport interface RateLimiter {\n  /**\n   * Attempt to consume `tokens` (default 1) from the user's bucket.\n   * Throws RateLimitExceededError if insufficient tokens.\n   */\n  consume(userId: string, tokens?: number): void;\n\n  /**\n   * Check whether `tokens` (default 1) are available for the user\n   * WITHOUT consuming them. Returns true if allowed.\n   */\n  check(userId: string, tokens?: number): boolean;\n\n  /**\n   * Return the current (fractional) token count for a user.\n   * Reflects any tokens that have refilled since last consume.\n   */\n  getTokens(userId: string): number;\n\n  /**\n   * Reset a specific user's bucket to full capacity.\n   */\n  reset(userId: string): void;\n\n  /**\n   * Reset all user buckets.\n   */\n  resetAll(): void;\n\n  /**\n   * Return usage statistics for a user.\n   */\n  getStats(userId: string): UserStats;\n\n  /**\n   * Remove all state for a specific user (useful for cleanup / logout).\n   */\n  evict(userId: string): void;\n}\n\n// ─── Internal Tagged Errors ──────────────────────────────────────────────────\n\nclass InternalRateLimitExceeded extends Data.TaggedError(\n  \"InternalRateLimitExceeded\"\n)<{\n  userId: string;\n  requested: number;\n  available: number;\n  retryAfterMs: number;\n}> {}\n\nclass InternalValidationError extends Data.TaggedError(\"InternalValidationError\")<{\n  reason: string;\n}> {}\n\n// ─── Internal Bucket State ───────────────────────────────────────────────────\n\ninterface BucketState {\n  tokens: number;\n  lastRefillAt: number;\n  totalConsumed: number;\n  totalRequests: number;\n  rejectedRequests: number;\n}\n\n// ─── Core Effect Logic ───────────────────────────────────────────────────────\n\nconst refillTokens = (\n  bucket: BucketState,\n  config: RateLimiterConfig,\n  now: number\n): BucketState => {\n  const elapsed = now - bucket.lastRefillAt;\n  if (elapsed <= 0) return bucket;\n  const refill = (elapsed / config.intervalMs) * config.tokensPerInterval;\n  const newTokens = Math.min(bucket.tokens + refill, config.burstCapacity);\n  return { ...bucket, tokens: newTokens, lastRefillAt: now };\n};\n\nconst computeRetryAfterMs = (\n  tokensNeeded: number,\n  config: RateLimiterConfig\n): number => {\n  if (tokensNeeded <= 0) return 0;\n  return Math.ceil((tokensNeeded / config.tokensPerInterval) * config.intervalMs);\n};\n\nconst checkInternal = (\n  bucket: BucketState,\n  config: RateLimiterConfig,\n  tokens: number,\n  now: number\n): Effect.Effect<BucketState, InternalRateLimitExceeded | InternalValidationError, never> =>\n  Effect.gen(function* () {\n    if (tokens <= 0) {\n      yield* Effect.fail(\n        new InternalValidationError({ reason: \"tokens must be > 0\" })\n      );\n    }\n    if (tokens > config.burstCapacity) {\n      yield* Effect.fail(\n        new InternalValidationError({\n          reason: `tokens (${tokens}) exceeds burstCapacity (${config.burstCapacity})`,\n        })\n      );\n    }\n\n    const refilled = refillTokens(bucket, config, now);\n\n    if (refilled.tokens < tokens) {\n      const retryAfterMs = computeRetryAfterMs(\n        tokens - refilled.tokens,\n        config\n      );\n      yield* Effect.fail(\n        new InternalRateLimitExceeded({\n          userId: \"\", // filled in at call site\n          requested: tokens,\n          available: refilled.tokens,\n          retryAfterMs,\n        })\n      );\n    }\n\n    return refilled;\n  });\n\nconst consumeInternal = (\n  userId: string,\n  bucket: BucketState,\n  config: RateLimiterConfig,\n  tokens: number,\n  now: number\n): Effect.Effect<BucketState, InternalRateLimitExceeded | InternalValidationError, never> =>\n  Effect.gen(function* () {\n    const refilled = yield* checkInternal(bucket, config, tokens, now).pipe(\n      Effect.mapError((e) =>\n        e._tag === \"InternalRateLimitExceeded\"\n          ? new InternalRateLimitExceeded({ ...e, userId })\n          : e\n      )\n    );\n\n    return {\n      ...refilled,\n      tokens: refilled.tokens - tokens,\n      totalConsumed: bucket.totalConsumed + tokens,\n      totalRequests: bucket.totalRequests + 1,\n    };\n  });\n\n// ─── Factory ─────────────────────────────────────────────────────────────────\n\nexport function createRateLimiter(config: RateLimiterConfig): RateLimiter {\n  // Validate config\n  if (config.tokensPerInterval <= 0) {\n    throw new Error(\"tokensPerInterval must be > 0\");\n  }\n  if (config.intervalMs <= 0) {\n    throw new Error(\"intervalMs must be > 0\");\n  }\n  if (config.burstCapacity <= 0) {\n    throw new Error(\"burstCapacity must be > 0\");\n  }\n  if (config.tokensPerInterval > config.burstCapacity) {\n    throw new Error(\"tokensPerInterval must be <= burstCapacity\");\n  }\n\n  const buckets = new Map<string, BucketState>();\n\n  const getOrCreate = (userId: string, now: number): BucketState => {\n    if (!buckets.has(userId)) {\n      buckets.set(userId, {\n        tokens: config.burstCapacity,\n        lastRefillAt: now,\n        totalConsumed: 0,\n        totalRequests: 0,\n        rejectedRequests: 0,\n      });\n    }\n    return buckets.get(userId)!;\n  };\n\n  const runEffect = <A>(\n    eff: Effect.Effect<A, InternalRateLimitExceeded | InternalValidationError, never>,\n    userId: string\n  ): A => {\n    const exit = Effect.runSyncExit(eff);\n    if (Exit.isFailure(exit)) {\n      const raw = Cause.squash(exit.cause);\n      if (raw && typeof raw === \"object\" && \"_tag\" in raw) {\n        const tagged = raw as InternalRateLimitExceeded | InternalValidationError;\n        if (tagged._tag === \"InternalRateLimitExceeded\") {\n          const e = tagged as InternalRateLimitExceeded;\n          throw new RateLimitExceededError({\n            userId: e.userId || userId,\n            requested: e.requested,\n            available: e.available,\n            retryAfterMs: e.retryAfterMs,\n          });\n        }\n        if (tagged._tag === \"InternalValidationError\") {\n          throw new Error((tagged as InternalValidationError).reason);\n        }\n      }\n      const msg = raw instanceof Error ? raw.message : String(raw);\n      throw new Error(msg);\n    }\n    return exit.value;\n  };\n\n  return {\n    consume(userId: string, tokens = 1): void {\n      const now = Date.now();\n      const bucket = getOrCreate(userId, now);\n\n      const effect = consumeInternal(userId, bucket, config, tokens, now);\n      const exit = Effect.runSyncExit(effect);\n\n      if (Exit.isFailure(exit)) {\n        // Track rejected request before re-throwing\n        const updated = { ...bucket, rejectedRequests: bucket.rejectedRequests + 1, totalRequests: bucket.totalRequests + 1 };\n        buckets.set(userId, updated);\n\n        const raw = Cause.squash(exit.cause);\n        if (raw && typeof raw === \"object\" && \"_tag\" in raw) {\n          const tagged = raw as InternalRateLimitExceeded | InternalValidationError;\n          if (tagged._tag === \"InternalRateLimitExceeded\") {\n            const e = tagged as InternalRateLimitExceeded;\n            throw new RateLimitExceededError({\n              userId: e.userId || userId,\n              requested: e.requested,\n              available: e.available,\n              retryAfterMs: e.retryAfterMs,\n            });\n          }\n          if (tagged._tag === \"InternalValidationError\") {\n            throw new Error((tagged as InternalValidationError).reason);\n          }\n        }\n        const msg = raw instanceof Error ? raw.message : String(raw);\n        throw new Error(msg);\n      }\n\n      buckets.set(userId, exit.value);\n    },\n\n    check(userId: string, tokens = 1): boolean {\n      const now = Date.now();\n      const bucket = getOrCreate(userId, now);\n      const refilled = refillTokens(bucket, config, now);\n      if (tokens <= 0 || tokens > config.burstCapacity) return false;\n      return refilled.tokens >= tokens;\n    },\n\n    getTokens(userId: string): number {\n      const now = Date.now();\n      const bucket = getOrCreate(userId, now);\n      const refilled = refillTokens(bucket, config, now);\n      return refilled.tokens;\n    },\n\n    reset(userId: string): void {\n      const now = Date.now();\n      const existing = buckets.get(userId);\n      buckets.set(userId, {\n        tokens: config.burstCapacity,\n        lastRefillAt: now,\n        totalConsumed: existing?.totalConsumed ?? 0,\n        totalRequests: existing?.totalRequests ?? 0,\n        rejectedRequests: existing?.rejectedRequests ?? 0,\n      });\n    },\n\n    resetAll(): void {\n      const now = Date.now();\n      for (const [userId, existing] of buckets.entries()) {\n        buckets.set(userId, {\n          tokens: config.burstCapacity,\n          lastRefillAt: now,\n          totalConsumed: existing.totalConsumed,\n          totalRequests: existing.totalRequests,\n          rejectedRequests: existing.rejectedRequests,\n        });\n      }\n    },\n\n    getStats(userId: string): UserStats {\n      const now = Date.now();\n      const bucket = getOrCreate(userId, now);\n      const refilled = refillTokens(bucket, config, now);\n      return {\n        tokens: refilled.tokens,\n        lastRefillAt: refilled.lastRefillAt,\n        totalConsumed: bucket.totalConsumed,\n        totalRequests: bucket.totalRequests,\n        rejectedRequests: bucket.rejectedRequests,\n      };\n    },\n\n    evict(userId: string): void {\n      buckets.delete(userId);\n    },\n  };\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 18218,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "eedc078b-6eb5-47c0-9b35-fdc60dfa1382",
+    "uuid": "53dbb379-fed4-46c6-a264-2877198f3245"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed",
+      "resetsAt": 1775995200,
+      "rateLimitType": "five_hour",
+      "overageStatus": "rejected",
+      "overageDisabledReason": "org_level_disabled",
+      "isUsingOverage": false
+    },
+    "uuid": "4cef5740-bf8e-4310-9558-19cbfaf66d43",
+    "session_id": "eedc078b-6eb5-47c0-9b35-fdc60dfa1382"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 43978,
+    "duration_api_ms": 43949,
+    "num_turns": 1,
+    "result": "```typescript\nimport { Effect, Data, Exit, Cause } from \"effect\";\n\n// ─── Public Error ────────────────────────────────────────────────────────────\n\nexport class RateLimitExceededError extends Error {\n  public readonly userId: string;\n  public readonly requested: number;\n  public readonly available: number;\n  public readonly retryAfterMs: number;\n\n  constructor(opts: {\n    userId: string;\n    requested: number;\n    available: number;\n    retryAfterMs: number;\n  }) {\n    super(\n      `Rate limit exceeded for user \"${opts.userId}\": requested ${opts.requested} token(s), only ${opts.available.toFixed(2)} available. Retry after ${opts.retryAfterMs}ms.`\n    );\n    this.name = \"RateLimitExceededError\";\n    this.userId = opts.userId;\n    this.requested = opts.requested;\n    this.available = opts.available;\n    this.retryAfterMs = opts.retryAfterMs;\n    Object.setPrototypeOf(this, RateLimitExceededError.prototype);\n  }\n}\n\n// ─── Config & Public Interface ───────────────────────────────────────────────\n\nexport interface RateLimiterConfig {\n  /** Tokens added per interval */\n  tokensPerInterval: number;\n  /** Interval duration in milliseconds */\n  intervalMs: number;\n  /** Maximum burst capacity (bucket size) */\n  burstCapacity: number;\n}\n\nexport interface UserStats {\n  tokens: number;\n  lastRefillAt: number;\n  totalConsumed: number;\n  totalRequests: number;\n  rejectedRequests: number;\n}\n\nexport interface RateLimiter {\n  /**\n   * Attempt to consume `tokens` (default 1) from the user's bucket.\n   * Throws RateLimitExceededError if insufficient tokens.\n   */\n  consume(userId: string, tokens?: number): void;\n\n  /**\n   * Check whether `tokens` (default 1) are available for the user\n   * WITHOUT consuming them. Returns true if allowed.\n   */\n  check(userId: string, tokens?: number): boolean;\n\n  /**\n   * Return the current (fractional) token count for a user.\n   * Reflects any tokens that have refilled since last consume.\n   */\n  getTokens(userId: string): number;\n\n  /**\n   * Reset a specific user's bucket to full capacity.\n   */\n  reset(userId: string): void;\n\n  /**\n   * Reset all user buckets.\n   */\n  resetAll(): void;\n\n  /**\n   * Return usage statistics for a user.\n   */\n  getStats(userId: string): UserStats;\n\n  /**\n   * Remove all state for a specific user (useful for cleanup / logout).\n   */\n  evict(userId: string): void;\n}\n\n// ─── Internal Tagged Errors ──────────────────────────────────────────────────\n\nclass InternalRateLimitExceeded extends Data.TaggedError(\n  \"InternalRateLimitExceeded\"\n)<{\n  userId: string;\n  requested: number;\n  available: number;\n  retryAfterMs: number;\n}> {}\n\nclass InternalValidationError extends Data.TaggedError(\"InternalValidationError\")<{\n  reason: string;\n}> {}\n\n// ─── Internal Bucket State ───────────────────────────────────────────────────\n\ninterface BucketState {\n  tokens: number;\n  lastRefillAt: number;\n  totalConsumed: number;\n  totalRequests: number;\n  rejectedRequests: number;\n}\n\n// ─── Core Effect Logic ───────────────────────────────────────────────────────\n\nconst refillTokens = (\n  bucket: BucketState,\n  config: RateLimiterConfig,\n  now: number\n): BucketState => {\n  const elapsed = now - bucket.lastRefillAt;\n  if (elapsed <= 0) return bucket;\n  const refill = (elapsed / config.intervalMs) * config.tokensPerInterval;\n  const newTokens = Math.min(bucket.tokens + refill, config.burstCapacity);\n  return { ...bucket, tokens: newTokens, lastRefillAt: now };\n};\n\nconst computeRetryAfterMs = (\n  tokensNeeded: number,\n  config: RateLimiterConfig\n): number => {\n  if (tokensNeeded <= 0) return 0;\n  return Math.ceil((tokensNeeded / config.tokensPerInterval) * config.intervalMs);\n};\n\nconst checkInternal = (\n  bucket: BucketState,\n  config: RateLimiterConfig,\n  tokens: number,\n  now: number\n): Effect.Effect<BucketState, InternalRateLimitExceeded | InternalValidationError, never> =>\n  Effect.gen(function* () {\n    if (tokens <= 0) {\n      yield* Effect.fail(\n        new InternalValidationError({ reason: \"tokens must be > 0\" })\n      );\n    }\n    if (tokens > config.burstCapacity) {\n      yield* Effect.fail(\n        new InternalValidationError({\n          reason: `tokens (${tokens}) exceeds burstCapacity (${config.burstCapacity})`,\n        })\n      );\n    }\n\n    const refilled = refillTokens(bucket, config, now);\n\n    if (refilled.tokens < tokens) {\n      const retryAfterMs = computeRetryAfterMs(\n        tokens - refilled.tokens,\n        config\n      );\n      yield* Effect.fail(\n        new InternalRateLimitExceeded({\n          userId: \"\", // filled in at call site\n          requested: tokens,\n          available: refilled.tokens,\n          retryAfterMs,\n        })\n      );\n    }\n\n    return refilled;\n  });\n\nconst consumeInternal = (\n  userId: string,\n  bucket: BucketState,\n  config: RateLimiterConfig,\n  tokens: number,\n  now: number\n): Effect.Effect<BucketState, InternalRateLimitExceeded | InternalValidationError, never> =>\n  Effect.gen(function* () {\n    const refilled = yield* checkInternal(bucket, config, tokens, now).pipe(\n      Effect.mapError((e) =>\n        e._tag === \"InternalRateLimitExceeded\"\n          ? new InternalRateLimitExceeded({ ...e, userId })\n          : e\n      )\n    );\n\n    return {\n      ...refilled,\n      tokens: refilled.tokens - tokens,\n      totalConsumed: bucket.totalConsumed + tokens,\n      totalRequests: bucket.totalRequests + 1,\n    };\n  });\n\n// ─── Factory ─────────────────────────────────────────────────────────────────\n\nexport function createRateLimiter(config: RateLimiterConfig): RateLimiter {\n  // Validate config\n  if (config.tokensPerInterval <= 0) {\n    throw new Error(\"tokensPerInterval must be > 0\");\n  }\n  if (config.intervalMs <= 0) {\n    throw new Error(\"intervalMs must be > 0\");\n  }\n  if (config.burstCapacity <= 0) {\n    throw new Error(\"burstCapacity must be > 0\");\n  }\n  if (config.tokensPerInterval > config.burstCapacity) {\n    throw new Error(\"tokensPerInterval must be <= burstCapacity\");\n  }\n\n  const buckets = new Map<string, BucketState>();\n\n  const getOrCreate = (userId: string, now: number): BucketState => {\n    if (!buckets.has(userId)) {\n      buckets.set(userId, {\n        tokens: config.burstCapacity,\n        lastRefillAt: now,\n        totalConsumed: 0,\n        totalRequests: 0,\n        rejectedRequests: 0,\n      });\n    }\n    return buckets.get(userId)!;\n  };\n\n  const runEffect = <A>(\n    eff: Effect.Effect<A, InternalRateLimitExceeded | InternalValidationError, never>,\n    userId: string\n  ): A => {\n    const exit = Effect.runSyncExit(eff);\n    if (Exit.isFailure(exit)) {\n      const raw = Cause.squash(exit.cause);\n      if (raw && typeof raw === \"object\" && \"_tag\" in raw) {\n        const tagged = raw as InternalRateLimitExceeded | InternalValidationError;\n        if (tagged._tag === \"InternalRateLimitExceeded\") {\n          const e = tagged as InternalRateLimitExceeded;\n          throw new RateLimitExceededError({\n            userId: e.userId || userId,\n            requested: e.requested,\n            available: e.available,\n            retryAfterMs: e.retryAfterMs,\n          });\n        }\n        if (tagged._tag === \"InternalValidationError\") {\n          throw new Error((tagged as InternalValidationError).reason);\n        }\n      }\n      const msg = raw instanceof Error ? raw.message : String(raw);\n      throw new Error(msg);\n    }\n    return exit.value;\n  };\n\n  return {\n    consume(userId: string, tokens = 1): void {\n      const now = Date.now();\n      const bucket = getOrCreate(userId, now);\n\n      const effect = consumeInternal(userId, bucket, config, tokens, now);\n      const exit = Effect.runSyncExit(effect);\n\n      if (Exit.isFailure(exit)) {\n        // Track rejected request before re-throwing\n        const updated = { ...bucket, rejectedRequests: bucket.rejectedRequests + 1, totalRequests: bucket.totalRequests + 1 };\n        buckets.set(userId, updated);\n\n        const raw = Cause.squash(exit.cause);\n        if (raw && typeof raw === \"object\" && \"_tag\" in raw) {\n          const tagged = raw as InternalRateLimitExceeded | InternalValidationError;\n          if (tagged._tag === \"InternalRateLimitExceeded\") {\n            const e = tagged as InternalRateLimitExceeded;\n            throw new RateLimitExceededError({\n              userId: e.userId || userId,\n              requested: e.requested,\n              available: e.available,\n              retryAfterMs: e.retryAfterMs,\n            });\n          }\n          if (tagged._tag === \"InternalValidationError\") {\n            throw new Error((tagged as InternalValidationError).reason);\n          }\n        }\n        const msg = raw instanceof Error ? raw.message : String(raw);\n        throw new Error(msg);\n      }\n\n      buckets.set(userId, exit.value);\n    },\n\n    check(userId: string, tokens = 1): boolean {\n      const now = Date.now();\n      const bucket = getOrCreate(userId, now);\n      const refilled = refillTokens(bucket, config, now);\n      if (tokens <= 0 || tokens > config.burstCapacity) return false;\n      return refilled.tokens >= tokens;\n    },\n\n    getTokens(userId: string): number {\n      const now = Date.now();\n      const bucket = getOrCreate(userId, now);\n      const refilled = refillTokens(bucket, config, now);\n      return refilled.tokens;\n    },\n\n    reset(userId: string): void {\n      const now = Date.now();\n      const existing = buckets.get(userId);\n      buckets.set(userId, {\n        tokens: config.burstCapacity,\n        lastRefillAt: now,\n        totalConsumed: existing?.totalConsumed ?? 0,\n        totalRequests: existing?.totalRequests ?? 0,\n        rejectedRequests: existing?.rejectedRequests ?? 0,\n      });\n    },\n\n    resetAll(): void {\n      const now = Date.now();\n      for (const [userId, existing] of buckets.entries()) {\n        buckets.set(userId, {\n          tokens: config.burstCapacity,\n          lastRefillAt: now,\n          totalConsumed: existing.totalConsumed,\n          totalRequests: existing.totalRequests,\n          rejectedRequests: existing.rejectedRequests,\n        });\n      }\n    },\n\n    getStats(userId: string): UserStats {\n      const now = Date.now();\n      const bucket = getOrCreate(userId, now);\n      const refilled = refillTokens(bucket, config, now);\n      return {\n        tokens: refilled.tokens,\n        lastRefillAt: refilled.lastRefillAt,\n        totalConsumed: bucket.totalConsumed,\n        totalRequests: bucket.totalRequests,\n        rejectedRequests: bucket.rejectedRequests,\n      };\n    },\n\n    evict(userId: string): void {\n      buckets.delete(userId);\n    },\n  };\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "eedc078b-6eb5-47c0-9b35-fdc60dfa1382",
+    "total_cost_usd": 0.06551639999999999,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 18218,
+      "output_tokens": 4003,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 0,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 4003,
+        "cacheReadInputTokens": 18218,
+        "cacheCreationInputTokens": 0,
+        "webSearchRequests": 0,
+        "costUSD": 0.06551639999999999,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "458c9fa1-49d0-4c10-b2bd-283d7913dfa1"
+  }
+]
