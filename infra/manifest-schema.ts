@@ -57,6 +57,9 @@ export const TASK_FILE_MAP: Record<string, string> = {
   "EXTREME-3": "tax-calc",
   "EXTREME-4": "history-tree",
   "EXTREME-5": "lock-manager",
+  "NIGHTMARE-1": "rect-union",
+  "NIGHTMARE-2": "bill-splitter",
+  "NIGHTMARE-3": "spreadsheet",
 };
 
 /** Verdict JSON output by the runner */
