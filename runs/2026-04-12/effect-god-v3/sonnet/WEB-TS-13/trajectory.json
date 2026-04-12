@@ -1,0 +1,173 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/Users/adelinb/Documents/Projects/super-coder-benchmark",
+    "session_id": "fd895d19-a11b-42fa-9f19-c3186d919cee",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "NotebookEdit",
+      "Read",
+      "RemoteTrigger",
+      "SendMessage",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TeamCreate",
+      "TeamDelete",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write"
+    ],
+    "mcp_servers": [],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "8165711f-3bad-4388-8bfe-66f225f0f471",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01A47oUAT6B1LV2rMzZmBHr7",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nimport { Effect, Data } from \"effect\";\n\n// ─── Public Types ────────────────────────────────────────────────────────────\n\nexport type EventMap = Record<string, any[]>;\n\n// ─── Internal Tagged Errors ──────────────────────────────────────────────────\n\nclass EmitterError extends Data.TaggedError(\"EmitterError\")<{\n  reason: string;\n}> {}\n\n// ─── TypedEmitter Class ──────────────────────────────────────────────────────\n\nexport class TypedEmitter<Events extends EventMap> {\n  private listeners: Map<string, Set<(...args: any[]) => void>> = new Map();\n  private onceListeners: Map<string, Set<(...args: any[]) => void>> = new Map();\n  private anyListeners: Set<(event: string, ...args: any[]) => void> = new Set();\n  private namespaceListeners: Map<\n    string,\n    Set<(event: string, ...args: any[]) => void>\n  > = new Map();\n\n  on<E extends keyof Events & string>(\n    event: E,\n    listener: (...args: Events[E]) => void\n  ): this {\n    const effect = Effect.gen(function* () {\n      return listener;\n    });\n    const result = Effect.runSync(effect);\n    if (!this.listeners.has(event)) {\n      this.listeners.set(event, new Set());\n    }\n    this.listeners.get(event)!.add(result as (...args: any[]) => void);\n    return this;\n  }\n\n  once<E extends keyof Events & string>(\n    event: E,\n    listener: (...args: Events[E]) => void\n  ): this {\n    if (!this.onceListeners.has(event)) {\n      this.onceListeners.set(event, new Set());\n    }\n    this.onceListeners.get(event)!.add(listener as (...args: any[]) => void);\n    return this;\n  }\n\n  off<E extends keyof Events & string>(\n    event: E,\n    listener: (...args: Events[E]) => void\n  ): this {\n    this.listeners.get(event)?.delete(listener as (...args: any[]) => void);\n    this.onceListeners.get(event)?.delete(listener as (...args: any[]) => void);\n    return this;\n  }\n\n  emit<E extends keyof Events & string>(event: E, ...args: Events[E]): boolean {\n    let called = false;\n\n    // Regular listeners\n    const regularSet = this.listeners.get(event);\n    if (regularSet && regularSet.size > 0) {\n      for (const listener of regularSet) {\n        listener(...args);\n        called = true;\n      }\n    }\n\n    // Once listeners\n    const onceSet = this.onceListeners.get(event);\n    if (onceSet && onceSet.size > 0) {\n      const snapshot = [...onceSet];\n      onceSet.clear();\n      for (const listener of snapshot) {\n        listener(...args);\n        called = true;\n      }\n    }\n\n    // Wildcard listeners\n    for (const listener of this.anyListeners) {\n      listener(event, ...args);\n      called = true;\n    }\n\n    // Namespace listeners\n    const dotIndex = event.indexOf(\".\");\n    if (dotIndex !== -1) {\n      const namespace = event.slice(0, dotIndex);\n      const nsSet = this.namespaceListeners.get(namespace);\n      if (nsSet) {\n        for (const listener of nsSet) {\n          listener(event, ...args);\n          called = true;\n        }\n      }\n    }\n\n    return called;\n  }\n\n  onAny(listener: (event: string, ...args: any[]) => void): this {\n    this.anyListeners.add(listener);\n    return this;\n  }\n\n  offAny(listener: (event: string, ...args: any[]) => void): this {\n    this.anyListeners.delete(listener);\n    return this;\n  }\n\n  listenerCount<E extends keyof Events & string>(event: E): number {\n    const regular = this.listeners.get(event)?.size ?? 0;\n    const once = this.onceListeners.get(event)?.size ?? 0;\n    return regular + once;\n  }\n\n  removeAllListeners<E extends keyof Events & string>(event?: E): this {\n    if (event === undefined) {\n      this.listeners.clear();\n      this.onceListeners.clear();\n    } else {\n      this.listeners.delete(event);\n      this.onceListeners.delete(event);\n    }\n    return this;\n  }\n\n  onNamespace(\n    namespace: string,\n    listener: (event: string, ...args: any[]) => void\n  ): this {\n    if (!this.namespaceListeners.has(namespace)) {\n      this.namespaceListeners.set(namespace, new Set());\n    }\n    this.namespaceListeners.get(namespace)!.add(listener);\n    return this;\n  }\n\n  offNamespace(\n    namespace: string,\n    listener: (event: string, ...args: any[]) => void\n  ): this {\n    this.namespaceListeners.get(namespace)?.delete(listener);\n    return this;\n  }\n}\n\n// ─── Factory ─────────────────────────────────────────────────────────────────\n\nexport function createEmitter<Events extends EventMap>(): TypedEmitter<Events> {\n  return new TypedEmitter<Events>();\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 2005,
+        "cache_read_input_tokens": 14096,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 2005
+        },
+        "output_tokens": 1,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "fd895d19-a11b-42fa-9f19-c3186d919cee",
+    "uuid": "175eebbc-fe14-4ea1-bbd7-c01bd9aabade"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed",
+      "resetsAt": 1776045600,
+      "rateLimitType": "five_hour",
+      "overageStatus": "rejected",
+      "overageDisabledReason": "org_level_disabled",
+      "isUsingOverage": false
+    },
+    "uuid": "58a0540f-d249-4cf0-89fd-88d2a4693d7f",
+    "session_id": "fd895d19-a11b-42fa-9f19-c3186d919cee"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 15401,
+    "duration_api_ms": 15386,
+    "num_turns": 1,
+    "result": "```typescript\nimport { Effect, Data } from \"effect\";\n\n// ─── Public Types ────────────────────────────────────────────────────────────\n\nexport type EventMap = Record<string, any[]>;\n\n// ─── Internal Tagged Errors ──────────────────────────────────────────────────\n\nclass EmitterError extends Data.TaggedError(\"EmitterError\")<{\n  reason: string;\n}> {}\n\n// ─── TypedEmitter Class ──────────────────────────────────────────────────────\n\nexport class TypedEmitter<Events extends EventMap> {\n  private listeners: Map<string, Set<(...args: any[]) => void>> = new Map();\n  private onceListeners: Map<string, Set<(...args: any[]) => void>> = new Map();\n  private anyListeners: Set<(event: string, ...args: any[]) => void> = new Set();\n  private namespaceListeners: Map<\n    string,\n    Set<(event: string, ...args: any[]) => void>\n  > = new Map();\n\n  on<E extends keyof Events & string>(\n    event: E,\n    listener: (...args: Events[E]) => void\n  ): this {\n    const effect = Effect.gen(function* () {\n      return listener;\n    });\n    const result = Effect.runSync(effect);\n    if (!this.listeners.has(event)) {\n      this.listeners.set(event, new Set());\n    }\n    this.listeners.get(event)!.add(result as (...args: any[]) => void);\n    return this;\n  }\n\n  once<E extends keyof Events & string>(\n    event: E,\n    listener: (...args: Events[E]) => void\n  ): this {\n    if (!this.onceListeners.has(event)) {\n      this.onceListeners.set(event, new Set());\n    }\n    this.onceListeners.get(event)!.add(listener as (...args: any[]) => void);\n    return this;\n  }\n\n  off<E extends keyof Events & string>(\n    event: E,\n    listener: (...args: Events[E]) => void\n  ): this {\n    this.listeners.get(event)?.delete(listener as (...args: any[]) => void);\n    this.onceListeners.get(event)?.delete(listener as (...args: any[]) => void);\n    return this;\n  }\n\n  emit<E extends keyof Events & string>(event: E, ...args: Events[E]): boolean {\n    let called = false;\n\n    // Regular listeners\n    const regularSet = this.listeners.get(event);\n    if (regularSet && regularSet.size > 0) {\n      for (const listener of regularSet) {\n        listener(...args);\n        called = true;\n      }\n    }\n\n    // Once listeners\n    const onceSet = this.onceListeners.get(event);\n    if (onceSet && onceSet.size > 0) {\n      const snapshot = [...onceSet];\n      onceSet.clear();\n      for (const listener of snapshot) {\n        listener(...args);\n        called = true;\n      }\n    }\n\n    // Wildcard listeners\n    for (const listener of this.anyListeners) {\n      listener(event, ...args);\n      called = true;\n    }\n\n    // Namespace listeners\n    const dotIndex = event.indexOf(\".\");\n    if (dotIndex !== -1) {\n      const namespace = event.slice(0, dotIndex);\n      const nsSet = this.namespaceListeners.get(namespace);\n      if (nsSet) {\n        for (const listener of nsSet) {\n          listener(event, ...args);\n          called = true;\n        }\n      }\n    }\n\n    return called;\n  }\n\n  onAny(listener: (event: string, ...args: any[]) => void): this {\n    this.anyListeners.add(listener);\n    return this;\n  }\n\n  offAny(listener: (event: string, ...args: any[]) => void): this {\n    this.anyListeners.delete(listener);\n    return this;\n  }\n\n  listenerCount<E extends keyof Events & string>(event: E): number {\n    const regular = this.listeners.get(event)?.size ?? 0;\n    const once = this.onceListeners.get(event)?.size ?? 0;\n    return regular + once;\n  }\n\n  removeAllListeners<E extends keyof Events & string>(event?: E): this {\n    if (event === undefined) {\n      this.listeners.clear();\n      this.onceListeners.clear();\n    } else {\n      this.listeners.delete(event);\n      this.onceListeners.delete(event);\n    }\n    return this;\n  }\n\n  onNamespace(\n    namespace: string,\n    listener: (event: string, ...args: any[]) => void\n  ): this {\n    if (!this.namespaceListeners.has(namespace)) {\n      this.namespaceListeners.set(namespace, new Set());\n    }\n    this.namespaceListeners.get(namespace)!.add(listener);\n    return this;\n  }\n\n  offNamespace(\n    namespace: string,\n    listener: (event: string, ...args: any[]) => void\n  ): this {\n    this.namespaceListeners.get(namespace)?.delete(listener);\n    return this;\n  }\n}\n\n// ─── Factory ─────────────────────────────────────────────────────────────────\n\nexport function createEmitter<Events extends EventMap>(): TypedEmitter<Events> {\n  return new TypedEmitter<Events>();\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "fd895d19-a11b-42fa-9f19-c3186d919cee",
+    "total_cost_usd": 0.032873549999999994,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 2005,
+      "cache_read_input_tokens": 14096,
+      "output_tokens": 1408,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 2005,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 1408,
+        "cacheReadInputTokens": 14096,
+        "cacheCreationInputTokens": 2005,
+        "webSearchRequests": 0,
+        "costUSD": 0.032873549999999994,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "3bf220a0-78ca-4c85-866a-04211cae5372"
+  }
+]

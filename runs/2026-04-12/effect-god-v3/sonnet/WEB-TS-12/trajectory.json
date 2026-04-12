@@ -1,0 +1,208 @@
+[
+  {
+    "type": "system",
+    "subtype": "init",
+    "cwd": "/Users/adelinb/Documents/Projects/super-coder-benchmark",
+    "session_id": "0ff04d21-b120-47a4-b455-059c113d5a11",
+    "tools": [
+      "Task",
+      "AskUserQuestion",
+      "Bash",
+      "CronCreate",
+      "CronDelete",
+      "CronList",
+      "Edit",
+      "EnterPlanMode",
+      "EnterWorktree",
+      "ExitPlanMode",
+      "ExitWorktree",
+      "Glob",
+      "Grep",
+      "NotebookEdit",
+      "Read",
+      "RemoteTrigger",
+      "SendMessage",
+      "Skill",
+      "TaskOutput",
+      "TaskStop",
+      "TeamCreate",
+      "TeamDelete",
+      "TodoWrite",
+      "ToolSearch",
+      "WebFetch",
+      "WebSearch",
+      "Write"
+    ],
+    "mcp_servers": [],
+    "model": "claude-sonnet-4-6",
+    "permissionMode": "default",
+    "slash_commands": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api",
+      "compact",
+      "context",
+      "cost",
+      "heapdump",
+      "init",
+      "review",
+      "security-review",
+      "extra-usage",
+      "insights"
+    ],
+    "apiKeySource": "none",
+    "claude_code_version": "2.1.92",
+    "output_style": "default",
+    "agents": [
+      "general-purpose",
+      "statusline-setup",
+      "Explore",
+      "Plan",
+      "claude-code-guide"
+    ],
+    "skills": [
+      "update-config",
+      "debug",
+      "simplify",
+      "batch",
+      "loop",
+      "schedule",
+      "claude-api"
+    ],
+    "plugins": [],
+    "uuid": "fb2a9f6f-eb9a-4cf0-a1d2-cae5759980df",
+    "fast_mode_state": "off"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01C1ZQYYB5zkXLdN1bjZFzxm",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "Let me implement the `schema-infer.ts` file according to the spec. I need to:\n\n1. `InferSchema<S>` - a type-level transformation\n2. `createValidator<S>` - runtime validator factory\n3. `validate<S>` - runtime validation function\n\nLet me think through the type-level inference carefully.\n\nFor `InferSchema<S>`:\n- `{ type: \"string\" }` -> `string`\n\n\n- `{ type: \"number\" }` or `{ type: \"integer\" }` -> `number`\n- `{ type: \"boolean\" }` -> `boolean`\n- `{ type: \"null\" }` -> `null`\n- `{ type: \"array\", items: S }` -> `InferSchema<S>[]`\n- `{ type: \"object\", properties: P, required: R }` -> object with required keys mandatory, others optional\n- `{ type: \"object\", properties: P }` -> all properties optional\n- `{ enum: [v1, v2, ...] }` -> `v1 | v2 | ...`\n- `{ oneOf: [S1, S2, ...] }` -> union of inferred types\n- `{ allOf: [S1, S2, ...] }` -> intersection of inferred types\n- `{ nullable: true, type: T }` -> `InferSchema<{type: T}> | null`\n\nFor objects with required and optional properties, I need to split the keys into two groups and map each one separately, then combine them into a single object type.\n\nWriting the recursive type definition... Now I'm defining the recursive type utilities for handling unions and intersections of schemas, then building out the object type inference to properly distinguish between required and optional properties. Next I need to implement the runtime validation functions that will actually check values against these schema definitions. Writing validation logic... Continuing with the type validation logic... Finishing the validation logic for object properties...",
+          "signature": "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"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1826,
+        "cache_read_input_tokens": 14096,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1826
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "0ff04d21-b120-47a4-b455-059c113d5a11",
+    "uuid": "a07605de-85e7-44c1-90dc-2dd339ab9e5a"
+  },
+  {
+    "type": "assistant",
+    "message": {
+      "model": "claude-sonnet-4-6",
+      "id": "msg_01C1ZQYYB5zkXLdN1bjZFzxm",
+      "type": "message",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "```typescript\nimport { Effect, Data } from \"effect\";\n\n// ─── Type-Level Helpers ───────────────────────────────────────────────────────\n\ntype InferUnion<T extends readonly unknown[]> = T extends readonly [\n  infer Head,\n  ...infer Tail,\n]\n  ? InferSchema<Head> | InferUnion<Tail>\n  : never;\n\ntype InferIntersection<T extends readonly unknown[]> = T extends readonly [\n  infer Head,\n  ...infer Tail,\n]\n  ? InferSchema<Head> & InferIntersection<Tail>\n  : unknown;\n\ntype InferObjectRequired<P, R extends readonly string[]> = {\n  [K in keyof P as K extends R[number] ? K : never]: InferSchema<P[K]>;\n};\n\ntype InferObjectOptional<P, R extends readonly string[]> = {\n  [K in keyof P as K extends R[number] ? never : K]?: InferSchema<P[K]>;\n};\n\ntype InferObject<P, R extends readonly string[]> = InferObjectRequired<P, R> &\n  InferObjectOptional<P, R>;\n\n// ─── InferSchema<S> ──────────────────────────────────────────────────────────\n\nexport type InferSchema<S> =\n  // nullable first (before type dispatch)\n  S extends { nullable: true; type: infer T extends string }\n    ? InferSchema<{ type: T }> | null\n    : // enum\n      S extends { enum: infer E extends readonly unknown[] }\n      ? E[number]\n      : // oneOf\n        S extends { oneOf: infer U extends readonly unknown[] }\n        ? InferUnion<U>\n        : // allOf\n          S extends { allOf: infer A extends readonly unknown[] }\n          ? InferIntersection<A>\n          : // primitives\n            S extends { type: \"string\" }\n            ? string\n            : S extends { type: \"number\" | \"integer\" }\n              ? number\n              : S extends { type: \"boolean\" }\n                ? boolean\n                : S extends { type: \"null\" }\n                  ? null\n                  : // array\n                    S extends { type: \"array\"; items: infer I }\n                    ? InferSchema<I>[]\n                    : // object with required\n                      S extends {\n                        type: \"object\";\n                        properties: infer P;\n                        required: infer R extends readonly string[];\n                      }\n                      ? InferObject<P, R>\n                      : // object without required\n                        S extends { type: \"object\"; properties: infer P }\n                        ? { [K in keyof P]?: InferSchema<P[K]> }\n                        : unknown;\n\n// ─── Internal Runtime Validation ─────────────────────────────────────────────\n\nclass ValidationError extends Data.TaggedError(\"ValidationError\")<{\n  errors: string[];\n}> {}\n\nfunction runValidation(\n  schema: unknown,\n  data: unknown,\n  path: string\n): string[] {\n  const s = schema as Record<string, unknown>;\n\n  // nullable\n  if (s[\"nullable\"] === true) {\n    if (data === null) return [];\n    const inner: Record<string, unknown> = { ...s };\n    delete inner[\"nullable\"];\n    return runValidation(inner, data, path);\n  }\n\n  // enum\n  if (\"enum\" in s) {\n    const enumValues = s[\"enum\"] as unknown[];\n    if (enumValues.includes(data)) return [];\n    return [\n      `${path || \"value\"}: expected one of [${enumValues.map((v) => JSON.stringify(v)).join(\", \")}], got ${JSON.stringify(data)}`,\n    ];\n  }\n\n  // oneOf\n  if (\"oneOf\" in s) {\n    const schemas = s[\"oneOf\"] as unknown[];\n    for (const sub of schemas) {\n      if (runValidation(sub, data, path).length === 0) return [];\n    }\n    return [\n      `${path || \"value\"}: data does not match any schema in oneOf`,\n    ];\n  }\n\n  // allOf\n  if (\"allOf\" in s) {\n    const schemas = s[\"allOf\"] as unknown[];\n    const errors: string[] = [];\n    for (const sub of schemas) {\n      errors.push(...runValidation(sub, data, path));\n    }\n    return errors;\n  }\n\n  const type = s[\"type\"] as string | undefined;\n\n  switch (type) {\n    case \"string\":\n      if (typeof data === \"string\") return [];\n      return [\n        `${path || \"value\"}: expected string, got ${typeof data}`,\n      ];\n\n    case \"number\":\n      if (typeof data === \"number\" && !isNaN(data)) return [];\n      return [\n        `${path || \"value\"}: expected number, got ${typeof data}`,\n      ];\n\n    case \"integer\":\n      if (typeof data === \"number\" && Number.isInteger(data)) return [];\n      return [\n        `${path || \"value\"}: expected integer, got ${JSON.stringify(data)}`,\n      ];\n\n    case \"boolean\":\n      if (typeof data === \"boolean\") return [];\n      return [\n        `${path || \"value\"}: expected boolean, got ${typeof data}`,\n      ];\n\n    case \"null\":\n      if (data === null) return [];\n      return [\n        `${path || \"value\"}: expected null, got ${typeof data}`,\n      ];\n\n    case \"array\": {\n      if (!Array.isArray(data))\n        return [`${path || \"value\"}: expected array, got ${typeof data}`];\n      const items = s[\"items\"];\n      if (!items) return [];\n      const errors: string[] = [];\n      for (let i = 0; i < (data as unknown[]).length; i++) {\n        errors.push(\n          ...runValidation(items, (data as unknown[])[i], `${path}[${i}]`)\n        );\n      }\n      return errors;\n    }\n\n    case \"object\": {\n      if (\n        typeof data !== \"object\" ||\n        data === null ||\n        Array.isArray(data)\n      ) {\n        return [\n          `${path || \"value\"}: expected object, got ${Array.isArray(data) ? \"array\" : typeof data}`,\n        ];\n      }\n      const errors: string[] = [];\n      const required = (s[\"required\"] as string[] | undefined) ?? [];\n      const dataObj = data as Record<string, unknown>;\n\n      for (const key of required) {\n        if (!(key in dataObj)) {\n          errors.push(\n            `${path ? path + \".\" : \"\"}${key}: missing required property`\n          );\n        }\n      }\n\n      const properties = s[\"properties\"] as\n        | Record<string, unknown>\n        | undefined;\n      if (properties) {\n        for (const [key, propSchema] of Object.entries(properties)) {\n          if (key in dataObj) {\n            errors.push(\n              ...runValidation(\n                propSchema,\n                dataObj[key],\n                `${path ? path + \".\" : \"\"}${key}`\n              )\n            );\n          }\n        }\n      }\n      return errors;\n    }\n\n    default:\n      return [];\n  }\n}\n\n// ─── createValidator ──────────────────────────────────────────────────────────\n\nexport function createValidator<S>(\n  schema: S\n): (data: unknown) => data is InferSchema<S> {\n  return (data: unknown): data is InferSchema<S> => {\n    const errors = runValidation(schema, data, \"\");\n    return errors.length === 0;\n  };\n}\n\n// ─── validate ─────────────────────────────────────────────────────────────────\n\nexport function validate<S>(\n  schema: S,\n  data: unknown\n):\n  | { success: true; data: InferSchema<S> }\n  | { success: false; errors: string[] } {\n  const effect: Effect.Effect<\n    InferSchema<S>,\n    ValidationError\n  > = Effect.gen(function* () {\n    const errors = runValidation(schema, data, \"\");\n    if (errors.length > 0) {\n      yield* Effect.fail(new ValidationError({ errors }));\n    }\n    return data as InferSchema<S>;\n  });\n\n  const exit = Effect.runSyncExit(effect);\n\n  if (exit._tag === \"Success\") {\n    return { success: true, data: exit.value };\n  }\n\n  // Extract errors from the cause\n  const cause = exit.cause;\n  if (cause._tag === \"Fail\" && cause.error instanceof ValidationError) {\n    return { success: false, errors: cause.error.errors };\n  }\n\n  // Fallback: squash and convert\n  const raw = cause._tag === \"Fail\" ? cause.error : cause;\n  const message =\n    raw instanceof Error\n      ? raw.message\n      : typeof raw === \"object\" && raw !== null && \"errors\" in raw\n        ? (raw as ValidationError).errors\n        : [String(raw)];\n  return {\n    success: false,\n    errors: Array.isArray(message) ? message : [String(message)],\n  };\n}\n```"
+        }
+      ],
+      "stop_reason": null,
+      "stop_sequence": null,
+      "stop_details": null,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 1826,
+        "cache_read_input_tokens": 14096,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1826
+        },
+        "output_tokens": 8,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "context_management": null
+    },
+    "parent_tool_use_id": null,
+    "session_id": "0ff04d21-b120-47a4-b455-059c113d5a11",
+    "uuid": "c3dbfdc5-1a12-43f1-89a7-cc4aec76f60b"
+  },
+  {
+    "type": "rate_limit_event",
+    "rate_limit_info": {
+      "status": "allowed",
+      "resetsAt": 1776045600,
+      "rateLimitType": "five_hour",
+      "overageStatus": "rejected",
+      "overageDisabledReason": "org_level_disabled",
+      "isUsingOverage": false
+    },
+    "uuid": "088c9653-9f5f-4295-bf7a-746eef85dbc6",
+    "session_id": "0ff04d21-b120-47a4-b455-059c113d5a11"
+  },
+  {
+    "type": "result",
+    "subtype": "success",
+    "is_error": false,
+    "duration_ms": 44161,
+    "duration_api_ms": 44147,
+    "num_turns": 1,
+    "result": "```typescript\nimport { Effect, Data } from \"effect\";\n\n// ─── Type-Level Helpers ───────────────────────────────────────────────────────\n\ntype InferUnion<T extends readonly unknown[]> = T extends readonly [\n  infer Head,\n  ...infer Tail,\n]\n  ? InferSchema<Head> | InferUnion<Tail>\n  : never;\n\ntype InferIntersection<T extends readonly unknown[]> = T extends readonly [\n  infer Head,\n  ...infer Tail,\n]\n  ? InferSchema<Head> & InferIntersection<Tail>\n  : unknown;\n\ntype InferObjectRequired<P, R extends readonly string[]> = {\n  [K in keyof P as K extends R[number] ? K : never]: InferSchema<P[K]>;\n};\n\ntype InferObjectOptional<P, R extends readonly string[]> = {\n  [K in keyof P as K extends R[number] ? never : K]?: InferSchema<P[K]>;\n};\n\ntype InferObject<P, R extends readonly string[]> = InferObjectRequired<P, R> &\n  InferObjectOptional<P, R>;\n\n// ─── InferSchema<S> ──────────────────────────────────────────────────────────\n\nexport type InferSchema<S> =\n  // nullable first (before type dispatch)\n  S extends { nullable: true; type: infer T extends string }\n    ? InferSchema<{ type: T }> | null\n    : // enum\n      S extends { enum: infer E extends readonly unknown[] }\n      ? E[number]\n      : // oneOf\n        S extends { oneOf: infer U extends readonly unknown[] }\n        ? InferUnion<U>\n        : // allOf\n          S extends { allOf: infer A extends readonly unknown[] }\n          ? InferIntersection<A>\n          : // primitives\n            S extends { type: \"string\" }\n            ? string\n            : S extends { type: \"number\" | \"integer\" }\n              ? number\n              : S extends { type: \"boolean\" }\n                ? boolean\n                : S extends { type: \"null\" }\n                  ? null\n                  : // array\n                    S extends { type: \"array\"; items: infer I }\n                    ? InferSchema<I>[]\n                    : // object with required\n                      S extends {\n                        type: \"object\";\n                        properties: infer P;\n                        required: infer R extends readonly string[];\n                      }\n                      ? InferObject<P, R>\n                      : // object without required\n                        S extends { type: \"object\"; properties: infer P }\n                        ? { [K in keyof P]?: InferSchema<P[K]> }\n                        : unknown;\n\n// ─── Internal Runtime Validation ─────────────────────────────────────────────\n\nclass ValidationError extends Data.TaggedError(\"ValidationError\")<{\n  errors: string[];\n}> {}\n\nfunction runValidation(\n  schema: unknown,\n  data: unknown,\n  path: string\n): string[] {\n  const s = schema as Record<string, unknown>;\n\n  // nullable\n  if (s[\"nullable\"] === true) {\n    if (data === null) return [];\n    const inner: Record<string, unknown> = { ...s };\n    delete inner[\"nullable\"];\n    return runValidation(inner, data, path);\n  }\n\n  // enum\n  if (\"enum\" in s) {\n    const enumValues = s[\"enum\"] as unknown[];\n    if (enumValues.includes(data)) return [];\n    return [\n      `${path || \"value\"}: expected one of [${enumValues.map((v) => JSON.stringify(v)).join(\", \")}], got ${JSON.stringify(data)}`,\n    ];\n  }\n\n  // oneOf\n  if (\"oneOf\" in s) {\n    const schemas = s[\"oneOf\"] as unknown[];\n    for (const sub of schemas) {\n      if (runValidation(sub, data, path).length === 0) return [];\n    }\n    return [\n      `${path || \"value\"}: data does not match any schema in oneOf`,\n    ];\n  }\n\n  // allOf\n  if (\"allOf\" in s) {\n    const schemas = s[\"allOf\"] as unknown[];\n    const errors: string[] = [];\n    for (const sub of schemas) {\n      errors.push(...runValidation(sub, data, path));\n    }\n    return errors;\n  }\n\n  const type = s[\"type\"] as string | undefined;\n\n  switch (type) {\n    case \"string\":\n      if (typeof data === \"string\") return [];\n      return [\n        `${path || \"value\"}: expected string, got ${typeof data}`,\n      ];\n\n    case \"number\":\n      if (typeof data === \"number\" && !isNaN(data)) return [];\n      return [\n        `${path || \"value\"}: expected number, got ${typeof data}`,\n      ];\n\n    case \"integer\":\n      if (typeof data === \"number\" && Number.isInteger(data)) return [];\n      return [\n        `${path || \"value\"}: expected integer, got ${JSON.stringify(data)}`,\n      ];\n\n    case \"boolean\":\n      if (typeof data === \"boolean\") return [];\n      return [\n        `${path || \"value\"}: expected boolean, got ${typeof data}`,\n      ];\n\n    case \"null\":\n      if (data === null) return [];\n      return [\n        `${path || \"value\"}: expected null, got ${typeof data}`,\n      ];\n\n    case \"array\": {\n      if (!Array.isArray(data))\n        return [`${path || \"value\"}: expected array, got ${typeof data}`];\n      const items = s[\"items\"];\n      if (!items) return [];\n      const errors: string[] = [];\n      for (let i = 0; i < (data as unknown[]).length; i++) {\n        errors.push(\n          ...runValidation(items, (data as unknown[])[i], `${path}[${i}]`)\n        );\n      }\n      return errors;\n    }\n\n    case \"object\": {\n      if (\n        typeof data !== \"object\" ||\n        data === null ||\n        Array.isArray(data)\n      ) {\n        return [\n          `${path || \"value\"}: expected object, got ${Array.isArray(data) ? \"array\" : typeof data}`,\n        ];\n      }\n      const errors: string[] = [];\n      const required = (s[\"required\"] as string[] | undefined) ?? [];\n      const dataObj = data as Record<string, unknown>;\n\n      for (const key of required) {\n        if (!(key in dataObj)) {\n          errors.push(\n            `${path ? path + \".\" : \"\"}${key}: missing required property`\n          );\n        }\n      }\n\n      const properties = s[\"properties\"] as\n        | Record<string, unknown>\n        | undefined;\n      if (properties) {\n        for (const [key, propSchema] of Object.entries(properties)) {\n          if (key in dataObj) {\n            errors.push(\n              ...runValidation(\n                propSchema,\n                dataObj[key],\n                `${path ? path + \".\" : \"\"}${key}`\n              )\n            );\n          }\n        }\n      }\n      return errors;\n    }\n\n    default:\n      return [];\n  }\n}\n\n// ─── createValidator ──────────────────────────────────────────────────────────\n\nexport function createValidator<S>(\n  schema: S\n): (data: unknown) => data is InferSchema<S> {\n  return (data: unknown): data is InferSchema<S> => {\n    const errors = runValidation(schema, data, \"\");\n    return errors.length === 0;\n  };\n}\n\n// ─── validate ─────────────────────────────────────────────────────────────────\n\nexport function validate<S>(\n  schema: S,\n  data: unknown\n):\n  | { success: true; data: InferSchema<S> }\n  | { success: false; errors: string[] } {\n  const effect: Effect.Effect<\n    InferSchema<S>,\n    ValidationError\n  > = Effect.gen(function* () {\n    const errors = runValidation(schema, data, \"\");\n    if (errors.length > 0) {\n      yield* Effect.fail(new ValidationError({ errors }));\n    }\n    return data as InferSchema<S>;\n  });\n\n  const exit = Effect.runSyncExit(effect);\n\n  if (exit._tag === \"Success\") {\n    return { success: true, data: exit.value };\n  }\n\n  // Extract errors from the cause\n  const cause = exit.cause;\n  if (cause._tag === \"Fail\" && cause.error instanceof ValidationError) {\n    return { success: false, errors: cause.error.errors };\n  }\n\n  // Fallback: squash and convert\n  const raw = cause._tag === \"Fail\" ? cause.error : cause;\n  const message =\n    raw instanceof Error\n      ? raw.message\n      : typeof raw === \"object\" && raw !== null && \"errors\" in raw\n        ? (raw as ValidationError).errors\n        : [String(raw)];\n  return {\n    success: false,\n    errors: Array.isArray(message) ? message : [String(message)],\n  };\n}\n```",
+    "stop_reason": "end_turn",
+    "session_id": "0ff04d21-b120-47a4-b455-059c113d5a11",
+    "total_cost_usd": 0.07987230000000001,
+    "usage": {
+      "input_tokens": 2,
+      "cache_creation_input_tokens": 1826,
+      "cache_read_input_tokens": 14096,
+      "output_tokens": 4586,
+      "server_tool_use": {
+        "web_search_requests": 0,
+        "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+        "ephemeral_1h_input_tokens": 1826,
+        "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "",
+      "iterations": [],
+      "speed": "standard"
+    },
+    "modelUsage": {
+      "claude-sonnet-4-6": {
+        "inputTokens": 2,
+        "outputTokens": 4586,
+        "cacheReadInputTokens": 14096,
+        "cacheCreationInputTokens": 1826,
+        "webSearchRequests": 0,
+        "costUSD": 0.07987230000000001,
+        "contextWindow": 200000,
+        "maxOutputTokens": 32000
+      }
+    },
+    "permission_denials": [],
+    "terminal_reason": "completed",
+    "fast_mode_state": "off",
+    "uuid": "833a0096-487f-44d2-845f-55208c769828"
+  }
+]
