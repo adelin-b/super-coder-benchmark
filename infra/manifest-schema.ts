@@ -52,6 +52,11 @@ export const TASK_FILE_MAP: Record<string, string> = {
   "HARD-3": "task-scheduler",
   "HARD-4": "ledger",
   "HARD-5": "rbac",
+  "EXTREME-1": "interval-merge",
+  "EXTREME-2": "pn-counter",
+  "EXTREME-3": "tax-calc",
+  "EXTREME-4": "history-tree",
+  "EXTREME-5": "lock-manager",
 };
 
 /** Verdict JSON output by the runner */
