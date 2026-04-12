@@ -273,7 +273,7 @@ async function main(): Promise<void> {
   if (ollamaModel) {
     // --------------- Ollama provider ---------------
     try {
-      const { ollamaGenerate } = await import("./ollama-provider.js");
+      const { ollamaGenerate } = await import("./ollama-provider.mts");
       const result = await ollamaGenerate(
         { baseUrl: ollamaUrl, model: ollamaModel, temperature: 0.2, numCtx: 32768 },
         systemPrompt,
