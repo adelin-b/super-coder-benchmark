@@ -1,2 +1,7 @@
 {"ts":"2026-05-18T00:30:00Z","event":"start","ultragoalId":"UG-2026-05-18-plausibility-hunt","brief":"Bundle A (G1+G2+G8) from ROADMAP-15-GOALS.md","claudeGoalMode":"aggregate","totalStories":6}
 {"ts":"2026-05-18T00:30:01Z","event":"plan-committed","planPath":".omc/ultragoal/plan.json","selectionSource":"docs/ROADMAP-15-GOALS.md","selectedBundle":"A"}
+{"ts":"2026-05-18T15:20:00Z","event":"checkpoint","goalId":"G001-mirage-taxonomy","status":"complete","evidence":"docs/MIRAGE-TAXONOMY.md with 18 patterns (E1-E6,X1-X6,Q1-Q6) + 3 cross-cutting M1-M3"}
+{"ts":"2026-05-18T15:20:01Z","event":"checkpoint","goalId":"G002-skill-spot-mirage","status":"complete","evidence":".claude/skills/spot-semantic-mirage/SKILL.md with library-aware step-by-step procedure; per-library red-flag tables; 3 worked examples"}
+{"ts":"2026-05-18T15:20:02Z","event":"checkpoint","goalId":"G003-mirage-tasks","status":"complete","evidence":"SEMANTIC-MIRAGE-1/2/3 reference impls + tests passing (12+9+15=36 tests). Wired into infra/manifest-schema.ts. bucket.qnt informational Quint spec included for -3."}
+{"ts":"2026-05-18T15:20:03Z","event":"checkpoint","goalId":"G004-replay-harness","status":"complete","evidence":"infra/replay-recorder.ts + test file (8 tests). Test fix for tmpdir import. Wired via REPLAY_DISABLED env switch."}
+{"ts":"2026-05-18T15:20:04Z","event":"note","goalId":"G005-pilot-eval","status":"pending","evidence":"Awaiting bug-variant seeding + agent run. Targeted suite: 64/64 PASS, type-check clean."}

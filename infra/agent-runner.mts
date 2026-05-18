@@ -15,6 +15,8 @@ import { parseArgs } from "node:util";
 import YAML from "js-yaml";
 import type { AgentManifest, RunVerdict } from "./manifest-schema.js";
 import { TASK_FILE_MAP } from "./manifest-schema.js";
+import { createReplayWriter } from "./replay-recorder.js";
+import type { ReplayWriter } from "./replay-recorder.js";
 
 // ---------------------------------------------------------------------------
 // CLI argument parsing
@@ -270,6 +272,15 @@ async function main(): Promise<void> {
   let errored: string | undefined;
   const trajectory: any[] = [];
 
+  // Replay writer — disabled when REPLAY_DISABLED=1 (handled inside the writer)
+  const replay: ReplayWriter = createReplayWriter({
+    runId: dateStr,
+    agent: agentId,
+    task: taskId,
+    root: ROOT,
+  });
+  let replayTurn = 0;
+
   if (ollamaModel) {
     // --------------- Ollama provider ---------------
     try {
@@ -308,11 +319,30 @@ async function main(): Promise<void> {
         trajectory.push(msg);
 
         if (msg.type === "assistant" && msg.message?.content) {
+          replayTurn += 1;
+          const textBlocks: string[] = [];
+          const toolCalls: unknown[] = [];
           for (const block of msg.message.content as Array<any>) {
             if (block.type === "text" && typeof block.text === "string") {
               assistantText += block.text;
+              textBlocks.push(block.text);
+            } else if (block.type === "tool_use") {
+              toolCalls.push({ id: block.id, name: block.name, input: block.input });
             }
           }
+          if (textBlocks.length > 0) {
+            replay.append({ turn: replayTurn, kind: "agent_msg", payload: { text: textBlocks.join("") } });
+          }
+          for (const tc of toolCalls) {
+            replay.append({ turn: replayTurn, kind: "tool_call", payload: tc });
+          }
+        }
+        if (msg.type === "tool_result") {
+          replay.append({
+            turn: replayTurn,
+            kind: "tool_result",
+            payload: { tool_use_id: msg.tool_use_id, content: msg.content },
+          });
         }
         if (msg.type === "result") {
           const usage = msg.usage;
@@ -416,6 +446,32 @@ async function main(): Promise<void> {
     }
   }
 
+  // Record test output in replay log
+  replay.append({
+    turn: replayTurn,
+    kind: "test_output",
+    payload: {
+      passed: testResult.passed,
+      total: testResult.total,
+      rawOutput: testResult.rawOutput,
+    },
+  });
+
+  // Capture git diff of generated files vs HEAD for replay
+  try {
+    const diffArgs = ["diff", "--no-color", "HEAD", "--", outDir];
+    const diffOutput = execSync(`git ${diffArgs.map(a => `"${a}"`).join(" ")}`, {
+      cwd: ROOT,
+      encoding: "utf8",
+      timeout: 10_000,
+    });
+    if (diffOutput.trim().length > 0) {
+      replay.append({ turn: replayTurn, kind: "file_diff", payload: { diff: diffOutput } });
+    }
+  } catch {
+    // Not in a git repo or no diff available — skip silently
+  }
+
   const passRate = testResult.total > 0 ? testResult.passed / testResult.total : 0;
 
   const verdict: RunVerdict = {
@@ -431,6 +487,8 @@ async function main(): Promise<void> {
     duration_ms: durationMs,
     verdict: passRate === 1 ? "pass" : "fail",
   };
+
+  replay.finalize({ code: passRate === 1 ? 0 : 1, verdict: verdict.verdict });
 
   console.log(JSON.stringify(verdict, null, 2));
 }

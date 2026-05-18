@@ -79,8 +79,16 @@ export const TASK_FILE_MAP: Record<string, string | string[]> = {
   "WEB-TS-6": "render-props",
   "WEB-TS-7": "ctx-value",
   "WEB-TS-8": "editor-ref",
+  "WEB-TS-9": "deep-flatten",
+  "WEB-TS-10": "query-builder",
+  "WEB-TS-11": "pipe",
+  "WEB-TS-12": "schema-infer",
+  "WEB-TS-13": "typed-events",
   "WEB-GAME-1": "flappy-physics",
   "WEB-GAME-2": "snake-logic",
+  "SEMANTIC-MIRAGE-1": "resilient-fetch",
+  "SEMANTIC-MIRAGE-2": "upload-machine",
+  "SEMANTIC-MIRAGE-3": "bucket",
 };
 
 /** Verdict JSON output by the runner */
