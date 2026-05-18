@@ -1,0 +1,2 @@
+{"ts":"2026-05-18T00:30:00Z","event":"start","ultragoalId":"UG-2026-05-18-plausibility-hunt","brief":"Bundle A (G1+G2+G8) from ROADMAP-15-GOALS.md","claudeGoalMode":"aggregate","totalStories":6}
+{"ts":"2026-05-18T00:30:01Z","event":"plan-committed","planPath":".omc/ultragoal/plan.json","selectionSource":"docs/ROADMAP-15-GOALS.md","selectedBundle":"A"}

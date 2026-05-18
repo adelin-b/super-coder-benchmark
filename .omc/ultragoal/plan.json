@@ -1,0 +1,64 @@
+{
+  "$schema": "omc-ultragoal-plan-v1",
+  "ultragoalId": "UG-2026-05-18-plausibility-hunt",
+  "brief": "Build infrastructure + content for benchmarking LLM resistance to semantic-mirage bugs in Effect-TS/Quint/XState code. Outcome: detection skill + reference task set + reusable replay harness.",
+  "claudeGoalMode": "aggregate",
+  "claudeGoalObjective": "Land bundle A (G1+G2+G8) end-to-end: spot-semantic-mirage skill installed and verified, ≥3 SEMANTIC-MIRAGE-* reference tasks with seeded mirage bugs and behavioral tests passing on the reference impl + failing on each seeded bug, replay harness emitting structured replay.jsonl per run. All committed, pushed, AND a final $code-review on the diff with zero unresolved findings.",
+  "createdAt": "2026-05-18T00:30:00Z",
+  "stories": [
+    {
+      "id": "G001-mirage-taxonomy",
+      "title": "Mirage taxonomy",
+      "objective": "Catalog ≥18 distinct semantic-mirage patterns (6 per library × 3 libs: Effect-TS, Quint, XState) with: name, plausible-but-wrong code, why-wrong, behavioral test that catches it. Live at docs/MIRAGE-TAXONOMY.md.",
+      "attempts": 0,
+      "evidenceRequired": ["docs/MIRAGE-TAXONOMY.md exists", "each entry has runnable counter-example", "≥18 entries"],
+      "status": "pending"
+    },
+    {
+      "id": "G002-skill-spot-mirage",
+      "title": "spot-semantic-mirage skill",
+      "objective": "Author .claude/skills/spot-semantic-mirage/SKILL.md per agentskills.io format. Step-by-step library-aware detector. Pulls from taxonomy. Outputs ordered findings + counter-test prompt per finding.",
+      "attempts": 0,
+      "evidenceRequired": ["SKILL.md valid frontmatter", "covers 3 libraries", "step-by-step procedure documented", "≥1 worked example per library"],
+      "status": "pending"
+    },
+    {
+      "id": "G003-mirage-tasks",
+      "title": "SEMANTIC-MIRAGE-* reference tasks",
+      "objective": "Create references/SEMANTIC-MIRAGE-1 (Effect), -2 (XState), -3 (Quint→TS). Each: spec.md, reference impl that passes all tests, K seeded-bug variants where each variant breaks ≥1 behavioral test. Wire into infra/manifest-schema.ts.",
+      "attempts": 0,
+      "evidenceRequired": ["3 task dirs created", "npm test passes on reference", "every seeded variant fails ≥1 test", "manifest entries valid"],
+      "status": "pending"
+    },
+    {
+      "id": "G004-replay-harness",
+      "title": "Structured replay.jsonl harness",
+      "objective": "Modify infra/recorder.ts to also emit results/<run>/<task>/replay.jsonl with {turn, agentMsg, toolCall, fileDiff, testOutput, exitCode}. Zero behavior change on existing scoring.",
+      "attempts": 0,
+      "evidenceRequired": ["replay.jsonl emitted on a sample run", "schema documented", "existing tests still pass"],
+      "status": "pending"
+    },
+    {
+      "id": "G005-pilot-eval",
+      "title": "Pilot eval: vanilla vs vanilla+skill on G003 tasks",
+      "objective": "Run plain-ts agent and plain-ts+spot-semantic-mirage on the 3 new tasks. Record bug-detection-rate per cell. Commit results/ artifacts. Expect ≥30pp delta on mirage-detection rate; if <30pp document why.",
+      "attempts": 0,
+      "evidenceRequired": ["results JSON committed", "delta computed and reported", "writeup in docs/MIRAGE-PILOT.md"],
+      "status": "pending"
+    },
+    {
+      "id": "G006-final-gate",
+      "title": "Quality gate: ai-slop-cleaner + verification + code-review",
+      "objective": "Run ai-slop-cleaner, oh-my-claudecode:verifier, and code-reviewer over the full bundle-A diff. Address all findings. Push final commit. Open PR or merge to main per repo norm.",
+      "attempts": 0,
+      "evidenceRequired": ["ai-slop-cleaner clean", "verifier evidence attached", "code-review zero unresolved", "main pushed"],
+      "status": "pending"
+    }
+  ],
+  "qualityGate": {
+    "aiSlopCleaner": "pending",
+    "verification": "pending",
+    "codeReview": "pending"
+  },
+  "selectionRationale": "User flagged 'looks-right-but-wrong' bug class as the most interesting. Bundle A from ROADMAP-15-GOALS.md (G1+G2+G8) maps 1:1. Smallest cost (1 week). Stories ordered: taxonomy first (informs everything), then skill (uses taxonomy), then tasks (validate skill), then harness (lets us run pilot), then pilot, then gate."
+}
